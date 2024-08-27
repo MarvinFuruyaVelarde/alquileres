@@ -1,0 +1,93 @@
+
+
+
+table {
+  width: 100%;
+}
+table.title td, th {
+  font-size: 0.875rem;
+}
+
+table.title th {
+  color: #ffffff;
+}
+
+
+
+
+/*-------estilo table--------*/
+.body
+{
+  margin-bottom: -20px;
+  padding: 0px;
+  margin-top: -20px;
+}
+
+.items{
+  width: 100%; 
+}
+
+
+/*----------------------------estilo del input-----------------------*/
+.float-label-field {
+  display: flex;
+  border: none;
+  outline: none;
+  position: relative;
+  padding: 0;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+
+.float-label-field input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 15px;
+  border-bottom: solid 1px #4e4b4bfa;
+}
+.float-label-field label {
+
+  font-size: 12px;
+  padding-top: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+
+.float-label-field-firma {
+  border: none;
+  outline: none;
+  position: relative;
+  margin: 0 0 20px 0;
+  padding: 8px;
+  box-sizing: border-box;
+
+}
+
+.float-label-field-firma input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 15px;
+  border-bottom: solid 1px #4e4b4bfa;
+
+}
+
+.float-label-field-firma label {
+  opacity: 1;
+  position: relative;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+

@@ -1,0 +1,67 @@
+
+table {
+    width: 100%;
+}
+table.title td, th {
+    font-size: 0.875rem;
+    border: 1px solid black;
+}
+table.title th {
+    color: #ffffff;
+    
+}
+
+table tr.items td {
+    padding: 0.5rem;
+}
+/*-------estilo table--------*/
+.body
+{
+    margin-top: -10px;
+    margin-bottom: -10px;
+    padding: 0px;
+}
+
+/*----------------------------estilo del input-----------------------*/
+  .float-label-field {
+    border: none;
+    outline: none;
+    position: relative;
+    margin: 0 0 20px 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .float-label-field input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 12px;
+    border: solid 1px #4e4b4bfa;
+    border-radius: 15px;
+   
+  }
+  
+  .float-label-field label {
+    opacity: 1;
+    position: absolute;
+    top: -14px;
+    left: 0px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .campo{
+    margin: 5px 0 0 0;
+  }
+  
+  .hr {
+    margin: 5px;
+    padding: 0;
+  }
+
+  .br{
+    margin:0;
+    padding: 0;
+  }
+  
+  

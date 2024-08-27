@@ -1,0 +1,136 @@
+@extends('layouts.app')
+
+@section('titulo','Inicio')
+
+@section('content')
+
+<div class="pagetitle">
+    <h1>Inicio</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="">Inicio</a></li>
+        <li class="breadcrumb-item active">Resúmen de Información</li>
+      </ol>
+    </nav>
+ </div><!-- End Page Title -->
+ <section class="section dashboard">
+  <div class="row">
+
+  <div class="col-lg-6">
+    <div class="row">
+
+      <!-- Sales Card -->
+      <div class="col-xxl-4 col-md-6">
+        <div class="card info-card sales-card">
+          <div class="card-body">
+            <h5 class="card-title"># Consultores</span></h5>
+
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-person"></i>
+              </div>
+              <div class="ps-3">
+                <h6>0</h6>
+                <span class="text-primary small pt-1 fw-bold">
+                  0 Bs
+                </span> <span class="text-muted small pt-2 ps-1">Bolivianos</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- End Sales Card -->
+
+      <!-- Revenue Card -->
+      <div class="col-xxl-4 col-md-6">
+        <div class="card info-card revenue-card">
+
+          <div class="card-body">
+            <h5 class="card-title"># Eventuales</span></h5>
+
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-currency-dollar"></i>
+              </div>
+              <div class="ps-3">
+                <h6>0</h6>
+                <span class="text-success small pt-1 fw-bold">0 Bs</span> <span class="text-muted small pt-2 ps-1">Bolivianos</span>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- End Revenue Card -->
+
+      <!-- Customers Card -->
+      <div class="col-xxl-4 col-xl-12">
+
+        <div class="card info-card customers-card">
+
+          <div class="card-body">
+            <h5 class="card-title"># Empleados <span>| con ITEM</span></h5>
+
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-people"></i>
+              </div>
+              <div class="ps-3">
+                <h6>0</h6>
+                <span class="text-success small pt-1 fw-bold">0 Bs</span> <span class="text-muted small pt-2 ps-1">Bolivianos</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- End Customers Card -->
+
+    </div>
+  </div><!-- End Left side columns -->
+
+  <!-- Right side columns -->
+  <div class="col-lg-6">
+
+    <!-- Recent Activity -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Número de empleados por cargo</h5>
+
+        <div class="activity">
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+              <thead>
+                <tr>
+                  <th class="text-center"><small>Denomicación del Cargo</small></th>
+                  <th class="text-center"><small>Haber básico</small></th>
+                  <th class="text-center"><small>Cant. Items</small></th>
+                  <th class="text-center"><small>Haber Mensual</small></th>
+                  <th class="text-center"><small>Salario Anual</small></th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                  <tr>
+                    <td><small>JEFE AREA</small></td>
+                    <td class="text-center"><small>2000</small></td>
+                    <td class="text-center"><small>1000</small></td>
+                    <td class="text-center"><small>100</small></td>
+                    <td class="text-center"><small>12000</small></td>
+                  </tr>
+                 
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- End Recent Activity -->
+
+  </div>
+</div>
+
+</section>
+
+@endSection

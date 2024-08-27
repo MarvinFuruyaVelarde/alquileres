@@ -1,0 +1,155 @@
+
+
+<?php $__env->startSection('titulo','Lactancia'); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<div class="pagetitle">
+    <h1>Lactancia</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="<?php echo e(route('home')); ?>">Inicio</a></li>
+        <li class="breadcrumb-item active">Lactancia</li>
+      </ol>
+    </nav>
+ </div><!-- End Page Title -->
+ <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Adjuntar documentacion</h5> 
+
+
+           <!--CONTENIDO -->
+           <h6 class="text-right"><?php echo e($empleado->nombres); ?> <?php echo e($empleado->ap_paterno); ?> <?php echo e($empleado->ap_materno); ?></h6>
+           <hr>
+
+
+
+             <p>Debe rellenar todos los campos marcados con <strong class="text-danger">(*)</strong>.</p>
+           <?php if($lactancia->documento_postnatal == null): ?>         
+           <?php echo Form::model($lactancia,['route'=>['lactancias.update',$lactancia->id],'method'=>'PUT','class'=>'row g-3','enctype'=>"multipart/form-data"]); ?>
+
+              
+            
+            <h3>Documentacion Nacimiento</h3>
+
+           
+            
+            <input type="hidden" name="empleado_id" id="empleado_id" value="<?php echo e($empleado->id); ?>">
+            <?php echo e(csrf_field()); ?>
+
+            <div class="col-md-8">
+                <div class="form-group d-flex">
+                    <div class="col-md-6">
+                    <label for="example-text-input" class="form-control-label">Certificado de Nacimiento</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="file" name="documento_postnatal" id="" required  accept="application/pdf">
+                    </div>
+                    <br>
+                    
+                </div>
+            </div>
+                <div class="row mt-4">
+
+                    <div class="col-md-8">
+                        <div class="form-group d-flex">
+                        <div class="col-md-6">
+                        <?php echo e(Form::label('fecha_inicio_postnatal','Fecha de Nacimiento' )); ?> <span class="text-danger">(*)</span> 
+                        </div>
+                        <div class="col-md-6">
+                        <input type="date" name="fecha_inicio_postnatal" id="fecha_inicio_postnatal" class="form-control <?php echo e($errors->has('fecha_inicio_postnatal') ? ' error' : ''); ?>" value="<?php echo e(old('fecha_inicio_postnatal',$lactancia->fecha_inicio_postnatal)); ?>" required>
+                        <?php if($errors->has('fecha_inicio_postnatal')): ?>
+                            <span class="text-danger">
+                                <?php echo e($errors->first('fecha_inicio_postnatal')); ?>
+
+                            </span>
+                        <?php endif; ?>
+                        </div>
+                        </div>
+                    </div>
+                 
+                </div>
+
+            
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+
+                              
+            <?php echo Form::close(); ?>
+
+
+            <?php endif; ?>
+
+
+
+
+
+            <?php if($lactancia->documento_caja == null): ?> 
+            <?php echo Form::model($lactancia,['route'=>['lactancias.updateCaja',$lactancia->id],'method'=>'PUT','class'=>'row g-3','enctype'=>"multipart/form-data"]); ?>
+
+
+                <h3>Documentacion Caja de Salud</h3>
+           <br>
+            <input type="hidden" name="empleado_id" id="empleado_id" value="<?php echo e($empleado->id); ?>">
+            <?php echo e(csrf_field()); ?>
+
+            <div class="col-md-8">
+                <div class="form-group d-flex">
+                    <div class="col-md-6">
+                    <label for="example-text-input" class="form-control-label">Respaldo Caja de Salud</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="file" name="documento_caja" id="" required  accept="application/pdf">
+                    </div>
+                    <br>
+                    
+                </div>
+            </div>
+                <div class="row mt-4">
+
+                    <div class="col-md-8">
+                        <div class="form-group d-flex">
+                        <div class="col-md-6">
+                        <?php echo e(Form::label('fecha_registro_caja','Fecha Autorización de la caja' )); ?> <span class="text-danger">(*)</span> 
+                        </div>
+                        <div class="col-md-6">
+                        <input type="date" name="fecha_registro_caja" id="fecha_registro_caja" class="form-control <?php echo e($errors->has('fecha_registro_caja') ? ' error' : ''); ?>" value="<?php echo e(old('fecha_registro_caja',$lactancia->fecha_registro_cajal)); ?>" required>
+                        <?php if($errors->has('fecha_registro_caja')): ?>
+                            <span class="text-danger">
+                                <?php echo e($errors->first('fecha_registro_caja')); ?>
+
+                            </span>
+                        <?php endif; ?>
+                        </div>
+                        </div>
+                    </div>
+                 
+                </div>
+               
+
+            
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+
+                              
+            <?php echo Form::close(); ?>
+
+
+
+            <?php endif; ?>
+
+         
+            <!-- EndCONTENIDO Example -->
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home4/gadlprrhh/public_html/sistema_rrhh/resources/views/lactancia/edit.blade.php ENDPATH**/ ?>
