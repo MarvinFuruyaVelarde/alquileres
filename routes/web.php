@@ -82,4 +82,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('documentacion/{documentacion}',[App\Http\Controllers\DocumentacionController::class,'show'])->name('documentos.show')->middleware('permission:documentos.show');
     Route::delete('documentacion/{documentacion}',[App\Http\Controllers\DocumentacionController::class,'destroy'])->name('documentos.destroy')->middleware('permission:documentos.destroy');
     Route::get('documentacion/{documentacion}/edit',[App\Http\Controllers\DocumentacionController::class,'edit'])->name('documentos.edit')->middleware('permission:documentos.edit');
+
+    //parametricas
+    Route::get('expensas',[App\Http\Controllers\ExpensaController::class,'index'])->name('expensas.index');
+    Route::get('expensas/create',[App\Http\Controllers\ExpensaController::class,'create'])->name('expensas.create');
+    Route::post('expensas/store',[App\Http\Controllers\ExpensaController::class,'store'])->name('expensas.store');
+    Route::get('expensas/{expensa}/edit',[App\Http\Controllers\ExpensaController::class,'edit'])->name('expensas.edit');
+    Route::put('expensas/{expensa}',[App\Http\Controllers\ExpensaController::class,'update'])->name('expensas.update');
+    Route::delete('expensas/{expensa}',[App\Http\Controllers\ExpensaController::class,'destroy'])->name('expensas.destroy');
 });

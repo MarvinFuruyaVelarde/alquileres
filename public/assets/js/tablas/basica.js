@@ -16,7 +16,7 @@
                 "sLast":    "Último"
             },
             "info": "Pagina _PAGE_ de _PAGES_",
-            "search": "Buscador Gral",
+            "search": "Buscar",
             "emptyTable": "No existen datos registrados.",
             "infoEmpty": "",
         },
