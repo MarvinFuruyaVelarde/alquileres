@@ -80,6 +80,12 @@
       @can('expensas.index')
         <li class="nav-heading">PARAMETRICAS</li>
         <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('aeropuertos.*') }}" href="{{ route('aeropuertos.index') }}">
+            <i class="bi bi-people"></i>
+            <span>Aeropuertos</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('expensas.*') }}" href="{{ route('expensas.index') }}">
             <i class="bi bi-people"></i>
             <span>Expensas</span>

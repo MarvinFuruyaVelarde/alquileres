@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\AeropuertoRequest;
+use App\Models\Aeropuerto;
+use App\Models\Estado;
+use App\Models\Regional;
+use App\Models\View_Aeropuerto;
+use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
+class AeropuertoController extends Controller
+{
+    public function index()
+    {
+        $aeropuertos = View_Aeropuerto::all(); // Obtener todos los aeropuertos
+        return view('parametricas.aeropuertos.index', compact('aeropuertos')); // Pasar a la vista
+    }
+
+    public function create()
+    {
+        $regionales=Regional::where('id','>',0)->get();
+        $estados=Estado::where('id','>',0)->get();
+        $aeropuerto=new Aeropuerto();
+        return view('parametricas.aeropuertos.create',compact('aeropuerto', 'regionales', 'estados'));
+    }
+
+    public function store(AeropuertoRequest $request)
+    {
+        
+        $aeropuerto=new Aeropuerto();
+
+        $aeropuerto->codigo = $request->codigo;
+        $aeropuerto->descripcion = $request->descripcion;
+        $aeropuerto->regional = $request->regional;
+        $aeropuerto->estado = $request->estado;
+
+        $aeropuerto->save();
+        Alert::success("Aeropuerto registrado correctamente!");
+        return redirect()->route('aeropuertos.index');
+    }
+
+    public function edit(Aeropuerto $aeropuerto)
+    {
+        $regionales=Regional::where('id','>',0)->get();
+        $estados=Estado::where('id','>',0)->get();
+        return view('parametricas.aeropuertos.edit',compact('aeropuerto', 'regionales', 'estados'));
+    }
+
+    public function update(Request $request, Aeropuerto $aeropuerto)
+    {
+        $request->validate( [
+            'codigo'=>'required',
+            'descripcion'=>'required',
+            'regional'=>'required',
+            'estado'=>'required',
+        ],[
+                    'codigo.required' => 'El campo es de ingreso obligatorio.',
+                    'descripcion.required' => 'El campo es de ingreso obligatorio.',
+                    'factor.required' => 'El campo es de ingreso obligatorio.',
+                    'estado.required' => 'El campo es de ingreso obligatorio.',
+            ]
+        );
+        
+        $aeropuerto->codigo=$request->codigo;
+        $aeropuerto->descripcion=$request->descripcion;
+        $aeropuerto->regional=$request->regional;
+        $aeropuerto->estado=$request->estado;
+
+        $aeropuerto->save();
+
+        //actualice los roles
+        return redirect()->route('aeropuertos.index');
+    }
+
+    public function destroy(Aeropuerto $aeropuerto)
+    {
+        $aeropuerto->delete();
+        
+        Alert::success('Aeropuerto eliminado correctamente!');
+        return redirect()->route('aeropuertos.index');
+    }
+}

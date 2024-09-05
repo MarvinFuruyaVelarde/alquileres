@@ -84,6 +84,13 @@ Route::middleware(['auth'])->group(function(){
     Route::get('documentacion/{documentacion}/edit',[App\Http\Controllers\DocumentacionController::class,'edit'])->name('documentos.edit')->middleware('permission:documentos.edit');
 
     //parametricas
+    //aeropuertos
+    Route::get('aeropuertos',[App\Http\Controllers\AeropuertoController::class,'index'])->name('aeropuertos.index');
+    Route::get('aeropuertos/create',[App\Http\Controllers\AeropuertoController::class,'create'])->name('aeropuertos.create');
+    Route::post('aeropuertos/store',[App\Http\Controllers\AeropuertoController::class,'store'])->name('aeropuertos.store');
+    Route::get('aeropuertos/{aeropuerto}/edit',[App\Http\Controllers\AeropuertoController::class,'edit'])->name('aeropuertos.edit');
+    Route::put('aeropuertos/{aeropuerto}',[App\Http\Controllers\AeropuertoController::class,'update'])->name('aeropuertos.update');
+    Route::delete('aeropuertos/{aeropuerto}',[App\Http\Controllers\AeropuertoController::class,'destroy'])->name('aeropuertos.destroy');
     //expensas
     Route::get('expensas',[App\Http\Controllers\ExpensaController::class,'index'])->name('expensas.index');
     Route::get('expensas/create',[App\Http\Controllers\ExpensaController::class,'create'])->name('expensas.create');
