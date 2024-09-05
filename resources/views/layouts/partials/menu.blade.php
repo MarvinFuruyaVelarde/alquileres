@@ -82,7 +82,13 @@
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('expensas.*') }}" href="{{ route('expensas.index') }}">
             <i class="bi bi-people"></i>
-            <span>Expensa</span>
+            <span>Expensas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('regionales.*') }}" href="{{ route('regionales.index') }}">
+            <i class="bi bi-people"></i>
+            <span>Regionales</span>
           </a>
         </li>
       @endcan

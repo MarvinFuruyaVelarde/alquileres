@@ -84,10 +84,18 @@ Route::middleware(['auth'])->group(function(){
     Route::get('documentacion/{documentacion}/edit',[App\Http\Controllers\DocumentacionController::class,'edit'])->name('documentos.edit')->middleware('permission:documentos.edit');
 
     //parametricas
+    //expensas
     Route::get('expensas',[App\Http\Controllers\ExpensaController::class,'index'])->name('expensas.index');
     Route::get('expensas/create',[App\Http\Controllers\ExpensaController::class,'create'])->name('expensas.create');
     Route::post('expensas/store',[App\Http\Controllers\ExpensaController::class,'store'])->name('expensas.store');
     Route::get('expensas/{expensa}/edit',[App\Http\Controllers\ExpensaController::class,'edit'])->name('expensas.edit');
     Route::put('expensas/{expensa}',[App\Http\Controllers\ExpensaController::class,'update'])->name('expensas.update');
     Route::delete('expensas/{expensa}',[App\Http\Controllers\ExpensaController::class,'destroy'])->name('expensas.destroy');
+    //regional
+    Route::get('regionales',[App\Http\Controllers\RegionalController::class,'index'])->name('regionales.index');
+    Route::get('regionales/create',[App\Http\Controllers\RegionalController::class,'create'])->name('regionales.create');
+    Route::post('regionales/store',[App\Http\Controllers\RegionalController::class,'store'])->name('regionales.store');
+    Route::get('regionales/{regional}/edit',[App\Http\Controllers\RegionalController::class,'edit'])->name('regionales.edit');
+    Route::put('regionales/{regional}',[App\Http\Controllers\RegionalController::class,'update'])->name('regionales.update');
+    Route::delete('regionales/{regional}',[App\Http\Controllers\RegionalController::class,'destroy'])->name('regionales.destroy');
 });
