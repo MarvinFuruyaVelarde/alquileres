@@ -103,6 +103,18 @@
             <span>Regionales</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('rubros.*') }}" href="{{ route('rubros.index') }}">
+            <i class="bi bi-people"></i>
+            <span>Rubros</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('unidadesmedida.*') }}" href="{{ route('unidadesmedida.index') }}">
+            <i class="bi bi-people"></i>
+            <span>Unidades de Medida</span>
+          </a>
+        </li>
       @endcan
     </ul>
 

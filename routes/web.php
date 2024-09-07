@@ -112,4 +112,18 @@ Route::middleware(['auth'])->group(function(){
     Route::get('regionales/{regional}/edit',[App\Http\Controllers\RegionalController::class,'edit'])->name('regionales.edit');
     Route::put('regionales/{regional}',[App\Http\Controllers\RegionalController::class,'update'])->name('regionales.update');
     Route::delete('regionales/{regional}',[App\Http\Controllers\RegionalController::class,'destroy'])->name('regionales.destroy');
+    //rubros
+    Route::get('rubros',[App\Http\Controllers\RubroController::class,'index'])->name('rubros.index');
+    Route::get('rubros/create',[App\Http\Controllers\RubroController::class,'create'])->name('rubros.create');
+    Route::post('rubros/store',[App\Http\Controllers\RubroController::class,'store'])->name('rubros.store');
+    Route::get('rubros/{rubro}/edit',[App\Http\Controllers\RubroController::class,'edit'])->name('rubros.edit');
+    Route::put('rubros/{rubro}',[App\Http\Controllers\RubroController::class,'update'])->name('rubros.update');
+    Route::delete('rubros/{rubro}',[App\Http\Controllers\RubroController::class,'destroy'])->name('rubros.destroy');
+    //unidad de medida
+    Route::get('unidadesmedida',[App\Http\Controllers\UnidadMedidaController::class,'index'])->name('unidadesmedida.index');
+    Route::get('unidadesmedida/create',[App\Http\Controllers\UnidadMedidaController::class,'create'])->name('unidadesmedida.create');
+    Route::post('unidadesmedida/store',[App\Http\Controllers\UnidadMedidaController::class,'store'])->name('unidadesmedida.store');
+    Route::get('unidadesmedida/{unidadmedida}/edit',[App\Http\Controllers\UnidadMedidaController::class,'edit'])->name('unidadesmedida.edit');
+    Route::put('unidadesmedida/{unidadmedida}',[App\Http\Controllers\UnidadMedidaController::class,'update'])->name('unidadesmedida.update');
+    Route::delete('unidadesmedida/{unidadmedida}',[App\Http\Controllers\UnidadMedidaController::class,'destroy'])->name('unidadesmedida.destroy');
 });
