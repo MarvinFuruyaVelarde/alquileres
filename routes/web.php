@@ -99,12 +99,12 @@ Route::middleware(['auth'])->group(function(){
     Route::put('expensas/{expensa}',[App\Http\Controllers\ExpensaController::class,'update'])->name('expensas.update');
     Route::delete('expensas/{expensa}',[App\Http\Controllers\ExpensaController::class,'destroy'])->name('expensas.destroy');
     //formas de pago
-    Route::get('formaspago',[App\Http\Controllers\FormasPagoController::class,'index'])->name('formaspago.index');
-    Route::get('formaspago/create',[App\Http\Controllers\FormasPagoController::class,'create'])->name('formaspago.create');
-    Route::post('formaspago/store',[App\Http\Controllers\FormasPagoController::class,'store'])->name('formaspago.store');
-    Route::get('formaspago/{formapago}/edit',[App\Http\Controllers\FormasPagoController::class,'edit'])->name('formaspago.edit');
-    Route::put('formaspago/{formapago}',[App\Http\Controllers\FormasPagoController::class,'update'])->name('formaspago.update');
-    Route::delete('formaspago/{formapago}',[App\Http\Controllers\FormasPagoController::class,'destroy'])->name('formaspago.destroy');
+    Route::get('formaspago',[App\Http\Controllers\FormaPagoController::class,'index'])->name('formaspago.index');
+    Route::get('formaspago/create',[App\Http\Controllers\FormaPagoController::class,'create'])->name('formaspago.create');
+    Route::post('formaspago/store',[App\Http\Controllers\FormaPagoController::class,'store'])->name('formaspago.store');
+    Route::get('formaspago/{formapago}/edit',[App\Http\Controllers\FormaPagoController::class,'edit'])->name('formaspago.edit');
+    Route::put('formaspago/{formapago}',[App\Http\Controllers\FormaPagoController::class,'update'])->name('formaspago.update');
+    Route::delete('formaspago/{formapago}',[App\Http\Controllers\FormaPagoController::class,'destroy'])->name('formaspago.destroy');
     //regional
     Route::get('regionales',[App\Http\Controllers\RegionalController::class,'index'])->name('regionales.index');
     Route::get('regionales/create',[App\Http\Controllers\RegionalController::class,'create'])->name('regionales.create');

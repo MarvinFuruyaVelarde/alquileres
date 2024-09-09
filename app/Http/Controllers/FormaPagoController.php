@@ -9,7 +9,7 @@ use App\Models\View_FormaPago;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class FormasPagoController extends Controller
+class FormaPagoController extends Controller
 {
     public function index()
     {
