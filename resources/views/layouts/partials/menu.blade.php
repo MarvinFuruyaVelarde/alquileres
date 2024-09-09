@@ -110,6 +110,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('tipospago.*') }}" href="{{ route('tipospago.index') }}">
+            <i class="bi bi-people"></i>
+            <span>Tipos de Pago</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('unidadesmedida.*') }}" href="{{ route('unidadesmedida.index') }}">
             <i class="bi bi-people"></i>
             <span>Unidades de Medida</span>

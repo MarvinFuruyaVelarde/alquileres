@@ -119,6 +119,13 @@ Route::middleware(['auth'])->group(function(){
     Route::get('rubros/{rubro}/edit',[App\Http\Controllers\RubroController::class,'edit'])->name('rubros.edit');
     Route::put('rubros/{rubro}',[App\Http\Controllers\RubroController::class,'update'])->name('rubros.update');
     Route::delete('rubros/{rubro}',[App\Http\Controllers\RubroController::class,'destroy'])->name('rubros.destroy');
+    //tipos de pago
+    Route::get('tipospago',[App\Http\Controllers\TipoPagoController::class,'index'])->name('tipospago.index');
+    Route::get('tipospago/create',[App\Http\Controllers\TipoPagoController::class,'create'])->name('tipospago.create');
+    Route::post('tipospago/store',[App\Http\Controllers\TipoPagoController::class,'store'])->name('tipospago.store');
+    Route::get('tipospago/{tipopago}/edit',[App\Http\Controllers\TipoPagoController::class,'edit'])->name('tipospago.edit');
+    Route::put('tipospago/{tipopago}',[App\Http\Controllers\TipoPagoController::class,'update'])->name('tipospago.update');
+    Route::delete('tipospago/{tipopago}',[App\Http\Controllers\TipoPagoController::class,'destroy'])->name('tipospago.destroy');
     //unidad de medida
     Route::get('unidadesmedida',[App\Http\Controllers\UnidadMedidaController::class,'index'])->name('unidadesmedida.index');
     Route::get('unidadesmedida/create',[App\Http\Controllers\UnidadMedidaController::class,'create'])->name('unidadesmedida.create');
