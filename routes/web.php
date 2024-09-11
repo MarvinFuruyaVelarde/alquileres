@@ -91,6 +91,13 @@ Route::middleware(['auth'])->group(function(){
     Route::get('aeropuertos/{aeropuerto}/edit',[App\Http\Controllers\AeropuertoController::class,'edit'])->name('aeropuertos.edit');
     Route::put('aeropuertos/{aeropuerto}',[App\Http\Controllers\AeropuertoController::class,'update'])->name('aeropuertos.update');
     Route::delete('aeropuertos/{aeropuerto}',[App\Http\Controllers\AeropuertoController::class,'destroy'])->name('aeropuertos.destroy');
+    //clientes
+    Route::get('clientes',[App\Http\Controllers\ClienteController::class,'index'])->name('clientes.index');
+    Route::get('clientes/create',[App\Http\Controllers\ClienteController::class,'create'])->name('clientes.create');
+    Route::post('clientes/store',[App\Http\Controllers\ClienteController::class,'store'])->name('clientes.store');
+    Route::get('clientes/{cliente}/edit',[App\Http\Controllers\ClienteController::class,'edit'])->name('clientes.edit');
+    Route::put('clientes/{cliente}',[App\Http\Controllers\ClienteController::class,'update'])->name('clientes.update');
+    Route::delete('clientes/{cliente}',[App\Http\Controllers\ClienteController::class,'destroy'])->name('clientes.destroy');
     //expensas
     Route::get('expensas',[App\Http\Controllers\ExpensaController::class,'index'])->name('expensas.index');
     Route::get('expensas/create',[App\Http\Controllers\ExpensaController::class,'create'])->name('expensas.create');

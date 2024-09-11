@@ -92,6 +92,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('clientes.*') }}" href="{{ route('clientes.index') }}">
+            <i class="bi bi-people"></i>
+            <span>Clientes</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('formaspago.*') }}" href="{{ route('formaspago.index') }}">
             <i class="bi bi-people"></i>
             <span>Formas de Pago</span>
