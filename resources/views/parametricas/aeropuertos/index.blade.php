@@ -13,6 +13,18 @@
             <li class="breadcrumb-item active">Aeropuertos</li>
         </ol>
         </nav>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <div class="d-flex">
+            @can('aeropuertos.show')
+                <a href="{{route('aeropuertos.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+            @endcan
+
+            @can('rubros.export')
+                <a href="{{route('aeropuertos.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+             @endcan
+        </div>
         @can('aeropuertos.create')
             <a href="{{route('aeropuertos.create')}}" class="btn btn-primary" title="Crea un nuevo aeropuerto">Registrar</a>
         @endcan

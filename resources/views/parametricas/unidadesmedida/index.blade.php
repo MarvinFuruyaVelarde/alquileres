@@ -13,6 +13,18 @@
             <li class="breadcrumb-item active">Unidades de Medida</li>
         </ol>
         </nav>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <div class="d-flex">
+            @can('unidadesmedida.show')
+                <a href="{{route('unidadesmedida.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+            @endcan
+
+            @can('unidadesmedida.export')
+                <a href="{{route('unidadesmedida.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+             @endcan
+        </div>
         @can('unidadesmedida.create')
             <a href="{{route('unidadesmedida.create')}}" class="btn btn-primary" title="Crea una nueva unidad de medida">Registrar</a>
         @endcan

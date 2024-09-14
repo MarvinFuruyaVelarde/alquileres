@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientesExport;
+use App\Exports\ExpensasExport;
 use App\Http\Requests\ExpensaRequest;
 use App\Models\Estado;
 use App\Models\Expensa;
 use App\Models\View_Expensa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ExpensaController extends Controller
@@ -73,5 +77,18 @@ class ExpensaController extends Controller
         
         Alert::success('Expensa eliminada correctamente!');
         return redirect()->route('expensas.index');
+    }
+
+    public function show()
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $expensas = View_Expensa::all();
+        $pdf->loadView('parametricas.expensas.pdf.reportegral',compact('expensas'));
+        return $pdf->stream();
+    }
+
+    public function export()
+    {
+        return Excel::download(new ExpensasExport, 'expensas.xlsx');
     }
 }

@@ -13,6 +13,18 @@
             <li class="breadcrumb-item active">Tipos de Pago</li>
         </ol>
         </nav>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <div class="d-flex">
+            @can('tipospago.show')
+                <a href="{{route('tipospago.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+            @endcan
+
+            @can('tipospago.export')
+                <a href="{{route('tipospago.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+             @endcan
+        </div>
         @can('tipospago.create')
             <a href="{{route('tipospago.create')}}" class="btn btn-primary" title="Crea una nuevo tipo de pago">Registrar</a>
         @endcan
@@ -24,7 +36,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Tipos de Pago Registrados</h5>
-            
+
            <!--CONTENIDO -->
             <div class="table-responsive">
                 <table cellspacing="0" width="100%" id="datos" class="table table-hover table-bordered">

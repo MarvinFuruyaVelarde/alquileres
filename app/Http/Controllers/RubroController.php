@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RubrosExport;
 use App\Http\Requests\RubroRequest;
 use App\Models\Estado;
 use App\Models\Rubro;
 use App\Models\View_Rubro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class RubroController extends Controller
@@ -69,5 +72,18 @@ class RubroController extends Controller
         
         Alert::success('Rubro eliminado correctamente!');
         return redirect()->route('rubros.index');
+    }
+
+    public function show()
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $rubros = View_Rubro::all();
+        $pdf->loadView('parametricas.rubros.pdf.reportegral',compact('rubros'));
+        return $pdf->stream();
+    }
+
+    public function export()
+    {
+        return Excel::download(new RubrosExport, 'rubros.xlsx');
     }
 }

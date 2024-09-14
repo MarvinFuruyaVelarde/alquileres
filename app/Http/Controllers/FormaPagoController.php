@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\FormasPagoExport;
 use App\Http\Requests\FormaPagoRequest;
 use App\Models\Estado;
 use App\Models\FormaPago;
 use App\Models\View_FormaPago;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class FormaPagoController extends Controller
@@ -69,5 +72,18 @@ class FormaPagoController extends Controller
         
         Alert::success('Forma de Pago eliminada correctamente!');
         return redirect()->route('formaspago.index');
+    }
+
+    public function show()
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $formaspago = View_FormaPago::all();
+        $pdf->loadView('parametricas.formaspago.pdf.reportegral',compact('formaspago'));
+        return $pdf->stream();
+    }
+
+    public function export()
+    {
+        return Excel::download(new FormasPagoExport, 'formaspago.xlsx');
     }
 }

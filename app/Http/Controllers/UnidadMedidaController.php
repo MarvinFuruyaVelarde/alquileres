@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UnidadesMedidaoExport;
 use App\Http\Requests\UnidadMedidaRequest;
 use App\Models\Estado;
 use App\Models\UnidadMedida;
 use App\Models\View_UnidadMedida;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UnidadMedidaController extends Controller
@@ -69,5 +72,17 @@ class UnidadMedidaController extends Controller
         
         Alert::success('Unidad de Medida eliminada correctamente!');
         return redirect()->route('unidadesmedida.index');
+    }
+    public function show()
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $unidadesmedida = View_UnidadMedida::all();
+        $pdf->loadView('parametricas.unidadesmedida.pdf.reportegral',compact('unidadesmedida'));
+        return $pdf->stream();
+    }
+
+    public function export()
+    {
+        return Excel::download(new UnidadesMedidaoExport, 'unidadesmedida.xlsx');
     }
 }

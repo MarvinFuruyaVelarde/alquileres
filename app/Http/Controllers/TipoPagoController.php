@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TiposPagoExport;
 use App\Http\Requests\TipoPagoRequest;
 use App\Models\Estado;
 use App\Models\Moneda;
 use App\Models\TipoPago;
 use App\Models\View_TipoPago;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class TipoPagoController extends Controller
@@ -80,5 +83,18 @@ class TipoPagoController extends Controller
         
         Alert::success('Tipo de Pago eliminado correctamente!');
         return redirect()->route('tipospago.index');
+    }
+
+    public function show()
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $tipospago = View_TipoPago::all();
+        $pdf->loadView('parametricas.tipospago.pdf.reportegral',compact('tipospago'));
+        return $pdf->stream();
+    }
+
+    public function export()
+    {
+        return Excel::download(new TiposPagoExport, 'tipospago.xlsx');
     }
 }

@@ -81,14 +81,8 @@
         <li class="nav-heading">PARAMETRICAS</li>
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('aeropuertos.*') }}" href="{{ route('aeropuertos.index') }}">
-            <i class="bi bi-people"></i>
+            <i class="bi bi-airplane-engines"></i>
             <span>Aeropuertos</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ isActiveRoute('expensas.*') }}" href="{{ route('expensas.index') }}">
-            <i class="bi bi-people"></i>
-            <span>Expensas</span>
           </a>
         </li>
         <li class="nav-item">
@@ -98,32 +92,38 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('expensas.*') }}" href="{{ route('expensas.index') }}">
+            <i class="bi bi-cash"></i>
+            <span>Expensas</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('formaspago.*') }}" href="{{ route('formaspago.index') }}">
-            <i class="bi bi-people"></i>
+            <i class="bi bi-credit-card"></i>
             <span>Formas de Pago</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('regionales.*') }}" href="{{ route('regionales.index') }}">
-            <i class="bi bi-people"></i>
+            <i class="bi bi-globe-americas"></i>
             <span>Regionales</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('rubros.*') }}" href="{{ route('rubros.index') }}">
-            <i class="bi bi-people"></i>
+            <i class="bi bi-bookmark"></i>
             <span>Rubros</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('tipospago.*') }}" href="{{ route('tipospago.index') }}">
-            <i class="bi bi-people"></i>
+            <i class="bi bi-wallet2"></i>
             <span>Tipos de Pago</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('unidadesmedida.*') }}" href="{{ route('unidadesmedida.index') }}">
-            <i class="bi bi-people"></i>
+            <i class="bi bi-unity"></i>
             <span>Unidades de Medida</span>
           </a>
         </li>

@@ -91,6 +91,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('aeropuertos/{aeropuerto}/edit',[App\Http\Controllers\AeropuertoController::class,'edit'])->name('aeropuertos.edit');
     Route::put('aeropuertos/{aeropuerto}',[App\Http\Controllers\AeropuertoController::class,'update'])->name('aeropuertos.update');
     Route::delete('aeropuertos/{aeropuerto}',[App\Http\Controllers\AeropuertoController::class,'destroy'])->name('aeropuertos.destroy');
+    Route::get('aeropuertos/pdf',[App\Http\Controllers\AeropuertoController::class,'show'])->name('aeropuertos.show');
+    Route::get('aeropuertos/xls',[App\Http\Controllers\AeropuertoController::class,'export'])->name('aeropuertos.export');
     //clientes
     Route::get('clientes',[App\Http\Controllers\ClienteController::class,'index'])->name('clientes.index');
     Route::get('clientes/create',[App\Http\Controllers\ClienteController::class,'create'])->name('clientes.create');
@@ -98,6 +100,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('clientes/{cliente}/edit',[App\Http\Controllers\ClienteController::class,'edit'])->name('clientes.edit');
     Route::put('clientes/{cliente}',[App\Http\Controllers\ClienteController::class,'update'])->name('clientes.update');
     Route::delete('clientes/{cliente}',[App\Http\Controllers\ClienteController::class,'destroy'])->name('clientes.destroy');
+    Route::get('clientes/pdf',[App\Http\Controllers\ClienteController::class,'show'])->name('clientes.show');
+    Route::get('clientes/xls',[App\Http\Controllers\ClienteController::class,'export'])->name('clientes.export');
     //expensas
     Route::get('expensas',[App\Http\Controllers\ExpensaController::class,'index'])->name('expensas.index');
     Route::get('expensas/create',[App\Http\Controllers\ExpensaController::class,'create'])->name('expensas.create');
@@ -105,6 +109,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('expensas/{expensa}/edit',[App\Http\Controllers\ExpensaController::class,'edit'])->name('expensas.edit');
     Route::put('expensas/{expensa}',[App\Http\Controllers\ExpensaController::class,'update'])->name('expensas.update');
     Route::delete('expensas/{expensa}',[App\Http\Controllers\ExpensaController::class,'destroy'])->name('expensas.destroy');
+    Route::get('expensas/pdf',[App\Http\Controllers\ExpensaController::class,'show'])->name('expensas.show');
+    Route::get('expensas/xls',[App\Http\Controllers\ExpensaController::class,'export'])->name('expensas.export');
     //formas de pago
     Route::get('formaspago',[App\Http\Controllers\FormaPagoController::class,'index'])->name('formaspago.index');
     Route::get('formaspago/create',[App\Http\Controllers\FormaPagoController::class,'create'])->name('formaspago.create');
@@ -112,6 +118,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('formaspago/{formapago}/edit',[App\Http\Controllers\FormaPagoController::class,'edit'])->name('formaspago.edit');
     Route::put('formaspago/{formapago}',[App\Http\Controllers\FormaPagoController::class,'update'])->name('formaspago.update');
     Route::delete('formaspago/{formapago}',[App\Http\Controllers\FormaPagoController::class,'destroy'])->name('formaspago.destroy');
+    Route::get('formaspago/pdf',[App\Http\Controllers\FormaPagoController::class,'show'])->name('formaspago.show');
+    Route::get('formaspago/xls',[App\Http\Controllers\FormaPagoController::class,'export'])->name('formaspago.export');
     //regional
     Route::get('regionales',[App\Http\Controllers\RegionalController::class,'index'])->name('regionales.index');
     Route::get('regionales/create',[App\Http\Controllers\RegionalController::class,'create'])->name('regionales.create');
@@ -119,6 +127,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('regionales/{regional}/edit',[App\Http\Controllers\RegionalController::class,'edit'])->name('regionales.edit');
     Route::put('regionales/{regional}',[App\Http\Controllers\RegionalController::class,'update'])->name('regionales.update');
     Route::delete('regionales/{regional}',[App\Http\Controllers\RegionalController::class,'destroy'])->name('regionales.destroy');
+    Route::get('regionales/pdf',[App\Http\Controllers\RegionalController::class,'show'])->name('regionales.show');
+    Route::get('regionales/xls',[App\Http\Controllers\RegionalController::class,'export'])->name('regionales.export');
     //rubros
     Route::get('rubros',[App\Http\Controllers\RubroController::class,'index'])->name('rubros.index');
     Route::get('rubros/create',[App\Http\Controllers\RubroController::class,'create'])->name('rubros.create');
@@ -126,6 +136,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('rubros/{rubro}/edit',[App\Http\Controllers\RubroController::class,'edit'])->name('rubros.edit');
     Route::put('rubros/{rubro}',[App\Http\Controllers\RubroController::class,'update'])->name('rubros.update');
     Route::delete('rubros/{rubro}',[App\Http\Controllers\RubroController::class,'destroy'])->name('rubros.destroy');
+    Route::get('rubros/pdf',[App\Http\Controllers\RubroController::class,'show'])->name('rubros.show');
+    Route::get('rubros/xls',[App\Http\Controllers\RubroController::class,'export'])->name('rubros.export');
     //tipos de pago
     Route::get('tipospago',[App\Http\Controllers\TipoPagoController::class,'index'])->name('tipospago.index');
     Route::get('tipospago/create',[App\Http\Controllers\TipoPagoController::class,'create'])->name('tipospago.create');
@@ -133,6 +145,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('tipospago/{tipopago}/edit',[App\Http\Controllers\TipoPagoController::class,'edit'])->name('tipospago.edit');
     Route::put('tipospago/{tipopago}',[App\Http\Controllers\TipoPagoController::class,'update'])->name('tipospago.update');
     Route::delete('tipospago/{tipopago}',[App\Http\Controllers\TipoPagoController::class,'destroy'])->name('tipospago.destroy');
+    Route::get('tipospago/pdf',[App\Http\Controllers\TipoPagoController::class,'show'])->name('tipospago.show');
+    Route::get('tipospago/xls',[App\Http\Controllers\TipoPagoController::class,'export'])->name('tipospago.export');
     //unidad de medida
     Route::get('unidadesmedida',[App\Http\Controllers\UnidadMedidaController::class,'index'])->name('unidadesmedida.index');
     Route::get('unidadesmedida/create',[App\Http\Controllers\UnidadMedidaController::class,'create'])->name('unidadesmedida.create');
@@ -140,4 +154,6 @@ Route::middleware(['auth'])->group(function(){
     Route::get('unidadesmedida/{unidadmedida}/edit',[App\Http\Controllers\UnidadMedidaController::class,'edit'])->name('unidadesmedida.edit');
     Route::put('unidadesmedida/{unidadmedida}',[App\Http\Controllers\UnidadMedidaController::class,'update'])->name('unidadesmedida.update');
     Route::delete('unidadesmedida/{unidadmedida}',[App\Http\Controllers\UnidadMedidaController::class,'destroy'])->name('unidadesmedida.destroy');
+    Route::get('unidadesmedida/pdf',[App\Http\Controllers\UnidadMedidaController::class,'show'])->name('unidadesmedida.show');
+    Route::get('unidadesmedida/xls',[App\Http\Controllers\UnidadMedidaController::class,'export'])->name('unidadesmedida.export');
 });

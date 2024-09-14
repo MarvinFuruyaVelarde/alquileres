@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AeropuertosExport;
 use App\Http\Requests\AeropuertoRequest;
 use App\Models\Aeropuerto;
 use App\Models\Estado;
 use App\Models\Regional;
 use App\Models\View_Aeropuerto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AeropuertoController extends Controller
@@ -80,5 +83,17 @@ class AeropuertoController extends Controller
         
         Alert::success('Aeropuerto eliminado correctamente!');
         return redirect()->route('aeropuertos.index');
+    }
+
+    public function show()
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $aeropuertos = View_Aeropuerto::all();
+        $pdf->loadView('parametricas.aeropuertos.pdf.reportegral',compact('aeropuertos'));
+        return $pdf->stream();
+    }
+    public function export()
+    {
+        return Excel::download(new AeropuertosExport, 'aeropuertos.xlsx');
     }
 }

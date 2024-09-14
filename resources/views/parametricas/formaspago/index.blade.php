@@ -13,6 +13,18 @@
             <li class="breadcrumb-item active">Formas de Pago</li>
         </ol>
         </nav>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <div class="d-flex">
+            @can('formaspago.show')
+                <a href="{{route('formaspago.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+            @endcan
+
+            @can('formaspago.export')
+                <a href="{{route('formaspago.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+             @endcan
+        </div>
         @can('formaspago.create')
             <a href="{{route('formaspago.create')}}" class="btn btn-primary" title="Crea una nueva forma de pago">Registrar</a>
         @endcan

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RegionalesExport;
 use App\Http\Requests\RegionalRequest;
 use App\Models\Estado;
 use App\Models\Regional;
 use App\Models\View_Regional;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class RegionalController extends Controller
@@ -73,5 +76,18 @@ class RegionalController extends Controller
         
         Alert::success('Regional eliminada correctamente!');
         return redirect()->route('regionales.index');
+    }
+
+    public function show()
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $regionales = View_Regional::all();
+        $pdf->loadView('parametricas.regionales.pdf.reportegral',compact('regionales'));
+        return $pdf->stream();
+    }
+
+    public function export()
+    {
+        return Excel::download(new RegionalesExport, 'regionales.xlsx');
     }
 }

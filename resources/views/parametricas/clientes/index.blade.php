@@ -13,6 +13,18 @@
             <li class="breadcrumb-item active">Clientes</li>
         </ol>
         </nav>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <div class="d-flex">
+            @can('clientes.show')
+                <a href="{{route('clientes.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+            @endcan
+
+            @can('clientes.export')
+                <a href="{{route('clientes.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+             @endcan
+        </div>
         @can('clientes.create')
             <a href="{{route('clientes.create')}}" class="btn btn-primary" title="Crea un nuevo cliente">Registrar</a>
         @endcan

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientesExport;
 use App\Http\Requests\ClienteRequest;
 use App\Models\Cliente;
 use App\Models\Estado;
@@ -10,6 +11,8 @@ use App\Models\TipoIdentificacion;
 use App\Models\TipoSolicitante;
 use App\Models\View_Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ClienteController extends Controller
@@ -95,5 +98,18 @@ class ClienteController extends Controller
         
         Alert::success('Cliente eliminado correctamente!');
         return redirect()->route('clientes.index');
+    }
+
+    public function show()
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $clientes = View_Cliente::all();
+        $pdf->loadView('parametricas.clientes.pdf.reportegral',compact('clientes'));
+        return $pdf->stream();
+    }
+
+    public function export()
+    {
+        return Excel::download(new ClientesExport, 'clientes.xlsx');
     }
 }
