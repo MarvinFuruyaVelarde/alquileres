@@ -18,15 +18,15 @@
     <div class="d-flex justify-content-between">
         <div class="d-flex">
             @can('expensas.show')
-                <a href="{{route('expensas.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+                <a href="{{route('expensas.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>
             @endcan
 
             @can('expensas.export')
-                <a href="{{route('expensas.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+                <a href="{{route('expensas.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>
              @endcan
         </div>
         @can('expensas.create')
-            <a href="{{route('expensas.create')}}" class="btn btn-primary" title="Crea una nueva expensa">Registrar</a>
+            <a href="{{route('expensas.create')}}" class="btn btn-primary" title="Crea una nueva expensa"> <i class="bi bi-plus"></i> Registrar </a>
         @endcan
     </div>
  </div><!-- End Page Title -->
@@ -36,7 +36,8 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Expensas Registradas</h5>
-            
+            <p>Cada registro tiene la opción de editar <i class="btn btn-warning bi bi-pencil-square"></i> y eliminar <i class=" btn btn-danger bi bi-trash"></i> una Expensa.</p>
+
            <!--CONTENIDO -->
             <div class="table-responsive">
                 <table cellspacing="0" width="100%" id="datos" class="table table-hover table-bordered">

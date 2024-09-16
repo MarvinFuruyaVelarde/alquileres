@@ -31,4 +31,5 @@
 @endsection
 @section('scripts')
 <script src="{{ asset('js/forms/validacion_rol.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/forms/validarcampos.js') }}" type="text/javascript"></script>
 @endsection

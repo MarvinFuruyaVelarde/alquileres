@@ -18,15 +18,15 @@
     <div class="d-flex justify-content-between">
         <div class="d-flex">
             @can('tipospago.show')
-                <a href="{{route('tipospago.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+                <a href="{{route('tipospago.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>            
             @endcan
 
             @can('tipospago.export')
-                <a href="{{route('tipospago.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+                <a href="{{route('tipospago.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>            
              @endcan
         </div>
-        @can('tipospago.create')
-            <a href="{{route('tipospago.create')}}" class="btn btn-primary" title="Crea una nuevo tipo de pago">Registrar</a>
+        @can('rubros.create')
+            <a href="{{route('tipospago.create')}}" class="btn btn-primary" title="Crea un nuevo rubro"> <i class="bi bi-plus"></i> Registrar </a>
         @endcan
     </div>
  </div><!-- End Page Title -->
@@ -36,6 +36,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Tipos de Pago Registrados</h5>
+            <p>Cada registro tiene la opción de editar <i class="btn btn-warning bi bi-pencil-square"></i> y eliminar <i class=" btn btn-danger bi bi-trash"></i> un Tipo de Pago.</p>
 
            <!--CONTENIDO -->
             <div class="table-responsive">

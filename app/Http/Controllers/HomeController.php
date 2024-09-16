@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\View_Aeropuerto;
+use App\Models\View_Cliente;
+use App\Models\View_Regional;
+use App\Models\View_TipoPago;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,27 +19,9 @@ class HomeController extends Controller
 
     public function index()
     {
-        $empleados=DB::select('SELECT c.nombre as cargo, c.tipo_cargo, c.sueldo, (select count(*) from cargo_empleados ce where ce.cargo_id=c.id and ce.deleted_at is null) nro_empleados
-        from cargos c 
-        WHERE c.deleted_at is null');
-        $items=DB::select("select count(*) AS nro_empleados, SUM(t.sueldo) as total_sueldo
-        from 
-        (SELECT c.nombre, c.sueldo, c.tipo_cargo, (select count(*) from cargo_empleados ce where ce.cargo_id=c.id and ce.deleted_at is null) nro_empleados
-        from cargos c 
-        WHERE c.deleted_at is null ) as t
-        where t.tipo_cargo='ITEM' and nro_empleados > 0");
-        $consultores=DB::select("select count(*) AS nro_empleados, SUM(t.sueldo) as total_sueldo
-        from 
-        (SELECT c.nombre, c.sueldo, c.tipo_cargo, (select count(*) from cargo_empleados ce where ce.cargo_id=c.id and ce.deleted_at is null) nro_empleados
-        from cargos c 
-        WHERE c.deleted_at is null ) as t
-        where t.tipo_cargo='CONSULTOR' and nro_empleados > 0");
-        $eventuales=DB::select("select count(*) AS nro_empleados, SUM(t.sueldo) as total_sueldo
-        from 
-        (SELECT c.nombre, c.sueldo, c.tipo_cargo, (select count(*) from cargo_empleados ce where ce.cargo_id=c.id and ce.deleted_at is null) nro_empleados
-        from cargos c 
-        WHERE c.deleted_at is null ) as t
-        where t.tipo_cargo='PERSONAL EVENTUAL' and nro_empleados > 0");
-        return view('home', compact('empleados','items','consultores','eventuales'));
+        $aeropuertos = View_Aeropuerto::all();
+        $regionales = View_Regional::all();
+        $clientes = View_Cliente::all(); 
+        return view('home', compact('aeropuertos','regionales','clientes'));
     }
 }

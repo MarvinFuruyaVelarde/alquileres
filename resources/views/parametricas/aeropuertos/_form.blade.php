@@ -4,7 +4,7 @@
 <div class="row mb-1">
     <label for="codigo" class="col-md-4 col-form-label text-right ">Código <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="codigo" type="text" class="form-control{{ $errors->has('codigo') ? ' error' : '' }}" name="codigo" value="{{ old('codigo',$aeropuerto->codigo) }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
+        <input id="codigo" type="text" class="form-control{{ $errors->has('codigo') ? ' error' : '' }}" name="codigo" value="{{ old('codigo',$aeropuerto->codigo) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" onkeydown="return soloLetras(event);">
         @if ($errors->has('codigo'))
             <span class="text-danger">
                 {{ $errors->first('codigo') }}
@@ -15,7 +15,7 @@
 <div class="row mb-1">
     <label for="descripcion" class="col-md-4 col-form-label text-right">Descripcion: <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$aeropuerto->descripcion) }}" onkeyup="this.value = this.value.toUpperCase();">
+        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$aeropuerto->descripcion) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" onkeydown="return soloLetras(event);">
         @if ($errors->has('descripcion'))
             <span class="text-danger">
                 {{ $errors->first('descripcion') }}
@@ -68,7 +68,7 @@
 <div class="row mt-2">
     <div class="text-center">
         <button type="submit" class="btn btn-{{ $color }}">{{ $texto }}</button>
-        <a href="{{ route('expensas.index') }}" class="btn btn-warning">Cancelar</a>
+        <a href="{{ route('aeropuertos.index') }}" class="btn btn-warning">Cancelar</a>
     </div>
 </div>
 

@@ -3,20 +3,20 @@
        <div style="padding: 12px">
           <table class="title" style="width: 100%;">
              <tr class="items">
-                   <!--<td style="width: 20%; text-align:center">
-                      <img src="{{--{{asset('assets/img/escudoGobRed.png')}}--}}" width="60px" alt="Image"/>
-                   </td>-->
+                   <td style="width: 20%; text-align:center">
+                      <img src="{{'storage/descarga1.png'}}"  width="100px" alt="Image"/>
+                   </td>
                    <td style="width: 100%; text-align:center; font-weight: bold;">
-                      <div style="font-size: 20px; font-weight: bold;">
+                      <div style="font-size: 18px; font-weight: bold;">
                         NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS 
                       </div>
-                      <div style="font-size: 18px; font-weight: bold;">
+                      <div style="font-size: 16px; font-weight: bold;">
                         SISTEMA ALQUILERES   
                       </div>
-                      <div style="font-size: 15px">RUBROS</div>
+                      <div style="font-size: 14px">RUBROS</div>
                    </td>
-                   <!--<td style="width: 20%; text-align:center"> 
-                   </td>-->
+                   <td style="width: 20%; text-align:center"> 
+                   </td>
              </tr>
           </table>        
        </div>

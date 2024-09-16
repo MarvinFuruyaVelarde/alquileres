@@ -5,132 +5,76 @@
 @section('content')
 
 <div class="pagetitle">
-    <h1>Inicio</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="">Inicio</a></li>
-        <li class="breadcrumb-item active">Resúmen de Información</li>
-      </ol>
-    </nav>
- </div><!-- End Page Title -->
- <section class="section dashboard">
+  <h1>Inicio</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="">Inicio</a></li>
+      <li class="breadcrumb-item active">Resúmen de Información</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+<section class="section dashboard">
   <div class="row">
-
-  <div class="col-lg-6">
-    <div class="row">
-
-      <!-- Sales Card -->
-      <div class="col-xxl-4 col-md-6">
-        <div class="card info-card sales-card">
-          <div class="card-body">
-            <h5 class="card-title"># Consultores</span></h5>
-
-            <div class="d-flex align-items-center">
-              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                <i class="bi bi-person"></i>
-              </div>
-              <div class="ps-3">
-                <h6>0</h6>
-                <span class="text-primary small pt-1 fw-bold">
-                  0 Bs
-                </span> <span class="text-muted small pt-2 ps-1">Bolivianos</span>
+    <div class="col-lg-12">
+      <div class="row" >
+        <!-- Sales Card -->
+        <div class="col-xxl-4 col-lg-4 col-md-4" style="height: 100%;">
+          <div class="card info-card customers-card" style="height: 100%;">
+            <div class="card-body">
+              <h5 class="card-title">Nro. Aeropuertos</h5>
+  
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-airplane"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{count($aeropuertos)}} <span class="text-success small pt-1 fw-bold">Aeropuertos</span> </h6>
+                  
+                </div>
               </div>
             </div>
           </div>
-
-        </div>
-      </div><!-- End Sales Card -->
-
-      <!-- Revenue Card -->
-      <div class="col-xxl-4 col-md-6">
-        <div class="card info-card revenue-card">
-
-          <div class="card-body">
-            <h5 class="card-title"># Eventuales</span></h5>
-
-            <div class="d-flex align-items-center">
-              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                <i class="bi bi-currency-dollar"></i>
-              </div>
-              <div class="ps-3">
-                <h6>0</h6>
-                <span class="text-success small pt-1 fw-bold">0 Bs</span> <span class="text-muted small pt-2 ps-1">Bolivianos</span>
-
+        </div><!-- End Sales Card -->
+        <!-- Sales Card -->
+        <div class="col-xxl-4 col-lg-4 col-md-4" style="height: 100%;">
+          <div class="card info-card customers-card" style="height: 100%;">
+            <div class="card-body">
+              <h5 class="card-title">Nro. Regionales</h5>
+  
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-globe-americas"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{count($regionales)}} <span class="text-success small pt-1 fw-bold">Regionales</span></h6>
+                  
+                </div>
               </div>
             </div>
           </div>
-
         </div>
-      </div><!-- End Revenue Card -->
-
-      <!-- Customers Card -->
-      <div class="col-xxl-4 col-xl-12">
-
-        <div class="card info-card customers-card">
-
-          <div class="card-body">
-            <h5 class="card-title"># Empleados <span>| con ITEM</span></h5>
-
-            <div class="d-flex align-items-center">
-              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                <i class="bi bi-people"></i>
-              </div>
-              <div class="ps-3">
-                <h6>0</h6>
-                <span class="text-success small pt-1 fw-bold">0 Bs</span> <span class="text-muted small pt-2 ps-1">Bolivianos</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div><!-- End Customers Card -->
-
-    </div>
-  </div><!-- End Left side columns -->
-
-  <!-- Right side columns -->
-  <div class="col-lg-6">
-
-    <!-- Recent Activity -->
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Número de empleados por cargo</h5>
-
-        <div class="activity">
-
-          <div class="table-responsive">
-            <table class="table table-bordered table-sm">
-              <thead>
-                <tr>
-                  <th class="text-center"><small>Denomicación del Cargo</small></th>
-                  <th class="text-center"><small>Haber básico</small></th>
-                  <th class="text-center"><small>Cant. Items</small></th>
-                  <th class="text-center"><small>Haber Mensual</small></th>
-                  <th class="text-center"><small>Salario Anual</small></th>
-                </tr>
-              </thead>
-              <tbody>
+      
+        <div class="col-xxl-4 col-lg-4 col-md-4" style="height: 100%;">
+          <div class="card info-card customers-card" style="height: 100%;">
+            <div class="card-body">
+              <h5 class="card-title">Nro. Clientes</h5>
+  
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-people"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{count($clientes)}} <span class="text-success small pt-1 fw-bold">Clientes</span></h6>
                 
-                  <tr>
-                    <td><small>JEFE AREA</small></td>
-                    <td class="text-center"><small>2000</small></td>
-                    <td class="text-center"><small>1000</small></td>
-                    <td class="text-center"><small>100</small></td>
-                    <td class="text-center"><small>12000</small></td>
-                  </tr>
-                 
-              </tbody>
-            </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
-    </div><!-- End Recent Activity -->
-
   </div>
-</div>
-
 </section>
-
 @endSection
+@section('scripts')
+  <script src="{{ asset('assets/js/home/tabla.js') }}" type="text/javascript"></script>
+@endsection

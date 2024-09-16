@@ -18,15 +18,15 @@
     <div class="d-flex justify-content-between">
         <div class="d-flex">
             @can('aeropuertos.show')
-                <a href="{{route('aeropuertos.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+                <a href="{{route('aeropuertos.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf" target="_blank">PDF</a>
             @endcan
 
             @can('rubros.export')
-                <a href="{{route('aeropuertos.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+                <a href="{{route('aeropuertos.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel">EXCEL</a>
              @endcan
         </div>
         @can('aeropuertos.create')
-            <a href="{{route('aeropuertos.create')}}" class="btn btn-primary" title="Crea un nuevo aeropuerto">Registrar</a>
+            <a href="{{route('aeropuertos.create')}}" class="btn btn-primary" title="Crea un nuevo aeropuerto"> <i class="bi bi-plus"></i> Registrar</a>
         @endcan
     </div>
  </div><!-- End Page Title -->
@@ -36,6 +36,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Aeropuertos Registrados</h5>
+            <p>Cada registro tiene la opción de editar <i class="btn btn-warning bi bi-pencil-square"></i> y eliminar <i class=" btn btn-danger bi bi-trash"></i> un Aeropuerto.</p>
             
            <!--CONTENIDO -->
             <div class="table-responsive">

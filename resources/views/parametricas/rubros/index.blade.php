@@ -18,24 +18,25 @@
     <div class="d-flex justify-content-between">
         <div class="d-flex">
             @can('rubros.show')
-                <a href="{{route('rubros.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+                <a href="{{route('rubros.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>
             @endcan
     
             @can('rubros.export')
-                <a href="{{route('rubros.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+                <a href="{{route('rubros.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>            
             @endcan
         </div>
         @can('rubros.create')
-            <a href="{{route('rubros.create')}}" class="btn btn-primary" title="Crea un nuevo rubro">Registrar</a>
-        @endcan
+            <a href="{{route('rubros.create')}}" class="btn btn-primary" title="Crea un nuevo rubro"> <i class="bi bi-plus"></i> Registrar </a>
+        @endcan                
     </div>
- </div><!-- End Page Title -->
+</div><!-- End Page Title -->
  <section class="section">
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Rubros Registrados</h5>
+            <p>Cada registro tiene la opción de editar <i class="btn btn-warning bi bi-pencil-square"></i> y eliminar <i class=" btn btn-danger bi bi-trash"></i> un Rubro.</p>
             
            <!--CONTENIDO -->
             <div class="table-responsive">

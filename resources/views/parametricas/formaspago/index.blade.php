@@ -18,15 +18,15 @@
     <div class="d-flex justify-content-between">
         <div class="d-flex">
             @can('formaspago.show')
-                <a href="{{route('formaspago.show')}}" class="btn btn-danger bi-file-earmark-pdf" title="Generar reporte pdf"></a>
+                <a href="{{route('formaspago.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>
             @endcan
 
             @can('formaspago.export')
-                <a href="{{route('formaspago.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel"></a>
+                <a href="{{route('formaspago.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>
              @endcan
         </div>
         @can('formaspago.create')
-            <a href="{{route('formaspago.create')}}" class="btn btn-primary" title="Crea una nueva forma de pago">Registrar</a>
+            <a href="{{route('formaspago.create')}}" class="btn btn-primary" title="Crea una nueva forma de pago"> <i class="bi bi-plus"></i> Registrar </a>
         @endcan
     </div>
  </div><!-- End Page Title -->
@@ -36,6 +36,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Formas de Pago Registradas</h5>
+            <p>Cada registro tiene la opción de editar <i class="btn btn-warning bi bi-pencil-square"></i> y eliminar <i class=" btn btn-danger bi bi-trash"></i> una Forma de Pago.</p>
             
            <!--CONTENIDO -->
             <div class="table-responsive">
