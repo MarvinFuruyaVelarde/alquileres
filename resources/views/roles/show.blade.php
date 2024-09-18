@@ -15,21 +15,46 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Permisos habilitados</h5>
+            <div class="d-flex align-items-center justify-content-between">
+              <h5 class="card-title">Permisos habilitados para el rol <strong>{{$role->name}}</strong></h5>
+              {{-- <a href="{{ route('roles.index') }}" class="btn btn-danger">Volver</a> --}}
+            </div>
+            <hr>
            <!--CONTENIDO -->
-           <label for=""><strong>{{$role->name}}</strong></label>
-           <div class="table-responsive">
-            <table class="table table-bordered">
-                @foreach ($permissions as $permission)
-                    <tr>
-                        <td><strong>{{$permission->descripcion ?: 'Sin descripción'}}</strong>
-                            <em>({{$permission->name}})</em></td>
-                    </tr>
+           
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                @foreach($grupos as $cont_grupo=>$grupo)
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne-{{ $cont_grupo }}" aria-expanded="false" aria-controls="flush-collapseOne-{{ $cont_grupo }}">
+                            {{ $cont_grupo + 1 }} - GESTIÓN DE {{ $grupo->grupo }}
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne-{{ $cont_grupo }}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <ul class="list-unstyled">
+                           
+                            <?php $cont=0; ?>
+                            @foreach($permissions as $permission)
+                            @if($permission->grupo==$grupo->grupo)
+                            <?php $cont=$cont+1; ?>
+                            <li>
+                                <label>
+                                    {{$permission->descripcion ?: 'Sin descripción'}}
+                                    <em>({{$permission->name}})</em>
+                                </label>
+                            </li>
+                            @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
                 @endforeach
-            </table>
-           </div>
+            </div>
+            <div class="text-center">
+              <a href="{{ route('roles.index') }}" class="btn btn-danger">Volver</a>
+            </div>
+          </div>
  
-        <a href="javascript:history.back()" class="btn btn-warning btn-rounded">Volver</a>
             <!-- EndCONTENIDO Example -->
           </div>
         </div>

@@ -8,58 +8,7 @@
           <i class="bi bi-grid"></i>
           <span>Inicio</span>
         </a>
-      </li><!-- End Dashboard Nav -->
-      <li class="nav-heading">ADMINISTRACIÓN PERSONAL</li>
-      @can('empleados.index')
-      <li class="nav-item">
-        <a class="nav-link {{ isActiveRoute(['empleados.*']) }}" data-bs-target="#empleados-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-person-plus"></i><span>Registro Funcionarios</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="empleados-nav" class="nav-content collapse {{ mostrar(['empleados.*']) }}" data-bs-parent="#sidebar-nav">
-          @can('empleados.create')
-          <li>
-            <a href="{{ route('empleados.create') }}" class="{{ isActiveSubMenu('empleados.create') }}">
-              <i class="bi bi-circle"></i><span>Nuevo</span>
-            </a>
-          </li>
-          @endif
-          <li>
-            <a href="{{ route('empleados.index') }}" class="{{ isActiveSubMenu(['empleados.index','empleados.edit','empleados.ficha']) }}">
-              <i class="bi bi-circle"></i><span>Ver Todos</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-      @endcan
-      @can('documentos.index')
-      <li class="nav-item">
-        <a class="nav-link {{ isActiveRoute(['documentos*.*']) }}" data-bs-target="#documentos-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-file-earmark-text"></i><span>Documentación</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="documentos-nav" class="nav-content collapse {{ mostrar(['documentos*.*']) }}" data-bs-parent="#sidebar-nav">
-          @can('documentos.create')
-          <li>
-            <a href="{{ route('documentos_empleados.index') }}" class="{{ isActiveSubMenu(['documentos_empleados.index','documentos.create']) }}">
-              <i class="bi bi-circle"></i><span>Nuevo</span>
-            </a>
-          </li>
-          @endcan
-          <li>
-            <a href="{{ route('documentos.index') }}" class="{{ isActiveSubMenu(['documentos.index','documentos.edit']) }}">
-              <i class="bi bi-circle"></i><span>Ver Todos</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-      @endcan
-      @can('declaraciones.index')
-      <li class="nav-item">
-        <a class="nav-link {{ isActiveRoute('declaraciones*.*') }}" href="{{ route('declaraciones.index') }}">
-          <i class="bi bi-grid"></i>
-          <span>Declaraciones Juradas</span>
-        </a>
-      </li>
-      @endcan
+      </li><!-- End Dashboard Nav -->  
       @can('users.index')
         <li class="nav-heading">ADMINISTRACIÓN SISTEMA</li>
         <li class="nav-item">
@@ -77,50 +26,65 @@
         </li>
         @endcan
       @endcan
-      @can('expensas.index')
-        <li class="nav-heading">PARAMETRICAS</li>
+      
+      <li class="nav-heading">PARAMETRICAS</li>
+      @can('aeropuertos.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('aeropuertos.*') }}" href="{{ route('aeropuertos.index') }}">
             <i class="bi bi-airplane-engines"></i>
             <span>Aeropuertos</span>
           </a>
         </li>
+      @endcan
+      @can('clientes.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('clientes.*') }}" href="{{ route('clientes.index') }}">
             <i class="bi bi-people"></i>
             <span>Clientes</span>
           </a>
         </li>
+      @endcan
+      @can('expensas.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('expensas.*') }}" href="{{ route('expensas.index') }}">
             <i class="bi bi-cash"></i>
             <span>Expensas</span>
           </a>
         </li>
+      @endcan
+      @can('formaspago.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('formaspago.*') }}" href="{{ route('formaspago.index') }}">
             <i class="bi bi-credit-card"></i>
             <span>Formas de Pago</span>
           </a>
         </li>
+      @endcan
+      @can('regionales.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('regionales.*') }}" href="{{ route('regionales.index') }}">
             <i class="bi bi-globe-americas"></i>
             <span>Regionales</span>
           </a>
         </li>
+      @endcan
+      @can('rubros.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('rubros.*') }}" href="{{ route('rubros.index') }}">
             <i class="bi bi-bookmark"></i>
             <span>Rubros</span>
           </a>
         </li>
+      @endcan
+      @can('tipospago.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('tipospago.*') }}" href="{{ route('tipospago.index') }}">
             <i class="bi bi-wallet2"></i>
             <span>Tipos de Pago</span>
           </a>
         </li>
+      @endcan
+      @can('unidadesmedida.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('unidadesmedida.*') }}" href="{{ route('unidadesmedida.index') }}">
             <i class="bi bi-unity"></i>
@@ -128,6 +92,7 @@
           </a>
         </li>
       @endcan
+      
     </ul>
 
   </aside><!-- End Sidebar-->

@@ -11,7 +11,7 @@
         </ol>
         </nav>
         @can('roles.create')
-            <a href="{{route('roles.create')}}" class="btn btn-primary" title="Crea un nuevo rol con sus permisos">Crear Nuevo</a>
+            <a href="{{route('roles.create')}}" class="btn btn-primary" title="Crea un nuevo rol con sus permisos">+ Crear Nuevo</a>
         @endcan
     </div>
  </div><!-- End Page Title -->
@@ -21,7 +21,7 @@
         <div class="card">
           <div class="card-body">
             
-            <h5 class="card-title">Roles de acceso</h5>
+            <h5 class="card-title">Roles de acceso registrados</h5>
                 
            <!--CONTENIDO -->
            <div class="table-responsive">
@@ -30,6 +30,7 @@
                     <tr>
                         <th class="text-center">Rol</th>
                         <th class="text-center ">Descripción</th>
+                        <th class="text-center ">Nro usuarios <br>con el rol</th>
                         <th class="text-center" >Opciones</th>
                     </tr>
                 </thead>
@@ -38,6 +39,7 @@
                         <tr>
                             <td class="fw-bold">{{$role->name}}</td>
                             <td class="text-wrap">{{$role->descripcion}}</td>
+                            <td class="text-wrap text-center"><h5><span class="badge bg-primary">{{$role->users_count}} Usuarios</span></h5></td>
                             <td class="d-flex justify-content-center" >
                                 @can('roles.show')
                                     <a href="{{route('roles.show',$role->id)}}" class="btn btn-info" title="Ver los permisos asignados al rol"><i class="bi bi-eye"></i></a>
@@ -47,7 +49,7 @@
                                 @endcan
                                 @can('roles.destroy')
                                     {!! Form::open(['route'=>['roles.destroy',$role->id],'method'=>'DELETE']) !!}
-                                        <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                        <button class="btn btn-danger" onclick="return confirm('¿Está seguro que desea eliminar el ROL?');"><i class="bi bi-trash"></i></button>
                                     {!! Form::close() !!}
                                 @endcan
                             </td>

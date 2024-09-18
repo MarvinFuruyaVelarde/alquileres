@@ -21,7 +21,7 @@
                 <a href="{{route('expensas.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>
             @endcan
 
-            @can('expensas.export')
+            @can('expensas.show')
                 <a href="{{route('expensas.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>
              @endcan
         </div>

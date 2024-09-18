@@ -30,4 +30,14 @@
 
 
 @endsection
-
+@section('scripts')
+<script>
+  $(document).ready(function() {
+      $('.marcar-todos').click(function() {
+          var grupoId = $(this).data('grupo');
+          var checked = $(this).prop('checked');
+          $('input[type="checkbox"][data-grupo="' + grupoId + '"]').prop('checked', checked);
+      });
+  });
+</script>
+@endsection

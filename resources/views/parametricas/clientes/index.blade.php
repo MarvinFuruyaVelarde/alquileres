@@ -21,8 +21,8 @@
                 <a href="{{route('clientes.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>
             @endcan
 
-            @can('clientes.export')
-                <a href="{{route('clientes.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>
+            @can('clientes.show')
+                <a href="{{route('clientes.show')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>
              @endcan
         </div>        
         @can('clientes.create')

@@ -1,46 +1,80 @@
-<p>Debe rellenar todos los campos</p>
-<div class="row mb-1">
-        <label for="name" class="col-lg-3 col-md-3 col-xs-12 col-form-label text-right ">Nombre rol<span class="text-danger text-bold">(*)</span></label>
-    <div class="col-lg-7 col-md-7 col-xs-12">
-        <input type="text" class="form-control @error('name') error @enderror" name="name" id="name" value="{{ old('name',$role->name) }}">
-        @error('name')
-            <label class="error">{{ $message }}</label>
-        @enderror
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Nuevo Rol</h5>
+            <p>Debe rellenar todos los campos</p>
+            <div class="row mb-1">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <label for="name" class="">Nombre rol<span class="text-danger text-bold">(*)</span></label>
+                    <input type="text" class="form-control @error('name') error @enderror" name="name" id="name" value="{{ old('name',$role->name) }}">
+                    @error('name')
+                        <label class="error">{{ $message }}</label>
+                    @enderror
+                </div>
+            </div>
+                <div class="row mb-3">
+                    <div class="col-lg-12 col-md-12 col-xs-12">
+                    <label for="descripcion" class="">Descripción<span class="text-danger text-bold">(*)</span></label>
+                        <input type="text" class="form-control @error('descripcion') error @enderror" name="descripcion" id=descripcion value="{{ old('descripcion',$role->descripcion) }}">
+                    </div>
+                </div>
+                <div class="text-center">
+                 {{ Form::submit('Guardar',['class'=>'btn btn-primary']) }}
+                 <a href="{{ route('roles.index') }}" class="btn btn-warning">Cancelar</a>
+             </div>
+           </div>
+        </div>
     </div>
+            
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Lista de Permisos</h5>
+            <p>Marque los permisos que quiere asignar al Rol y luego presione el boton <strong>GUARDAR</strong></p>
+            <!-- Accordion without outline borders -->
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                @foreach($grupos as $cont_grupo=>$grupo)
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne-{{ $cont_grupo }}" aria-expanded="false" aria-controls="flush-collapseOne-{{ $cont_grupo }}">
+                            {{ $cont_grupo + 1 }} - GESTIÓN DE {{ $grupo->grupo }}
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne-{{ $cont_grupo }}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <ul class="list-unstyled">
+                            <li>
+                                <label>
+                                    {{ Form::checkbox('marcar_todo_'.$grupo->grupo, null, false, ['class' => 'form-check-input marcar-todos', 'data-grupo' => $grupo->grupo]) }}
+                                    &nbsp; MARCAR / DESMARCAR TODOS
+                                </label>
+                            </li>
+                            <?php $cont=0; ?>
+                            @foreach($permissions as $permission)
+                            @if($permission->grupo==$grupo->grupo)
+                            <?php $cont=$cont+1; ?>
+                            <li>
+                                <label>
+                                    {{ Form::checkbox('permissions[]', $permission->id, null, ['class' => 'form-check-input', 'id' => 'basic_checkbox_' . $cont, 'data-grupo' => $grupo->grupo]) }}
+                                    &nbsp;&nbsp; {{$permission->descripcion ?: 'Sin descripción'}}
+                                    <em>({{$permission->name}})</em>
+                                </label>
+                            </li>
+                            @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+           
+           </div>
+        </div>
+      </div>
+
 </div>
 
-<div class="row mb-1">
-    <label for="descripcion" class="col-lg-3 col-md-3 col-xs-12 col-form-label text-right">Descripción<span class="text-danger text-bold">(*)</span></label>
-    <div class="col-lg-9 col-md-9 col-xs-12">
-        <input type="text" class="form-control @error('descripcion') error @enderror" name="descripcion" id=descripcion value="{{ old('descripcion',$role->descripcion) }}">
-    </div>
-</div>
 
-<hr>
 
-<h3>Lista de Permisos</h3>
-<p>Marque los permisos que quiere asignar al Rol</p>
-<div class="demo-checkbox">
-    <ul class="list-unstyled">
-         <?php $cont=0;?>
-        @foreach($permissions as $permission)
-        <?php $cont=$cont+1;?>
-            <li>
-                <label>
-                {{ Form::checkbox('permissions[]',$permission->id,null,['class'=>'form-check-input','id'=>'basic_checkbox_'.$cont]) }}
-                    {{$permission->descripcion ?: 'Sin descripción'}}
-                    <em>({{$permission->name}})</em>
-                </label>
-            </li>
-        @endforeach
 
-    </ul>
 
-</div>
-
-<div class="text-center">
-
-    {{ Form::submit('Guardar',['class'=>'btn btn-primary btn-round']) }}
-    <a href="javascript:history.back()" class="btn btn-warning btn-round">Cancelar</a>
-
-</div>

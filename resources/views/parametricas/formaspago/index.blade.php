@@ -21,7 +21,7 @@
                 <a href="{{route('formaspago.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>
             @endcan
 
-            @can('formaspago.export')
+            @can('formaspago.show')
                 <a href="{{route('formaspago.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>
              @endcan
         </div>

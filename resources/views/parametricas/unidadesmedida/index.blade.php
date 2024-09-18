@@ -21,7 +21,7 @@
                 <a href="{{route('unidadesmedida.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>            
             @endcan
 
-            @can('unidadesmedida.export')
+            @can('unidadesmedida.show')
                 <a href="{{route('unidadesmedida.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>            
              @endcan
         </div>
