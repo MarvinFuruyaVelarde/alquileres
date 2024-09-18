@@ -8,7 +8,8 @@
     <div class="col-md-5">
         <label for="razon_social" class="col-form-label">Razón Social <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="razon_social" type="text" class="form-control {{ $errors->has('razon_social') ? ' error' : '' }}" name="razon_social" value="{{ old('razon_social',$cliente->razon_social) }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
+            <input id="razon_social" type="text" class="form-control {{ $errors->has('razon_social') ? ' error' : '' }}" name="razon_social" value="{{ old('razon_social',$cliente->razon_social) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="razon_social" data-validate="length" data-min-length="" data-max-length="150">
+            <span id="error-razon_social" class="error-razon_social" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('razon_social'))
                 <span class="text-danger">
                     {{ $errors->first('razon_social') }}
@@ -50,7 +51,8 @@
     <div class="col-md-5">
         <label for="numero_identificacion" class="col-form-label">Nro. Identificación: <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="numero_identificacion" type="text" class="form-control{{ $errors->has('numero_identificacion') ? ' error' : '' }}" name="numero_identificacion" value="{{ old('numero_identificacion',$cliente->numero_identificacion) }}" onkeyup="this.value = this.value.toUpperCase();">
+            <input id="numero_identificacion" type="text" class="form-control{{ $errors->has('numero_identificacion') ? ' error' : '' }}" name="numero_identificacion" value="{{ old('numero_identificacion',$cliente->numero_identificacion) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="6" data-max-length="30">
+            <span id="error-numero_identificacion" class="error-numero_identificacion" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('numero_identificacion'))
                 <span class="text-danger">
                     {{ $errors->first('numero_identificacion') }}

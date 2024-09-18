@@ -19,7 +19,7 @@
           <div class="card-body">
             <h5 class="card-title">Nuevo Cliente</h5>
            <!--CONTENIDO -->
-           {!! Form::open(['route'=>'clientes.store','class'=>'form-horizontal']) !!}
+           {!! Form::open(['route'=>'clientes.store','class'=>'form-horizontal','id'=>'form_reg_cliente','data-form-id'=>'form_reg_cliente']) !!}
                 @include('parametricas.clientes._form',['texto' => 'Guardar','color'=>'primary'])
             {!! Form::close() !!}
             <!-- EndCONTENIDO Example -->
@@ -29,4 +29,6 @@
     </div>
 </section>
 @endsection
-
+@section('scripts')
+<script src="{{ asset('assets/js/forms/validarcampos.js') }}" type="text/javascript"></script>
+@endsection

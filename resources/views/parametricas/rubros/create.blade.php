@@ -19,7 +19,7 @@
           <div class="card-body">
             <h5 class="card-title">Nuevo Rubro</h5>
            <!--CONTENIDO -->
-           {!! Form::open(['route'=>'rubros.store','class'=>'form-horizontal']) !!}
+           {!! Form::open(['route'=>'rubros.store','class'=>'form-horizontal','id'=>'form_reg_rubro','data-form-id'=>'form_reg_rubro']) !!}
                 @include('parametricas.rubros._form',['texto' => 'Guardar','color'=>'primary'])
             {!! Form::close() !!}
             <!-- EndCONTENIDO Example -->
@@ -30,5 +30,5 @@
 </section>
 @endsection
 @section('scripts')
-<script src="{{ asset('js/forms/validacion_rol.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/forms/validarcampos.js') }}" type="text/javascript"></script>
 @endsection

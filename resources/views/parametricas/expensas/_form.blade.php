@@ -4,7 +4,8 @@
 <div class="row mb-1">
     <label for="descripcion" class="col-md-4 col-form-label text-right">Descripcion: <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$expensa->descripcion) }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
+        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$expensa->descripcion) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="descripcion" data-validate="length" data-min-length="3" data-max-length="50">
+        <span id="error-descripcion" class="error-descripcion" style="color: rgb(220, 53, 69);"></span>
         @if ($errors->has('descripcion'))
             <span class="text-danger">
                 {{ $errors->first('descripcion') }}
@@ -17,7 +18,8 @@
 <div class="row mb-1">
     <label for="factor" class="col-md-4 col-form-label text-right ">Factor <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="factor" type="text" class="form-control{{ $errors->has('factor') ? ' error' : '' }}" name="factor" value="{{ old('factor',$expensa->factor) }}" onkeyup="this.value = this.value.toUpperCase();">
+        <input id="factor" type="text" class="form-control{{ $errors->has('factor') ? ' error' : '' }}" name="factor" value="{{ old('factor',$expensa->factor) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="decimal">
+        <span id="error-factor" class="error-factor" style="color: rgb(220, 53, 69);"></span>
         @if ($errors->has('factor'))
             <span class="text-danger">
                 {{ $errors->first('factor') }}

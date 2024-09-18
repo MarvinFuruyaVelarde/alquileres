@@ -4,7 +4,8 @@
 <div class="row mb-1">
     <label for="descripcion" class="col-md-4 col-form-label text-right">Descripcion: <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$tipopago->descripcion) }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
+        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$tipopago->descripcion) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="descripcion" data-validate="length" data-min-length="20" data-max-length="50">
+        <span id="error-descripcion" class="error-descripcion" style="color: rgb(220, 53, 69);"></span>
         @if ($errors->has('descripcion'))
             <span class="text-danger">
                 {{ $errors->first('descripcion') }}
@@ -17,7 +18,8 @@
 <div class="row mb-1">
     <label for="numero_cuenta" class="col-md-4 col-form-label text-right ">Número de Cuenta <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="numero_cuenta" type="text" class="form-control{{ $errors->has('numero_cuenta') ? ' error' : '' }}" name="numero_cuenta" value="{{ old('numero_cuenta',$tipopago->numero_cuenta) }}" onkeyup="this.value = this.value.toUpperCase();">
+        <input id="numero_cuenta" type="text" class="form-control{{ $errors->has('numero_cuenta') ? ' error' : '' }}" name="numero_cuenta" value="{{ old('numero_cuenta',$tipopago->numero_cuenta) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="integer">
+        <span id="error-numero_cuenta" class="error-numero_cuenta" style="color: rgb(220, 53, 69);"></span>
         @if ($errors->has('numero_cuenta'))
             <span class="text-danger">
                 {{ $errors->first('numero_cuenta') }}

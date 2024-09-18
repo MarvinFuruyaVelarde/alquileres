@@ -19,7 +19,7 @@
           <div class="card-body">
             <h5 class="card-title">Nuevo Aeropuerto</h5>
            <!--CONTENIDO -->
-           {!! Form::open(['route'=>'aeropuertos.store','class'=>'form-horizontal']) !!}
+           {!! Form::open(['route'=>'aeropuertos.store','class'=>'form-horizontal','id'=>'form_reg_aeropuerto','data-form-id'=>'form_reg_aeropuerto']) !!}
                 @include('parametricas.aeropuertos._form',['texto' => 'Guardar','color'=>'primary'])
             {!! Form::close() !!}
             <!-- EndCONTENIDO Example -->
@@ -30,6 +30,5 @@
 </section>
 @endsection
 @section('scripts')
-<script src="{{ asset('js/forms/validacion_rol.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/forms/validarcampos.js') }}" type="text/javascript"></script>
 @endsection

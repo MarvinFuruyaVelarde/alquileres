@@ -19,7 +19,7 @@
           <div class="card-body">
             <h5 class="card-title">Nueva Expensa</h5>
            <!--CONTENIDO -->
-           {!! Form::open(['route'=>'expensas.store','class'=>'form-horizontal']) !!}
+           {!! Form::open(['route'=>'expensas.store','class'=>'form-horizontal','id'=>'form_reg_expensa','data-form-id'=>'form_reg_expensa']) !!}
                 @include('parametricas.expensas._form',['texto' => 'Guardar','color'=>'primary'])
             {!! Form::close() !!}
             <!-- EndCONTENIDO Example -->
@@ -30,5 +30,5 @@
 </section>
 @endsection
 @section('scripts')
-<script src="{{ asset('js/forms/validacion_rol.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/js/forms/validarcampos.js') }}" type="text/javascript"></script>
 @endsection
