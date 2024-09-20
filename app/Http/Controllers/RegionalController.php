@@ -6,6 +6,7 @@ use App\Exports\RegionalesExport;
 use App\Http\Requests\RegionalRequest;
 use App\Models\Estado;
 use App\Models\Regional;
+use App\Models\UsuarioRegional;
 use App\Models\View_Regional;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -16,7 +17,21 @@ class RegionalController extends Controller
 {
     public function index()
     {
-        $regionales = View_Regional::all(); // Obtener todas las expensas
+        if(auth()->user()->id==1){
+            $regionales=View_Regional::where('id','>',0)->get();
+        }else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $regionales = View_Regional::whereIn('id',$array)->get();
+        }
+        
         return view('parametricas.regionales.index', compact('regionales')); // Pasar a la vista
     }
 

@@ -7,6 +7,7 @@ use App\Http\Requests\AeropuertoRequest;
 use App\Models\Aeropuerto;
 use App\Models\Estado;
 use App\Models\Regional;
+use App\Models\UsuarioRegional;
 use App\Models\View_Aeropuerto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -17,13 +18,38 @@ class AeropuertoController extends Controller
 {
     public function index()
     {
-        $aeropuertos = View_Aeropuerto::all(); // Obtener todos los aeropuertos
+        if(auth()->user()->id==1){
+            $aeropuertos = View_Aeropuerto::all();
+        }else{
+            $auth_user=auth()->user();
+        $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+        $array = [];
+        $cont=0;
+        foreach ($usuario_regional as $value) {
+            $array[$cont]=$value->regional;
+            $cont++;
+        }
+        $aeropuertos = View_Aeropuerto::whereIn('regional',$array)->get();
+        }
         return view('parametricas.aeropuertos.index', compact('aeropuertos')); // Pasar a la vista
     }
 
     public function create()
     {
-        $regionales=Regional::where('id','>',0)->get();
+        if(auth()->user()->id==1){
+            $regionales=Regional::where('id','>',0)->get();
+        }else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $regionales = Regional::whereIn('id',$array)->get();
+            }
+        
         $estados=Estado::where('id','>',0)->get();
         $aeropuerto=new Aeropuerto();
         return view('parametricas.aeropuertos.create',compact('aeropuerto', 'regionales', 'estados'));

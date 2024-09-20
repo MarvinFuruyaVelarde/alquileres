@@ -32,20 +32,17 @@ class UserRequest extends FormRequest
                 'email',
                 Rule::unique('users')->ignore( $this->route('user') )
             ],
-            'password' => ['required',Rule::unique('users')->ignore( $this->route('user') )],
+          
             'name'=>'required',
+            'segundo_nombre'=>'required',
+            'apellido_paterno'=>'required',
+            'apellido_materno'=>'required',
+            'ci'=>'required',
+            'expedido'=>'required',
+            'estado'=>'required',
             'role_id'=>'required',
         ];
 
     }
-    public function messages()
-    {
-        return [
-            'name.required' => 'El campo es de ingreso obligatorio.',
-            'email.required' => 'El campo es de ingreso obligatorio.',
-            'email.unique'   => 'El correo ingresado ya fue utilizado.',
-            'password.required' => 'Debe ingresar una contraseña.',
-            'role_id.required' => 'Debe asignar un rol al usuario.',
-        ];
-    }
+    
 }

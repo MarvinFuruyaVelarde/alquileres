@@ -17,7 +17,7 @@
 <div class="row mb-1">
     <label for="descripcion" class="col-md-4 col-form-label text-right">Descripcion: <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$regional->descripcion) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="descripcion" data-validate="length" data-min-length="12" data-max-length="50">
+        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$regional->descripcion) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="descripcion" data-validate="length" data-min-length="4" data-max-length="50">
         <span id="error-descripcion" class="error-descripcion" style="color: rgb(220, 53, 69);"></span>
         @if ($errors->has('descripcion'))
             <span class="text-danger">
