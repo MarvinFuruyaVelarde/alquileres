@@ -44,6 +44,14 @@
           </a>
         </li>
       @endcan
+      @can('cuentas.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('cuentas.*') }}" href="{{ route('cuentas.index') }}">
+            <i class="bi bi-wallet2"></i>
+            <span>Cuentas</span>
+          </a>
+        </li>
+      @endcan
       @can('expensas.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('expensas.*') }}" href="{{ route('expensas.index') }}">
@@ -73,14 +81,6 @@
           <a class="nav-link {{ isActiveRoute('rubros.*') }}" href="{{ route('rubros.index') }}">
             <i class="bi bi-bookmark"></i>
             <span>Rubros</span>
-          </a>
-        </li>
-      @endcan
-      @can('tipospago.index')
-        <li class="nav-item">
-          <a class="nav-link {{ isActiveRoute('tipospago.*') }}" href="{{ route('tipospago.index') }}">
-            <i class="bi bi-wallet2"></i>
-            <span>Tipos de Pago</span>
           </a>
         </li>
       @endcan

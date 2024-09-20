@@ -5,7 +5,7 @@
     <h1>Roles</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicioo</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
         <li class="breadcrumb-item active"></li>
       </ol>
     </nav>

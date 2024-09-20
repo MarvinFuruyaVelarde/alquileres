@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\View_Aeropuerto;
 use App\Models\View_Cliente;
 use App\Models\View_Regional;
-use App\Models\View_TipoPago;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {

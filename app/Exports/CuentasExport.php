@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\View_TipoPago;
+use App\Models\View_Cuenta;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
@@ -12,14 +12,14 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class TiposPagoExport implements FromCollection, WithHeadings, WithTitle, WithEvents
+class CuentasExport implements FromCollection, WithHeadings, WithTitle, WithEvents
 {
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return View_TipoPago::select('id', 'descripcion', 'numero_cuenta', 'desc_moneda', 'desc_estado')->get();
+        return View_Cuenta::select('id', 'descripcion', 'numero_cuenta', 'desc_moneda', 'desc_estado')->get();
     }
 
     /**
@@ -41,7 +41,7 @@ class TiposPagoExport implements FromCollection, WithHeadings, WithTitle, WithEv
      */
     public function title(): string
     {
-        return 'TiposPago';
+        return 'Cuentas';
     }
 
     /**
@@ -54,7 +54,7 @@ class TiposPagoExport implements FromCollection, WithHeadings, WithTitle, WithEv
                 $sheet = $event->sheet;
 
                 // Establecer el título con salto de línea
-                $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nTIPOS DE PAGO";
+                $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nCUENTAS";
                 $sheet->setCellValue('A1', $title);
                 $sheet->mergeCells('A1:E1');
                 $sheet->getStyle('A1')->applyFromArray([

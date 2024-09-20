@@ -1,14 +1,14 @@
 
 @extends('layouts.app')
-@section('titulo','Nuevo Tipo de Pago')
+@section('titulo','Nueva Cuenta')
 @section('content')
 
 <div class="pagetitle">
-    <h1>TIPOS DE PAGO</h1>
+    <h1>CUENTAS</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('tipospago.index') }}">Tipos de Pago</a></li>
-        <li class="breadcrumb-item active">Nuevo Tipo de Pago</li>
+        <li class="breadcrumb-item"><a href="{{ route('cuentas.index') }}">Cuentas</a></li>
+        <li class="breadcrumb-item active">Nueva Cuenta</li>
       </ol>
     </nav>
  </div><!-- End Page Title -->
@@ -17,10 +17,10 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Nuevo Tipo de Pago</h5>
+            <h5 class="card-title">Nueva Cuenta</h5>
            <!--CONTENIDO -->
-           {!! Form::open(['route'=>'tipospago.store','class'=>'form-horizontal','id'=>'form_reg_tipopago','data-form-id'=>'form_reg_tipopago']) !!}
-                @include('parametricas.tipospago._form',['texto' => 'Guardar','color'=>'primary'])
+           {!! Form::open(['route'=>'cuentas.store','class'=>'form-horizontal','id'=>'form_reg_cuenta','data-form-id'=>'form_reg_cuenta']) !!}
+                @include('parametricas.cuentas._form',['texto' => 'Guardar','color'=>'primary'])
             {!! Form::close() !!}
             <!-- EndCONTENIDO Example -->
           </div>

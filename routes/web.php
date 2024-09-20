@@ -111,14 +111,14 @@ Route::middleware(['auth'])->group(function(){
     Route::get('rubros/xls',[App\Http\Controllers\RubroController::class,'export'])->name('rubros.export')->middleware('permission:rubros.show');
 
     //tipos de pago
-    Route::get('tipospago',[App\Http\Controllers\TipoPagoController::class,'index'])->name('tipospago.index')->middleware('permission:tipospago.index');
-    Route::get('tipospago/create',[App\Http\Controllers\TipoPagoController::class,'create'])->name('tipospago.create')->middleware('permission:tipospago.create');
-    Route::post('tipospago/store',[App\Http\Controllers\TipoPagoController::class,'store'])->name('tipospago.store')->middleware('permission:tipospago.create');
-    Route::get('tipospago/{tipopago}/edit',[App\Http\Controllers\TipoPagoController::class,'edit'])->name('tipospago.edit')->middleware('permission:tipospago.edit');
-    Route::put('tipospago/{tipopago}',[App\Http\Controllers\TipoPagoController::class,'update'])->name('tipospago.update')->middleware('permission:tipospago.edit');
-    Route::delete('tipospago/{tipopago}',[App\Http\Controllers\TipoPagoController::class,'destroy'])->name('tipospago.destroy')->middleware('permission:tipospago.destroy');
-    Route::get('tipospago/pdf',[App\Http\Controllers\TipoPagoController::class,'show'])->name('tipospago.show')->middleware('permission:tipospago.show');
-    Route::get('tipospago/xls',[App\Http\Controllers\TipoPagoController::class,'export'])->name('tipospago.export')->middleware('permission:tipospago.show');
+    Route::get('cuentas',[App\Http\Controllers\CuentaController::class,'index'])->name('cuentas.index')->middleware('permission:cuentas.index');
+    Route::get('cuentas/create',[App\Http\Controllers\CuentaController::class,'create'])->name('cuentas.create')->middleware('permission:cuentas.create');
+    Route::post('cuentas/store',[App\Http\Controllers\CuentaController::class,'store'])->name('cuentas.store')->middleware('permission:cuentas.create');
+    Route::get('cuentas/{cuenta}/edit',[App\Http\Controllers\CuentaController::class,'edit'])->name('cuentas.edit')->middleware('permission:cuentas.edit');
+    Route::put('cuentas/{cuenta}',[App\Http\Controllers\CuentaController::class,'update'])->name('cuentas.update')->middleware('permission:cuentas.edit');
+    Route::delete('cuentas/{cuenta}',[App\Http\Controllers\CuentaController::class,'destroy'])->name('cuentas.destroy')->middleware('permission:cuentas.destroy');
+    Route::get('cuentas/pdf',[App\Http\Controllers\CuentaController::class,'show'])->name('cuentas.show')->middleware('permission:cuentas.show');
+    Route::get('cuentas/xls',[App\Http\Controllers\CuentaController::class,'export'])->name('cuentas.export')->middleware('permission:cuentas.show');
     
     //unidad de medida
     Route::get('unidadesmedida',[App\Http\Controllers\UnidadMedidaController::class,'index'])->name('unidadesmedida.index')->middleware('permission:unidadesmedida.index');

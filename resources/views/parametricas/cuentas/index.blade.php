@@ -1,32 +1,32 @@
 @extends('layouts.app')
-@section('titulo','Tipos de Pago')
+@section('titulo','Cuentas')
 @section('content')
 
 @section('content')
 
 <div class="pagetitle">
-    <h1>Tipos de Pago</h1>
+    <h1>Cuentas</h1>
     <div class="d-flex flex-row align-items-center justify-content-between">
         <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-            <li class="breadcrumb-item active">Tipos de Pago</li>
+            <li class="breadcrumb-item active">Cuentas</li>
         </ol>
         </nav>
     </div>
 
     <div class="d-flex justify-content-between">
         <div class="d-flex">
-            @can('tipospago.show')
-                <a href="{{route('tipospago.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>            
+            @can('cuentas.show')
+                <a href="{{route('cuentas.show')}}" class="btn btn-danger bi-file-earmark-pdf " title="Generar reporte pdf"  target="_blank">PDF</a>            
             @endcan
 
-            @can('tipospago.show')
-                <a href="{{route('tipospago.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>            
+            @can('cuentas.show')
+                <a href="{{route('cuentas.export')}}" class="btn btn-success bi-file-earmark-excel" title="Generar reporte excel" >EXCEL</a>            
              @endcan
         </div>
-        @can('rubros.create')
-            <a href="{{route('tipospago.create')}}" class="btn btn-primary" title="Crea un nuevo rubro"> <i class="bi bi-plus"></i> Registrar </a>
+        @can('cuentas.create')
+            <a href="{{route('cuentas.create')}}" class="btn btn-primary" title="Crea una nueva cuenta"> <i class="bi bi-plus"></i> Registrar </a>
         @endcan
     </div>
  </div><!-- End Page Title -->
@@ -35,8 +35,8 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Tipos de Pago Registrados</h5>
-            <p>Cada registro tiene la opción de editar <i class="btn btn-warning bi bi-pencil-square"></i> y eliminar <i class=" btn btn-danger bi bi-trash"></i> un Tipo de Pago.</p>
+            <h5 class="card-title">Cuentas Registradas</h5>
+            <p>Cada registro tiene la opción de editar <i class="btn btn-warning bi bi-pencil-square"></i> y eliminar <i class=" btn btn-danger bi bi-trash"></i> una Cuenta.</p>
 
            <!--CONTENIDO -->
             <div class="table-responsive">
@@ -51,22 +51,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($tipospago as $tipopago)
+                        @foreach($cuentas as $cuenta)
 
                             <tr>
-                                <td class="text-center">{{$tipopago->descripcion}}</td>
-                                <td class="text-center">{{$tipopago->numero_cuenta}}</td>
-                                <td class="text-center">{{$tipopago->desc_moneda}}</td>
-                                <td class="text-center">{{$tipopago->desc_estado}}</td>
+                                <td class="text-center">{{$cuenta->descripcion}}</td>
+                                <td class="text-center">{{$cuenta->numero_cuenta}}</td>
+                                <td class="text-center">{{$cuenta->desc_moneda}}</td>
+                                <td class="text-center">{{$cuenta->desc_estado}}</td>
                                 <td class="d-flex justify-content-center" >
-                                    @can('tipospago.edit')
-                                        <a href="{{route('tipospago.edit',$tipopago)}}" class="btn btn-warning" title="Modificar Datos"><i class="bi bi-pencil-square"></i></a>
+                                    @can('cuentas.edit')
+                                        <a href="{{route('cuentas.edit',$cuenta)}}" class="btn btn-warning" title="Modificar Datos"><i class="bi bi-pencil-square"></i></a>
                                     @endcan
-                                    @can('tipospago.destroy')
-                                        <form action="{{ route('tipospago.destroy', $tipopago->id) }}" method="POST" style="display:inline;">
+                                    @can('cuentas.destroy')
+                                        <form action="{{ route('cuentas.destroy', $cuenta->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" title="Eliminar Registro" onclick="return confirm('¿Está seguro que desea eliminar el TIPO DE PAGO?');"><i class="bi bi-trash"></i>
+                                            <button type="submit" class="btn btn-danger" title="Eliminar Registro" onclick="return confirm('¿Está seguro que desea eliminar la CUENTA?');"><i class="bi bi-trash"></i>
                                             </button>
                                         </form>
                                     @endcan

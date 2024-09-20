@@ -57,7 +57,7 @@
                                 <label>
                                     {{ Form::checkbox('permissions[]', $permission->id, null, ['class' => 'form-check-input', 'id' => 'basic_checkbox_' . $cont, 'data-grupo' => $grupo->grupo]) }}
                                     &nbsp;&nbsp; {{$permission->descripcion ?: 'Sin descripción'}}
-                                    <em>({{$permission->name}})</em>
+                                    <em>{{--({{$permission->name}})--}}</em>
                                 </label>
                             </li>
                             @endif

@@ -71,11 +71,11 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['descripcion'=>'Eliminar documento de rubro','name'=>'rubros.destroy','grupo'=>'RUBROS']);
 
         //Tipos de pago
-        Permission::create(['descripcion'=>'Ver todos los registros de tipo de pago','name'=>'tipospago.index','grupo'=>'TIPOS DE PAGO']);
-        Permission::create(['descripcion'=>'Ver detalle de documento de tipo de pago','name'=>'tipospago.show','grupo'=>'TIPOS DE PAGO']);
-        Permission::create(['descripcion'=>'Registro de documentos de tipo de pago','name'=>'tipospago.create','grupo'=>'TIPOS DE PAGO']);
-        Permission::create(['descripcion'=>'Edición de documentos de tipo de pago','name'=>'tipospago.edit','grupo'=>'TIPOS DE PAGO']);
-        Permission::create(['descripcion'=>'Eliminar documento de tipo de pago','name'=>'tipospago.destroy','grupo'=>'TIPOS DE PAGO']);
+        Permission::create(['descripcion'=>'Ver todos los registros de cuentas','name'=>'cuentas.index','grupo'=>'CUENTAS']);
+        Permission::create(['descripcion'=>'Ver detalle de documento de cuentas','name'=>'cuentas.show','grupo'=>'CUENTAS']);
+        Permission::create(['descripcion'=>'Registro de documentos de cuentas','name'=>'cuentas.create','grupo'=>'CUENTAS']);
+        Permission::create(['descripcion'=>'Edición de documentos de cuentas','name'=>'cuentas.edit','grupo'=>'CUENTASO']);
+        Permission::create(['descripcion'=>'Eliminar documento de cuentas','name'=>'cuentas.destroy','grupo'=>'CUENTAS']);
 
         //Unidad de medida
         Permission::create(['descripcion'=>'Ver todos los registros de unidad de medida','name'=>'unidadesmedida.index','grupo'=>'UNIDAD DE MEDIDA']);

@@ -13,7 +13,7 @@
                       <div style="font-size: 16px; font-weight: bold;">
                         SISTEMA ALQUILERES   
                       </div>
-                      <div style="font-size: 14px">TIPOS DE PAGO</div>
+                      <div style="font-size: 14px">CUENTAS</div>
                    </td>
                    <td style="width: 20%; text-align:center"> 
                    </td>
@@ -36,13 +36,13 @@
     </thead>
 
     <tbody>
-        @foreach($tipospago as $tipopago)
+        @foreach($cuentas as $cuenta)
         <tr>
-            <td style="text-align:center;">{{ $tipopago->id }}</td>
-            <td style="text-align:center;">{{ $tipopago->descripcion }}</td>
-            <td style="text-align:center;">{{ $tipopago->numero_cuenta }}</td>
-            <td style="text-align:center;">{{ $tipopago->desc_moneda }}</td>
-            <td style="text-align:center;">{{ $tipopago->desc_estado }}</td>
+            <td style="text-align:center;">{{ $cuenta->id }}</td>
+            <td style="text-align:center;">{{ $cuenta->descripcion }}</td>
+            <td style="text-align:center;">{{ $cuenta->numero_cuenta }}</td>
+            <td style="text-align:center;">{{ $cuenta->desc_moneda }}</td>
+            <td style="text-align:center;">{{ $cuenta->desc_estado }}</td>
         </tr>
         @endforeach
     </tbody>

@@ -1,10 +1,10 @@
 <p>
     Debe rellenar todos los campos marcados con <strong class="text-danger">(*)</strong>.
-    Al momento de registrar/editar un tipo de pago</p>
+    Al momento de registrar/editar una cuenta</p>
 <div class="row mb-1">
     <label for="descripcion" class="col-md-4 col-form-label text-right">Descripcion: <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$tipopago->descripcion) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="descripcion" data-validate="length" data-min-length="20" data-max-length="50">
+        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$cuenta->descripcion) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="descripcion" data-validate="length" data-min-length="20" data-max-length="50">
         <span id="error-descripcion" class="error-descripcion" style="color: rgb(220, 53, 69);"></span>
         @if ($errors->has('descripcion'))
             <span class="text-danger">
@@ -18,7 +18,7 @@
 <div class="row mb-1">
     <label for="numero_cuenta" class="col-md-4 col-form-label text-right ">Número de Cuenta <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="numero_cuenta" type="text" class="form-control{{ $errors->has('numero_cuenta') ? ' error' : '' }}" name="numero_cuenta" value="{{ old('numero_cuenta',$tipopago->numero_cuenta) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="integer">
+        <input id="numero_cuenta" type="text" class="form-control{{ $errors->has('numero_cuenta') ? ' error' : '' }}" name="numero_cuenta" value="{{ old('numero_cuenta',$cuenta->numero_cuenta) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="integer">
         <span id="error-numero_cuenta" class="error-numero_cuenta" style="color: rgb(220, 53, 69);"></span>
         @if ($errors->has('numero_cuenta'))
             <span class="text-danger">
@@ -35,7 +35,7 @@
             <option value="">Seleccionar...</option>
             @foreach($monedas as $moneda)
                 <option value="{{ $moneda->id }}" 
-                    {{ old('moneda', $tipopago->moneda) == $moneda->id ? 'selected' : '' }}>
+                    {{ old('moneda', $cuenta->moneda) == $moneda->id ? 'selected' : '' }}>
                     {{ $moneda->descripcion }}
                 </option>
             @endforeach
@@ -55,7 +55,7 @@
             <option value="">Seleccionar...</option>
             @foreach($estados as $estado)
                 <option value="{{ $estado->id }}" 
-                    {{ old('estado', $tipopago->estado) == $estado->id ? 'selected' : '' }}>
+                    {{ old('estado', $cuenta->estado) == $estado->id ? 'selected' : '' }}>
                     {{ $estado->descripcion }}
                 </option>
             @endforeach
@@ -71,7 +71,7 @@
 <div class="row mt-2">
     <div class="text-center">
         <button type="submit" class="btn btn-{{ $color }}">{{ $texto }}</button>
-        <a href="{{ route('tipospago.index') }}" class="btn btn-warning">Cancelar</a>
+        <a href="{{ route('cuentas.index') }}" class="btn btn-warning">Cancelar</a>
     </div>
 </div>
 
