@@ -34,9 +34,6 @@ class UserRequest extends FormRequest
             ],
           
             'name'=>'required',
-            'segundo_nombre'=>'required',
-            'apellido_paterno'=>'required',
-            'apellido_materno'=>'required',
             'ci'=>'required',
             'expedido'=>'required',
             'estado'=>'required',
