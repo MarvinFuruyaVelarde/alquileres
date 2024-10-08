@@ -1,0 +1,113 @@
+// Función para mostrar u ocultar los contenedores dependiendo del tipo de solicitante
+/*function toggleSolicitanteFields(value) {
+    var nitCont = document.getElementById('nit-container');
+    var ciCont = document.getElementById('ci-container');
+    var cjurCont = document.getElementById('cjur-container');
+    var cjur2Cont = document.getElementById('cjur2-container');
+    var cjur3Cont = document.getElementById('cjur3-container');
+    var nit = document.getElementById("nit");
+    var ci = document.getElementById("ci");
+
+    if (value === '2') {
+        nitCont.style.display = 'block'; // Mostrar NIT
+        ciCont.style.display = 'none'; // Ocultar CI
+        ci.value = ""; // Limpiar CI
+        cjurCont.style.display = ''; // Mostrar contenedores de representantes
+        cjur2Cont.style.display = ''; 
+        cjur3Cont.style.display = ''; 
+    } else {
+        nitCont.style.display = 'none'; // Ocultar NIT
+        ciCont.style.display = 'block'; // Mostrar CI
+        nit.value = ""; // Limpiar NIT
+        cjurCont.style.display = 'none'; // Ocultar contenedores de representantes
+        cjur2Cont.style.display = 'none';
+        cjur3Cont.style.display = 'none';
+    }
+}
+
+// Función para resetear los campos adicionales de representantes
+function resetRepresentantes() {
+    var parentDiv = document.getElementById('campos'); 
+    while (parentDiv.children.length > 1) { // Mantener el primer representante
+        parentDiv.removeChild(parentDiv.lastChild);
+    }
+    cont = 2; // Reiniciar el contador
+}
+
+// Al cargar la página, configurar el formulario según el tipo de solicitante
+var tipoSolicitante = document.getElementById('tipo_solicitante').value;
+toggleSolicitanteFields(tipoSolicitante);
+
+// Listener para el cambio de tipo de solicitante
+document.getElementById('tipo_solicitante').addEventListener('change', function () {
+    var value = this.value;
+    resetRepresentantes(); // Eliminar los campos de representantes si cambia el tipo
+    toggleSolicitanteFields(value); // Mostrar/Ocultar campos según el valor seleccionado
+});*/
+
+// al Ingresar al formulario para registrar/editar
+var value = document.getElementById('tipo_solicitante').value;
+var nitCont = document.getElementById('nit-container');
+var ciCont = document.getElementById('ci-container');
+var cjurCont = document.getElementById('cjur-container');
+var cjur2Cont = document.getElementById('cjur2-container');
+var cjur3Cont = document.getElementById('cjur3-container');
+var nit = document.getElementById("nit");
+var ci = document.getElementById("ci");
+
+if (value === '2') {
+    nitCont.style.display = 'block'; // Mostrar campo
+    ciCont.style.display = 'none'; // Ocultar campo
+    ci.value = "";
+    cjurCont.style.display = ''; // Mostrar campo
+    
+    if (cjur2Cont) {
+        cjur2Cont.style.display = ''; // Ocultar campo
+    }
+
+    if (cjur3Cont) {
+        cjur3Cont.style.display = ''; // Ocultar campo
+    }
+   
+} else {
+    nitCont.style.display = 'none'; // Ocultar campo
+    ciCont.style.display = 'block'; // Mostrar campo
+    nit.value = "";
+    cjurCont.style.display = 'none'; // Ocultar campo
+    if (cjur2Cont) {
+        cjur2Cont.style.display = 'none'; // Ocultar campo
+    }
+    if (cjur3Cont) {
+        cjur3Cont.style.display = 'none'; // Ocultar campo
+    }
+}
+
+
+//Hab/Deshab campos dependientes Ci o Nit, si se cambia de opción 
+document.getElementById('tipo_solicitante').addEventListener('change', function () {
+    var value = this.value;
+    var nitCont = document.getElementById('nit-container');
+    var ciCont = document.getElementById('ci-container');
+    var cjurCont = document.getElementById('cjur-container');
+    var nit = document.getElementById("nit");
+    var ci = document.getElementById("ci");
+
+    // Elimina los campos adicionados de representantes si se cambia el tipo de solicitante 
+    var parentDiv = document.getElementById('campos'); 
+    while (parentDiv.children.length > 1) {
+        parentDiv.removeChild(parentDiv.lastChild);
+        cont = 2;
+    }
+    
+    if (value === '2') {
+        nitCont.style.display = 'block'; // Mostrar campo
+        ciCont.style.display = 'none'; // Ocultar campo
+        ci.value = "";
+        cjurCont.style.display = ''; // Mostrar campo
+    } else {
+        nitCont.style.display = 'none'; // Ocultar campo
+        ciCont.style.display = 'block'; // Mostrar campo
+        nit.value = "";
+        cjurCont.style.display = 'none'; // Ocultar campo
+    }
+});

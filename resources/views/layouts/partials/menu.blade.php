@@ -93,6 +93,59 @@
         </li>
       @endcan
       
+      <li class="nav-heading">CONTRATOS</li>
+      @can('contratos.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('contratos.*') }}" href="{{ route('contratos.index') }}">
+            <i class="bi bi-list-columns"></i>
+            <span>Lista de Contratos</span>
+          </a>
+        </li>
+      @endcan
+      @can('aprobarcontratos.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('aprobarcontratos.*') }}" href="{{ route('aprobarcontratos.index') }}">
+            <i class="bi bi-clipboard-check"></i>
+            <span>Aprobar Contratos</span>
+          </a>
+        </li>
+      @endcan
+      @can('cancelarcontratos.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('cancelarcontratos.*') }}" href="{{ route('cancelarcontratos.index') }}">
+            <i class="bi bi-x-diamond-fill"></i>
+            <span>Cancelar Contratos</span>
+          </a>
+        </li>
+      @endcan
+      @can('documentocontratos.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('documentocontratos.*') }}" href="{{ route('documentocontratos.index') }}">
+            <i class="bi bi-file-earmark-arrow-up"></i>
+            <span>Documento Contratos</span>
+          </a>
+        </li>
+      @endcan
+
+      <li class="nav-heading">GARANTIAS</li>
+      @can('garantias.index')
+      <li class="nav-item">
+        <a class="nav-link {{ isActiveRoute('garantias.*') }}" href="{{ route('garantias.index') }}">
+          <i class="bi bi-cash-coin"></i>
+          <span>Garantía</span>
+        </a>
+      </li>
+      @endcan
+
+      <li class="nav-heading">PLANTILLAS</li>
+      @can('plantillas.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('plantillas.*') }}" href="{{ route('plantillas.index') }}">
+            <i class="bi bi-back"></i>
+            <span>Lista de Plantillas</span>
+          </a>
+        </li>
+      @endcan
     </ul>
 
   </aside><!-- End Sidebar-->

@@ -129,4 +129,55 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('unidadesmedida/{unidadmedida}',[App\Http\Controllers\UnidadMedidaController::class,'destroy'])->name('unidadesmedida.destroy')->middleware('permission:unidadesmedida.destroy');
     Route::get('unidadesmedida/pdf',[App\Http\Controllers\UnidadMedidaController::class,'show'])->name('unidadesmedida.show')->middleware('permission:unidadesmedida.show');
     Route::get('unidadesmedida/xls',[App\Http\Controllers\UnidadMedidaController::class,'export'])->name('unidadesmedida.export')->middleware('permission:unidadesmedida.show');
+
+    //contratos
+    //lista
+    Route::get('contratos',[App\Http\Controllers\ContratoController::class,'index'])->name('contratos.index')->middleware('permission:contratos.index');
+    Route::get('contratos/create',[App\Http\Controllers\ContratoController::class,'create'])->name('contratos.create')->middleware('permission:contratos.create');
+    Route::post('contratos/store',[App\Http\Controllers\ContratoController::class,'store'])->name('contratos.store')->middleware('permission:contratos.create');
+    Route::get('contratos/{contrato}/edit',[App\Http\Controllers\ContratoController::class,'edit'])->name('contratos.edit')->middleware('permission:contratos.edit');
+    Route::put('contratos/{contrato}',[App\Http\Controllers\ContratoController::class,'update'])->name('contratos.update')->middleware('permission:contratos.edit');
+    Route::delete('contratos/{contrato}',[App\Http\Controllers\ContratoController::class,'destroy'])->name('contratos.destroy')->middleware('contratos.destroy');
+    Route::put('contratos/{contrato}/send',[App\Http\Controllers\ContratoController::class,'send'])->name('contratos.send')->middleware('contratos.send');
+
+
+    Route::get('contratos/espacios/{contrato}',[App\Http\Controllers\ContratoController::class,'createEspacio'])->name('contratos.create_espacio')->middleware('permission:contratos.create_espacio');
+    Route::post('contratos/espacios/store',[App\Http\Controllers\ContratoController::class,'storeEspacio'])->name('contratos.store_espacio')->middleware('permission:contratos.create_espacio');
+    Route::get('contratos/espacios/{contrato}/{espacio}/edit',[App\Http\Controllers\ContratoController::class,'editEspacio'])->name('contratos.edit_espacio')->middleware('permission:contratos.edit_espacio');
+    Route::put('contratos/espacios/{espacio}',[App\Http\Controllers\ContratoController::class,'updateEspacio'])->name('contratos.update_espacio')->middleware('permission:contratos.edit_espacio');
+    Route::delete('contratos/espacios/eliminar/{espacio}',[App\Http\Controllers\ContratoController::class,'destroyEspacio'])->name('contratos.destroy_espacio')->middleware('permission:contratos.destroy_espacio');
+
+    Route::get('aprobarcontratos',[App\Http\Controllers\AprobarContratoController::class,'index'])->name('aprobarcontratos.index')->middleware('permission:aprobarcontratos.index');
+    Route::get('aprobarcontratos/{contrato}/edit',[App\Http\Controllers\AprobarContratoController::class,'edit'])->name('aprobarcontratos.edit')->middleware('permission:aprobarcontratos.edit');
+    Route::put('aprobarcontratos/{contrato}',[App\Http\Controllers\AprobarContratoController::class,'update'])->name('aprobarcontratos.update')->middleware('permission:aprobarcontratos.edit');
+
+    Route::get('cancelarcontratos',[App\Http\Controllers\CancelarContratoController::class,'index'])->name('cancelarcontratos.index');//->middleware('permission:listaaprobarcontratos.index');
+    Route::get('cancelarcontratos/{contrato}/edit',[App\Http\Controllers\CancelarContratoController::class,'edit'])->name('cancelarcontratos.edit');//->middleware('permission:aprobarcontratos.edit');
+    Route::put('cancelarcontratos/{contrato}',[App\Http\Controllers\CancelarContratoController::class,'update'])->name('cancelarcontratos.update');//->middleware('permission:aprobarcontratos.edit');
+    Route::get('cancelarcontratos/espacios/{contrato}',[App\Http\Controllers\CancelarContratoController::class,'createEspacio'])->name('cancelarcontratos.create_espacio');//->middleware('permission:contratos.create_espacio');
+    Route::post('cancelarcontratos/espacios/store',[App\Http\Controllers\CancelarContratoController::class,'storeEspacio'])->name('cancelarcontratos.store_espacio');//->middleware('permission:contratos.create_espacio');
+    Route::get('cancelarcontratos/espacios/{contrato}/{espacio}/edit',[App\Http\Controllers\CancelarContratoController::class,'editEspacio'])->name('cancelarcontratos.edit_espacio');//->middleware('permission:contratos.edit_espacio');
+    Route::put('cancelarcontratos/espacios/{espacio}',[App\Http\Controllers\CancelarContratoController::class,'updateEspacio'])->name('cancelarcontratos.update_espacio');//->middleware('permission:contratos.edit_espacio');
+    Route::put('cancelarcontratos/{contrato}/send',[App\Http\Controllers\CancelarContratoController::class,'send'])->name('cancelarcontratos.send');//->middleware('contratos.send');
+    
+
+    Route::get('documentocontratos',[App\Http\Controllers\DocumentoContratoController::class,'index'])->name('documentocontratos.index');//->middleware('permission:listaaprobarcontratos.index');
+    Route::get('documentocontratos/{contrato}/edit',[App\Http\Controllers\DocumentoContratoController::class,'edit'])->name('documentocontratos.edit');//->middleware('permission:aprobarcontratos.edit');
+    Route::put('documentocontratos/{contrato}',[App\Http\Controllers\DocumentoContratoController::class,'update'])->name('documentocontratos.update');//->middleware('permission:aprobarcontratos.edit');
+
+    //garantia
+    Route::get('garantias',[App\Http\Controllers\GarantiaController::class,'index'])->name('garantias.index')->middleware('permission:garantias.index');
+    Route::get('garantias/{contrato}/create',[App\Http\Controllers\GarantiaController::class,'create'])->name('garantias.create')->middleware('permission:garantias.create');
+    Route::post('garantias/store',[App\Http\Controllers\GarantiaController::class,'store'])->name('garantias.store')->middleware('permission:garantias.create');
+
+    //Plantilla
+    Route::get('plantilla',[App\Http\Controllers\PlantillaController::class,'index'])->name('plantillas.index')->middleware('permission:plantillas.index');
+    Route::get('plantilla/create',[App\Http\Controllers\PlantillaController::class,'create'])->name('plantillas.create')->middleware('permission:plantillas.create');
+    Route::post('plantilla/store',[App\Http\Controllers\PlantillaController::class,'store'])->name('plantillas.store')->middleware('permission:plantillas.create');
+    Route::get('plantilla/{id}/edit',[App\Http\Controllers\PlantillaController::class,'edit'])->name('plantillas.edit')->middleware('permission:plantillas.edit');
+    Route::post('plantilla/update/{contrato}',[App\Http\Controllers\PlantillaController::class,'update'])->name('plantillas.update')->middleware('permission:plantillas.edit');
+    Route::delete('plantilla/{id}',[App\Http\Controllers\PlantillaController::class,'destroy'])->name('plantillas.destroy')->middleware('permission:plantillas.destroy');
+    Route::get('plantilla/pdf/{id}',[App\Http\Controllers\PlantillaController::class,'show'])->name('plantillas.show')->middleware('permission:plantillas.show');
+    Route::get('api/plantilla/{cliente}/{contrato}',[App\Http\Controllers\PlantillaController::class,'ajax'])->name('plantillas.ajax');
+    Route::get('api/plantilla1/{contrato}',[App\Http\Controllers\PlantillaController::class,'ajax1'])->name('plantillas1.ajax');
 });
