@@ -509,7 +509,7 @@
                                         <td class="text-center col-1">{{ $listaespacio->total_canonmensual }}</td>
                                         <td class="text-center col-1"><input type="checkbox" class="form-check-input" {{ $listaespacio->estado == 6 ? 'checked' : '' }} {{ ($listaespacio->estado == 6 || $listaespacio->estado == 2) ? 'disabled' : '' }} title="Estado del Espacio"></td>
                                         <td class="text-center col-1" >
-                                            @can('cancelarcontratos.edit_espacio')
+                                            @can('cancelarcontratos.create_espacio')
                                                 <a href="{{route('cancelarcontratos.edit_espacio', ['contrato' => $contrato->id, 'espacio' => $listaespacio->id])}}" class="btn btn-warning" title="Modificar Datos"><i class="bi bi-pencil-square"></i></a>
                                             @endcan
                                         </td>

@@ -203,6 +203,57 @@ class ContratoController extends Controller
         return view('contratos.lista.create_espacio',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas'));
     }
 
+    public function storeEspacio(EspacioRequest $request)
+    {
+        //dd($request);
+        // Obtener el array de lista_expensas desde la solicitud
+        $listaExpensas = $request->input('lista_expensas');
+
+        // Guardar en la tabla espacio
+        $espacio=new Espacio();
+        $espacio->contrato = $request->contrato;
+        $espacio->tipo_canon = $request->tipo_canon;
+        $espacio->rubro = $request->rubro;
+        $espacio->ubicacion = $request->ubicacion;
+        $espacio->cantidad = $request->cantidad;
+        $espacio->unidad_medida = $request->unidad_medida;
+        $espacio->precio_unitario = $request->precio_unitario;
+        $espacio->fecha_inicial = $request->fecha_inicial;
+        $espacio->fecha_final = $request->fecha_final;
+        $espacio->total_canonmensual = $request->total_canonmensual;
+        $espacio->opcion_dcto = $request->opcion_dcto; 
+        $espacio->canon_dcto = $request->canon_dcto;
+        $espacio->garantia = $request->garantia;
+        $espacio->cobro_expensa = $request->cobro_expensa;
+        $espacio->forma_pago = $request->forma_pago;
+        $espacio->numero_dia = $request->numero_dia;
+        $espacio->objeto_contrato = $request->objeto_contrato;
+        $espacio->glosa_factura = $request->glosa_factura;
+        $espacio->tipo_espacio = $request->tipo_espacio;
+        $espacio->estado = 3;
+        $espacio->save();
+
+        $espacioId = $espacio->id;
+
+
+        
+        foreach ($listaExpensas as $expensaId => $expensa) {
+            // Validar que el campo 'expensa' esté marcado como seleccionado
+            if ($expensa['expensa'] != '0') {
+                $espacioExpensa=new EspacioExpensa();
+                $espacioExpensa->espacio=$espacioId;
+                $espacioExpensa->expensa=$expensa['expensa'];
+                $espacioExpensa->tarifa_fija=$expensa['tarifa_fija'];
+                $espacioExpensa->monto=$expensa['monto'];
+                $espacioExpensa->save();
+                
+            }
+        }
+
+        Alert::success("Espacio registrado correctamente!");
+        return redirect()->back();
+    }
+
     public function editEspacio($id_contrato, Espacio $espacio)
     {
         //dd($espacio->id);
@@ -250,17 +301,38 @@ class ContratoController extends Controller
         $espacio->save();
 
         $espacioId = $espacio->id;
+
+        // Obtener los IDs de expensas que se mantienen seleccionadas
+        $expensasSeleccionadas = array_column($listaExpensas, 'expensa');
+
+        // Eliminar expensas no seleccionadas
+        EspacioExpensa::where('espacio', $espacioId)
+                    ->whereNotIn('expensa', $expensasSeleccionadas)
+                    ->delete();
         
         foreach ($listaExpensas as $expensaId => $expensa) {
             // Validar que el campo 'expensa' esté marcado como seleccionado
             if ($expensa['expensa'] != '0') {
-                $espacioExpensa=new EspacioExpensa();
-                $espacioExpensa->espacio=$espacioId;
-                $espacioExpensa->expensa=$expensa['expensa'];
-                $espacioExpensa->tarifa_fija=$expensa['tarifa_fija'];
-                $espacioExpensa->monto=$expensa['monto'];
-                $espacioExpensa->save();
-                
+
+                // Verificar si ya existe una relación entre el espacio y la expensa
+                $espacioExpensa = EspacioExpensa::where('espacio', $espacioId)
+                                                ->where('expensa', $expensa['expensa'])
+                                                ->first();
+
+                if ($espacioExpensa) {
+                    // Si ya existe, actualizarla
+                    $espacioExpensa->tarifa_fija = $expensa['tarifa_fija'];
+                    $espacioExpensa->monto = $expensa['monto'];
+                    $espacioExpensa->save();
+                } else {
+                    // Si no existe, crear una nueva
+                    $espacioExpensa = new EspacioExpensa();
+                    $espacioExpensa->espacio = $espacioId;
+                    $espacioExpensa->expensa = $expensa['expensa'];
+                    $espacioExpensa->tarifa_fija = $expensa['tarifa_fija'];
+                    $espacioExpensa->monto = $expensa['monto'];
+                    $espacioExpensa->save();
+                }
             }
         }
 

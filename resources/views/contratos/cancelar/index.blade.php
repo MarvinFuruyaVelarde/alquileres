@@ -76,7 +76,7 @@
 
                                     @can('cancelarcontratos.create_espacio')
                                         @if($contrato->estado == 6)                                            
-                                            <a href="{{ route('cancelarcontratos.create_espacio', $contrato) }}" class="btn btn-dark" title="Registrar Espacio"><i class="bi bi-layout-text-sidebar"></i></a>
+                                            <a href="{{ route('cancelarcontratos.create_espacio', $contrato) }}" class="btn btn-dark" title="Editar Espacio"><i class="bi bi-layout-text-sidebar"></i></a>
                                         @endif
                                     @endcan
                                     @can('cancelarcontratos.send')

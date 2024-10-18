@@ -47,8 +47,8 @@
         </div>
     </div>
 
-    <div class="col-md-3">
-        <label for="saldo" class="col-form-label">Saldo(Bs.) </label>
+    <div class="col-md-4">
+        <label for="saldo" class="col-form-label">Saldo (Bs.) </label>
         <div class="col-md-11">
             <input id="saldo" disabled type="text" class="form-control {{ $errors->has('saldo') ? ' error' : '' }}" name="saldo" value="{{ old('saldo',$contrato->saldo_garantia) }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
         </div>
@@ -62,7 +62,7 @@
     </div>    
 
     <div class="col-md-5">
-        <label for="a_pagar" class="col-form-label">A Pagar(Bs.) <span class="text-danger">(*)</span></label>
+        <label for="a_pagar" class="col-form-label">A Pagar (Bs.) <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
             <input id="a_pagar"  type="text" class="form-control {{ $errors->has('a_pagar') ? ' error' : '' }}" name="a_pagar" value=" " autofocus onkeyup="this.value = this.value.toUpperCase();">
         @if ($errors->has('a_pagar'))

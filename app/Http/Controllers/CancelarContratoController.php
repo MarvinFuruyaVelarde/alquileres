@@ -156,17 +156,38 @@ class CancelarContratoController extends Controller
         $espacio->save();
 
         $espacioId = $espacio->id;
+
+        // Obtener los IDs de expensas que se mantienen seleccionadas
+        $expensasSeleccionadas = array_column($listaExpensas, 'expensa');
+
+        // Eliminar expensas no seleccionadas
+        EspacioExpensa::where('espacio', $espacioId)
+                    ->whereNotIn('expensa', $expensasSeleccionadas)
+                    ->delete();
         
         foreach ($listaExpensas as $expensaId => $expensa) {
             // Validar que el campo 'expensa' esté marcado como seleccionado
             if ($expensa['expensa'] != '0') {
-                $espacioExpensa=new EspacioExpensa();
-                $espacioExpensa->espacio=$espacioId;
-                $espacioExpensa->expensa=$expensa['expensa'];
-                $espacioExpensa->tarifa_fija=$expensa['tarifa_fija'];
-                $espacioExpensa->monto=$expensa['monto'];
-                $espacioExpensa->save();
-                
+
+                // Verificar si ya existe una relación entre el espacio y la expensa
+                $espacioExpensa = EspacioExpensa::where('espacio', $espacioId)
+                                                ->where('expensa', $expensa['expensa'])
+                                                ->first();
+
+                if ($espacioExpensa) {
+                    // Si ya existe, actualizarla
+                    $espacioExpensa->tarifa_fija = $expensa['tarifa_fija'];
+                    $espacioExpensa->monto = $expensa['monto'];
+                    $espacioExpensa->save();
+                } else {
+                    // Si no existe, crear una nueva
+                    $espacioExpensa = new EspacioExpensa();
+                    $espacioExpensa->espacio = $espacioId;
+                    $espacioExpensa->expensa = $expensa['expensa'];
+                    $espacioExpensa->tarifa_fija = $expensa['tarifa_fija'];
+                    $espacioExpensa->monto = $expensa['monto'];
+                    $espacioExpensa->save();
+                }
             }
         }
 

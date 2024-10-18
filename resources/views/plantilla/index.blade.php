@@ -16,9 +16,10 @@
     </div>
 
     <div class="d-flex justify-content-between">
-       
+        <div class="d-flex">
+        </div>
         @can('plantillas.create')
-            <a href="{{route('plantillas.create')}}" class="btn btn-primary" title="Crea una nueva plantilla"> <i class="bi bi-plus"></i> Generar Plantilla </a>
+            <a href="{{route('plantillas.create')}}" class="btn btn-primary" title="Crea una nueva plantilla"> <i class="bi bi-plus"></i> Registrar</a>
         @endcan
     </div>
  </div><!-- End Page Title -->
