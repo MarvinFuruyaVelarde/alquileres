@@ -83,6 +83,7 @@
                             <tr>
                                 <th class="text-center">RUBRO</th>
                                 <th class="text-center">UBICACION</th>
+                                <th class="text-center">TIPO CANON</th>
                                 <th class="text-center">FECHA INICIAL</th>
                                 <th class="text-center">FECHA FINAL</th>
                                 <th class="text-center">TOTAL CANON MENSUAL</th>
@@ -91,19 +92,20 @@
                         </thead>
                         <tbody>
                             @foreach ($plantilla as $item)
-                            <input type='hidden' name='fecha' value="{{$item->fecha}}"/>
-                            @php
-                            $espacio= App\Models\Espacio::where('id',$item->espacio)->first();
-                            @endphp
-                            <tr>
-                            <td class='oculto'><input type='text' name='id_espacio[]' value='{{$espacio->id}}'/></td>
-                            <td>{{$espacio->rubro}}</td>
-                            <td>{{$espacio->ubicacion}}</td>
-                            <td>{{$espacio->fecha_inicial}}</td>
-                            <td>{{$espacio->fecha_final}}</td>
-                            <td>{{$espacio->total_canonmensual}}</td>
-                            <td> <input type='Number' name='cobro[]' value="{{$item->cobro}}"/></td>
-                            </tr>
+                                <input type='hidden' name='fecha' value="{{$item->fecha}}"/>
+                                @php
+                                $espacio= App\Models\Espacio::where('id',$item->espacio)->first();
+                                @endphp
+                                <tr>
+                                <td class='oculto'><input type='text' name='id_espacio[]' value='{{$espacio->id}}'/></td>
+                                <td class='text-center'>{{$espacio->rubro}}</td>
+                                <td class='text-center'>{{$espacio->ubicacion}}</td>
+                                <td class='text-center tipo-canon'>{{ $espacio->tipo_canon == 'F' ? 'FIJO' : ($espacio->tipo_canon == 'V' ? 'VARIABLE' : $espacio->tipo_canon) }}</td>
+                                <td class='text-center'>{{$espacio->fecha_inicial}}</td>
+                                <td class='text-center'>{{$espacio->fecha_final}}</td>
+                                <td class='text-center'>{{$espacio->total_canonmensual}}</td>
+                                <td class='text-center'> <input type='Number' name='cobro[]' class='numero-cobro' value="{{$item->numero}}"/></td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -113,7 +115,7 @@
             </div>
         <div class="row mt-2">
             <div class="text-center">
-                <button type="submit" class="btn btn-success">Actualizar</button>
+                <button id="actualizar" type="submit" class="btn btn-success">Actualizar</button>
                 <a href="{{ route('plantillas.index') }}" class="btn btn-warning">Cancelar</a>
             </div>
         </div>
@@ -127,4 +129,26 @@
 @endsection
 @section('scripts')
 <script src="{{ asset('assets/js/forms/validarcampos.js') }}" type="text/javascript"></script>
+<script>
+    document.getElementById('actualizar').addEventListener('click', function(event) {
+        let tiposCanon = document.querySelectorAll('.tipo-canon'); // Selecciona todos los tipos de canon
+        let numerosCobro = document.querySelectorAll('.numero-cobro'); // Selecciona todos los números de cobro
+        let tipoCobroMap = {}; // Mapa para guardar los tipos de canon y sus números de cobro
+    
+        for (let i = 0; i < tiposCanon.length; i++) {
+            let tipoCanon = tiposCanon[i].textContent.trim(); // Extrae el tipo de canon
+            let numeroCobro = numerosCobro[i].value.trim(); // Extrae el número de cobro
+    
+            // Si ya existe ese número de cobro con un tipo de canon diferente, prevenir el envío
+            if (tipoCobroMap[numeroCobro] && tipoCobroMap[numeroCobro] !== tipoCanon) {
+                alert('No puede asignar el mismo número de nota de cobro a espacios con un tipo de canon diferente.');
+                event.preventDefault(); // Evita el envío del formulario
+                return;
+            }
+    
+            // Guarda el número de cobro y el tipo de canon
+            tipoCobroMap[numeroCobro] = tipoCanon;
+        }
+    });
+</script>
 @endsection

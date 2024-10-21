@@ -50,8 +50,6 @@
         },
         success: function (response) {
           zone.attr('disabled', false).html(response.item);
-          $('.js-example-basic-multiple').select2();
-          
         },
        
       });

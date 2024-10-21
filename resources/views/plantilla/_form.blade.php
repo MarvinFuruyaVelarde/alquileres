@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-md-4">
                         {{Form::label('contrato','Codigo De Contrato')}} <span class="text-danger">(*)</span>
-                        <select id="contrato" class=" js-example-basic-multiple form-control{{ $errors->has('contrato') ? ' error' : '' }}" name="contrato" disabled>
+                        <select id="contrato" class="form-control{{ $errors->has('contrato') ? ' error' : '' }}" name="contrato" disabled>
                             <option value="">Seleccionar...</option>
                         </select>
                         @if ($errors->has('contrato'))
@@ -67,8 +67,31 @@
     </div>
 <div class="row mt-2">
     <div class="text-center">
-        <button type="submit" class="btn btn-{{ $color }}">{{ $texto }}</button>
+        <button id="guardar" type="submit" class="btn btn-{{ $color }}">{{ $texto }}</button>
         <a href="{{ route('plantillas.index') }}" class="btn btn-warning">Cancelar</a>
     </div>
 </div>
+
+<script>
+    document.getElementById('guardar').addEventListener('click', function(event) {
+        let tiposCanon = document.querySelectorAll('.tipo-canon'); // Selecciona todos los tipos de canon
+        let numerosCobro = document.querySelectorAll('.numero-cobro'); // Selecciona todos los números de cobro
+        let tipoCobroMap = {}; // Mapa para guardar los tipos de canon y sus números de cobro
+    
+        for (let i = 0; i < tiposCanon.length; i++) {
+            let tipoCanon = tiposCanon[i].textContent.trim(); // Extrae el tipo de canon
+            let numeroCobro = numerosCobro[i].value.trim(); // Extrae el número de cobro
+    
+            // Si ya existe ese número de cobro con un tipo de canon diferente, prevenir el envío
+            if (tipoCobroMap[numeroCobro] && tipoCobroMap[numeroCobro] !== tipoCanon) {
+                alert('No puede asignar el mismo número de nota de cobro a espacios con con tipo de canon diferente.');
+                event.preventDefault(); // Evita el envío del formulario
+                return;
+            }
+    
+            // Guarda el número de cobro y el tipo de canon
+            tipoCobroMap[numeroCobro] = tipoCanon;
+        }
+    });
+</script>
 

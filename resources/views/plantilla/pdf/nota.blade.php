@@ -80,7 +80,7 @@
             $suma_total=0;
         @endphp
         @foreach($plantilla as $key => $item)
-        @if ($i== $item->cobro)
+        @if ($i== $item->numero)
         @php
         
         $j=1;

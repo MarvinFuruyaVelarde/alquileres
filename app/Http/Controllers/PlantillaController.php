@@ -29,7 +29,11 @@ class PlantillaController extends Controller
     public function create()
     {
     
-        $contrato= Contrato::whereIn('id', Espacio::pluck('contrato'))->get();
+        $contrato= Contrato::whereIn('id', Espacio::pluck('contrato'))
+                            ->where('estado', 5)
+                            ->distinct('cliente')
+                            ->get();
+        //dd($contrato);
         return view('plantilla.create',compact('contrato'));
     }
 
@@ -61,6 +65,7 @@ class PlantillaController extends Controller
                     <tr>
                         <th class="text-center">RUBRO</th>
                         <th class="text-center">UBICACION</th>
+                        <th class="text-center">TIPO CANON</th>
                         <th class="text-center">FECHA INICIAL</th>
                         <th class="text-center">FECHA FINAL</th>
                         <th class="text-center">TOTAL CANON MENSUAL</th>
@@ -71,14 +76,16 @@ class PlantillaController extends Controller
                 $espacio = Espacio::where('contrato',$contratos->id)->get();
         foreach ($espacio as $item){
             $rubro = Rubro::where('id',$item->rubro)->first();
+            $tipoCanon = $item->tipo_canon == 'F' ? 'FIJO' : ($item->tipo_canon == 'V' ? 'VARIABLE' : $item->tipo_canon);
             $html1.="<tr>
             <td class='oculto'><input type='text' name='id_espacio[]' value='{$item->id}'/></td>
             <td class='text-center'>{$rubro->descripcion}</td>
             <td class='text-center'>{$item->ubicacion}</td>
+            <td class='text-center tipo-canon'>{$tipoCanon}</td>
             <td class='text-center'>{$item->fecha_inicial}</td>
             <td class='text-center'>{$item->fecha_final}</td>
             <td class='text-center'>{$item->total_canonmensual}</td>
-            <td class='text-center'> <input type='Number' name='cobro[]'/></td>
+            <td class='text-center'> <input type='Number'name='cobro[]' class='numero-cobro' value='{{$item->numero}}'/></td>
             </tr>";
 
         }
@@ -101,13 +108,13 @@ class PlantillaController extends Controller
             $cantidad=count(Espacio::where('contrato',$request->contrato)->get());
         for ($i=0; $i < $cantidad ; $i++) { 
             $plantilla= new Plantilla();
-        $plantilla->cliente= $request->cliente;
-        $plantilla->contrato = $request->contrato;
-        $plantilla->nota = $request->nota;
-        $plantilla->fecha=$fechaActual;
-        $plantilla->cobro = intval($request->cobro[$i]);
-        $plantilla->espacio = intval($request->id_espacio[$i]);
-        $plantilla->save();
+            $plantilla->cliente= $request->cliente;
+            $plantilla->contrato = $request->contrato;
+            $plantilla->numero_nota = $request->nota;
+            $plantilla->numero = intval($request->cobro[$i]);
+            $plantilla->espacio = intval($request->id_espacio[$i]);
+            $plantilla->fecha=$fechaActual;
+            $plantilla->save();
         }
         Alert::success("Plantilla registrado correctamente!");
         return redirect()->route('plantillas.index');
@@ -134,7 +141,7 @@ class PlantillaController extends Controller
         
         $pdf = App::make('dompdf.wrapper');
       
-        $numero_cobro=  Plantilla::distinct()->count('cobro');
+        $numero_cobro = Plantilla::where('contrato', $id)->distinct()->value('numero_nota');
      
         $plantilla=Plantilla::where('contrato',$id)->get();
         
@@ -162,18 +169,14 @@ class PlantillaController extends Controller
         
     }
     public function edit( $id)
-    {
+    {                     
         $plantilla=Plantilla::where('contrato',$id)->get();
 
-        
-        
         $cliente=Cliente::whereIn('id',$plantilla->pluck('cliente'))->first();
         
         $contrato =Contrato::whereIn('id',$plantilla->pluck('contrato'))->where('cliente',$cliente->id)->first();
 
-        $numero_cobro=  Plantilla::distinct()->count('cobro');
-        
-      
+        $numero_cobro = Plantilla::where('contrato', $id)->distinct()->value('numero_nota');
         return view('plantilla.edit',compact( 'cliente','contrato','numero_cobro','plantilla'));
     }
     public function update(Request $request,$id){
@@ -186,8 +189,8 @@ class PlantillaController extends Controller
             $plantilla= new Plantilla();
         $plantilla->cliente= $request->cliente;
         $plantilla->contrato = $request->contrato;
-        $plantilla->nota = $request->nota;
-        $plantilla->cobro = intval($request->cobro[$i]);
+        $plantilla->numero_nota = $request->nota;
+        $plantilla->numero = intval($request->cobro[$i]);
         $plantilla->espacio = intval($request->id_espacio[$i]);
         $plantilla->fecha=$request->fecha;
         $plantilla->save();
