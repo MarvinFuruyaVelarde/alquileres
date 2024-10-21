@@ -115,6 +115,9 @@ class PlantillaController extends Controller
             $plantilla->espacio = intval($request->id_espacio[$i]);
             $plantilla->fecha=$fechaActual;
             $plantilla->save();
+
+            //Actualiza la columna plantilla en Contrato a S
+            Contrato::where('id', $request->contrato)->update(['plantilla' => 'S']);
         }
         Alert::success("Plantilla registrado correctamente!");
         return redirect()->route('plantillas.index');
@@ -164,6 +167,10 @@ class PlantillaController extends Controller
         $obteniendo_fecha=Plantilla::where('contrato',$id)->first();
         $mes = date('m', strtotime($obteniendo_fecha->fecha));
         Plantilla::where('contrato', $id)->whereMonth('fecha', $mes)->delete();
+
+        //Actualiza la columna plantilla en Contrato a null
+        Contrato::where('id', $id)->update(['plantilla' => null]);
+
         Alert::success('Plantilla eliminada correctamente!');
         return redirect()->route('plantillas.index');
         
