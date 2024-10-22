@@ -81,13 +81,15 @@
                     <table cellspacing="0" width="150%" id="tabla" class="table table-hover table-bordered">
                         <thead>
                             <tr>
+                                <th class="text-center">TIPO CANON</th>
                                 <th class="text-center">RUBRO</th>
                                 <th class="text-center">UBICACION</th>
-                                <th class="text-center">TIPO CANON</th>
+                                <th class="text-center">DESCRIPCIÓN</th>
                                 <th class="text-center">FECHA INICIAL</th>
                                 <th class="text-center">FECHA FINAL</th>
                                 <th class="text-center">TOTAL CANON MENSUAL</th>
-                                <th class="text-center">NRO.  NOTA COBRO</th>
+                                <th class="text-center">FORMA DE PAGO</th>
+                                <th class="text-center">NRO. NOTA DE COBRO</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,16 +97,24 @@
                                 <input type='hidden' name='fecha' value="{{$item->fecha}}"/>
                                 @php
                                 $espacio= App\Models\Espacio::where('id',$item->espacio)->first();
+                                $rubro = App\Models\Rubro::where('id', $espacio->rubro)->first();
+                                $forma_pago = App\Models\FormaPago::find($espacio->forma_pago);
+                                $view_espacio = App\Models\View_Espacio::find($espacio->id);
                                 @endphp
                                 <tr>
                                 <td class='oculto'><input type='text' name='id_espacio[]' value='{{$espacio->id}}'/></td>
-                                <td class='text-center'>{{$espacio->rubro}}</td>
-                                <td class='text-center'>{{$espacio->ubicacion}}</td>
+                                <td class='oculto'><input type='text' name='tipo_canon[]' value='{{$item->tipo_canon}}'></td>
                                 <td class='text-center tipo-canon'>{{ $espacio->tipo_canon == 'F' ? 'FIJO' : ($espacio->tipo_canon == 'V' ? 'VARIABLE' : $espacio->tipo_canon) }}</td>
+                                <td class='text-center col-1'>{{$rubro->descripcion}}</td>
+                                <td class='text-center'>{{$espacio->ubicacion}}</td>
+                                <td class='text-center col-3'>{{$view_espacio->descripcion}}</td>
                                 <td class='text-center'>{{$espacio->fecha_inicial}}</td>
                                 <td class='text-center'>{{$espacio->fecha_final}}</td>
                                 <td class='text-center'>{{$espacio->total_canonmensual}}</td>
-                                <td class='text-center'> <input type='Number' name='cobro[]' class='numero-cobro' value="{{$item->numero}}"/></td>
+                                <td class='oculto forma-pago'>{{$item->forma_pago}}</td>
+                                <td class='text-center'>{{$forma_pago->descripcion}}</td>
+                                <td class='text-center'> <input type='Number' name='cobro[]' class='form-control numero-cobro' value="{{$item->numero}}" onkeydown="javascript: return event.keyCode === 8 ||
+                                                        event.keyCode === 46 ? true : !isNaN(Number(event.key))"/></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -133,21 +143,38 @@
     document.getElementById('actualizar').addEventListener('click', function(event) {
         let tiposCanon = document.querySelectorAll('.tipo-canon'); // Selecciona todos los tipos de canon
         let numerosCobro = document.querySelectorAll('.numero-cobro'); // Selecciona todos los números de cobro
-        let tipoCobroMap = {}; // Mapa para guardar los tipos de canon y sus números de cobro
+        let formasPago = document.querySelectorAll('.forma-pago'); // Selecciona todas las formas de pago
+
+        let cobroMap = {}; // Mapa para guardar los números de cobro y verificar por tipo de canon y forma de pago
     
-        for (let i = 0; i < tiposCanon.length; i++) {
+        for (let i = 0; i < numerosCobro.length; i++) {
             let tipoCanon = tiposCanon[i].textContent.trim(); // Extrae el tipo de canon
             let numeroCobro = numerosCobro[i].value.trim(); // Extrae el número de cobro
+            let formaPago = formasPago[i].textContent.trim(); // Extrae la forma de pago
+
+            let cobroKey = numeroCobro;
     
-            // Si ya existe ese número de cobro con un tipo de canon diferente, prevenir el envío
-            if (tipoCobroMap[numeroCobro] && tipoCobroMap[numeroCobro] !== tipoCanon) {
-                alert('No puede asignar el mismo número de nota de cobro a espacios con un tipo de canon diferente.');
-                event.preventDefault(); // Evita el envío del formulario
-                return;
+            // Verificar si el número de cobro ya existe en el mapa
+            if (cobroMap[cobroKey]) {
+                // Si ya existe un número de cobro pero con un tipo de canon diferente
+                if (cobroMap[cobroKey].tipoCanon !== tipoCanon) {
+                    alert('No puede asignar el mismo número de nota de cobro a espacios con tipo de canon diferente.');
+                    event.preventDefault(); // Evita el envío del formulario
+                    return;
+                }
+                // Si ya existe un número de cobro pero con una forma de pago diferente
+                if (cobroMap[cobroKey].formaPago !== formaPago) {
+                    alert('No puede asignar el mismo número de nota de cobro a espacios con diferentes formas de pago.');
+                    event.preventDefault(); // Evita el envío del formulario
+                    return;
+                }
+            } else {
+                // Almacena el número de cobro con su tipo de canon y forma de pago
+                cobroMap[cobroKey] = {
+                    tipoCanon: tipoCanon,
+                    formaPago: formaPago
+                };
             }
-    
-            // Guarda el número de cobro y el tipo de canon
-            tipoCobroMap[numeroCobro] = tipoCanon;
         }
     });
 </script>

@@ -38,7 +38,7 @@
                         <tr>
                             <th class="text-center">CLIENTE</th>
                             <th class="text-center">CODIGO CONTRATO</th>
-                            <th class="text-center">FECHA</th>
+                            <th class="text-center">FECHA DE REGISTRO</th>
                             <th class="text-center">OPCIONES</th>
                         </tr>
                     </thead>

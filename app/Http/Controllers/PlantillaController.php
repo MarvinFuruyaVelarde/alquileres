@@ -6,8 +6,10 @@ use App\Models\Aeropuerto;
 use App\Models\Cliente;
 use App\Models\Contrato;
 use App\Models\Espacio;
+use App\Models\FormaPago;
 use App\Models\Plantilla;
 use App\Models\Rubro;
+use App\Models\View_Espacio;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\App;
@@ -63,29 +65,38 @@ class PlantillaController extends Controller
         <table cellspacing="0" width="150%" id="tabla" class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center">RUBRO</th>
-                        <th class="text-center">UBICACION</th>
                         <th class="text-center">TIPO CANON</th>
+                        <th class="text-center">RUBRO</th>
+                        <th class="text-center">UBICACIÓN</th>
+                        <th class="text-center">DESCRIPCIÓN</th>
                         <th class="text-center">FECHA INICIAL</th>
                         <th class="text-center">FECHA FINAL</th>
                         <th class="text-center">TOTAL CANON MENSUAL</th>
-                        <th class="text-center">NRO.  NOTA COBRO</th>
+                        <th class="text-center">FORMA DE PAGO</th>
+                        <th class="text-center">NRO. NOTA DE COBRO</th>
                     </tr>
                 </thead>
                 <tbody>';
                 $espacio = Espacio::where('contrato',$contratos->id)->get();
         foreach ($espacio as $item){
             $rubro = Rubro::where('id',$item->rubro)->first();
+            $forma_pago = FormaPago::find($item->forma_pago);
+            $view_espacio = View_Espacio::find($item->id);
             $tipoCanon = $item->tipo_canon == 'F' ? 'FIJO' : ($item->tipo_canon == 'V' ? 'VARIABLE' : $item->tipo_canon);
             $html1.="<tr>
             <td class='oculto'><input type='text' name='id_espacio[]' value='{$item->id}'/></td>
+            <td class='oculto'><input type='text' name='tipo_canon[]' value='{$item->tipo_canon}'></td>
+            <td class='text-center tipo-canon'>{$tipoCanon}</td>
             <td class='text-center'>{$rubro->descripcion}</td>
             <td class='text-center'>{$item->ubicacion}</td>
-            <td class='text-center tipo-canon'>{$tipoCanon}</td>
+            <td class='text-center col-3'>{$view_espacio->descripcion}</td>
             <td class='text-center'>{$item->fecha_inicial}</td>
             <td class='text-center'>{$item->fecha_final}</td>
             <td class='text-center'>{$item->total_canonmensual}</td>
-            <td class='text-center'> <input type='Number'name='cobro[]' class='numero-cobro' value='{{$item->numero}}'/></td>
+            <td class='oculto forma-pago'>{$item->forma_pago}</td>
+            <td class='text-center'>{$forma_pago->descripcion}</td>
+            <td class='text-center'> <input type='Number'name='cobro[]' class='form-control numero-cobro' value='{{$item->numero}}'onkeydown='javascript: return event.keyCode === 8 ||
+                          event.keyCode === 46 ? true : !isNaN(Number(event.key))'/></td>
             </tr>";
 
         }
@@ -113,6 +124,7 @@ class PlantillaController extends Controller
             $plantilla->numero_nota = $request->nota;
             $plantilla->numero = intval($request->cobro[$i]);
             $plantilla->espacio = intval($request->id_espacio[$i]);
+            $plantilla->tipo_canon = $request->tipo_canon[$i];
             $plantilla->fecha=$fechaActual;
             $plantilla->save();
 
@@ -199,6 +211,7 @@ class PlantillaController extends Controller
         $plantilla->numero_nota = $request->nota;
         $plantilla->numero = intval($request->cobro[$i]);
         $plantilla->espacio = intval($request->id_espacio[$i]);
+        $plantilla->tipo_canon = $request->tipo_canon[$i];
         $plantilla->fecha=$request->fecha;
         $plantilla->save();
         }

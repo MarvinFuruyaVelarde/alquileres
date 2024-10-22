@@ -73,24 +73,57 @@
 </div>
 
 <script>
+
+    // Limpia los datos cargados cuando se selecciona un nuevo Cliente
+    document.getElementById('cliente').addEventListener('change', function() {
+        let tabla = document.getElementById('tabla');
+
+        let thead = tabla.querySelector('thead');
+        if (thead) 
+            thead.remove();
+
+        // Elimina el cuerpo de la tabla (tbody) si existe
+        let tbody = tabla.querySelector('tbody');
+        if (tbody) 
+            tbody.remove();
+    });
+
+    // Valida que no se asocien espacios con diferente Tipo de Canon y Forma de Pago
     document.getElementById('guardar').addEventListener('click', function(event) {
         let tiposCanon = document.querySelectorAll('.tipo-canon'); // Selecciona todos los tipos de canon
         let numerosCobro = document.querySelectorAll('.numero-cobro'); // Selecciona todos los números de cobro
-        let tipoCobroMap = {}; // Mapa para guardar los tipos de canon y sus números de cobro
+        let formasPago = document.querySelectorAll('.forma-pago'); // Selecciona todas las formas de pago
+
+        let cobroMap = {}; // Mapa para guardar los números de cobro y verificar por tipo de canon y forma de pago
     
-        for (let i = 0; i < tiposCanon.length; i++) {
+        for (let i = 0; i < numerosCobro.length; i++) {
             let tipoCanon = tiposCanon[i].textContent.trim(); // Extrae el tipo de canon
             let numeroCobro = numerosCobro[i].value.trim(); // Extrae el número de cobro
+            let formaPago = formasPago[i].textContent.trim(); // Extrae la forma de pago
+
+            let cobroKey = numeroCobro;
     
-            // Si ya existe ese número de cobro con un tipo de canon diferente, prevenir el envío
-            if (tipoCobroMap[numeroCobro] && tipoCobroMap[numeroCobro] !== tipoCanon) {
-                alert('No puede asignar el mismo número de nota de cobro a espacios con con tipo de canon diferente.');
-                event.preventDefault(); // Evita el envío del formulario
-                return;
+            // Verificar si el número de cobro ya existe en el mapa
+            if (cobroMap[cobroKey]) {
+                // Si ya existe un número de cobro pero con un tipo de canon diferente
+                if (cobroMap[cobroKey].tipoCanon !== tipoCanon) {
+                    alert('No puede asignar el mismo número de nota de cobro a espacios con tipo de canon diferente.');
+                    event.preventDefault(); // Evita el envío del formulario
+                    return;
+                }
+                // Si ya existe un número de cobro pero con una forma de pago diferente
+                if (cobroMap[cobroKey].formaPago !== formaPago) {
+                    alert('No puede asignar el mismo número de nota de cobro a espacios con diferentes formas de pago.');
+                    event.preventDefault(); // Evita el envío del formulario
+                    return;
+                }
+            } else {
+                // Almacena el número de cobro con su tipo de canon y forma de pago
+                cobroMap[cobroKey] = {
+                    tipoCanon: tipoCanon,
+                    formaPago: formaPago
+                };
             }
-    
-            // Guarda el número de cobro y el tipo de canon
-            tipoCobroMap[numeroCobro] = tipoCanon;
         }
     });
 </script>
