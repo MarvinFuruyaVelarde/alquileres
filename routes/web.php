@@ -180,4 +180,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('plantilla/pdf/{id}',[App\Http\Controllers\PlantillaController::class,'show'])->name('plantillas.show')->middleware('permission:plantillas.show');
     Route::get('api/plantilla/{cliente}/{contrato}',[App\Http\Controllers\PlantillaController::class,'ajax'])->name('plantillas.ajax');
     Route::get('api/plantilla1/{contrato}',[App\Http\Controllers\PlantillaController::class,'ajax1'])->name('plantillas1.ajax');
+
+    //Facturación
+    Route::get('facturacion',[App\Http\Controllers\NotaCobroController::class,'index'])->name('facturacion.index');
+    Route::get('facturacion/notacobro/generar',[App\Http\Controllers\NotaCobroController::class,'generaNotaCobro'])->name('facturacion.generaNotaCobro');
+    Route::get('facturacion/obt_cliente/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroController::class,'obtieneCliente'])->name('facturacion.obtieneCliente');
+    Route::get('facturacion/notacobro/visualizar',[App\Http\Controllers\NotaCobroController::class,'visualizaNotaCobro'])->name('facturacion.visualizaNotaCobro');
+    Route::post('facturacion/notacobro/aprobar',[App\Http\Controllers\NotaCobroController::class,'aprobarNotaCobro'])->name('facturacion.aprobarNotaCobro');
+    Route::get('facturacion/pdf/{id}',[App\Http\Controllers\NotaCobroController::class,'show'])->name('facturacion.show');//->middleware('permission:plantillas.show');
 });

@@ -146,6 +146,16 @@
           </a>
         </li>
       @endcan
+
+      <li class="nav-heading">FACTURACIÓN</li>
+      @can('facturacion.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('facturacion.*') }}" href="{{ route('facturacion.index') }}">
+            <i class="bi bi-card-text"></i>
+            <span>Notas de Cobro</span>
+          </a>
+        </li>
+      @endcan
     </ul>
 
   </aside><!-- End Sidebar-->

@@ -90,39 +90,42 @@
 
     // Valida que no se asocien espacios con diferente Tipo de Canon y Forma de Pago
     document.getElementById('guardar').addEventListener('click', function(event) {
-        let tiposCanon = document.querySelectorAll('.tipo-canon'); // Selecciona todos los tipos de canon
+        let tiposCanon = document.querySelectorAll('.tipo-canon input'); // Selecciona los tipos de canon ocultos
         let numerosCobro = document.querySelectorAll('.numero-cobro'); // Selecciona todos los números de cobro
         let formasPago = document.querySelectorAll('.forma-pago'); // Selecciona todas las formas de pago
-
-        let cobroMap = {}; // Mapa para guardar los números de cobro y verificar por tipo de canon y forma de pago
-    
+        
+        let cobroMap = {}; // Mapa para guardar y verificar por tipo de canon y forma de pago
+        
         for (let i = 0; i < numerosCobro.length; i++) {
-            let tipoCanon = tiposCanon[i].textContent.trim(); // Extrae el tipo de canon
+            let tipoCanon = tiposCanon[i].value.trim(); // Extrae el tipo de canon desde el campo oculto
             let numeroCobro = numerosCobro[i].value.trim(); // Extrae el número de cobro
-            let formaPago = formasPago[i].textContent.trim(); // Extrae la forma de pago
+            let formaPago = formasPago[i].textContent.trim(); // Extrae la forma de pago desde la columna oculta
 
-            let cobroKey = numeroCobro;
-    
-            // Verificar si el número de cobro ya existe en el mapa
-            if (cobroMap[cobroKey]) {
-                // Si ya existe un número de cobro pero con un tipo de canon diferente
-                if (cobroMap[cobroKey].tipoCanon !== tipoCanon) {
-                    alert('No puede asignar el mismo número de nota de cobro a espacios con tipo de canon diferente.');
-                    event.preventDefault(); // Evita el envío del formulario
-                    return;
+            // Si el número de cobro no está vacío
+            if (numeroCobro) {
+                let cobroKey = numeroCobro;
+
+                // Verificar si el número de cobro ya existe en el mapa
+                if (cobroMap[cobroKey]) {
+                    // Si ya existe un número de cobro pero con un tipo de canon diferente
+                    if (cobroMap[cobroKey].tipoCanon !== tipoCanon) {
+                        alert('No puede asignar el mismo número de nota de cobro a espacios con tipo de canon diferente.');
+                        event.preventDefault(); // Evita el envío del formulario
+                        return;
+                    }
+                    // Si ya existe un número de cobro pero con una forma de pago diferente
+                    if (cobroMap[cobroKey].formaPago !== formaPago) {
+                        alert('No puede asignar el mismo número de nota de cobro a espacios con diferentes formas de pago.');
+                        event.preventDefault(); // Evita el envío del formulario
+                        return;
+                    }
+                } else {
+                    // Almacena el número de cobro con su tipo de canon y forma de pago
+                    cobroMap[cobroKey] = {
+                        tipoCanon: tipoCanon,
+                        formaPago: formaPago
+                    };
                 }
-                // Si ya existe un número de cobro pero con una forma de pago diferente
-                if (cobroMap[cobroKey].formaPago !== formaPago) {
-                    alert('No puede asignar el mismo número de nota de cobro a espacios con diferentes formas de pago.');
-                    event.preventDefault(); // Evita el envío del formulario
-                    return;
-                }
-            } else {
-                // Almacena el número de cobro con su tipo de canon y forma de pago
-                cobroMap[cobroKey] = {
-                    tipoCanon: tipoCanon,
-                    formaPago: formaPago
-                };
             }
         }
     });

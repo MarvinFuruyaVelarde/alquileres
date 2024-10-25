@@ -85,8 +85,8 @@ class PlantillaController extends Controller
             $tipoCanon = $item->tipo_canon == 'F' ? 'FIJO' : ($item->tipo_canon == 'V' ? 'VARIABLE' : $item->tipo_canon);
             $html1.="<tr>
             <td class='oculto'><input type='text' name='id_espacio[]' value='{$item->id}'/></td>
-            <td class='oculto'><input type='text' name='tipo_canon[]' value='{$item->tipo_canon}'></td>
-            <td class='text-center tipo-canon'>{$tipoCanon}</td>
+            <td class='oculto tipo-canon'><input type='text' name='tipo_canon[]' value='{$item->tipo_canon}'></td>
+            <td class='text-center'>{$tipoCanon}</td>
             <td class='text-center'>{$rubro->descripcion}</td>
             <td class='text-center'>{$item->ubicacion}</td>
             <td class='text-center col-3'>{$view_espacio->descripcion}</td>
@@ -124,7 +124,6 @@ class PlantillaController extends Controller
             $plantilla->numero_nota = $request->nota;
             $plantilla->numero = intval($request->cobro[$i]);
             $plantilla->espacio = intval($request->id_espacio[$i]);
-            $plantilla->tipo_canon = $request->tipo_canon[$i];
             $plantilla->fecha=$fechaActual;
             $plantilla->save();
 
@@ -211,7 +210,6 @@ class PlantillaController extends Controller
         $plantilla->numero_nota = $request->nota;
         $plantilla->numero = intval($request->cobro[$i]);
         $plantilla->espacio = intval($request->id_espacio[$i]);
-        $plantilla->tipo_canon = $request->tipo_canon[$i];
         $plantilla->fecha=$request->fecha;
         $plantilla->save();
         }
