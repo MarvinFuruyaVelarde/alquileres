@@ -16,6 +16,6 @@ class View_Espacio extends Model
     public $timestamps = false;
 
     // Define los campos que se pueden llenar
-    protected $fillable = ['id','rubro', 'ubicacion', 'descripcion', 'fecha_inicial', 'fecha_final', 'total_canonmensual', 'estado'];
+    protected $fillable = ['id','rubro', 'ubicacion', 'descripcion', 'fecha_inicial', 'fecha_final', 'total_canonmensual', 'glosa_factura', 'estado'];
 
 }

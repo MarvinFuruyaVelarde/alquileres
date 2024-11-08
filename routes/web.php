@@ -182,10 +182,20 @@ Route::middleware(['auth'])->group(function(){
     Route::get('api/plantilla1/{contrato}',[App\Http\Controllers\PlantillaController::class,'ajax1'])->name('plantillas1.ajax');
 
     //Facturación
-    Route::get('facturacion',[App\Http\Controllers\NotaCobroController::class,'index'])->name('facturacion.index');
-    Route::get('facturacion/notacobro/generar',[App\Http\Controllers\NotaCobroController::class,'generaNotaCobro'])->name('facturacion.generaNotaCobro');
-    Route::get('facturacion/obt_cliente/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroController::class,'obtieneCliente'])->name('facturacion.obtieneCliente');
-    Route::get('facturacion/notacobro/visualizar',[App\Http\Controllers\NotaCobroController::class,'visualizaNotaCobro'])->name('facturacion.visualizaNotaCobro');
-    Route::post('facturacion/notacobro/aprobar',[App\Http\Controllers\NotaCobroController::class,'aprobarNotaCobro'])->name('facturacion.aprobarNotaCobro');
-    Route::get('facturacion/pdf/{id}',[App\Http\Controllers\NotaCobroController::class,'show'])->name('facturacion.show');//->middleware('permission:plantillas.show');
+    Route::get('notacobro',[App\Http\Controllers\NotaCobroController::class,'index'])->name('notacobro.index');
+    Route::get('notacobro/generar',[App\Http\Controllers\NotaCobroController::class,'generaNotaCobro'])->name('notacobro.generaNotaCobro');
+    Route::get('notacobro/obt_cliente/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroController::class,'obtieneCliente'])->name('notacobro.obtieneCliente');
+    Route::get('notacobro/visualizar',[App\Http\Controllers\NotaCobroController::class,'visualizaNotaCobro'])->name('notacobro.visualizaNotaCobro');
+    Route::post('notacobro/aprobar',[App\Http\Controllers\NotaCobroController::class,'aprobarNotaCobro'])->name('notacobro.aprobarNotaCobro');
+    Route::get('notacobro/edit/{id}',[App\Http\Controllers\NotaCobroController::class,'edit'])->name('notacobro.edit');
+    Route::put('notacobro/update/{id}/',[App\Http\Controllers\NotaCobroController::class,'update'])->name('notacobro.update');
+    Route::get('notacobro/pdf/{id}',[App\Http\Controllers\NotaCobroController::class,'show'])->name('notacobro.show');
+
+    Route::get('facturacion',[App\Http\Controllers\FacturaController::class,'index'])->name('facturacion.index');
+    Route::get('facturacion/buscaNotaCobroPendiente',[App\Http\Controllers\FacturaController::class,'buscaNotaCobroPendiente'])->name('facturacion.buscaNotaCobroPendiente');
+    Route::post('facturacion/generarfactura',[App\Http\Controllers\FacturaController::class,'generarFactura'])->name('facturacion.generarFactura');
+    Route::get('facturacion/buscaNotaCobroGenerada',[App\Http\Controllers\FacturaController::class,'buscaNotaCobroGenerada'])->name('facturacion.buscaNotaCobroGenerada');
+    Route::get('facturacion/pdf/{id}',[App\Http\Controllers\NotaCobroController::class,'show'])->name('facturacion.show');
+    Route::get('facturacion/imprimir/{id}',[App\Http\Controllers\FacturaController::class,'imprimir'])->name('facturacion.imprimir');
+    Route::get('facturacion/anular/{id}',[App\Http\Controllers\FacturaController::class,'anular'])->name('facturacion.anular');
 });

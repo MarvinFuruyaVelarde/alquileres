@@ -148,11 +148,19 @@
       @endcan
 
       <li class="nav-heading">FACTURACIÓN</li>
+      @can('notacobro.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('notacobro.*') }}" href="{{ route('notacobro.index') }}">
+            <i class="bi bi-card-text"></i>
+            <span>Notas de Cobro</span>
+          </a>
+        </li>
+      @endcan
       @can('facturacion.index')
         <li class="nav-item">
           <a class="nav-link {{ isActiveRoute('facturacion.*') }}" href="{{ route('facturacion.index') }}">
-            <i class="bi bi-card-text"></i>
-            <span>Notas de Cobro</span>
+            <i class="bi bi-receipt-cutoff"></i>
+            <span>Facturación Notas de Cobro</span>
           </a>
         </li>
       @endcan

@@ -411,11 +411,11 @@
                                                         <div class="col-md-4 d-flex align-items-center">
                                                             <label for="tarifa_fija{{ $expensa->id }}" class="col-form-label me-3">Tarifa Fija: </label>
                                                             <div class="form-check me-3">                                                    
-                                                                <input id="tarifa_fija_si_{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="S" {{ $expensaRegistrada && $expensaRegistrada->tarifa_fija == 'S' ? 'checked' : '' }}>
+                                                                <input id="tarifa_fija_si_{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="F" {{ $expensaRegistrada && $expensaRegistrada->tarifa_fija == 'F' ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="tarifa_fija_si_{{ $expensa->id }}">Sí</label>                                                                                                                                                              
                                                             </div>
                                                             <div class="form-check">                                                
-                                                                <input id="tarifa_fija_no_{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="N" {{ $expensaRegistrada && $expensaRegistrada->tarifa_fija == 'N' ? 'checked' : '' }}>
+                                                                <input id="tarifa_fija_no_{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="V" {{ $expensaRegistrada && $expensaRegistrada->tarifa_fija == 'V' ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="tarifa_fija_no_{{ $expensa->id }}">No</label>                                                            
                                                             </div>
                                                         </div>

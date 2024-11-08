@@ -1,17 +1,17 @@
 @extends('layouts.app')
-@section('titulo','Usuarios')
+@section('titulo','Facturación Notas de Cobro')
 @section('content')
 
 @section('content')
 
 <div class="pagetitle">
-    <h1>Notas de Cobro</h1>
+    <h1>Facturación Notas de Cobro</h1>
     <div class="d-flex flex-row align-items-center justify-content-between">
         <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-            <li class="breadcrumb-item active">Notas de Cobro</li>
-        </ol>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
+                <li class="breadcrumb-item active">Facturación Notas de Cobro</li>
+            </ol>
         </nav>
     </div>
  </div><!-- End Page Title -->
@@ -20,20 +20,20 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Notas de Cobro</h5>
-                    <form action="{{route('notacobro.aprobarNotaCobro')}}" method="POST">
+                    <h5 class="card-title">Facturación Notas de Cobro</h5>
+                    <form action="{{route('facturacion.generarFactura')}}" method="POST">
                         @csrf
 
                         <div class="row mb-5 align-items-center">
                             <!-- Generar / Visualizar Switches -->
                             <div class="col-md-1">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="check_generar" checked>
-                                    <label class="form-check-label" for="check_generar">Generar</label>
+                                    <input class="form-check-input" type="checkbox" id="check_pendiente" checked>
+                                    <label class="form-check-label" for="check_pendiente">Pendiente</label>
                                 </div>
                                 <div class="form-check form-switch mt-2">
-                                    <input class="form-check-input" type="checkbox" id="check_visualizar">
-                                    <label class="form-check-label" for="check_visualizar">Visualizar</label>
+                                    <input class="form-check-input" type="checkbox" id="check_generado">
+                                    <label class="form-check-label" for="check_generado">Generado</label>
                                 </div>
                             </div>
 
@@ -86,9 +86,8 @@
 
                         
                             <div class="col-md-2 d-flex justify-content-center align-self-end">
-                                <button id="generar" type="" class="btn btn-primary me-2" disabled>GENERAR</button> 
-                                <button id="visualizar" type="" class="btn btn-primary me-2" style="display: none;" disabled>VISUALIZAR</button> 
-                                <button id="aprobar" type="submit" class="btn btn-success" style="display: none;" disabled>APROBAR</button> 
+                                <button id="buscar" type="" class="btn btn-primary me-2" disabled>BUSCAR</button> 
+                                <button id="generar" type="" class="btn btn-success me-2" disabled>GENERAR</button> 
                             </div>
                         
                         </div>
@@ -116,37 +115,16 @@
     var tipoSelect = document.getElementById('tipo');
     var aeropuertoSelect = document.getElementById('aeropuerto');
     var clienteSelect = document.getElementById('cliente');
-    var buttonGenerar = document.getElementById('generar'); 
-    var buttonVisualizar = document.getElementById('visualizar');
+    var buttonBuscar = document.getElementById('buscar'); 
+    var buttonGenerar = document.getElementById('generar');
 
     // Habilitar/Deshabilitar Opción Generar o Visualizar Notas de Cobro
-    document.getElementById('check_generar').addEventListener('change', function() {
+    document.getElementById('check_pendiente').addEventListener('change', function() {
         if (this.checked) {
-            document.getElementById('check_visualizar').checked = false;
+            document.getElementById('check_generado').checked = false;
             document.getElementById('select_cliente').style.display = 'none';
+            document.getElementById('buscar').style.display  = 'block';
             document.getElementById('generar').style.display = 'block';
-            document.getElementById('visualizar').style.display  = 'none';
-            document.getElementById('aprobar').style.display = 'none';
-            fechaInput.value = "";
-            tipoSelect.disabled = true;
-            tipoSelect.value = "";
-            aeropuertoSelect.disabled = true;
-            aeropuertoSelect.value = "";
-            clienteSelect.disabled = true;
-            clienteSelect.value = "";
-            buttonVisualizar.disabled = true;
-            $('#tabla thead').remove();
-            $('#tabla tbody').remove();
-        }
-    });
-
-    document.getElementById('check_visualizar').addEventListener('change', function() {
-        if (this.checked) {
-            document.getElementById('check_generar').checked = false;  
-            document.getElementById('select_cliente').style.display = 'block';   
-            document.getElementById('generar').style.display = 'none';       
-            document.getElementById('visualizar').style.display = 'block';
-            document.getElementById('aprobar').style.display = 'block';
             fechaInput.value = "";
             tipoSelect.disabled = true;
             tipoSelect.value = "";
@@ -155,6 +133,25 @@
             clienteSelect.disabled = true;
             clienteSelect.value = "";
             buttonGenerar.disabled = true;
+            $('#tabla thead').remove();
+            $('#tabla tbody').remove();
+        }
+    });
+
+    document.getElementById('check_generado').addEventListener('change', function() {
+        if (this.checked) {
+            document.getElementById('check_pendiente').checked = false;  
+            document.getElementById('select_cliente').style.display = 'block';   
+            document.getElementById('buscar').style.display = 'block';       
+            document.getElementById('generar').style.display = 'none';
+            fechaInput.value = "";
+            tipoSelect.disabled = true;
+            tipoSelect.value = "";
+            aeropuertoSelect.disabled = true;
+            aeropuertoSelect.value = "";
+            clienteSelect.disabled = true;
+            clienteSelect.value = "";
+            buttonBuscar.disabled = true;
             $('#tabla thead').remove();
             $('#tabla tbody').remove();
         }
@@ -162,15 +159,15 @@
 
     fechaInput.addEventListener('change', function() {
         if (fechaInput.value) {
-            if (document.getElementById('check_visualizar').checked)
-                buttonVisualizar.disabled = false;
             tipoSelect.disabled = false;
         } else {
             tipoSelect.disabled = true;
-            tipoSelect.value = ""
+            tipoSelect.value = "";
             aeropuertoSelect.disabled = true;
-            aeropuertoSelect.value = ""
-            buttonGenerar.disabled = true;
+            aeropuertoSelect.value = "";
+            clienteSelect.disabled = true;
+            clienteSelect.value = "";
+            buttonBuscar.disabled = true;
             $('#tabla thead').remove();
             $('#tabla tbody').remove();
         }
@@ -181,17 +178,15 @@
             aeropuertoSelect.disabled = false;
         } else {
             aeropuertoSelect.disabled = true;
+            aeropuertoSelect.value = "";
         }
     });
 
     aeropuertoSelect.addEventListener('change', function() {
-        if (tipoSelect.value) {
-            if(document.getElementById('check_generar').checked)
-                buttonGenerar.disabled = false;
-            else
-                buttonVisualizar.disabled = false;
+        if (aeropuertoSelect.value) {
+            buttonBuscar.disabled = false;
         } else {
-            buttonGenerar.disabled = true;
+            buttonBuscar.disabled = true;
         }
     });
 
@@ -218,8 +213,8 @@
         });
     }
 
-    // Genera nota de cobro dado el periodo de facturación,  tipo y aeropuerto
-    $("#generar").click(function(event) {
+    // Buscar nota de cobro dado el periodo de facturación, tipo y aeropuerto
+    $("#buscar").click(function(event) {
         event.preventDefault(); // Prevenir el comportamiento por defecto del botón (evitar submit si es necesario)
 
         var aeropuerto = $("#aeropuerto").val();
@@ -227,14 +222,19 @@
         var tipo = $("#tipo").val();
 
          // Llamar a la función que hace la petición AJAX con estos valores
-        generaNotaCobro(aeropuerto, periodoFacturacion, tipo);
+        buscarNotaCobroPendiente(aeropuerto, periodoFacturacion, tipo);
     });
 
-    function generaNotaCobro(aeropuerto, periodoFacturacion, tipo) {
+    function buscarNotaCobroPendiente(aeropuerto, periodoFacturacion, tipo) {
       var tabla=$("#tabla");
+
+      if(document.getElementById('check_pendiente').checked)
+        ruta = '{{ route('facturacion.buscaNotaCobroPendiente') }}';
+      else if(document.getElementById('check_generado').checked)
+        ruta = '{{ route('facturacion.buscaNotaCobroGenerada') }}';
      
       $.ajax({
-        url: '{{ route('notacobro.generaNotaCobro') }}',
+        url: ruta,
         method: 'get',
         data: {'aeropuerto':aeropuerto, 'periodoFacturacion':periodoFacturacion, 'tipo':tipo},
         success: function (response) {
@@ -244,36 +244,9 @@
       });
     }
 
-    // Visualiza nota de cobro dado el periodo de facturación, Tipo, Aeropuerto, Cliente
-    $("#visualizar").click(function(event) {
-        event.preventDefault(); // Prevenir el comportamiento por defecto del botón (evitar submit si es necesario)
-
-        var periodoFacturacion = $("#fecha").val();
-        var tipo = $("#tipo").val();
-        var aeropuerto = $("#aeropuerto").val();
-        var cliente = $("#cliente").val();
-
-         // Llamar a la función que hace la petición AJAX con estos valores
-        visualizaNotaCobro(periodoFacturacion, tipo, aeropuerto, cliente);
-    });
-
-    function visualizaNotaCobro(periodoFacturacion, tipo, aeropuerto, cliente) {
-      var tabla=$("#tabla");
-     
-      $.ajax({
-        url: '{{ route('notacobro.visualizaNotaCobro') }}',
-        method: 'get',
-        data: {'periodoFacturacion':periodoFacturacion, 'tipo':tipo, 'aeropuerto':aeropuerto, 'cliente':cliente},
-        success: function (response) {
-          tabla.html(response.item1);  
-        },
-       
-      });
-    }
-
     // Selección masiva de nota(s) de cobro
     $(document).on('click', '#check-all', function() {
-        let checkboxes = document.querySelectorAll('input[name="aprobado[]"]');
+        let checkboxes = document.querySelectorAll('input[name="notacobro[]"]');
         checkboxes.forEach(function(checkbox) {
             checkbox.checked = document.getElementById('check-all').checked;
         });
@@ -281,22 +254,22 @@
 
     // Función para verificar si hay al menos un checkbox seleccionado para habilitar el botón Aprobar
     function verificarCheckSeleccionado() {
-        let checkboxes = document.querySelectorAll('input[name="aprobado[]"]');
-        let botonAprobar = document.getElementById('aprobar');
+        let checkboxes = document.querySelectorAll('input[name="notacobro[]"]');
+        let botonGenerar = document.getElementById('generar');
 
         // Verifica si hay algún checkbox seleccionado
         let algunoSeleccionado = Array.from(checkboxes).some(checkbox => checkbox.checked);
         
         // Si hay al menos uno seleccionado, habilita el botón
         if (algunoSeleccionado) 
-            botonAprobar.disabled = false;
+            botonGenerar.disabled = false;
         else 
-            botonAprobar.disabled = true;
+            botonGenerar.disabled = true;
     }
 
     // Habilitar botón Aprobar cuando se haya seleccionado el check masivo
     $(document).on('click', '#check-all', function() {
-        let checkboxes = document.querySelectorAll('input[name="aprobado[]"]');
+        let checkboxes = document.querySelectorAll('input[name="notacobro[]"]');
         checkboxes.forEach(function(checkbox) {
             checkbox.checked = document.getElementById('check-all').checked;
         });
@@ -305,14 +278,14 @@
     });
 
     // Verificar si algún check individual esta seleccionado
-    $(document).on('click', 'input[name="aprobado[]"]', function() {
+    $(document).on('click', 'input[name="notacobro[]"]', function() {
         verificarCheckSeleccionado(); // Verificar cuando se cambia el estado de los checks individuales
     });
 
     // Nota(s) de Cobro seleccionada
-    document.getElementById('aprobar').addEventListener('click', function(event) {
+    document.getElementById('generar').addEventListener('click', function(event) {
         // Obtener los checkboxes seleccionados
-        let checkboxesSeleccionados = document.querySelectorAll('input[name="aprobado[]"]:checked');
+        let checkboxesSeleccionados = document.querySelectorAll('input[name="notacobro[]"]:checked');
         let notasCobroSeleccionadas = [];
 
         checkboxesSeleccionados.forEach(function(checkbox) {
@@ -321,7 +294,7 @@
 
         if (notasCobroSeleccionadas.length === 0) {
             event.preventDefault(); // Prevenir el comportamiento por defecto del botón
-            alert('Por favor, seleccione al menos una nota de cobro para aprobar.');
+            alert('Por favor, seleccione al menos una nota de cobro para generar.');
         } 
     });
 

@@ -402,11 +402,11 @@
                                                     <div class="col-md-4 d-flex align-items-center">
                                                         <label for="tarifa_fija{{ $expensa->id }}" class="col-form-label me-3" for="">Tarifa Fija: </label>
                                                         <div class="form-check me-3">                                                    
-                                                            <input id="tarifa_fija{{ $expensa->id }}"  class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="S" {{ ($espacio->tarifa_fija ?? '') == 'S' ? 'checked' : '' }} disabled>
+                                                            <input id="tarifa_fija{{ $expensa->id }}"  class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="F" {{ ($espacio->tarifa_fija ?? '') == 'F' ? 'checked' : '' }} disabled>
                                                             <label class="form-check-label" for="tipo_canon1">Sí</label>                                                                                                                                                              
                                                         </div>
                                                         <div class="form-check">                                                
-                                                            <input id="tarifa_fija{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="N" {{ ($espacio->tarifa_fija ?? 'N') == 'N' ? 'checked' : '' }} disabled>
+                                                            <input id="tarifa_fija{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="V" {{ ($espacio->tarifa_fija ?? 'V') == 'V' ? 'checked' : '' }} disabled>
                                                             <label class="form-check-label" for="tarifa_fija2">No</label>                                                            
                                                         </div>
 

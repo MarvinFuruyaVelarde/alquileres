@@ -16,10 +16,16 @@ class NotaCobro extends Model
     // Si la tabla no tiene columnas timestamps (created_at, updated_at)
     public $timestamps = false;
 
-    // Genera Nota(s) de Cobro dado el Period de Facturación
-    public static function generaNotaCobro($aeropuertoId, $ultimoDia)
+    // Genera Nota(s) de Cobro Para Alquileres dado el Aeropuerto y Periodo de Facturación
+    public static function generaNotaCobroAlquiler($aeropuertoId, $ultimoDia)
     {
         return DB::select('SELECT id_contrato, codigo_contrato, id_cliente, tipo_solicitante, ci, nit, razon_social, tipo_canon, id_forma_pago, forma_pago, numero, origen FROM genera_nota_cobro(?, ?)', [$aeropuertoId, $ultimoDia]);
+    }
+
+    // Genera Nota(s) de Cobro Para Expensas dado el el Aeropuerto y Periodo de Facturación
+    public static function generaNotaCobroExpensa($aeropuertoId, $ultimoDia)
+    {
+        return DB::select('SELECT id_espacio, id_contrato, codigo_contrato, id_cliente, tipo_solicitante, ci, nit, razon_social, tarifa_fija, id_forma_pago, forma_pago, expensa, monto FROM genera_nota_cobro_expensa(?, ?)', [$aeropuertoId, $ultimoDia]);
     }
 
     // Visualiza nota(s) de cobro generadas 
@@ -41,6 +47,16 @@ class NotaCobro extends Model
         return $dias[0]->dias;
     }
 
-    
+    public static function obtenerNotaCobroPorEstado($estado = null, $gestion = null, $mes = null, $tipoFactura = null, $aeropuerto = null, $cliente = null)
+    {
+        return DB::select('SELECT * FROM obtener_nota_cobro_por_estado(?, ?, ?, ?, ?, ?)', [$estado, $gestion, $mes, $tipoFactura, $aeropuerto, $cliente]);
+    }
+
+    public static function obtenerRangoFacturacion($mes, $anio, $fechaInicioContrato, $fechaFinContrato)
+    {
+        $result = DB::select('SELECT fecha_inicio, fecha_fin FROM obtener_rango_facturacion(?, ?, ?, ?)', [$mes, $anio, $fechaInicioContrato, $fechaFinContrato]);
+
+        return !empty($result) ? (array) $result[0] : null;
+    }
 
 }

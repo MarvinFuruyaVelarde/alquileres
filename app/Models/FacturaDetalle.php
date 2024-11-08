@@ -16,6 +16,6 @@ class FacturaDetalle extends Model
     public $timestamps = false;
 
     // Define los campos que se pueden llenar
-    protected $fillable = ['id', 'factura', 'espacio', 'concepto', 'precio', 'dias_facturados', 'usuario_registro', 'fecha_registro', 'usuario_actualizacion', 'fecha_actualizacion'];
+    protected $fillable = ['id', 'factura', 'espacio', 'expensa', 'concepto', 'precio', 'dias_facturados', 'usuario_registro', 'fecha_registro', 'usuario_actualizacion', 'fecha_actualizacion'];
 
 }
