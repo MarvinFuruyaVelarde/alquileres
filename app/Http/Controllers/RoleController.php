@@ -36,7 +36,8 @@ class RoleController extends Controller
         $role=Role::create(['name'=>$request->name,'descripcion'=>$request->descripcion,'guard_name'=>'web']);
         //actualice los permisos
 
-        $role->syncPermissions($request->get('permissions'));
+        //$role->syncPermissions($request->get('permissions'));
+        $role->permissions()->sync($request->get('permissions'));
         Alert::success('Guardado','Rol creado con exito!');
         return redirect()->route('roles.index');
     }
