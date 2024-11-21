@@ -54,11 +54,13 @@ class NotaCobroController extends Controller
 
         // Llama a la función para generar todos los contratos dado el aeropuerto y periodo de facturación
         $notasCobro = NotaCobro::generaNotaCobroAlquiler($aeropuerto, $periodoFacturacion);
+        $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($tipo, $mes, $anio);
 
         // Generar el secuencial
-        $notaCobroGeneradas = collect($notasCobro)->map(function ($nota, $index) use ($tipo, $codRegional, $codAeropuerto, $mes, $anio) {
-            $nota->correlativo = $index + 1;
-            $nota->numero_nota_cobro = $tipo.'/'.$codRegional.'/COM/'.$codAeropuerto.'/'.$mes.'/'.$anio.'/'.$index + 1; // Inicia el conteo en 1
+        $notaCobroGeneradas = collect($notasCobro)->map(function ($nota) use ($tipo, $codRegional, $codAeropuerto, $mes, $anio, &$ordenImpresion) {
+            $nota->correlativo = $ordenImpresion;
+            $nota->numero_nota_cobro = $tipo.'/'.$codRegional.'/COM/'.$codAeropuerto.'/'.$mes.'/'.$anio.'/'.$ordenImpresion;
+            $ordenImpresion++;
             return $nota;
         });
 
@@ -111,6 +113,7 @@ class NotaCobroController extends Controller
                 $factura->tipo_factura = 'AL';
                 $factura->cliente = $notaCobroGenerada->id_cliente;
                 $factura->razon_social_factura = $notaCobroGenerada->razon_social;
+                $factura->tipo_generacion = 'A';
                 $factura->estado = 3;
                 $factura->usuario_registro = auth()->id();
                 $factura->fecha_registro = $fechaRegistro;
@@ -189,11 +192,13 @@ class NotaCobroController extends Controller
 
         // Llama a la función para generar todos los contratos dado el aeropuerto y periodo de facturación
         $notasCobro = NotaCobro::generaNotaCobroExpensa($aeropuerto, $periodoFacturacion);
-        
+        $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($tipo, $mes, $anio);
+
         // Generar el secuencial
-        $notaCobroGeneradas = collect($notasCobro)->map(function ($nota, $index) use ($tipo, $codRegional, $codAeropuerto, $mes, $anio) {
-            $nota->correlativo = $index + 1;
-            $nota->numero_nota_cobro = $tipo.'/'.$codRegional.'/COM/'.$codAeropuerto.'/'.$mes.'/'.$anio.'/'.$index + 1; // Inicia el conteo en 1
+        $notaCobroGeneradas = collect($notasCobro)->map(function ($nota) use ($tipo, $codRegional, $codAeropuerto, $mes, $anio, &$ordenImpresion) {
+            $nota->correlativo = $ordenImpresion;
+            $nota->numero_nota_cobro = $tipo.'/'.$codRegional.'/COM/'.$codAeropuerto.'/'.$mes.'/'.$anio.'/'.$ordenImpresion;
+            $ordenImpresion++;
             return $nota;
         });
 
@@ -250,6 +255,7 @@ class NotaCobroController extends Controller
                 $factura->cliente = $notaCobroGenerada->id_cliente;
                 $factura->razon_social_factura = $notaCobroGenerada->razon_social;
                 $factura->monto_total = ($notaCobroGenerada->monto/$numeroDiaFac) * NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
+                $factura->tipo_generacion = 'A';
                 $factura->estado = 3;
                 $factura->usuario_registro = auth()->id();
                 $factura->fecha_registro = $fechaRegistro;
@@ -261,7 +267,7 @@ class NotaCobroController extends Controller
                 $facturaDetalle->factura = $facturaId;
                 $facturaDetalle->espacio = $notaCobroGenerada->id_espacio;
                 $facturaDetalle->expensa = $notaCobroGenerada->expensa;
-                $facturaDetalle->glosa_expensa = 'EXPENSA ('.$expensa->unidad_medida.')';
+                $facturaDetalle->glosa = 'EXPENSA ('.$expensa->unidad_medida.')';
                 $facturaDetalle->concepto = $notaCobroGenerada->tarifa_fija;
                 $facturaDetalle->fecha_inicial = $espacio->fecha_inicial;
                 $facturaDetalle->fecha_final = $espacio->fecha_final;
@@ -484,7 +490,7 @@ class NotaCobroController extends Controller
         $factura = Factura::find($facturaDetalle->factura);
 
         if ($factura->tipo_factura == 'EX')
-            $facturaDetalle->glosa_expensa = $request->input('glosa_factura');
+            $facturaDetalle->glosa = $request->input('glosa_factura');
 
         $facturaDetalle->fecha_inicial = $request->input('fecha_inicio');
         $facturaDetalle->fecha_final = $request->input('fecha_fin');
@@ -499,7 +505,8 @@ class NotaCobroController extends Controller
         }
 
         Alert::success("Nota de cobro actualizada correctamente");
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect()->route('notacobro.index');
     }
 
     public function show($id_notacobro)
@@ -523,13 +530,20 @@ class NotaCobroController extends Controller
             $concepto = 'COMPRA Y VENTA';
         else if ($factura->tipo_canon == 'F' && $factura->tipo_factura == 'EX')
             $concepto = 'COMPRA Y VENTA';
+        else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'EX')
+            $concepto = 'COMPRA Y VENTA';
+        else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'MOR')
+            $concepto = 'COMPRA Y VENTA';
+        else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'OTR')
+            $concepto = 'COMPRA Y VENTA';
 
         $facturaDetalles = FacturaDetalle::where('factura', $id_notacobro)->get();
         $monto_total = $factura->monto_total;
         $tipoFactura = $factura->tipo_factura;
+        $tipoGeneracion = $factura->tipo_generacion;
        
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('facturacion.notascobro.pdf.nota_cobro',compact('aeropuertoDescripcion', 'clienteRazonSocial', 'fechaInicio', 'fechaFin', 'fechaImpresion', 'numero_nota_cobro', 'concepto', 'facturaDetalles', 'monto_total', 'tipoFactura'));
+        $pdf->loadView('facturacion.notascobro.pdf.nota_cobro',compact('aeropuertoDescripcion', 'clienteRazonSocial', 'fechaInicio', 'fechaFin', 'fechaImpresion', 'numero_nota_cobro', 'concepto', 'facturaDetalles', 'monto_total', 'tipoFactura', 'tipoGeneracion'));
         return $pdf->stream();
     }
 

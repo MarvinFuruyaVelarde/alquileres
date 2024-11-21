@@ -91,10 +91,18 @@
                 @foreach($facturaDetalles as $facturaDetalle)
                 @php
                 $espacio = App\Models\View_Espacio::find($facturaDetalle->espacio);
-                if ($tipoFactura == 'AL')
+                if ($tipoFactura == 'AL' && $tipoGeneracion == 'A')
                   $detalle = $espacio->descripcion;
                 else if ($tipoFactura == 'EX')
-                  $detalle = $facturaDetalle->glosa_expensa;
+                  $detalle = $facturaDetalle->glosa;
+                if ($tipoFactura == 'AL' && $tipoGeneracion == 'M' && $facturaDetalle->espacio === null)
+                  $detalle = $facturaDetalle->glosa;
+                if ($tipoFactura == 'AL' && $tipoGeneracion == 'M' && $facturaDetalle->espacio !== null)
+                  $detalle = $espacio->glosa_factura;
+                else if ($tipoFactura == 'MOR')
+                  $detalle = $facturaDetalle->glosa;
+                else if ($tipoFactura == 'OTR')
+                  $detalle = $facturaDetalle->glosa;
                 @endphp
                 <tr>
                   <td style="width: 10%; text-align:center; font-size: 12px;">{{$j++}} </td>

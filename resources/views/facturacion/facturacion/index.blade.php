@@ -50,8 +50,10 @@
                                 <label for="tipo" class="col-form-label">Tipo <span class="text-danger">(*)</span></label>
                                 <select id="tipo" class="form-control" name="tipo" disabled>
                                     <option value="">Seleccionar...</option>
-                                    <option value="AL">Alquiler</option>
-                                    <option value="EX">Expensa</option>
+                                    <option value="AL">ALQUILER</option>
+                                    <option value="EX">EXPENSA</option>
+                                    <option value="MOR">MORA</option>
+                                    <option value="OTR">OTRO</option>
                                 </select>
                             </div>
                         

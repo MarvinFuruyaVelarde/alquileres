@@ -72,7 +72,7 @@
                                 if ($tipoFactura == 'AL')
                                   $glosa = $espacio->glosa_factura;
                                 else if ($tipoFactura == 'EX')
-                                  $glosa = $facturaDetalle->glosa_expensa;
+                                  $glosa = $facturaDetalle->glosa;
                                 $rangoFacturacionMensual = App\Models\NotaCobro::obtenerRangoFacturacion($mes, $gestion, $facturaDetalle->fecha_inicial, $facturaDetalle->fecha_final);
                                 @endphp
                                 <form action="{{ route('notacobro.update', ['id' => $facturaDetalle->id]) }}" method="POST" style="display:inline;">

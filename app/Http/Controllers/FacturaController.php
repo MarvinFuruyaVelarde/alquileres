@@ -50,7 +50,7 @@ class FacturaController extends Controller
                         <th class="text-center">NÚMERO NOTA DE COBRO</th>
                         <th class="text-center">NOMBRE DEL CLIENTE</th>';
     
-        if ($tipo == 'AL') {
+        if ($tipo == 'AL' || $tipo == 'MOR' || $tipo == 'OTR') {
             $html1 .= '<th class="text-center">TIPO DE CANON</th>
                        <th class="text-center">FORMA DE PAGO</th>';
         } elseif ($tipo == 'EX') {
@@ -65,7 +65,7 @@ class FacturaController extends Controller
 
         $cont = 0;
 
-        if ($tipo == 'AL'){
+        if ($tipo == 'AL' || $tipo == 'MOR' || $tipo == 'OTR'){
             foreach ($notasCobro as $notaCobro) {
                 $cont++;
                 $html1.="<tbody>
@@ -141,9 +141,14 @@ class FacturaController extends Controller
                 $codigoCliente = $factura->nit;
 
             $contrato = Contrato::find($factura->contrato);
-
-            $celularCliente = $contrato->telefono_celular;
-            $emailCliente = $contrato->correo;
+            
+            if ($contrato !== null) {
+                $celularCliente = $contrato->telefono_celular;
+                $emailCliente = $contrato->correo;
+            } else {
+                $celularCliente = null;
+                $emailCliente = null;
+            }
 
             // Obtiene Documento Fiscal
             $cliente = Cliente::find($factura->cliente);
@@ -182,6 +187,18 @@ class FacturaController extends Controller
                 $codigoUnidadMedida = 58;
                 $tipoDocumentoSector = 1;
                 $periodoFacturado = null;
+            } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'EX'){
+                $codigoUnidadMedida = 58;
+                $tipoDocumentoSector = 1;
+                $periodoFacturado = null;
+            } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'MOR'){
+                $codigoUnidadMedida = 58;
+                $tipoDocumentoSector = 1;
+                $periodoFacturado = null;
+            } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'OTR'){
+                $codigoUnidadMedida = 58;
+                $tipoDocumentoSector = 1;
+                $periodoFacturado = null;
             }
 
             $detalleArray = [];
@@ -192,15 +209,18 @@ class FacturaController extends Controller
             // Obtiene datos si tiene más de un espacio
             foreach ($facturas_detalle as $factura_detalle) {
                 $espacio = Espacio::find($factura_detalle->espacio);
+                $montoDescuentoDetalle = null;
                 
-                if ($factura->tipo_factura == 'AL')
+                if (($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'A') || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato != 'SIN/CODIGO'))
                     $descripcion = $espacio->glosa_factura;
-                else if ($factura->tipo_factura == 'EX')
-                    $descripcion = $factura_detalle->glosa_expensa;
+                else if ($factura->tipo_factura == 'EX' || $factura->tipo_factura == 'MOR' || $factura->tipo_factura == 'OTR' || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato == 'SIN/CODIGO'))
+                    $descripcion = $factura_detalle->glosa;
                 
                 $precioUnitario = $factura_detalle->precio;
                 $subtotal = $factura_detalle->precio;
-                $montoDescuentoDetalle = $espacio->opcion_dcto;
+                
+                if ($espacio)
+                    $montoDescuentoDetalle = $espacio->opcion_dcto;
 
                 $detalleArray[] = [
                     'codigoProducto' => '1',
@@ -324,7 +344,7 @@ class FacturaController extends Controller
                         <th class="text-center">NÚMERO NOTA DE COBRO</th>
                         <th class="text-center">NOMBRE DEL CLIENTE</th>';
 
-        if ($tipo == 'AL') {
+        if ($tipo == 'AL' || $tipo == 'MOR' || $tipo == 'OTR') {
             $html1 .= '<th class="text-center">TIPO DE CANON</th>
                        <th class="text-center">FORMA DE PAGO</th>';
         } elseif ($tipo == 'EX') {
@@ -338,7 +358,7 @@ class FacturaController extends Controller
 
         $cont = 0;
         
-        if ($tipo == 'AL'){
+        if ($tipo == 'AL' || $tipo == 'MOR' || $tipo == 'OTR'){
             foreach ($notasCobro as $notaCobro) {
                 $cont++;
                 $html1.="<tbody>

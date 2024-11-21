@@ -191,6 +191,19 @@ Route::middleware(['auth'])->group(function(){
     Route::put('notacobro/update/{id}/',[App\Http\Controllers\NotaCobroController::class,'update'])->name('notacobro.update');
     Route::get('notacobro/pdf/{id}',[App\Http\Controllers\NotaCobroController::class,'show'])->name('notacobro.show');
 
+    Route::get('notacobromanual',[App\Http\Controllers\NotaCobroManualController::class,'index'])->name('notacobromanual.index');
+    Route::get('notacobromanual/obt_cliente/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroManualController::class,'obtieneCliente'])->name('notacobromanual.obtieneCliente');
+    Route::get('notacobromanual/obtCodigoContrato/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroManualController::class,'obtieneCodigoContrato'])->name('notacobromanual.obtieneCodigoContrato');
+    Route::get('notacobromanual/obtieneExpensa',[App\Http\Controllers\NotaCobroManualController::class, 'obtieneExpensa'])->name('notacobromanual.obtieneExpensa');
+    Route::get('notacobromanual/obtieneEspacioCanonVariable',[App\Http\Controllers\NotaCobroManualController::class, 'obtieneEspacioCanonVariable'])->name('notacobromanual.obtieneEspacioCanonVariable');
+    Route::get('notacobromanual/create',[App\Http\Controllers\NotaCobroManualController::class,'create'])->name('notacobromanual.create');
+    Route::post('notacobromanual/store',[App\Http\Controllers\NotaCobroManualController::class,'store'])->name('notacobromanual.store');
+    Route::get('notacobromanual/{notacobromanual}/edit',[App\Http\Controllers\NotaCobroManualController::class,'edit'])->name('notacobromanual.edit');
+    Route::put('notacobromanual/{idFactura}',[App\Http\Controllers\NotaCobroManualController::class,'update'])->name('notacobromanual.update');
+    Route::post('notacobromanual/aprobar',[App\Http\Controllers\NotaCobroManualController::class,'aprobarNotaCobroManual'])->name('notacobromanual.aprobarNotaCobroManual');
+    Route::get('notacobromanual/pdf/{id}',[App\Http\Controllers\NotaCobroManualController::class,'show'])->name('notacobromanual.show');
+    
+
     Route::get('facturacion',[App\Http\Controllers\FacturaController::class,'index'])->name('facturacion.index');
     Route::get('facturacion/buscaNotaCobroPendiente',[App\Http\Controllers\FacturaController::class,'buscaNotaCobroPendiente'])->name('facturacion.buscaNotaCobroPendiente');
     Route::post('facturacion/generarfactura',[App\Http\Controllers\FacturaController::class,'generarFactura'])->name('facturacion.generarFactura');
@@ -198,4 +211,9 @@ Route::middleware(['auth'])->group(function(){
     Route::get('facturacion/pdf/{id}',[App\Http\Controllers\NotaCobroController::class,'show'])->name('facturacion.show');
     Route::get('facturacion/imprimir/{id}',[App\Http\Controllers\FacturaController::class,'imprimir'])->name('facturacion.imprimir');
     Route::get('facturacion/anular/{id}',[App\Http\Controllers\FacturaController::class,'anular'])->name('facturacion.anular');
+
+    //Registro de Pagos
+    Route::get('registropagos',[App\Http\Controllers\DetallePagoFacturaController::class,'index'])->name('registropagos.index');
+    Route::get('registropagos/{factura}/create',[App\Http\Controllers\DetallePagoFacturaController::class,'create'])->name('registropagos.create');
+    Route::post('registropagos/store',[App\Http\Controllers\DetallePagoFacturaController::class,'store'])->name('registropagos.store');
 });

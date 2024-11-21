@@ -59,4 +59,21 @@ class NotaCobro extends Model
         return !empty($result) ? (array) $result[0] : null;
     }
 
+    public static function obtenerMaxOrdenImpresion($tipoFactura, $mes, $gestion)
+    {
+        $resultado = DB::select("SELECT obtener_max_orden_impresion(?, ?, ?) AS max_orden", [$tipoFactura, $mes, $gestion]);
+
+        return $resultado[0]->max_orden ?? 1;
+    }
+
+    public static function obtenerExpensasTarifaVariable($aeropuerto, $cliente, $codigo, $fechaInicial, $fechaFinal)
+    {   
+        return DB::select('SELECT * FROM obtener_expensas_tarifa_variable(?, ?, ?, ?, ?)', [$aeropuerto, $cliente, $codigo, $fechaInicial, $fechaFinal]);
+    }
+
+    public static function obtenerEspacioCanonVariable($aeropuerto, $cliente, $codigoContrato, $ultimoDia)
+    {
+        return DB::select('SELECT * FROM obtener_espacio_canon_variable(?, ?, ?, ?)', [$aeropuerto, $cliente, $codigoContrato, $ultimoDia]);
+    }
+
 }
