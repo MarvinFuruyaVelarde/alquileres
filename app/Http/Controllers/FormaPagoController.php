@@ -21,7 +21,7 @@ class FormaPagoController extends Controller
     }
     public function create()
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         $formapago=new FormaPago();
         return view('parametricas.formaspago.create',compact('formapago', 'estados'));
     }
@@ -42,7 +42,7 @@ class FormaPagoController extends Controller
 
     public function edit(FormaPago $formapago)
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         return view('parametricas.formaspago.edit',compact('formapago', 'estados'));
     }
 

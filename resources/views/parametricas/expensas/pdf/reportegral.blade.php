@@ -30,6 +30,7 @@
             <th>Nº</th>
             <th>DESCRIPCIÓN</th>
             <th>FACTOR</th>
+            <th>UNIDAD DE MEDIDA</th>
             <th>ESTADO</th>
         </tr>
     </thead>
@@ -40,6 +41,7 @@
             <td style="text-align:center;">{{ $expensa->id }}</td>
             <td style="text-align:center;">{{ $expensa->descripcion }}</td>
             <td style="text-align:center;">{{ $expensa->factor }}</td>
+            <td style="text-align:center;">{{ $expensa->unidad_medida }}</td>
             <td style="text-align:center;">{{ $expensa->desc_estado }}</td>
         </tr>
         @endforeach

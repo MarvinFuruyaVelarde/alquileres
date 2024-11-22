@@ -19,7 +19,7 @@ class ExpensasExport implements FromCollection, WithHeadings, WithTitle, WithEve
     */
     public function collection()
     {
-        return View_Expensa::select('id', 'descripcion', 'factor', 'desc_estado')->get();
+        return View_Expensa::select('id', 'descripcion', 'factor', 'unidad_medida', 'desc_estado')->get();
     }
 
     /**
@@ -31,6 +31,7 @@ class ExpensasExport implements FromCollection, WithHeadings, WithTitle, WithEve
             'N°',
             'DESCRIPCIÓN',
             'FACTOR',
+            'UNIDAD DE MEDIDA',
             'ESTADO',
         ];
     }
@@ -55,7 +56,7 @@ class ExpensasExport implements FromCollection, WithHeadings, WithTitle, WithEve
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nEXPENSAS";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:D1');
+                $sheet->mergeCells('A1:E1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -70,7 +71,7 @@ class ExpensasExport implements FromCollection, WithHeadings, WithTitle, WithEve
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'D') as $columnID) {
+                foreach (range('A', 'E') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -80,7 +81,7 @@ class ExpensasExport implements FromCollection, WithHeadings, WithTitle, WithEve
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:D2';
+                $headerRange = 'A2:E2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -102,9 +103,10 @@ class ExpensasExport implements FromCollection, WithHeadings, WithTitle, WithEve
                 // Aplicar estilos a las columnas
                 $columns = [
                     'A' => Alignment::HORIZONTAL_CENTER, // Alinear a la izquierda para la columna ID
-                    'B' => Alignment::HORIZONTAL_LEFT, // Alinear a la izquierda para la columna DESCRIPCIÓN
-                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
-                    'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
+                    'B' => Alignment::HORIZONTAL_CENTER, // Alinear a la izquierda para la columna DESCRIPCIÓN
+                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna FACTOR
+                    'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna UNIDAD DE MEDIDA
+                    'E' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

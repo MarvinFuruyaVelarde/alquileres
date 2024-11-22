@@ -22,7 +22,7 @@ class RubroController extends Controller
 
     public function create()
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         $rubro=new Rubro();
         return view('parametricas.rubros.create',compact('rubro', 'estados'));
     }
@@ -42,7 +42,7 @@ class RubroController extends Controller
 
     public function edit(Rubro $rubro)
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         return view('parametricas.rubros.edit',compact('rubro', 'estados'));
     }
 

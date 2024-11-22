@@ -16,5 +16,5 @@ class Expensa extends Model
     public $timestamps = false;
 
     // Define los campos que se pueden llenar
-    protected $fillable = ['id','descripcion', 'factor', 'estado'];
+    protected $fillable = ['id','descripcion', 'factor', 'estado', 'unidad_medida'];
 }

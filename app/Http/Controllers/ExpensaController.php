@@ -23,7 +23,7 @@ class ExpensaController extends Controller
 
     public function create()
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         $expensa=new Expensa();
         return view('parametricas.expensas.create',compact('expensa', 'estados'));
     }
@@ -36,6 +36,7 @@ class ExpensaController extends Controller
         $expensa->descripcion = $request->descripcion;
         $expensa->factor = $request->factor;
         $expensa->estado = $request->estado;
+        $expensa->unidad_medida = $request->unidad_medida;
 
         $expensa->save();
         Alert::success("Expensa registrada correctamente!");
@@ -44,7 +45,7 @@ class ExpensaController extends Controller
 
     public function edit(Expensa $expensa)
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         return view('parametricas.expensas.edit',compact('expensa', 'estados'));
     }
 
@@ -64,6 +65,7 @@ class ExpensaController extends Controller
         $expensa->descripcion=$request->descripcion;
         $expensa->factor=$request->factor;
         $expensa->estado=$request->estado;
+        $expensa->unidad_medida = $request->unidad_medida;
 
         $expensa->save();
 

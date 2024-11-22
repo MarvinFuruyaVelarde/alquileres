@@ -28,7 +28,7 @@ class ClienteController extends Controller
         $tiposidentificacion=TipoIdentificacion::where('id','>',0)->get();
         $tipossolicitante=TipoSolicitante::where('id','>',0)->get();
         $expedidos=Expedido::where('id','>',0)->get();
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         $cliente=new Cliente();
         return view('parametricas.clientes.create',compact('cliente', 'tiposidentificacion', 'tipossolicitante', 'expedidos', 'estados'));
     }
@@ -56,7 +56,7 @@ class ClienteController extends Controller
         $tipossolicitante=TipoSolicitante::where('id','>',0)->get();
         $expedidos=Expedido::where('id','>',0)->get();
         $estados=Estado::where('id','>',0)->get();
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         return view('parametricas.clientes.edit',compact('cliente', 'tiposidentificacion', 'tipossolicitante', 'expedidos', 'estados'));
     }
 

@@ -50,8 +50,8 @@ class AeropuertoController extends Controller
             $regionales = Regional::whereIn('id',$array)->get();
             }
         
-        $estados=Estado::where('id','>',0)->get();
-        $aeropuerto=new Aeropuerto();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
+        $aeropuerto = new Aeropuerto();
         return view('parametricas.aeropuertos.create',compact('aeropuerto', 'regionales', 'estados'));
     }
 
@@ -73,7 +73,7 @@ class AeropuertoController extends Controller
     public function edit(Aeropuerto $aeropuerto)
     {
         $regionales=Regional::where('id','>',0)->get();
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         return view('parametricas.aeropuertos.edit',compact('aeropuerto', 'regionales', 'estados'));
     }
 

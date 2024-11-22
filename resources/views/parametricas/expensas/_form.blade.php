@@ -29,6 +29,20 @@
 </div>
 
 <div class="row mb-1">
+    <label for="unidad_medida" class="col-md-4 col-form-label text-right">Unidad de Medida <span class="text-danger">(*)</span></label>
+    <div class="col-md-6">
+        <input id="unidad_medida" type="text" class="form-control {{ $errors->has('unidad_medida') ? ' error' : '' }}" name="unidad_medida" value="{{ old('unidad_medida',$expensa->unidad_medida) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="descripcion" data-validate="length" data-min-length="2" data-max-length="50">
+        <span id="error-unidad_medida" class="error-unidad_medida" style="color: rgb(220, 53, 69);"></span>
+        @if ($errors->has('unidad_medida'))
+            <span class="text-danger">
+                {{ $errors->first('unidad_medida') }}
+            </span>
+            
+        @endif
+    </div>
+</div>
+
+<div class="row mb-1">
     <label for="estado" class="col-md-4 col-form-label text-right ">Estado <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
         <select id="estado" class="form-control{{ $errors->has('estado') ? ' error' : '' }}" name="estado">

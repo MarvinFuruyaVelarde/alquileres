@@ -24,7 +24,7 @@ class CuentaController extends Controller
     public function create()
     {
         $monedas=Moneda::where('id','>',0)->get();
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         $cuenta=new Cuenta();
         return view('parametricas.cuentas.create',compact('cuenta', 'monedas', 'estados'));
     }
@@ -47,7 +47,7 @@ class CuentaController extends Controller
     public function edit(Cuenta $cuenta)
     {
         $monedas=Moneda::where('id','>',0)->get();
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         return view('parametricas.cuentas.edit',compact('cuenta', 'monedas', 'estados'));
     }
 

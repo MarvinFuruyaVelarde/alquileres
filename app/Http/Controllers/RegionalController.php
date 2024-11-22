@@ -37,7 +37,7 @@ class RegionalController extends Controller
 
     public function create()
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         $regional=new Regional();
         return view('parametricas.regionales.create',compact('regional', 'estados'));
     }
@@ -58,7 +58,7 @@ class RegionalController extends Controller
 
     public function edit(Regional $regional)
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         return view('parametricas.regionales.edit',compact('regional', 'estados'));
     }
 

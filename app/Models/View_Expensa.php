@@ -16,5 +16,5 @@ class View_Expensa extends Model
     public $timestamps = false;
 
     // Define los campos que se pueden llenar
-    protected $fillable = ['id','descripcion', 'factor', 'estado', 'desc_estado'];
+    protected $fillable = ['id','descripcion', 'factor', 'unidad_medida','estado', 'desc_estado'];
 }

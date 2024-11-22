@@ -22,7 +22,7 @@ class UnidadMedidaController extends Controller
 
     public function create()
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         $unidadmedida=new UnidadMedida();
         return view('parametricas.unidadesmedida.create',compact('unidadmedida', 'estados'));
     }
@@ -42,7 +42,7 @@ class UnidadMedidaController extends Controller
 
     public function edit(UnidadMedida $unidadmedida)
     {
-        $estados=Estado::where('id','>',0)->get();
+        $estados = Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         return view('parametricas.unidadesmedida.edit',compact('unidadmedida', 'estados'));
     }
 
