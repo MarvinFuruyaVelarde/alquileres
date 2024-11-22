@@ -133,6 +133,7 @@ Route::middleware(['auth'])->group(function(){
     //contratos
     //lista
     Route::get('contratos',[App\Http\Controllers\ContratoController::class,'index'])->name('contratos.index')->middleware('permission:contratos.index');
+    Route::get('contratos/obtCliente/{tipoSolicitante}',[App\Http\Controllers\ContratoController::class,'obtieneCliente'])->name('contratos.obtieneCliente');
     Route::get('contratos/create',[App\Http\Controllers\ContratoController::class,'create'])->name('contratos.create')->middleware('permission:contratos.create');
     Route::post('contratos/store',[App\Http\Controllers\ContratoController::class,'store'])->name('contratos.store')->middleware('permission:contratos.create');
     Route::get('contratos/{contrato}/edit',[App\Http\Controllers\ContratoController::class,'edit'])->name('contratos.edit')->middleware('permission:contratos.edit');

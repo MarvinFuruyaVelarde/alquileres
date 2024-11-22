@@ -111,3 +111,38 @@ document.getElementById('tipo_solicitante').addEventListener('change', function 
         cjurCont.style.display = 'none'; // Ocultar campo
     }
 });
+
+// Obtiene el Cliente dado el Tipo de Solicitante
+$("#tipo_solicitante").change(function(event) {
+    if ($(this).val())
+      getCliente($(this).val());
+});
+
+function getCliente(tipoSolicitante) {
+    var zone = $("#cliente");
+    $.ajax({
+        url: contratosObtClienteUrl + '/' +tipoSolicitante,
+        method: 'get',
+        data: {'tipo_solicitante':tipoSolicitante},
+        beforeSend: function(){
+        zone.attr('disabled', true);
+        },
+        success: function (response) {
+        zone.attr('disabled', false).html(response.item);
+        },
+        error: function() {
+        alert('Error al cargar el código de cliente.');
+        }  
+    });
+}
+
+// Asigna Numero de Identificación cuando se selecciona el Cliente
+$("#cliente").change(function(event) {
+    var selectedOption = $(this).find(':selected');
+    var numeroIdentificacion = selectedOption.data('numero-identificacion');
+
+    if (document.getElementById('tipo_solicitante').value == 1)
+        document.getElementById('ci').value = numeroIdentificacion;
+    else if(document.getElementById('tipo_solicitante').value == 2)
+        document.getElementById('nit').value = numeroIdentificacion;
+});

@@ -29,6 +29,22 @@ class ContratoController extends Controller
         return view('contratos.lista.index', compact('contratos')); // Pasar a la vista
     }
 
+    public function obtieneCliente($tipoSolicitante) 
+    {
+        $clientes = Cliente::where('id', '>', 0)
+                            ->where('tipo_identificacion', $tipoSolicitante)
+                            ->orderBy('id', 'asc')
+                            ->get();
+
+		$html = '<option value="">Seleccione</option>';
+		foreach ($clientes as $key => $item) {
+			$selected = NULL;
+			$html .= "<option value='$item->id' data-numero-identificacion='$item->numero_identificacion' $selected>$item->razon_social</option>";
+		}
+                   
+		return response()->json(['success'=>true, 'item'=>$html]);
+	}
+
     public function create()
     {
         $aeropuertos=Aeropuerto::where('id','>',0)->orderBy('id', 'asc')->get();
