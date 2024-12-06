@@ -141,8 +141,11 @@ $("#cliente").change(function(event) {
     var selectedOption = $(this).find(':selected');
     var numeroIdentificacion = selectedOption.data('numero-identificacion');
 
-    if (document.getElementById('tipo_solicitante').value == 1)
+    if (document.getElementById('tipo_solicitante').value == 1){
         document.getElementById('ci').value = numeroIdentificacion;
-    else if(document.getElementById('tipo_solicitante').value == 2)
+        document.getElementById('ci_o').value = numeroIdentificacion;
+    }else if(document.getElementById('tipo_solicitante').value == 2){
         document.getElementById('nit').value = numeroIdentificacion;
+        document.getElementById('nit_o').value = numeroIdentificacion;
+    }
 });

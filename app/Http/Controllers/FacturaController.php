@@ -205,6 +205,7 @@ class FacturaController extends Controller
 
             // Obtiene Detalle
             $facturas_detalle = FacturaDetalle::where('factura', $factura->id)->get();
+            $subTotal = 0;
 
             // Obtiene datos si tiene más de un espacio
             foreach ($facturas_detalle as $factura_detalle) {
@@ -217,7 +218,8 @@ class FacturaController extends Controller
                     $descripcion = $factura_detalle->glosa;
                 
                 $precioUnitario = $factura_detalle->precio;
-                $subtotal = $factura_detalle->precio;
+                $subtotal = $factura_detalle->precio - $espacio->opcion_dcto;
+                $subTotal = $subTotal + $espacio->opcion_dcto;
                 
                 if ($espacio)
                     $montoDescuentoDetalle = $espacio->opcion_dcto;
@@ -250,22 +252,22 @@ class FacturaController extends Controller
                     'cabecera' => [
                         'tipoDocumentoFiscal' => '1', // 1 -> FACTURA CON DERECHO A CREDITO FISCAL se obtiene de Homologación -> Homologar Parametrica
                         'tipoDocumentoSector' => $tipoDocumentoSector, // 2 -> FACTURA DE ALQUILER DE BIENES INMUEBLES se obtiene de Homologación -> Homologar Parametrica 
-                        'codigoExcepcion' => 1,       // Valor que se envía para autorizar el registro de una factura con NIT inválido. Por defecto, se envía el valor de cero (0) y uno (1) cuando se autoriza el registro. (Manual)
-                        'tipoEmision' => 1,           // Modo de emisión de las facturas: 1=ON_LINE (Manual)
-                        'fechaEmision' => null,       // Fecha de emisión de la factura. Para facturas ON_LINE debe ser null ya que el sistema genera la fecha automaticamente.Para facturas ONLINE_MASIVO el campo fecha emision debe tener valor con el sig formato: 2022-01-15T10:53:06.637
-                        'nombreRazonSocial' => $nombreRazonSocial, // cliente->razon_social
-                        'tipoDocumentoIdentidad' => $tipoDocumentoIdentidad, // $factura->tipo_solicitante = 1 -> CI ó = 2 -> NIT  
-                        'numeroDocumento' => $numeroDocumento,               // factura->ci ó factura->nit     
-                        'complemento' => null,                               // null
-                        'fechaEmisionFactura' => 'null',                     // null
-                        'metodoPago' => 1,                                   // null no tiene un metodo de pago definido el contrato (estaba con 1)
-                        'codigoMoneda' => 'BOB',                             // BOB catalogo de moneda
-                        'tipoCambio' => 1,                                   // Si el tipo Moneda es Bolivianos, el tipo de cambio es 1.
-                        'montoTotalMoneda' => $montoTotalMoneda,             // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
-                        'montoTotal' => $montoTotal,                         // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
-                        'montoTotalSujetoIva' => $montoTotalSujetoIva,       // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
-                        'periodoFacturado' => $periodoFacturado,             // factura->mes factura->gestion 
-                        'usuario' => 'admin'                                 // admin
+                        'codigoExcepcion' => 1,                        // Valor que se envía para autorizar el registro de una factura con NIT inválido. Por defecto, se envía el valor de cero (0) y uno (1) cuando se autoriza el registro. (Manual)
+                        'tipoEmision' => 1,                            // Modo de emisión de las facturas: 1=ON_LINE (Manual)
+                        'fechaEmision' => null,                        // Fecha de emisión de la factura. Para facturas ON_LINE debe ser null ya que el sistema genera la fecha automaticamente.Para facturas ONLINE_MASIVO el campo fecha emision debe tener valor con el sig formato: 2022-01-15T10:53:06.637
+                        'nombreRazonSocial' => $nombreRazonSocial,                 // cliente->razon_social
+                        'tipoDocumentoIdentidad' => $tipoDocumentoIdentidad,       // $factura->tipo_solicitante = 1 -> CI ó = 2 -> NIT  
+                        'numeroDocumento' => $numeroDocumento,                     // factura->ci ó factura->nit     
+                        'complemento' => null,                                     // null
+                        'fechaEmisionFactura' => 'null',                           // null
+                        'metodoPago' => 1,                                         // null no tiene un metodo de pago definido el contrato (estaba con 1)
+                        'codigoMoneda' => 'BOB',                                   // BOB catalogo de moneda
+                        'tipoCambio' => 1,                                         // Si el tipo Moneda es Bolivianos, el tipo de cambio es 1.
+                        'montoTotalMoneda' => $montoTotalMoneda - $subTotal,       // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
+                        'montoTotal' => $montoTotal - $subTotal,                   // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
+                        'montoTotalSujetoIva' => $montoTotalSujetoIva - $subTotal, // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
+                        'periodoFacturado' => $periodoFacturado,                   // factura->mes factura->gestion 
+                        'usuario' => 'admin'                                       // admin
                     ],
                     'detalle' => $detalleArray
                 ]

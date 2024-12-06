@@ -99,7 +99,8 @@
     <div id="ci-container" class="col-md-5">
         <label for="ci" class="col-form-label">Ci: <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="ci" type="text" class="form-control {{ $errors->has('ci') ? ' error' : '' }}" name="ci" value="{{ old('ci',$contrato->ci) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+            <input id="ci_o" type='hidden' name='ci_o' value='{{ old('ci',$contrato->ci) }}'/>
+            <input id="ci" type="text" class="form-control {{ $errors->has('ci') ? ' error' : '' }}" name="ci" value="{{ old('ci',$contrato->ci) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
             <span id="error-ci" class="error-ci" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('ci'))
                 <span class="text-danger">
@@ -112,7 +113,8 @@
     <div id="nit-container" class="col-md-5" style="display: none;">
         <label for="nit" class="col-form-label">Nit: <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="nit" type="text" class="form-control {{ $errors->has('nit') ? ' error' : '' }}" name="nit" value="{{ old('nit', $contrato->nit) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+            <input id="nit_o" type='hidden' name='nit_o' value='{{ old('ci',$contrato->nit) }}'/>
+            <input id="nit" type="text" class="form-control {{ $errors->has('nit') ? ' error' : '' }}" name="nit" value="{{ old('nit', $contrato->nit) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
             <span id="error-nit" class="error-nit" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('nit'))
                 <span class="text-danger">

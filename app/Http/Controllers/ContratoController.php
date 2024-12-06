@@ -67,9 +67,9 @@ class ContratoController extends Controller
         $contrato->tipo_solicitante = $request->tipo_solicitante;
         $contrato->cliente = $request->cliente;
         if ($request->tipo_solicitante == 1) 
-            $contrato->ci = $request->ci;
+            $contrato->ci = $request->ci_o;
         else
-            $contrato->nit = $request->nit;
+            $contrato->nit = $request->nit_o;
         $contrato->domicilio_legal = $request->domicilio_legal;
         $contrato->telefono_celular = $request->telefono_celular;
         $contrato->correo = $request->correo;
@@ -106,33 +106,24 @@ class ContratoController extends Controller
     {
         $aeropuertos=Aeropuerto::where('id','>',0)->orderBy('id', 'asc')->get();
         $tipossolicitante=TipoSolicitante::where('id','>',0)->orderBy('id', 'asc')->get();
-        $clientes=Cliente::where('id','>',0)->orderBy('razon_social', 'asc')->get();
+        $clientes = Cliente::where('estado', 1)->where('tipo_identificacion', $contrato->tipo_solicitante)->orderBy('razon_social', 'asc')->get();
         $expedidos=Expedido::where('id','>',0)->orderBy('id', 'asc')->get();
         return view('contratos.lista.edit',compact('contrato', 'aeropuertos', 'tipossolicitante', 'clientes', 'expedidos'));
     }
 
     public function update(Request $request, Contrato $contrato)
     {
-        /*dd("llega");
-        $request->validate( [
-            'descripcion'=>'required',
-            'factor'=>'required',
-            'estado'=>'required',
-        ],[
-                    'descripcion.required' => 'El campo es de ingreso obligatorio.',
-                    'factor.required' => 'El campo es de ingreso obligatorio.',
-                    'estado.required' => 'El campo es de ingreso obligatorio.',
-            ]
-        );*/
-        
         $contrato->codigo = $request->codigo;
         $contrato->aeropuerto = $request->aeropuerto;
         $contrato->tipo_solicitante = $request->tipo_solicitante;
         $contrato->cliente = $request->cliente;
-        if ($request->tipo_solicitante == 1) 
-            $contrato->ci = $request->ci;
-        else
-            $contrato->nit = $request->nit;
+        if ($request->tipo_solicitante == 1){ 
+            $contrato->ci = $request->ci_o;
+            $contrato->nit = null;
+        }else{
+            $contrato->nit = $request->nit_o;
+            $contrato->ci = null;
+        }
         $contrato->domicilio_legal = $request->domicilio_legal;
         $contrato->telefono_celular = $request->telefono_celular;
         $contrato->correo = $request->correo;

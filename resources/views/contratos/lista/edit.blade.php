@@ -32,6 +32,7 @@
 
 @section('scripts')
 {{--<script src="{{ asset('assets/js/forms/validarcampos.js') }}" type="text/javascript"></script>--}}
+<script>var contratosObtClienteUrl = "{{ url('contratos/obtCliente/') }}";</script>
 <script src="{{ asset('assets/js/forms/contratos.js') }}" type="text/javascript"></script>
 <script>
 

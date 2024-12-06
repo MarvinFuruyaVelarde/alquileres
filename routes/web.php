@@ -217,4 +217,65 @@ Route::middleware(['auth'])->group(function(){
     Route::get('registropagos',[App\Http\Controllers\DetallePagoFacturaController::class,'index'])->name('registropagos.index');
     Route::get('registropagos/{factura}/create',[App\Http\Controllers\DetallePagoFacturaController::class,'create'])->name('registropagos.create');
     Route::post('registropagos/store',[App\Http\Controllers\DetallePagoFacturaController::class,'store'])->name('registropagos.store');
+
+    //Reportes
+    Route::get('reportecontratos',[App\Http\Controllers\ReporteContratoController::class,'index'])->name('reportecontratos.index');
+    Route::get('reportecontratos/obtieneReporte',[App\Http\Controllers\ReporteContratoController::class,'obtieneReporte'])->name('reportecontratos.obtieneReporte');
+    Route::get('reportecontratos/pdf',[App\Http\Controllers\ReporteContratoController::class,'show'])->name('reportecontratos.show');
+    Route::get('reportecontratos/xls',[App\Http\Controllers\ReporteContratoController::class,'export'])->name('reportecontratos.export');
+
+    Route::get('reportecuentaporcobrar',[App\Http\Controllers\ReporteCuentaPorCobrarController::class,'index'])->name('reportecuentaporcobrar.index');
+    Route::get('reportecuentaporcobrar/obtieneReporte',[App\Http\Controllers\ReporteCuentaPorCobrarController::class,'obtieneReporte'])->name('reportecuentaporcobrar.obtieneReporte');
+    Route::get('reportecuentaporcobrar/pdf',[App\Http\Controllers\ReporteCuentaPorCobrarController::class,'show'])->name('reportecuentaporcobrar.show');
+    Route::get('reportecuentaporcobrar/xls',[App\Http\Controllers\ReporteCuentaPorCobrarController::class,'export'])->name('reportecuentaporcobrar.export');
+
+    Route::get('reportedetalleespacios',[App\Http\Controllers\ReporteDetalleEspacioController::class,'index'])->name('reportedetalleespacios.index');
+    Route::get('reportedetalleespacios/obtieneReporte',[App\Http\Controllers\ReporteDetalleEspacioController::class,'obtieneReporte'])->name('reportedetalleespacios.obtieneReporte');
+    Route::get('reportedetalleespacios/pdf',[App\Http\Controllers\ReporteDetalleEspacioController::class,'show'])->name('reportedetalleespacios.show');
+    Route::get('reportedetalleespacios/xls',[App\Http\Controllers\ReporteDetalleEspacioController::class,'export'])->name('reportedetalleespacios.export');
+
+    Route::get('reportefacturas',[App\Http\Controllers\ReporteFacturaController::class,'index'])->name('reportefacturas.index');
+    Route::get('reportefacturas/obtieneReporte',[App\Http\Controllers\ReporteFacturaController::class,'obtieneReporte'])->name('reportefacturas.obtieneReporte');
+    Route::get('reportefacturas/pdf',[App\Http\Controllers\ReporteFacturaController::class,'show'])->name('reportefacturas.show');
+    Route::get('reportefacturas/xls',[App\Http\Controllers\ReporteFacturaController::class,'export'])->name('reportefacturas.export');
+
+    Route::get('reportegarantias',[App\Http\Controllers\ReporteGarantiaController::class,'index'])->name('reportegarantias.index');
+    Route::get('reportegarantias/obtieneReporte',[App\Http\Controllers\ReporteGarantiaController::class,'obtieneReporte'])->name('reportegarantias.obtieneReporte');
+    Route::get('reportegarantias/pdf',[App\Http\Controllers\ReporteGarantiaController::class,'show'])->name('reportegarantias.show');
+    Route::get('reportegarantias/xls',[App\Http\Controllers\ReporteGarantiaController::class,'export'])->name('reportegarantias.export');
+
+    Route::get('reporteregistropagos',[App\Http\Controllers\ReporteRegistroPagoController::class,'index'])->name('reporteregistropagos.index');
+    Route::get('reporteregistropagos/obtieneReporte',[App\Http\Controllers\ReporteRegistroPagoController::class,'obtieneReporte'])->name('reporteregistropagos.obtieneReporte');
+    Route::get('reporteregistropagos/pdf',[App\Http\Controllers\ReporteRegistroPagoController::class,'show'])->name('reporteregistropagos.show');
+    Route::get('reporteregistropagos/xls',[App\Http\Controllers\ReporteRegistroPagoController::class,'export'])->name('reporteregistropagos.export');
+
+    Route::get('reportetipoespacios',[App\Http\Controllers\ReporteTipoEspacioController::class,'index'])->name('reportetipoespacios.index');
+    Route::get('reportetipoespacios/obtieneReporte',[App\Http\Controllers\ReporteTipoEspacioController::class,'obtieneReporte'])->name('reportetipoespacios.obtieneReporte');
+    Route::get('reportetipoespacios/pdf',[App\Http\Controllers\ReporteTipoEspacioController::class,'show'])->name('reportetipoespacios.show');
+    Route::get('reportetipoespacios/xls',[App\Http\Controllers\ReporteTipoEspacioController::class,'export'])->name('reportetipoespacios.export');
+
+    Route::get('reporteresumencontratos',[App\Http\Controllers\ReporteResumenContratoController::class,'index'])->name('reporteresumencontratos.index');
+    Route::get('reporteresumencontratos/obtieneReporte',[App\Http\Controllers\ReporteResumenContratoController::class,'obtieneReporte'])->name('reporteresumencontratos.obtieneReporte');
+    Route::get('reporteresumencontratos/pdf',[App\Http\Controllers\ReporteResumenContratoController::class,'show'])->name('reporteresumencontratos.show');
+    Route::get('reporteresumencontratos/xls',[App\Http\Controllers\ReporteResumenContratoController::class,'export'])->name('reporteresumencontratos.export');
+
+    Route::get('reporteingresoaeropuertos',[App\Http\Controllers\ReporteIngresoAeropuertoController::class,'index'])->name('reporteingresoaeropuertos.index');
+    Route::get('reporteingresoaeropuertos/obtieneReporte',[App\Http\Controllers\ReporteIngresoAeropuertoController::class,'obtieneReporte'])->name('reporteingresoaeropuertos.obtieneReporte');
+    Route::get('reporteingresoaeropuertos/pdf',[App\Http\Controllers\ReporteIngresoAeropuertoController::class,'show'])->name('reporteingresoaeropuertos.show');
+    Route::get('reporteingresoaeropuertos/xls',[App\Http\Controllers\ReporteIngresoAeropuertoController::class,'export'])->name('reporteingresoaeropuertos.export');
+
+    Route::get('reporteingresoclientes',[App\Http\Controllers\ReporteIngresoClienteController::class,'index'])->name('reporteingresoclientes.index');
+    Route::get('reporteingresoclientes/obtieneReporte',[App\Http\Controllers\ReporteIngresoClienteController::class,'obtieneReporte'])->name('reporteingresoclientes.obtieneReporte');
+    Route::get('reporteingresoclientes/pdf',[App\Http\Controllers\ReporteIngresoClienteController::class,'show'])->name('reporteingresoclientes.show');
+    Route::get('reporteingresoclientes/xls',[App\Http\Controllers\ReporteIngresoClienteController::class,'export'])->name('reporteingresoclientes.export');
+
+    Route::get('reportedeudas',[App\Http\Controllers\ReporteDeudaController::class,'index'])->name('reportedeudas.index');
+    Route::get('reportedeudas/obtieneReporte',[App\Http\Controllers\ReporteDeudaController::class,'obtieneReporte'])->name('reportedeudas.obtieneReporte');
+    Route::get('reportedeudas/pdf',[App\Http\Controllers\ReporteDeudaController::class,'show'])->name('reportedeudas.show');
+    Route::get('reportedeudas/xls',[App\Http\Controllers\ReporteDeudaController::class,'export'])->name('reportedeudas.export');
+
+    Route::get('reporteingresodeudas',[App\Http\Controllers\ReporteIngresoDeudaController::class,'index'])->name('reporteingresodeudas.index');
+    Route::get('reporteingresodeudas/obtieneReporte',[App\Http\Controllers\ReporteIngresoDeudaController::class,'obtieneReporte'])->name('reporteingresodeudas.obtieneReporte');
+    Route::get('reporteingresodeudas/pdf',[App\Http\Controllers\ReporteIngresoDeudaController::class,'show'])->name('reporteingresodeudas.show');
+    Route::get('reporteingresodeudas/xls',[App\Http\Controllers\ReporteIngresoDeudaController::class,'export'])->name('reporteingresodeudas.export');
 });

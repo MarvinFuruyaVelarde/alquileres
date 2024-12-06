@@ -92,6 +92,7 @@
     <div id="nit-container" class="col-md-5" >
         <label for="nit" class="col-form-label">Saldo (Bs.) <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
+            <input id="saldo_registro_pago" type='hidden' name='saldo_registro_pago' value="{{ old('saldo_registro_pago', number_format($factura->monto_total - $pagado,2, '.', '')) }}"/>
             <input id="saldo" type="text" class="form-control {{ $errors->has('saldo') ? ' error' : '' }}" name="saldo" value="{{ old('saldo', number_format($factura->monto_total - $pagado,2, '.', '')) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50", disabled>
             <span id="error-codigo" class="error-nit" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('saldo'))

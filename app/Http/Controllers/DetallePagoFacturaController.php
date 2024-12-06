@@ -43,7 +43,7 @@ class DetallePagoFacturaController extends Controller
         $detalle_pago = new DetallePagoFactura();
         $detalle_pago->id_factura=$request->factura_id;
         $detalle_pago->a_pagar=$suma_pagado;
-        //$detalle_pago->saldo=$suma_saldo;
+        $detalle_pago->saldo=$request->saldo_registro_pago - $request->pagar;
         $detalle_pago->fecha_pago=$fecha_actual;
         $detalle_pago->cuenta=$request->cuenta_destino;
 

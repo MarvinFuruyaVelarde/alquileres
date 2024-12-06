@@ -44,18 +44,38 @@
           </a>
         </li><!-- End Search Icon-->
 
+        @php
+          $user=Auth::user();
+          $user_regional=App\Models\UsuarioRegional::where('usuario',$user->id)->first();
+          if ($user_regional !=null)
+            $regional=App\Models\Regional::where('id',$user_regional->regional)->first();
+        @endphp
         <li class="nav-item dropdown pe-3">
+          @if (auth()->user()->rol[0]->name == "superadmin")
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="{{ asset('assets/img/avatar-4.jpg') }}" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }} </span>
+            </a><!-- End Profile Iamge Icon -->
+          @else
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="{{ asset('assets/img/avatar-4.jpg') }}" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name.' '.Auth::user()->apellido_paterno }} <br> {{'REGIONAL '.$regional->descripcion}} </span>
+            </a><!-- End Profile Iamge Icon -->
+          @endif
 
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="{{ route('logout') }}"onclick="event.preventDefault();
-          document.getElementById('logout-form').submit();" title="Salir" >
-            <i class="bi bi-box-arrow-right text-danger"></i>
-            <span class="d-none d-md-block  ps-2 text-danger">Salir</span>
-          </a><!-- End Profile Iamge Icon -->
-
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <hr class="dropdown-divider">
+            <li>
+              <a class="dropdown-item d-flex align-items-center text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Salir</span>
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
-            </form>
-        </li><!-- End Profile Nav -->
+              </form>
+            </li>
+          </ul><!-- End Profile Dropdown Items -->
+        </li>
 
       </ul>
     </nav><!-- End Icons Navigation -->

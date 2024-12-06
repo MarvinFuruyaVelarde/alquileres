@@ -50,6 +50,7 @@
     <div class="col-md-4">
         <label for="saldo" class="col-form-label">Saldo (Bs.) </label>
         <div class="col-md-11">
+            <input type='hidden' name='saldo_garantia' value='{{ old('saldo',$contrato->saldo_garantia) }}'/>
             <input id="saldo" disabled type="text" class="form-control {{ $errors->has('saldo') ? ' error' : '' }}" name="saldo" value="{{ old('saldo',$contrato->saldo_garantia) }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
         </div>
     </div>
@@ -105,6 +106,7 @@
     <div class="col-md-5">
         <label for="nro_cuenta" class="col-form-label">Numero de Cuenta </span></label>
         <div class="col-md-11">
+            <input id="nro_cuenta_garantia" type='hidden' name='nro_cuenta_garantia' value=''/>
             <input id="nro_cuenta" type="text" class="form-control {{ $errors->has('nro_cuenta') ? ' error' : '' }}" name="nro_cuenta" value=" " autofocus onkeyup="this.value = this.value.toUpperCase();" disabled>
         </div>
     </div>
@@ -147,6 +149,7 @@ document.getElementById('cuenta_destino').addEventListener('change', function ()
     } else {
         fecha_deposito.style.display = 'none'; // Ocultar campo
     }
+    document.getElementById("nro_cuenta_garantia").value = numeroCuentaSeleccionado;
     document.getElementById("nro_cuenta").value = numeroCuentaSeleccionado;
 });
 </script>

@@ -182,6 +182,104 @@
           </a>
         </li>
       @endcan
+
+      <li class="nav-heading">REPORTES</li>
+      @can('reportecontratos.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reportecontratos.*') }}" href="{{ route('reportecontratos.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Contratos</span>
+          </a>
+        </li>
+      @endcan
+      @can('reportecuentaporcobrar.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reportecuentaporcobrar.*') }}" href="{{ route('reportecuentaporcobrar.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Cuentas por Cobrar</span>
+          </a>
+        </li>
+      @endcan
+      @can('reportedetalleespacios.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reportedetalleespacios.*') }}" href="{{ route('reportedetalleespacios.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Detalle de Espacios</span>
+          </a>
+        </li>
+      @endcan
+      @can('reportefacturas.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reportefacturas.*') }}" href="{{ route('reportefacturas.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Facturas/Notas de Cobro</span>
+          </a>
+        </li>
+      @endcan
+      @can('reportegarantias.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reportegarantias.*') }}" href="{{ route('reportegarantias.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Garantías</span>
+          </a>
+        </li>
+      @endcan
+      @can('reporteregistropagos.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reporteregistropagos.*') }}" href="{{ route('reporteregistropagos.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Registro de Pagos</span>
+          </a>
+        </li>
+      @endcan
+      @can('reportetipoespacios.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reportetipoespacios.*') }}" href="{{ route('reportetipoespacios.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Tipo de Espacios</span>
+          </a>
+        </li>
+      @endcan
+      @can('reporteresumencontratos.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reporteresumencontratos.*') }}" href="{{ route('reporteresumencontratos.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Resumén de Contratos</span>
+          </a>
+        </li>
+      @endcan
+      @can('reporteingresoaeropuertos.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reporteingresoaeropuertos.*') }}" href="{{ route('reporteingresoaeropuertos.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Ingresos por Aeropuertos</span>
+          </a>
+        </li>
+      @endcan
+      @can('reporteingresoclientes.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reporteingresoclientes.*') }}" href="{{ route('reporteingresoclientes.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Ingresos por Clientes</span>
+          </a>
+        </li>
+      @endcan
+      @can('reportedeudas.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reportedeudas.*') }}" href="{{ route('reportedeudas.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Deudas</span>
+          </a>
+        </li>
+      @endcan
+      @can('reporteingresodeudas.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reporteingresodeudas.*') }}" href="{{ route('reporteingresodeudas.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Ingresos y Deudas</span>
+          </a>
+        </li>
+      @endcan
     </ul>
 
   </aside><!-- End Sidebar-->
