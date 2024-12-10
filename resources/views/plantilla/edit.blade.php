@@ -140,6 +140,8 @@
 @section('scripts')
 <script src="{{ asset('assets/js/forms/validarcampos.js') }}" type="text/javascript"></script>
 <script>
+
+    // Valida que no se asocien espacios con diferente Tipo de Canon y Forma de Pago
     document.getElementById('actualizar').addEventListener('click', function(event) {
         let tiposCanon = document.querySelectorAll('.tipo-canon input'); // Selecciona los tipos de canon ocultos
         let numerosCobro = document.querySelectorAll('.numero-cobro'); // Selecciona todos los números de cobro
@@ -151,6 +153,45 @@
             let tipoCanon = tiposCanon[i].value.trim(); // Extrae el tipo de canon desde el campo oculto
             let numeroCobro = numerosCobro[i].value.trim(); // Extrae el número de cobro
             let formaPago = formasPago[i].textContent.trim(); // Extrae la forma de pago desde la columna oculta
+            let notaInput = document.getElementById('nota'); // Obtiene el input con id="nota"
+            let numeroNotas = parseInt(notaInput.value.trim(), 10); // Obtiene el valor del input id="nota" y lo convierte en número
+
+            // Validar que el campo id="nota" tenga un valor válido
+            if (isNaN(numeroNotas) || numeroNotas <= 0) {
+                alert('Debe ingresar un número válido en "Nro. De Notas Cobro".');
+                event.preventDefault(); // Evita el envío del formulario
+                return;
+            }
+
+            // Verificar que haya al menos `numeroNotas` filas
+            if (numerosCobro.length < numeroNotas) {
+                alert(`Debe haber al menos ${numeroNotas} filas para asignar las notas de cobro.`);
+                event.preventDefault(); // Evita el envío del formulario
+                return;
+            }
+
+            // Crear un array con los valores de los campos "NRO. NOTA DE COBRO"
+            const valoresIngresados = Array.from(numerosCobro).map(input => parseInt(input.value.trim(), 10));
+
+            // Validar que no existan números mayores al número máximo permitido (nroNotasCobro)
+            const excedeRango = valoresIngresados.some(num => num > numeroNotas);
+
+            // Verificar que los valores ingresados contengan todos los números del 1 al nroNotasCobro
+            const rangoEsperado = Array.from({ length: numeroNotas }, (_, i) => i + 1);  // Crear un array con los números del 1 al nroNotasCobro
+            const numerosPresentes = new Set(valoresIngresados);  // Usar un Set para asegurarse de que los números estén presentes
+
+            // Comprobar si el conjunto de números presentes contiene todos los números del rango esperado
+            const rangoValido = rangoEsperado.every(num => numerosPresentes.has(num));
+
+            if (excedeRango) {
+                alert(`No puede asignar números mayores a ${numeroNotas} en las Notas de Cobro.`);
+                event.preventDefault(); // Detener el envío del formulario
+                return;
+            } else if (!rangoValido) {
+                alert(`Debe asignar todos los números de Nota de Cobro del 1 al ${numeroNotas}.`);
+                event.preventDefault(); // Detener el envío del formulario
+                return;
+            }
 
             // Si el número de cobro no está vacío
             if (numeroCobro) {

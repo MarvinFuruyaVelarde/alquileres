@@ -175,7 +175,7 @@
                             <div class="col-md-3">
                                 <label for="cantidad" class="col-form-label">Cantidad <span class="text-danger">(*)</span></label>
                                 <div class="col-md-12">
-                                    <input id="cantidad" type="text" class="form-control {{ $errors->has('cantidad') ? ' error' : '' }}" name="cantidad" value="{{ old('cantidad',$espacio->cantidad) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                    <input id="cantidad" type="text" class="form-control {{ $errors->has('cantidad') ? ' error' : '' }}" name="cantidad" value="{{ old('cantidad',$espacio->cantidad) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" oninput="calcularTotalCanonMensual()">
                                     <span id="error-cantidad" class="error-cantidad" style="color: rgb(220, 53, 69);"></span>
                                     @if ($errors->has('cantidad'))
                                         <span class="text-danger">
@@ -215,7 +215,7 @@
                             <div class="col-md-3">
                                 <label for="precio_unitario" class="col-form-label">Precio Unitario <span class="text-danger">(*)</span></label>
                                 <div class="col-md-12">
-                                    <input id="precio_unitario" type="text" class="form-control {{ $errors->has('precio_unitario') ? ' error' : '' }}" name="precio_unitario" value="{{ old('precio_unitario',$espacio->precio_unitario) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                    <input id="precio_unitario" type="text" class="form-control {{ $errors->has('precio_unitario') ? ' error' : '' }}" name="precio_unitario" value="{{ old('precio_unitario',$espacio->precio_unitario) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" oninput="calcularTotalCanonMensual()">
                                     <span id="error-precio_unitario" class="error-precio_unitario" style="color: rgb(220, 53, 69);"></span>
                                     @if ($errors->has('precio_unitario'))
                                         <span class="text-danger">
@@ -255,7 +255,8 @@
                             
                             <div class="col-md-3">
                                 <label for="total_canonmensual" class="col-form-label">Total Canon Mensual <span class="text-danger">(*)</span></label>
-                                <input id="total_canonmensual" type="text" class="form-control {{ $errors->has('total_canonmensual') ? ' error' : '' }}" name="total_canonmensual" value="{{ old('total_canonmensual',$espacio->total_canonmensual) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                <input id="total_canonmensual_o" type='hidden' name='total_canonmensual_o' value='{{ old('total_canonmensual',$espacio->total_canonmensual) }}'/>
+                                <input id="total_canonmensual" type="text" class="form-control {{ $errors->has('total_canonmensual') ? ' error' : '' }}" name="total_canonmensual" value="{{ old('total_canonmensual',$espacio->total_canonmensual) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
                                 <span id="error-total_canonmensual" class="error-total_canonmensual" style="color: rgb(220, 53, 69);"></span>
                                 @if ($errors->has('total_canonmensual'))
                                     <span class="text-danger">
@@ -265,9 +266,9 @@
                             </div>
                         
                             <div class="col-md-3">
-                                <label for="opcion_dcto" class="col-form-label">Opción Descuento (%) <span class="text-danger">(*)</span></label>
+                                <label for="opcion_dcto" class="col-form-label">Opción Descuento (%)</label>
                                 <div class="col-md-12">
-                                    <input id="opcion_dcto" type="text" class="form-control {{ $errors->has('opcion_dcto') ? ' error' : '' }}" name="opcion_dcto" value="{{ old('opcion_dcto',$espacio->opcion_dcto) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                    <input id="opcion_dcto" type="text" class="form-control {{ $errors->has('opcion_dcto') ? ' error' : '' }}" name="opcion_dcto" value="{{ old('opcion_dcto',$espacio->opcion_dcto) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" oninput="calcularCanonConDescuento()">
                                     <span id="error-opcion_dcto" class="error-opcion_dcto" style="color: rgb(220, 53, 69);"></span>
                                     @if ($errors->has('opcion_dcto'))
                                         <span class="text-danger">
@@ -280,9 +281,10 @@
                             </div>
                             
                             <div class="col-md-3">
-                                <label for="canon_dcto" class="col-form-label">Canon con Descuento <span class="text-danger">(*)</span></label>
+                                <label for="canon_dcto" class="col-form-label">Canon con Descuento</label>
                                 <div class="col-md-12">
-                                    <input id="canon_dcto" type="text" class="form-control {{ $errors->has('canon_dcto') ? ' error' : '' }}" name="canon_dcto" value="{{ old('canon_dcto',$espacio->canon_dcto) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                    <input id="canon_dcto_o" type='hidden' name='canon_dcto_o' value='{{ old('canon_dcto',$espacio->canon_dcto) }}'/>
+                                    <input id="canon_dcto" type="text" class="form-control {{ $errors->has('canon_dcto') ? ' error' : '' }}" name="canon_dcto" value="{{ old('canon_dcto',$espacio->canon_dcto) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
                                     <span id="error-canon_dcto" class="error-canon_dcto" style="color: rgb(220, 53, 69);"></span>
                                     @if ($errors->has('canon_dcto'))
                                         <span class="text-danger">
@@ -297,7 +299,8 @@
                             <div class="col-md-3">
                                 <label for="garantia" class="col-form-label">Garantia <span class="text-danger">(*)</span></label>
                                 <div class="col-md-12">
-                                    <input id="garantia" type="text" class="form-control {{ $errors->has('garantia') ? ' error' : '' }}" name="garantia" value="{{ old('garantia',$espacio->garantia) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                    <input id="garantia_o" type='hidden' name='garantia_o' value='{{ old('garantia',$espacio->garantia) }}'/>
+                                    <input id="garantia" type="text" class="form-control {{ $errors->has('garantia') ? ' error' : '' }}" name="garantia" value="{{ old('garantia',$espacio->garantia) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
                                     <span id="error-garantia" class="error-garantia" style="color: rgb(220, 53, 69);"></span>
                                     @if ($errors->has('garantia'))
                                         <span class="text-danger">
@@ -336,7 +339,7 @@
                                         <option value="">Seleccionar...</option>
                                         @foreach($formaspago as $formapago)
                                             <option value="{{ $formapago->id }}" 
-                                                {{ old('forma_pago', $espacio->forma_pago) == $formapago->id ? 'selected' : '' }}>
+                                                {{ old('forma_pago', $espacio->forma_pago) == $formapago->id ? 'selected' : '' }} data-numero-dia="{{ $formapago->numero_dia }}">
                                                 {{ $formapago->descripcion }}
                                             </option>
                                         @endforeach
@@ -350,9 +353,10 @@
                             </div>
                             
                             <div class="col-md-3">
-                                <label for="numero_dia" class="col-form-label">Nro. Dias <span class="text-danger">(*)</span></label>
+                                <label for="numero_dia" class="col-form-label">Nro. Dias</label>
                                 <div class="col-md-12">
-                                    <input id="numero_dia" type="text" class="form-control {{ $errors->has('numero_dia') ? ' error' : '' }}" name="numero_dia" value="{{ old('numero_dia',$espacio->numero_dia) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                    <input id="numero_dia_o" type='hidden' name='numero_dia_o' value='{{ old('numero_dia',$espacio->numero_dia) }}'/>
+                                    <input id="numero_dia" type="text" class="form-control {{ $errors->has('numero_dia') ? ' error' : '' }}" name="numero_dia" value="{{ old('numero_dia',$espacio->numero_dia) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
                                     <span id="error-numero_dia" class="error-numero_dia" style="color: rgb(220, 53, 69);"></span>
                                     @if ($errors->has('numero_dia'))
                                         <span class="text-danger">
@@ -387,55 +391,56 @@
                             <div id="lista_expensa" class="col-md-6" name="lista_expensa" style="">
                                 <label class="col-form-label">Expensas</label>
                                 <div>
-                                    @foreach($expensas as $expensa)
-                                        @php
-                                            // Buscar si la expensa ya está registrada en espacioexpensas
-                                            $expensaRegistrada = $espacioexpensas->firstWhere('expensa', $expensa->id);
-                                        @endphp
-                                        <div class="accordion-item">
-
-                                            <ul class="list-unstyled">
-                                                <li>                                                
-                                                    <div class="row mb-3 align-items-center">   
-                                                        <div class="col-md-1">
-                                                        </div>           
+                                    <div class="accordion-item">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                @foreach($expensas as $expensa)
+                                                    @php
+                                                        // Buscar si la expensa ya está registrada en espacioexpensas
+                                                        $expensaRegistrada = $espacioexpensas->firstWhere('expensa', $expensa->id);
+                                                    @endphp                                                                                        
+                                                    <div class="row mb-3 g-3 align-items-center">   
+                                                        <div class="col-12 col-md-1"></div>           
 
                                                         <!-- Checkbox para seleccionar la expensa -->
-                                                        <div class="col-md-3">
+                                                        <div class="col-12 col-md-3">
                                                             <input type="hidden" name="lista_expensas[{{ $expensa->id }}][expensa]" value="0">
-                                                            <input id="expensa{{ $expensa->id }}" type="checkbox" class="form-check-input" name="lista_expensas[{{ $expensa->id }}][expensa]" value="{{ $expensa->id }}"{{ $expensaRegistrada ? 'checked' : '' }}>
-                                                            <label class="form-check-label" for="expensa{{ $expensa->id }}">&nbsp;&nbsp; {{ $expensa->descripcion ?: 'Sin descripción' }}</label>
+                                                            <div class="form-check">
+                                                                <input id="expensa{{ $expensa->id }}" type="checkbox" class="form-check-input" name="lista_expensas[{{ $expensa->id }}][expensa]" value="{{ $expensa->id }}"{{ $expensaRegistrada ? 'checked' : '' }}>
+                                                                <label class="form-check-label" for="expensa{{ $expensa->id }}">&nbsp;&nbsp; {{ $expensa->descripcion ?: 'Sin descripción' }}</label>
+                                                            </div>
                                                         </div>
 
                                                         <!-- Radios para tarifa fija (Sí/No) -->
-                                                        <div class="col-md-4 d-flex align-items-center">
-                                                            <label for="tarifa_fija{{ $expensa->id }}" class="col-form-label me-3">Tarifa Fija: </label>
-                                                            <div class="form-check me-3">                                                    
-                                                                <input id="tarifa_fija_si_{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="F" {{ $expensaRegistrada && $expensaRegistrada->tarifa_fija == 'F' ? 'checked' : '' }}>
-                                                                <label class="form-check-label" for="tarifa_fija_si_{{ $expensa->id }}">Sí</label>                                                                                                                                                              
-                                                            </div>
-                                                            <div class="form-check">                                                
-                                                                <input id="tarifa_fija_no_{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="V" {{ $expensaRegistrada && $expensaRegistrada->tarifa_fija == 'V' ? 'checked' : '' }}>
-                                                                <label class="form-check-label" for="tarifa_fija_no_{{ $expensa->id }}">No</label>                                                            
+                                                        <div class="col-12 col-md-4">
+                                                            <div class="d-flex flex-wrap align-items-center">
+                                                                <label for="tarifa_fija{{ $expensa->id }}" class="col-form-label me-3">Tarifa Fija: </label>
+                                                                <div class="form-check me-3">                                                    
+                                                                    <input id="tarifa_fija_si_{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="F" {{ $expensaRegistrada && $expensaRegistrada->tarifa_fija == 'F' ? 'checked' : '' }}>
+                                                                    <label class="form-check-label" for="tarifa_fija_si_{{ $expensa->id }}">Sí</label>                                                                                                                                                              
+                                                                </div>
+                                                                <div class="form-check">                                                
+                                                                    <input id="tarifa_fija_no_{{ $expensa->id }}" class="form-check-input" type="radio" name="lista_expensas[{{ $expensa->id }}][tarifa_fija]" value="V" {{ $expensaRegistrada && $expensaRegistrada->tarifa_fija == 'V' ? 'checked' : '' }}>
+                                                                    <label class="form-check-label" for="tarifa_fija_no_{{ $expensa->id }}">No</label>                                                            
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         
                                                         <!-- Input de texto para el monto -->
-                                                        <div class="col-md-3">
-                                                            <div class="d-flex align-items-center">
+                                                        <div class="col-12 col-md-3">
+                                                            <div class="d-flex">
                                                                 <label for="monto{{ $expensa->id }}" class="col-form-label me-2">Monto</label>
                                                                 <input id="monto{{ $expensa->id }}" type="text" class="form-control {{ $errors->has('monto') ? ' error' : '' }}" name="lista_expensas[{{ $expensa->id }}][monto]" value="{{ $expensaRegistrada->monto ?? '' }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-1">
+                                                        <div class="col-12 col-md-1">
                                                         </div>   
                                                     </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    @endforeach
-
+                                                @endforeach
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         
@@ -543,6 +548,146 @@
   } else{
     document.getElementById('ci_nit').value = document.getElementById('nit').value
   }
+
+  // Calculo Total Canon Menusla
+  function calcularTotalCanonMensual() {
+        const cantidad = parseFloat(document.getElementById('cantidad').value) || 0;
+        const precioUnitario = parseFloat(document.getElementById('precio_unitario').value) || 0;
+        const totalCanonMensual = cantidad * precioUnitario;
+        document.getElementById('total_canonmensual').value = totalCanonMensual.toFixed(2);
+        document.getElementById('total_canonmensual_o').value = totalCanonMensual.toFixed(2);
+        const descuento = parseFloat(document.getElementById('opcion_dcto').value) || 0;
+
+        if(descuento > 0)
+            calcularCanonConDescuento();
+    }
+
+    // Calculo Canon con Dcto
+    function calcularCanonConDescuento() {
+        const descuento = parseFloat(document.getElementById('opcion_dcto').value) || 0;
+        const totalCanonMensual = parseFloat(document.getElementById('total_canonmensual').value) || 0;
+        const canonConDescuento = totalCanonMensual - (totalCanonMensual * descuento / 100);
+
+        if(descuento > 0){
+            document.getElementById('canon_dcto').value = canonConDescuento.toFixed(2);
+            document.getElementById('canon_dcto_o').value = canonConDescuento.toFixed(2);
+        } else{
+            document.getElementById('canon_dcto').value = null;
+            document.getElementById('canon_dcto_o').value = canonConDescuento.toFixed(2);
+        }
+    }
+
+    //Calculo de Garantia
+    document.getElementById('cantidad').addEventListener('input', calcularGarantia);
+    document.getElementById('precio_unitario').addEventListener('input', calcularGarantia);
+    document.getElementById('fecha_final').addEventListener('change', calcularGarantia);
+    document.getElementById('fecha_inicial').addEventListener('change', calcularGarantia);
+    document.getElementById('opcion_dcto').addEventListener('input', calcularGarantia);
+
+    function calcularGarantia() {
+        // Obtener los valores de los campos
+        const totalCanonMensual = parseFloat(document.getElementById('total_canonmensual').value) || 0;
+        const canonDcto = parseFloat(document.getElementById('canon_dcto').value) || 0;
+        const fechaInicio = document.getElementById('fecha_inicial').value;
+        const fechaFin = document.getElementById('fecha_final').value;
+
+        // Usar el canon que esté disponible
+        const canonBase = canonDcto > 0 ? canonDcto : totalCanonMensual;
+
+        // Validar las fechas
+        if (!fechaInicio || !fechaFin || canonBase === 0) {
+            document.getElementById('garantia').value = null;
+            document.getElementById('garantia_o').value = null;
+            return;
+        }
+
+        // Calcular diferencia de meses
+        const inicio = new Date(fechaInicio);
+        const fin = new Date(fechaFin);
+        const años = fin.getFullYear() - inicio.getFullYear();
+        const meses = fin.getMonth() - inicio.getMonth();
+        const diferenciaMeses = años * 12 + meses;
+
+        // Calcular la garantía
+        const baseMensual = canonBase; // Asegurarse de tener un valor por defecto
+        const garantia = baseMensual + (baseMensual * diferenciaMeses * 0.07);
+
+        // Mostrar el resultado en el campo de garantía
+        document.getElementById('garantia').value = garantia.toFixed(2);
+        document.getElementById('garantia_o').value = garantia.toFixed(2);
+    }
+
+    // Asignación de Número de Dias al seleccionar la Forma de Pago
+    document.getElementById('forma_pago').addEventListener('change', function () {
+    var cuentas = document.getElementById("forma_pago");
+    var formaPagoSeleccionada = cuentas.options[cuentas.selectedIndex].getAttribute('data-numero-dia');
+    document.getElementById("numero_dia").value = formaPagoSeleccionada;
+    document.getElementById("numero_dia_o").value = formaPagoSeleccionada;
+    });
+
+    // Cobro de Expensa campo dependiente
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mostrar lista de Expensas
+        const radioSi = document.getElementById('cobro_expensa1');
+        const radioNo = document.getElementById('cobro_expensa2');
+        const montoInput = document.getElementById('lista_expensa');
+        
+        // Mostrar u ocultar según el estado inicial, el registro de expensas
+        if (radioSi.checked) {
+            montoInput.style.display = '';
+        } else if (radioNo.checked) {
+            montoInput.style.display = 'none';
+        }
+
+        radioSi.addEventListener('change', function() {
+            if (radioSi.checked) {
+                montoInput.style.display = '';
+            }
+        });
+
+        radioNo.addEventListener('change', function() {
+            if (radioNo.checked) {
+                montoInput.style.display = 'none';
+            }
+        });
+
+        // Validar las expensas registradas hab/deshab monto
+        const radiosSi = document.querySelectorAll('[id^="tarifa_fija_si_"]');
+        const radiosNo = document.querySelectorAll('[id^="tarifa_fija_no_"]');
+
+        radiosSi.forEach((radioSi) => {
+            const expensaId = radioSi.id.split('_').pop(); // Obtener el ID de la expensa
+            const inputMonto = document.getElementById(`monto${expensaId}`);
+
+            // Habilitar/deshabilitar según el estado inicial
+            if (radioSi.checked) {
+                inputMonto.disabled = false;
+            } else {
+                inputMonto.disabled = true;
+            }
+
+            // Listener para habilitar el input cuando "Sí" es seleccionado
+            radioSi.addEventListener('change', function () {
+                if (radioSi.checked) {
+                    inputMonto.disabled = false;
+                }
+            });
+        });
+
+        radiosNo.forEach((radioNo) => {
+            const expensaId = radioNo.id.split('_').pop(); // Obtener el ID de la expensa
+            const inputMonto = document.getElementById(`monto${expensaId}`);
+
+            // Listener para deshabilitar el input y borrar el valor cuando "No" es seleccionado
+            radioNo.addEventListener('change', function () {
+                if (radioNo.checked) {
+                    inputMonto.disabled = true;
+                    inputMonto.value = ''; // Limpiar el valor del input
+                }
+            });
+        });
+
+    });
 
 </script>
 @endsection

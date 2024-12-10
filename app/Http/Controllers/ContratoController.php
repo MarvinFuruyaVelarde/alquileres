@@ -31,7 +31,7 @@ class ContratoController extends Controller
 
     public function obtieneCliente($tipoSolicitante) 
     {
-        $clientes = Cliente::where('id', '>', 0)
+        $clientes = Cliente::where('estado', 1)
                             ->where('tipo_identificacion', $tipoSolicitante)
                             ->orderBy('id', 'asc')
                             ->get();
@@ -201,12 +201,12 @@ class ContratoController extends Controller
         //dd($contrato);
         $aeropuertos=Aeropuerto::where('id', $contrato->aeropuerto)->first();
         $clientes=Cliente::where('id', $contrato->cliente)->first();
-        $rubros=Rubro::where('id','>',0)->orderBy('id', 'asc')->get();
-        $unidadesmedida=UnidadMedida::where('id','>',0)->orderBy('id', 'asc')->get();
-        $formaspago=FormaPago::where('id','>',0)->orderBy('id', 'asc')->get();
+        $rubros=Rubro::where('estado', 1)->orderBy('id', 'asc')->get();
+        $unidadesmedida=UnidadMedida::where('estado', 1)->orderBy('id', 'asc')->get();
+        $formaspago=FormaPago::where('estado', 1)->orderBy('id', 'asc')->get();
         $espacio=new Espacio();
         $listaespacios=View_Espacio::where('contrato', $contrato->id)->get();
-        $expensas = Expensa::where('id','>',0)->orderBy('id', 'asc')->get();
+        $expensas = Expensa::where('estado', 1)->orderBy('id', 'asc')->get();
         return view('contratos.lista.create_espacio',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas'));
     }
 
@@ -227,13 +227,13 @@ class ContratoController extends Controller
         $espacio->precio_unitario = $request->precio_unitario;
         $espacio->fecha_inicial = $request->fecha_inicial;
         $espacio->fecha_final = $request->fecha_final;
-        $espacio->total_canonmensual = $request->total_canonmensual;
+        $espacio->total_canonmensual = $request->total_canonmensual_o;
         $espacio->opcion_dcto = $request->opcion_dcto; 
-        $espacio->canon_dcto = $request->canon_dcto;
-        $espacio->garantia = $request->garantia;
+        $espacio->canon_dcto = $request->canon_dcto_o;
+        $espacio->garantia = $request->garantia_o;
         $espacio->cobro_expensa = $request->cobro_expensa;
         $espacio->forma_pago = $request->forma_pago;
-        $espacio->numero_dia = $request->numero_dia;
+        $espacio->numero_dia = $request->numero_dia_o;
         $espacio->objeto_contrato = $request->objeto_contrato;
         $espacio->glosa_factura = $request->glosa_factura;
         $espacio->tipo_espacio = $request->tipo_espacio;
@@ -295,13 +295,13 @@ class ContratoController extends Controller
         $espacio->precio_unitario = $request->precio_unitario;
         $espacio->fecha_inicial = $request->fecha_inicial;
         $espacio->fecha_final = $request->fecha_final;
-        $espacio->total_canonmensual = $request->total_canonmensual;
+        $espacio->total_canonmensual = $request->total_canonmensual_o;
         $espacio->opcion_dcto = $request->opcion_dcto; 
-        $espacio->canon_dcto = $request->canon_dcto;
-        $espacio->garantia = $request->garantia;
+        $espacio->canon_dcto = $request->canon_dcto_o;
+        $espacio->garantia = $request->garantia_o;
         $espacio->cobro_expensa = $request->cobro_expensa;
         $espacio->forma_pago = $request->forma_pago;
-        $espacio->numero_dia = $request->numero_dia;
+        $espacio->numero_dia = $request->numero_dia_o;
         $espacio->objeto_contrato = $request->objeto_contrato;
         $espacio->glosa_factura = $request->glosa_factura;
         $espacio->tipo_espacio = $request->tipo_espacio;
@@ -329,7 +329,7 @@ class ContratoController extends Controller
                 if ($espacioExpensa) {
                     // Si ya existe, actualizarla
                     $espacioExpensa->tarifa_fija = $expensa['tarifa_fija'];
-                    $espacioExpensa->monto = $expensa['monto'];
+                    $espacioExpensa->monto = $expensa['monto'] ?? null;
                     $espacioExpensa->save();
                 } else {
                     // Si no existe, crear una nueva
@@ -337,7 +337,7 @@ class ContratoController extends Controller
                     $espacioExpensa->espacio = $espacioId;
                     $espacioExpensa->expensa = $expensa['expensa'];
                     $espacioExpensa->tarifa_fija = $expensa['tarifa_fija'];
-                    $espacioExpensa->monto = $expensa['monto'];
+                    $espacioExpensa->monto = $expensa['monto'] ?? null;
                     $espacioExpensa->save();
                 }
             }
