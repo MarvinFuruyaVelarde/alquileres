@@ -33,7 +33,6 @@ class ContratoRequest extends FormRequest
             'actividad_principal'=>'required',
             'representante1'=>'required',
             'numero_documento1'=>'required',
-            'expedido1'=>'required',
         ];
     }
 
@@ -49,8 +48,7 @@ class ContratoRequest extends FormRequest
             'correo.required'   => 'El ingreso de correo es obligatorio.',
             'actividad_principal.required'   => 'El ingreso de actividad principal es obligatorio.',
             'representante1.required'   => 'El ingreso de representante es obligatorio.',
-            'numero_documento1.required'   => 'El ingreso de numero_documento es obligatorio.',
-            'expedido1.required'   => 'El ingreso de expedido es obligatorio.',
+            'numero_documento1.required'   => 'El ingreso de numero documento es obligatorio.',
         ];
     }
 }

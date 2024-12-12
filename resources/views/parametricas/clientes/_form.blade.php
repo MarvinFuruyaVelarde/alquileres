@@ -8,7 +8,7 @@
     <div class="col-md-5">
         <label for="razon_social" class="col-form-label">Razón Social <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="razon_social" type="text" class="form-control {{ $errors->has('razon_social') ? ' error' : '' }}" name="razon_social" value="{{ old('razon_social',$cliente->razon_social) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="razon_social" data-validate="length" data-min-length="" data-max-length="150">
+            <input id="razon_social" type="text" class="form-control {{ $errors->has('razon_social') ? ' error' : '' }}" name="razon_social" value="{{ old('razon_social',$cliente->razon_social) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="" data-max-length="150">
             <span id="error-razon_social" class="error-razon_social" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('razon_social'))
                 <span class="text-danger">

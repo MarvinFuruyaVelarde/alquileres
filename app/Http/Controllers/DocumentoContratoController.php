@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\Contrato;
 use App\Models\DocumentoContrato;
 use App\Models\View_Contrato;
+use App\Models\View_DocumentoContrato;
 use App\Models\View_Espacio;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -15,7 +16,7 @@ class DocumentoContratoController extends Controller
 {
     public function index()
     {
-        $contratos = View_Contrato::whereIn('estado', [3, 4, 5, 6])->orderBy('id', 'asc')->get(); // Obtener todos los contratos registrados, pendientes, aprobados, modificados
+        $contratos = View_DocumentoContrato::whereIn('estado', [3, 4, 5, 6])->get(); // Obtener todos los contratos registrados, pendientes, aprobados, modificados
         return view('contratos.documento.index', compact('contratos')); // Pasar a la vista
     }
 
@@ -41,10 +42,10 @@ class DocumentoContratoController extends Controller
         $request->file('documento_contrato')->move($path, $nombre_documento);    
 
         // Guardar en la BD 
+        $pathBd = 'documento_contrato';
         $documento_contrato = New DocumentoContrato();
-
         $documento_contrato->contrato = $contrato->id;
-        $documento_contrato->ruta_documento = $path.'/'.$nombre_documento;
+        $documento_contrato->ruta_documento = $pathBd.'/'.$nombre_documento;
         $documento_contrato->save();
 
         Alert::success("EL documento se ha cargado correctamente");

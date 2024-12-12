@@ -32,7 +32,10 @@
 
 @section('scripts')
 {{--<script src="{{ asset('assets/js/forms/validarcampos.js') }}" type="text/javascript"></script>--}}
-<script>var contratosObtClienteUrl = "{{ url('contratos/obtCliente/') }}";</script>
+<script>
+  var contratosObtClienteUrl = "{{ url('contratos/obtCliente/') }}";
+  var verificaCodigoContrato = "{{ url('contratos/verificaCodigoContrato/') }}";
+</script>
 <script src="{{ asset('assets/js/forms/contratos.js') }}" type="text/javascript"></script>
 <script>
 
@@ -82,7 +85,7 @@
                 '@endif'+
             '</div>'+
             '<div class="col-md-3">'+
-                '{{Form::label("expedido'+cont+'",'Expedido en')}} <span class="text-danger">(*)</span>'+
+                '{{Form::label("expedido'+cont+'",'Expedido en')}}'+
                 '<select id="expedido'+cont+'" class="form-control{{ $errors->has('expedido1') ? ' error' : '' }}" name="expedido'+cont+'">'+
                     '<option value="">Seleccionar...</option>'+
                     '@foreach($expedidos as $expedido)'+
@@ -180,7 +183,7 @@
                 '@endif'+
             '</div>'+
             '<div class="col-md-3">'+
-                '{{Form::label("expedido'+cont+'",'Expedido en')}} <span class="text-danger">(*)</span>'+
+                '{{Form::label("expedido'+cont+'",'Expedido en')}}'+
                 '<select id="expedido'+cont+'" class="form-control{{ $errors->has('expedido1') ? ' error' : '' }}" name="expedido'+cont+'">'+
                     '<option value="">Seleccionar...</option>'+
                     '@foreach($expedidos as $expedido)'+

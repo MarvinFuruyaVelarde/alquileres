@@ -32,7 +32,7 @@ class ContratoController extends Controller
     public function obtieneCliente($tipoSolicitante) 
     {
         $clientes = Cliente::where('estado', 1)
-                            ->where('tipo_identificacion', $tipoSolicitante)
+                            ->where('tipo_solicitante', $tipoSolicitante)
                             ->orderBy('id', 'asc')
                             ->get();
 
@@ -44,6 +44,15 @@ class ContratoController extends Controller
                    
 		return response()->json(['success'=>true, 'item'=>$html]);
 	}
+
+    public function verificaCodigoContrato(Request $request)
+    {
+        if ($request->codigo !== "SIN CODIGO") {
+            $cont = Contrato::where('codigo', $request->codigo)->count();
+            return response()->json(['cont' => $cont]);
+        }
+        return response()->json(['cont' => 0]);
+    }
 
     public function create()
     {
@@ -106,7 +115,7 @@ class ContratoController extends Controller
     {
         $aeropuertos=Aeropuerto::where('id','>',0)->orderBy('id', 'asc')->get();
         $tipossolicitante=TipoSolicitante::where('id','>',0)->orderBy('id', 'asc')->get();
-        $clientes = Cliente::where('estado', 1)->where('tipo_identificacion', $contrato->tipo_solicitante)->orderBy('razon_social', 'asc')->get();
+        $clientes = Cliente::where('estado', 1)->where('tipo_solicitante', $contrato->tipo_solicitante)->orderBy('razon_social', 'asc')->get();
         $expedidos=Expedido::where('id','>',0)->orderBy('id', 'asc')->get();
         return view('contratos.lista.edit',compact('contrato', 'aeropuertos', 'tipossolicitante', 'clientes', 'expedidos'));
     }

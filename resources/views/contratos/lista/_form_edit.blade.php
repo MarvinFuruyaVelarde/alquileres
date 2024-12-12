@@ -8,7 +8,7 @@
     <div class="col-md-5">
         <label for="codigo" class="col-form-label">Código: <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="codigo" type="text" class="form-control {{ $errors->has('codigo') ? ' error' : '' }}" name="codigo" value="{{ old('codigo',$contrato->codigo) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+            <input id="codigo" type="text" class="form-control {{ $errors->has('codigo') ? ' error' : '' }}" name="codigo" value="{{ old('codigo',$contrato->codigo) }}" data-original-value="{{ old('codigo', $contrato->codigo) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
             <span id="error-codigo" class="error-codigo" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('codigo'))
                 <span class="text-danger">
@@ -195,7 +195,7 @@
     </div>
 
     <div class="col-md-5">
-        <label for="matricula_comercio" class="col-form-label">Matricula Comercio: <span class="text-danger">(*)</span></label>
+        <label for="matricula_comercio" class="col-form-label">Matricula Comercio:</label>
         <div class="col-md-11">
             <input id="matricula_comercio" type="text" class="form-control {{ $errors->has('matricula_comercio') ? ' error' : '' }}" name="matricula_comercio" value="{{ old('matricula_comercio',$contrato->matricula_comercio) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
             <span id="error-matricula_comercio" class="error-matricula_comercio" style="color: rgb(220, 53, 69);"></span>
@@ -252,7 +252,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        {{Form::label('expedido1','Expedido en')}} <span class="text-danger">(*)</span>
+                        {{Form::label('expedido1','Expedido en')}}
                         <div class="col-md-12">
                         <select id="expedido1" class="form-control{{ $errors->has('expedido1') ? ' error' : '' }}" name="expedido1">
                             <option value="">Seleccionar...</option>
@@ -357,7 +357,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        {{Form::label('expedido2','Expedido en')}} <span class="text-danger">(*)</span>
+                        {{Form::label('expedido2','Expedido en')}}
                         <div class="col-md-12">
                         <select id="expedido2" class="form-control{{ $errors->has('expedido2') ? ' error' : '' }}" name="expedido2">
                             <option value="">Seleccionar...</option>
@@ -462,7 +462,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        {{Form::label('expedido3','Expedido en')}} <span class="text-danger">(*)</span>
+                        {{Form::label('expedido3','Expedido en')}}
                         <div class="col-md-12">
                         <select id="expedido3" class="form-control{{ $errors->has('expedido3') ? ' error' : '' }}" name="expedido3">
                             <option value="">Seleccionar...</option>

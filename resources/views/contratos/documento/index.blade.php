@@ -66,7 +66,17 @@
                                 <td class="text-center">{{$contrato->domicilio_legal}}</td>
                                 <td class="d-flex justify-content-center" >
                                     @can('documentocontratos.edit')
-                                        <a href="{{route('documentocontratos.edit',$contrato)}}" class="btn btn-secondary" title="Cargar documento"><i class="bi bi-file-earmark-arrow-up"></i></a>
+                                        @if($contrato->ruta_documento)
+                                            <button class="btn btn-secondary" title="Documento ya cargado" disabled><i class="bi bi-file-earmark-arrow-up"></i></button>
+                                        @else
+                                            <a href="{{ route('documentocontratos.edit', $contrato) }}" class="btn btn-secondary" title="Cargar documento"><i class="bi bi-file-earmark-arrow-up"></i></a>
+                                        @endif
+                                    @endcan
+                                    @can('documentocontratos.descargar')
+                                        @if($contrato->ruta_documento)
+                                            <a href="{{ asset($contrato->ruta_documento) }}" class="btn btn-danger" title="Descargar documento" target="_blank"><i class="bi bi-file-earmark-arrow-down"></i>
+                                            </a>
+                                        @endif
                                     @endcan
                                 </td>
                             </tr>

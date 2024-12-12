@@ -60,23 +60,8 @@ class ClienteController extends Controller
         return view('parametricas.clientes.edit',compact('cliente', 'tiposidentificacion', 'tipossolicitante', 'expedidos', 'estados'));
     }
 
-    public function update(Request $request, Cliente $cliente)
-    {
-        $request->validate( [
-            'razon_social'=>'required',
-            'tipo_identificacion'=>'required',
-            'numero_identificacion'=>'required',
-            'tipo_solicitante'=>'required',
-            'estado'=>'required',
-        ],[
-            'razon_social.required' => 'El campo es de ingreso obligatorio.',
-            'tipo_identificacion.required' => 'El campo es de ingreso obligatorio.',
-            'numero_identificacion.required' => 'El campo es de ingreso obligatorio.',
-            'tipo_solicitante.required' => 'El campo es de ingreso obligatorio.',
-            'estado.required' => 'El campo es de ingreso obligatorio.',
-            ]
-        ); 
-        
+    public function update(ClienteRequest $request, Cliente $cliente)
+    {   
         $cliente->razon_social=$request->razon_social;
         $cliente->tipo_identificacion=$request->tipo_identificacion;
         $cliente->numero_identificacion=$request->numero_identificacion;

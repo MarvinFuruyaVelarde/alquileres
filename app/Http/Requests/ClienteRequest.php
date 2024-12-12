@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
@@ -22,8 +23,15 @@ class ClienteRequest extends FormRequest
      */
     public function rules(Request $request)
     {
+        $clienteId = $this->route('cliente'); // Obtiene el ID del cliente desde la ruta, si existe
+
         return [
-            'razon_social' => 'required',
+            'razon_social' => [
+                'required',
+                'string',
+                Rule::unique('cliente')->ignore($clienteId)
+            ],
+
             'tipo_identificacion' => 'required',
             'numero_identificacion' => 'required',
             'tipo_solicitante' => 'required',
@@ -33,7 +41,6 @@ class ClienteRequest extends FormRequest
     public function messages()
     {
         return [
-            'razon_social.required' => 'El ingreso de razón social es obligatorio.',
             'tipo_identificacion.required' => 'El ingreso de tipo de identificación es obligatorio.',
             'numero_identificacion.required' => 'El ingreso de número de identificación es obligatorio.',
             'tipo_solicitante.required' => 'El ingreso de tipo de solicitante es obligatorio.',

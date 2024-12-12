@@ -149,3 +149,50 @@ $("#cliente").change(function(event) {
         document.getElementById('nit_o').value = numeroIdentificacion;
     }
 });
+
+document.addEventListener("submit", function (event) {
+    const codigoInput = this.querySelector("#codigo");
+    const codigoInicial = codigoInput.getAttribute("data-original-value");
+    // Verifica que el evento provenga de un formulario con el ID que deseas manejar
+    if (event.target.id === "form_reg_contrato" || event.target.id === "form_edit_contrato") {
+        event.preventDefault();
+
+        const form = event.target; // Obtiene el formulario dinámicamente
+        const codigoContrato = form.querySelector("#codigo").value;
+        const errorSpan = form.querySelector("#error-codigo"); // Busca dentro del formulario correspondiente
+
+        // Limpia el mensaje de error
+        errorSpan.textContent = "";
+
+        $.ajax({
+            url: verificaCodigoContrato,
+            method: 'get',
+            data: { codigo: codigoContrato },
+            beforeSend: function () {
+                form.querySelector("button[type='submit']").setAttribute('disabled', true);
+            },
+            success: function (response) {
+                if (form.id === 'form_reg_contrato' && response.cont > 0) {
+                    errorSpan.textContent = "El Código ya se encuentra registrado, ingrese uno diferente.";
+                    form.querySelector("#codigo").focus();
+                } else if(form.id == 'form_edit_contrato'){
+                    if (codigoInicial !== codigoContrato && response.cont > 0 ){
+                        errorSpan.textContent = "El Código ya se encuentra registrado, ingrese uno diferente.";
+                        form.querySelector("#codigo").focus();
+                    } else {
+                        form.submit();
+                    }
+                } else {
+                    form.submit();
+                }
+            },
+            error: function () {
+                alert("Error al verificar el código. Intente nuevamente.");
+            },
+            complete: function () {
+                form.querySelector("button[type='submit']").removeAttribute('disabled');
+            }
+        });
+    }
+}, true);
+

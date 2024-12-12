@@ -26,7 +26,7 @@
 
                         <div class="row mb-5 align-items-center">
                             <!-- Generar / Visualizar Switches -->
-                            <div class="col-md-1">
+                            <div class="col-12 col-md-2">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="check_generar" checked>
                                     <label class="form-check-label" for="check_generar">Generar</label>
@@ -38,7 +38,7 @@
                             </div>
 
                             <!-- Input de Fecha -->
-                            <div class="col-md-2">
+                            <div class="col-12 col-md-2">
                                 <label for="fecha" class="col-form-label">Periodo de Facturación <span class="text-danger">(*)</span></label>
                                 <input id="fecha" type="date" class="form-control {{ $errors->has('fecha') ? 'error' : '' }}" name="fecha" autofocus>
                                 @if ($errors->has('fecha'))
@@ -46,7 +46,7 @@
                                 @endif
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-12 col-md-2">
                                 <label for="tipo" class="col-form-label">Tipo <span class="text-danger">(*)</span></label>
                                 <select id="tipo" class="form-control" name="tipo" disabled>
                                     <option value="">Seleccionar...</option>
@@ -55,7 +55,7 @@
                                 </select>
                             </div>
                         
-                            <div class="col-md-3">
+                            <div class="col-12 col-md-2">
                                 <label for="aeropuerto" class="col-form-label">Aeropuerto <span class="text-danger">(*)</span></label>
                                 <select id="aeropuerto" class="form-control{{ $errors->has('aeropuerto') ? ' error' : '' }}" name="aeropuerto" disabled>
                                     <option value="">Seleccionar...</option>
@@ -72,7 +72,7 @@
                                 @endif                                                         
                             </div>
 
-                            <div id="select_cliente" class="col-md-2" style="display: none;">
+                            <div id="select_cliente" class="col-12 col-md-2" style="display: none;">
                                 <label for="cliente" class="col-form-label">Cliente <span class="text-danger">(*)</span></label>
                                 <select id="cliente" class="form-control{{ $errors->has('cliente') ? ' error' : '' }}" name="cliente" disabled>
                                     <option value="">Seleccionar...</option>
@@ -85,7 +85,7 @@
                             </div>
 
                         
-                            <div class="col-md-2 d-flex justify-content-center align-self-end">
+                            <div class="col-12 col-md-2 d-flex justify-content-center align-self-end">
                                 <button id="generar" type="" class="btn btn-primary me-2" disabled>GENERAR</button> 
                                 <button id="visualizar" type="" class="btn btn-primary me-2" style="display: none;" disabled>VISUALIZAR</button> 
                                 <button id="aprobar" type="submit" class="btn btn-success" style="display: none;" disabled>APROBAR</button> 

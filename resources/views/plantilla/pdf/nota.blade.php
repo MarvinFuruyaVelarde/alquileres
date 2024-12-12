@@ -78,22 +78,22 @@
       
         @php
             $suma_total=0;
+            $j=1;
         @endphp
         @foreach($plantilla as $key => $item)
-        @if ($i== $item->numero)
-        @php
-        
-        $j=1;
-        $espacio= App\Models\Espacio::where('id',$item->espacio)->first();
-        $suma_total=$suma_total+ $espacio->total_canonmensual;
-        $salida= convertirNumeroATexto($suma_total);
-        @endphp
-        <tr>
-          <td style="text-align:center;">{{$j++}} </td>
-          <td style="text-align:center;">{{ $espacio->ubicacion }}</td>
-          <td style="text-align:center;">{{ $espacio->total_canonmensual }}</td>
-        </tr>   
-        @endif
+          @if ($i== $item->numero)
+            @php
+            
+            $espacio= App\Models\View_Espacio::where('id',$item->espacio)->first();
+            $suma_total=$suma_total+ $espacio->total_canonmensual;
+            $salida= convertirNumeroATexto($suma_total);
+            @endphp
+            <tr>
+              <td style="text-align:center;">{{$j++}} </td>
+              <td style="text-align:center;">{{ $espacio->descripcion }}</td>
+              <td style="text-align:center;">{{ $espacio->total_canonmensual }}</td>
+            </tr>   
+          @endif
         @endforeach
         <tr style=" text-align: center;">
           <td></td>
