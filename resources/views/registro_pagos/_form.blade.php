@@ -203,7 +203,7 @@
     <div class="col-md-5" style="display: none" id="bloque">
         <label for="actividad_principal" class="col-form-label" style="display: none" id="label">Fecha Deposito en Cuenta: <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="fecha_deposito" type="date" class="form-control {{ $errors->has('fecha_deposito') ? ' error' : '' }}" name="fecha_deposito" value="{{ old('fecha_deposito') }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+            <input id="fecha_deposito" type="date" class="form-control {{ $errors->has('fecha_deposito') ? ' error' : '' }}" name="fecha_deposito" value="{{ old('fecha_deposito') }}">
             <span id="error-actividad_principal" class="error-actividad_principal" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('fecha_deposito'))
                 <span class="text-danger">

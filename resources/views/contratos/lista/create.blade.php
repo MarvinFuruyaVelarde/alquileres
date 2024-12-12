@@ -104,7 +104,7 @@
               '<div class="col-md-3">'+
                   '{{Form::label("fecha_emision_documento'+cont+'",'Fecha Emisión de Documento')}} <span class="text-danger">(*)</span>'+
                   '<div class="col-md-12">'+
-                  '<input id="fecha_emision_documento'+cont+'" type="date" class="form-control {{ $errors->has('fecha_emision_documento1') ? ' error' : '' }}" name="fecha_emision_documento'+cont+'" value="" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">'+
+                  '<input id="fecha_emision_documento'+cont+'" type="date" class="form-control {{ $errors->has('fecha_emision_documento1') ? ' error' : '' }}" name="fecha_emision_documento'+cont+'" value="" autofocus onkeyup="this.value = this.value.toUpperCase();">'+
                   '<span id="error-fecha_emision_documento'+cont+'" class="error-fecha_emision_documento'+cont+'" style="color: rgb(220, 53, 69);"></span>'+
                   '@if ($errors->has('fecha_emision_documento1'))'+
                       '<span class="text-danger">'+

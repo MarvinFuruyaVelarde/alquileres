@@ -114,7 +114,7 @@
         <div id = 'fecha_container' style= "display: none;">
             <label for="fecha_deposito" class="col-form-label">Fecha de Deposito en Cuenta <span class="text-danger">(*)</span></label>
             <div class="col-md-11">
-                <input id="fecha_deposito"  type="date" class="form-control {{ $errors->has('fecha_deposito') ? ' error' : '' }}" name="fecha_deposito" value=" " autofocus onkeyup="this.value = this.value.toUpperCase();">
+                <input id="fecha_deposito"  type="date" class="form-control {{ $errors->has('fecha_deposito') ? ' error' : '' }}" name="fecha_deposito" value=" ">
                 @if ($errors->has('fecha_deposito'))
                     <span class="text-danger">
                         {{ $errors->first('fecha_deposito') }}

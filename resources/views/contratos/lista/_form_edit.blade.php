@@ -294,7 +294,7 @@
                     <div class="col-md-3">
                         {{Form::label('fecha_emision_documento1','Fecha Emisión de Documento')}} <span class="text-danger">(*)</span>
                         <div class="col-md-12">
-                        <input id="fecha_emision_documento1" type="date" class="form-control {{ $errors->has('fecha_emision_documento1') ? ' error' : '' }}" name="fecha_emision_documento1" value="{{ old('fecha_emision_documento1',$contrato->fecha_emision_documento1) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                        <input id="fecha_emision_documento1" type="date" class="form-control {{ $errors->has('fecha_emision_documento1') ? ' error' : '' }}" name="fecha_emision_documento1" value="{{ old('fecha_emision_documento1',$contrato->fecha_emision_documento1) }}">
                         <span id="error-fecha_emision_documento1" class="error-fecha_emision_documento1" style="color: rgb(220, 53, 69);"></span>
                         @if ($errors->has('fecha_emision_documento1'))
                             <span class="text-danger">
@@ -399,7 +399,7 @@
                     <div class="col-md-3">
                         {{Form::label('fecha_emision_documento2','Fecha Emisión de Documento')}} <span class="text-danger">(*)</span>
                         <div class="col-md-12">
-                        <input id="fecha_emision_documento2" type="date" class="form-control {{ $errors->has('fecha_emision_documento2') ? ' error' : '' }}" name="fecha_emision_documento2" value="{{ old('fecha_emision_documento2',$contrato->fecha_emision_documento2) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                        <input id="fecha_emision_documento2" type="date" class="form-control {{ $errors->has('fecha_emision_documento2') ? ' error' : '' }}" name="fecha_emision_documento2" value="{{ old('fecha_emision_documento2',$contrato->fecha_emision_documento2) }}">
                         <span id="error-fecha_emision_documento2" class="error-fecha_emision_documento2" style="color: rgb(220, 53, 69);"></span>
                         @if ($errors->has('fecha_emision_documento2'))
                             <span class="text-danger">
@@ -504,7 +504,7 @@
                     <div class="col-md-3">
                         {{Form::label('fecha_emision_documento3','Fecha Emisión de Documento')}} <span class="text-danger">(*)</span>
                         <div class="col-md-12">
-                        <input id="fecha_emision_documento3" type="date" class="form-control {{ $errors->has('fecha_emision_documento3') ? ' error' : '' }}" name="fecha_emision_documento3" value="{{ old('fecha_emision_documento3',$contrato->fecha_emision_documento3) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                        <input id="fecha_emision_documento3" type="date" class="form-control {{ $errors->has('fecha_emision_documento3') ? ' error' : '' }}" name="fecha_emision_documento3" value="{{ old('fecha_emision_documento3',$contrato->fecha_emision_documento3) }}">
                         <span id="error-fecha_emision_documento3" class="error-fecha_emision_documento3" style="color: rgb(220, 53, 69);"></span>
                         @if ($errors->has('fecha_emision_documento3'))
                             <span class="text-danger">

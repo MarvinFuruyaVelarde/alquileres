@@ -229,7 +229,7 @@
                         
                             <div class="col-md-3">
                                 <label for="fecha_inicial" class="col-form-label">Fecha Inicial <span class="text-danger">(*)</span></label>
-                                <input id="fecha_inicial" type="date" class="form-control {{ $errors->has('fecha_inicial') ? ' error' : '' }}" name="fecha_inicial" value="{{ old('fecha_inicial',$espacio->fecha_inicial) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                <input id="fecha_inicial" type="date" class="form-control {{ $errors->has('fecha_inicial') ? ' error' : '' }}" name="fecha_inicial" value="{{ old('fecha_inicial',$espacio->fecha_inicial) }}">
                                 <span id="error-fecha_inicial" class="error-fecha_inicial" style="color: rgb(220, 53, 69);"></span>
                                 @if ($errors->has('fecha_inicial'))
                                     <span class="text-danger">
@@ -239,8 +239,8 @@
                             </div>
                         
                             <div class="col-md-3">
-                                <label for="fecha_final" class="col-form-label">Fecha Inicial <span class="text-danger">(*)</span></label>
-                                <input id="fecha_final" type="date" class="form-control {{ $errors->has('fecha_final') ? ' error' : '' }}" name="fecha_final" value="{{ old('fecha_final',$espacio->fecha_final) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                <label for="fecha_final" class="col-form-label">Fecha Final <span class="text-danger">(*)</span></label>
+                                <input id="fecha_final" type="date" class="form-control {{ $errors->has('fecha_final') ? ' error' : '' }}" name="fecha_final" value="{{ old('fecha_final',$espacio->fecha_final) }}">
                                 <span id="error-fecha_final" class="error-fecha_final" style="color: rgb(220, 53, 69);"></span>
                                 @if ($errors->has('fecha_final'))
                                     <span class="text-danger">
