@@ -126,7 +126,7 @@
     <div class="col-md-5">
         <label for="telefono_celular" class="col-form-label">Fecha de Pago: <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="fecha_actual" type="text" class="form-control {{ $errors->has('fecha_actual') ? ' error' : '' }}" name="fecha_actual" value="{{ old('fecha_actual',$fecha_actual) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
+            <input id="fecha_actual" type="date" class="form-control {{ $errors->has('fecha_actual') ? ' error' : '' }}" name="fecha_actual" value="{{ old('fecha_actual',$fecha_actual) }}">
             <span id="error-telefono_celular" class="error-telefono_celular" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('fecha_actual'))
                 <span class="text-danger">
@@ -159,7 +159,7 @@
     </div>
 
     <div class="col-md-5">
-        <label for="actividad_principal" class="col-form-label">Nro. Recibo Cobro: <span class="text-danger">(*)</span></label>
+        <label for="actividad_principal" class="col-form-label">Nro. Recibo Cobro:</label>
         <div class="col-md-11">
             <input id="recibo_cobro" type="text" class="form-control {{ $errors->has('recibo_cobro') ? ' error' : '' }}" name="recibo_cobro" value="{{ old('recibo_cobro') }}" autofocus onkeydown="javascript: return event.keyCode === 8 ||
                       event.keyCode === 46 ? true : !isNaN(Number(event.key))">
@@ -221,7 +221,7 @@
     <div class="col-md-1">
     </div>
     <div class="col-md-5">
-        <label for="correo" class="col-form-label">Observacion <span class="text-danger">(*)</span></label>
+        <label for="correo" class="col-form-label">Observacion</label>
         <div class="col-md-11">
             <textarea id="observacion" name="observacion" rows="4" cols="40" class="form-control {{ $errors->has('observacion') ? ' error' : '' }}"></textarea>
             <span id="error-codigo" class="error-correo" style="color: rgb(220, 53, 69);"></span>

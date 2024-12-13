@@ -35,7 +35,7 @@ function convertirNumeroATexto($numero) {
         6 => "sesenta", 7 => "setenta", 8 => "ochenta", 9 => "noventa"
     ];
     $centenas = [
-        1 => "cien", 2 => "doscientos", 3 => "trescientos", 4 => "cuatrocientos",
+        1 => "ciento", 2 => "doscientos", 3 => "trescientos", 4 => "cuatrocientos",
         5 => "quinientos", 6 => "seiscientos", 7 => "setecientos", 8 => "ochocientos", 9 => "novecientos"
     ];
 

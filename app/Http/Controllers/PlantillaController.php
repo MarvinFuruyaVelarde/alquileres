@@ -10,6 +10,7 @@ use App\Models\FormaPago;
 use App\Models\Plantilla;
 use App\Models\Rubro;
 use App\Models\View_Espacio;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\App;
@@ -171,7 +172,9 @@ class PlantillaController extends Controller
         $contrato =Contrato::where('id',$id)->first();
         $aeropuerto =Aeropuerto::where('id',$contrato->aeropuerto)->first();
         $espacios=Espacio::whereIn('id',$array)->get();
-        $pdf->loadView('plantilla.pdf.nota',compact('numero_cobro','espacios','aeropuerto','cliente','plantilla','dias','mes','año'));
+        $fechaImpresion = Carbon::now()->format('Y-m-d H:i:s');
+
+        $pdf->loadView('plantilla.pdf.nota',compact('numero_cobro', 'espacios', 'aeropuerto', 'cliente', 'plantilla', 'dias', 'mes', 'año', 'fechaImpresion'));
         return $pdf->stream();
     }
     public function destroy($id){

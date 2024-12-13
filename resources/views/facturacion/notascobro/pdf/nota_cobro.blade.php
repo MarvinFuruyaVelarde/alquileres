@@ -19,31 +19,31 @@
             <table class="title" style="width: 100%;">
               <tr class="items">
 
-                <td style="width: 35%; text-align: left;">
+                <td style="width: 30%; text-align: left;">
                   <img src="{{ ('storage/descarga1.png') }}" width="100px" alt="Image"/>
                 </td>
                 
-                <td style="width: 40%; text-align: center; font-weight: bold;">
-                  <div style="font-size: 18px; text-decoration: underline;">
+                <td style="width: 35%; text-align: center; font-weight: bold;">
+                  <div style="font-size: 12px; font-weight: bold;">
+                    NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS 
+                  </div>
+                  <div style="font-size: 12px; font-weight: bold;">
+                    SISTEMA ALQUILERES   
+                  </div>
+                  <div style="font-size: 12px; text-decoration: underline;">
                     NOTA DE COBRO
                   </div>
                 </td>
                 
                 <td style="width: 35%; font-size: 10px; text-align: right;">
                   <span style="font-weight: bold;">FECHA DE IMPRESIÓN: </span> {{$fechaImpresion}}
-                </td>
-
-              </tr>
-              <tr class="items">
-                <td style="width: 35%; text-align: left;">
-                </td>
-                <td style="width: 40%; text-align: center;">
-                </td>
-                <td style="width: 35%; font-size: 12px; text-align: right;">
-                  {{$numero_nota_cobro}}
+                  <br><br><br>
+                  <div style="font-size: 12px;">
+                    {{$numero_nota_cobro}}
+                  </div>
                 </td>
               </tr>
-                    
+              <br>      
               <tr>
                 <td colspan="3"><hr></td>
               </tr>
@@ -57,12 +57,13 @@
                   <div style="font-size: 14px;">
                     <span style="font-weight: bold;">SEÑOR(ES): </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$clienteRazonSocial}}
                   </div>
-                  <div style="font-size: 14px;">
-                    <span style="font-weight: bold;">REFERENCIA: </span>&nbsp;&nbsp;Factura correspondiente a &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">{{$fechaInicio}} a {{$fechaFin}}</span>
+                  <div style="font-size: 13px;">
+                    <span style="font-weight: bold;">REFERENCIA: </span>&nbsp;&nbsp;&nbsp;&nbsp;Nota de Cobro correspondiente a &nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">{{$fechaInicio}} a {{$fechaFin}}</span>
                   </div>
                   <br>
                   <div style="font-size: 14px; font-weight: bold;">
-                    Nuestro cargo por concepto de : {{$concepto}}</div>
+                    Nuestro cargo por concepto de : {{$concepto}}
+                  </div>
                   </td>
                 <td></td>
                 <td></td>
@@ -92,7 +93,7 @@
                 @php
                 $espacio = App\Models\View_Espacio::find($facturaDetalle->espacio);
                 if ($tipoFactura == 'AL' && $tipoGeneracion == 'A')
-                  $detalle = $espacio->descripcion;
+                  $detalle = $espacio->glosa_factura;
                 else if ($tipoFactura == 'EX')
                   $detalle = $facturaDetalle->glosa;
                 if ($tipoFactura == 'AL' && $tipoGeneracion == 'M' && $facturaDetalle->espacio === null)

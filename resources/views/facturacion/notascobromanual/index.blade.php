@@ -18,9 +18,9 @@
     <div class="d-flex justify-content-between">
         <div class="d-flex">
         </div>
-        @can('notacobromanual.create')
+        {{--@can('notacobromanual.create')--}}
             <a href="{{route('notacobromanual.create')}}" class="btn btn-primary" title="Crea una nueva expensa"> <i class="bi bi-plus"></i> Registrar </a>
-        @endcan
+        {{--@endcan--}}
     </div>
 </div><!-- End Page Title -->
 <section class="section">

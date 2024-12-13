@@ -27,8 +27,7 @@ class DetallePagoFacturaRequest extends FormRequest
             $rules =[
                 'pagar' => 'required',
                 'cuenta_destino' => 'required',
-                'observacion' => 'required',
-                'recibo_cobro' => 'required',
+                'fecha_actual' => 'required',
                 'registro_deposito' => 'required',
                 'fecha_deposito'=>Rule::requiredIf($request->input('cuenta_destino')==8 || $request->input('cuenta_destino')==9 )
             ];
@@ -37,11 +36,17 @@ class DetallePagoFacturaRequest extends FormRequest
             return [
                 'pagar' => 'required',
                 'cuenta_destino' => 'required',
-                'observacion' => 'required',
-                'recibo_cobro' => 'required',
+                'fecha_actual' => 'required',
                 'registro_deposito' => 'required',
                 'fecha_deposito'=>Rule::requiredIf($request->input('cuenta_destino')==8 || $request->input('cuenta_destino')==9 )
             ];
         }
+    }
+
+    public function messages()
+    {
+        return [
+            'fecha_actual.required' => 'El campo fecha de pago es obligatorio.',
+        ];
     }
 }

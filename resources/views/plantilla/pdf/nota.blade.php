@@ -19,20 +19,22 @@
            <div style="padding: 12px">
               <table class="title" style="width: 100%;">
                  <tr class="items">
-                    <td style="width: 20%; text-align:center">
+                    <td style="width: 30%; text-align:left">
                         <img src="{{'storage/descarga1.png'}}"  width="100px" alt="Image"/>
                      </td>
-                       <td style="width: 100%; text-align:center; font-weight: bold;">
-                          <div style="font-size: 18px; font-weight: bold;">
+                       <td style="width: 35%; text-align:center; font-weight: bold;">
+                          <div style="font-size: 12px; font-weight: bold;">
                             NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS 
                           </div>
-                          <div style="font-size: 16px; font-weight: bold;">
+                          <div style="font-size: 12px; font-weight: bold;">
                             SISTEMA ALQUILERES   
                           </div>
-                          <div style="font-size: 14px">NOTA DE COBRO</div>
+                          <div style="font-size: 12px; text-decoration: underline;">PLANTILLA</div>
                        </td>
                      
-                       <td style="width: 20%; text-align:center"> 
+                       <td style="width: 35%; font-size: 10px; text-align: right;"> 
+                        <span style="font-weight: bold;">FECHA DE IMPRESIÓN: </span> {{$fechaImpresion}}
+                        <br><br><br><br>
                        </td>
                  </tr>
                  <br>
@@ -43,20 +45,16 @@
                  <br>
                  <tr >
                     <td colspan="2">
-                      <div style="font-size: 18px; font-weight: bold;">
-                        AEROPUERTO: {{$aeropuerto->descripcion}}
+                      <div style="font-size: 14px;">
+                        <span style="font-weight: bold;">AEROPUERTO: </span>{{$aeropuerto->descripcion}}
                       </div>
-                      <div style="font-size: 16px; font-weight: bold;">
-                        SEÑOR(ES): {{$cliente->razon_social}}
+                      <div style="font-size: 14px;">
+                        <span style="font-weight: bold;">SEÑOR(ES): </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$cliente->razon_social}}
                       </div>
-                      <div style="font-size: 16px; font-weight: bold;">
-                        REFERENCIA: Factura correspondiente a 1/{{$mes}}/{{$año}} a {{$dias}}/{{$mes}}/{{$año}}
-                      </div>
-                     
                       <br>
-                      <div style="font-size: 14px">Nuestro cargo por concepto  de Alquileres:</div></td>
-                    
-
+                      <div style="font-size: 14px; font-weight: bold;">
+                        Nuestro cargo por concepto de : ALQUILER
+                      </div>
                     <td></td>
                     <td></td>
                  </tr>
@@ -87,14 +85,19 @@
             $espacio= App\Models\View_Espacio::where('id',$item->espacio)->first();
             $suma_total=$suma_total+ $espacio->total_canonmensual;
             $salida= convertirNumeroATexto($suma_total);
+            $enteros = floor($suma_total);
+            $decimales = str_pad(round(($suma_total - $enteros) * 100), 2, '0', STR_PAD_LEFT);
             @endphp
             <tr>
               <td style="text-align:center;">{{$j++}} </td>
-              <td style="text-align:center;">{{ $espacio->descripcion }}</td>
+              <td style="text-align:center;">{{ $espacio->glosa_factura }}</td>
               <td style="text-align:center;">{{ $espacio->total_canonmensual }}</td>
             </tr>   
           @endif
         @endforeach
+        <tr>
+          <td colspan="3"><hr></td>
+        </tr>
         <tr style=" text-align: center;">
           <td></td>
           <td></td>
@@ -104,10 +107,10 @@
     </tbody>
  </table >
  <br>
- Son: {{strtoupper($salida)}} Bolivianos
+ <span style="font-weight: bold; font-size: 14px;">Son: {{ucfirst($salida)}} {{$decimales}}/100 Bolivianos</span>
  <br>
  <br>
- <span>Nota: El pago sera moneda pactada y/o  en Bolivianos, al tipo de cambio de la fecha de cancelacion, debiendo ser cancelado dentro de los
+ <span style="font-size: 12px;">Nota: El pago sera moneda pactada y/o  en Bolivianos, al tipo de cambio de la fecha de cancelacion, debiendo ser cancelado dentro de los
    10 habiles apartir de la recepcion de la presente nota.
  </span>
            </div>
