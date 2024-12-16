@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class RubroRequest extends FormRequest
 {
@@ -22,7 +23,15 @@ class RubroRequest extends FormRequest
      */
     public function rules(Request $request)
     {
+        $rubroId = $this->route('rubro'); // Obtiene el ID del cliente desde la ruta, si existe
+
         return [
+            'codigo' => [
+                'required',
+                'integer',
+                Rule::unique('rubro', 'codigo')->ignore($rubroId)
+            ],
+
             'descripcion'=>'required',
             'estado'=>'required',
         ];
@@ -30,6 +39,9 @@ class RubroRequest extends FormRequest
     public function messages()
     {
         return [
+            'codigo.required' => 'El código es obligatorio.',
+            'codigo.integer' => 'El código debe ser un número entero.',
+            'codigo.unique' => 'El código ya se encuentra registrado, ingrese uno nuevo.',
             'descripcion.required' => 'El ingreso de descripción es obligatorio.',
             'estado.required'   => 'El ingreso de estado es obligatorio.',
         ];

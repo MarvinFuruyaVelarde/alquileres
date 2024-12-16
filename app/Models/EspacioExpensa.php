@@ -2,18 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Wildside\Userstamps\Userstamps;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class EspacioExpensa extends Model
+
+class EspacioExpensa extends Model implements Auditable
 {
-    use HasFactory;
+    use HasFactory, Userstamps, SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
 
     // Especifica el nombre de la tabla 
     protected $table = 'espacio_expensa';
 
     // Si la tabla no tiene columnas timestamps (created_at, updated_at)
-    public $timestamps = false;
+    public $timestamps = true;
 
     // Define los campos que se pueden llenar
     protected $fillable = ['id', 'espacio', 'expensa', 'tarifa_fija', 'monto'];

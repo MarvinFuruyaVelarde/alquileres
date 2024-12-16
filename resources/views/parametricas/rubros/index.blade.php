@@ -43,6 +43,7 @@
                 <table cellspacing="0" width="100%" id="datos" class="table table-hover table-bordered">
                     <thead>
                         <tr>
+                            <th class="text-center">CÓDIGO</th>
                             <th class="text-center">DESCRIPCIÓN</th>
                             <th class="text-center">ESTADO</th>
                             <th class="text-center">OPCIONES</th>
@@ -52,6 +53,7 @@
                         @foreach($rubros as $rubro)
 
                             <tr>
+                                <td class="text-center">{{$rubro->codigo}}</td>
                                 <td class="text-center">{{$rubro->descripcion}}</td>
                                 <td class="text-center">{{$rubro->desc_estado}}</td>
                                 <td class="d-flex justify-content-center" >

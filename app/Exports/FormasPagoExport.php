@@ -19,7 +19,7 @@ class FormasPagoExport implements FromCollection, WithHeadings, WithTitle, WithE
     */
     public function collection()
     {
-        return View_FormaPago::select('id', 'descripcion', 'numero_dia', 'desc_estado')->get();
+        return View_FormaPago::select('id', 'descripcion', 'numero_dia', 'numero_mes', 'desc_estado')->get();
     }
 
     /**
@@ -31,6 +31,7 @@ class FormasPagoExport implements FromCollection, WithHeadings, WithTitle, WithE
             'N°',
             'DESCRIPCIÓN',
             'NRO.DÍAS',
+            'NRO.MESES',
             'ESTADO',
         ];
     }
@@ -55,7 +56,7 @@ class FormasPagoExport implements FromCollection, WithHeadings, WithTitle, WithE
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nFORMAS DE PAGO";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:D1');
+                $sheet->mergeCells('A1:E1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -70,7 +71,7 @@ class FormasPagoExport implements FromCollection, WithHeadings, WithTitle, WithE
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'D') as $columnID) {
+                foreach (range('A', 'E') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -80,7 +81,7 @@ class FormasPagoExport implements FromCollection, WithHeadings, WithTitle, WithE
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:D2';
+                $headerRange = 'A2:E2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -103,8 +104,9 @@ class FormasPagoExport implements FromCollection, WithHeadings, WithTitle, WithE
                 $columns = [
                     'A' => Alignment::HORIZONTAL_CENTER, // Alinear a la izquierda para la columna ID
                     'B' => Alignment::HORIZONTAL_LEFT, // Alinear a la izquierda para la columna DESCRIPCIÓN
-                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
-                    'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
+                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NRO. DIAS
+                    'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NRO. MESES
+                    'E' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

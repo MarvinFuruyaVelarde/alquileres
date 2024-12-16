@@ -29,9 +29,9 @@ class RubroController extends Controller
 
     public function store(RubroRequest $request)
     {
-        
         $rubro=new Rubro();
 
+        $rubro->codigo = $request->codigo;
         $rubro->descripcion = $request->descripcion;
         $rubro->estado = $request->estado;
 
@@ -46,17 +46,9 @@ class RubroController extends Controller
         return view('parametricas.rubros.edit',compact('rubro', 'estados'));
     }
 
-    public function update(Request $request, Rubro $rubro)
-    {
-        $request->validate( [
-            'descripcion'=>'required',
-            'estado'=>'required',
-        ],[
-                    'descripcion.required' => 'El campo es de ingreso obligatorio.',
-                    'estado.required' => 'El campo es de ingreso obligatorio.',
-            ]
-        );
-        
+    public function update(RubroRequest $request, Rubro $rubro)
+    {   
+        $rubro->codigo=$request->codigo;
         $rubro->descripcion=$request->descripcion;
         $rubro->estado=$request->estado;
 

@@ -2,9 +2,23 @@
     Debe rellenar todos los campos marcados con <strong class="text-danger">(*)</strong>.
     Al momento de registrar/editar un rubro</p>
 <div class="row mb-1">
+    <label for="codigo" class="col-md-4 col-form-label text-right">Código: <span class="text-danger">(*)</span></label>
+    <div class="col-md-6">
+        <input id="codigo" type="text" class="form-control {{ $errors->has('codigo') ? ' error' : '' }}" name="codigo" value="{{ old('codigo',$rubro->codigo) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="5" data-max-length="50">
+        <span id="error-codigo" class="error-codigo" style="color: rgb(220, 53, 69);"></span>
+        @if ($errors->has('codigo'))
+            <span class="text-danger">
+                {{ $errors->first('codigo') }}
+            </span>
+            
+        @endif
+    </div>
+</div>
+
+<div class="row mb-1">
     <label for="descripcion" class="col-md-4 col-form-label text-right">Descripcion: <span class="text-danger">(*)</span></label>
     <div class="col-md-6">
-        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$rubro->descripcion) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="codigo" data-validate="length" data-min-length="5" data-max-length="50">
+        <input id="descripcion" type="text" class="form-control {{ $errors->has('descripcion') ? ' error' : '' }}" name="descripcion" value="{{ old('descripcion',$rubro->descripcion) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-input-id="descripcion" data-validate="length" data-min-length="5" data-max-length="50">
         <span id="error-descripcion" class="error-descripcion" style="color: rgb(220, 53, 69);"></span>
         @if ($errors->has('descripcion'))
             <span class="text-danger">

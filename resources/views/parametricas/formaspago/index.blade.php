@@ -45,6 +45,7 @@
                         <tr>
                             <th class="text-center">DESCRIPCIÓN</th>
                             <th class="text-center">NRO. DÍAS</th>
+                            <th class="text-center">NRO. MESES</th>
                             <th class="text-center">ESTADO</th>
                             <th class="text-center">OPCIONES</th>
                         </tr>
@@ -55,6 +56,7 @@
                             <tr>
                                 <td class="text-center">{{$formapago->descripcion}}</td>
                                 <td class="text-center">{{$formapago->numero_dia}}</td>
+                                <td class="text-center">{{$formapago->numero_mes}}</td>
                                 <td class="text-center">{{$formapago->desc_estado}}</td>
                                 <td class="d-flex justify-content-center" >
                                     @can('formaspago.edit')

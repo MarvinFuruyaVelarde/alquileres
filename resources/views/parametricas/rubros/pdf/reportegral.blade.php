@@ -28,6 +28,7 @@
     <thead>
         <tr style="background: darkgray; text-align: center;">
             <th>Nº</th>
+            <th>CÓDIGO</th>
             <th>DESCRIPCIÓN</th>
             <th>ESTADO</th>
         </tr>
@@ -37,6 +38,7 @@
         @foreach($rubros as $rubro)
         <tr>
             <td style="text-align:center;">{{ $rubro->id }}</td>
+            <td style="text-align:center;">{{ $rubro->codigo }}</td>
             <td style="text-align:center;">{{ $rubro->descripcion }}</td>
             <td style="text-align:center;">{{ $rubro->desc_estado }}</td>
         </tr>

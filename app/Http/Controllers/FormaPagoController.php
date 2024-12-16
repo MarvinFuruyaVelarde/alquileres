@@ -33,6 +33,7 @@ class FormaPagoController extends Controller
 
         $formapago->descripcion = $request->descripcion;
         $formapago->numero_dia = $request->numero_dia;
+        $formapago->numero_mes = $request->numero_mes;
         $formapago->estado = $request->estado;
 
         $formapago->save();
@@ -58,6 +59,8 @@ class FormaPagoController extends Controller
         );
         
         $formapago->descripcion=$request->descripcion;
+        $formapago->numero_dia = $request->numero_dia;
+        $formapago->numero_mes = $request->numero_mes;
         $formapago->estado=$request->estado;
 
         $formapago->save();

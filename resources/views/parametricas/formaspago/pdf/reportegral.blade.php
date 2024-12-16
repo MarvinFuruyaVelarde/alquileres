@@ -30,6 +30,7 @@
             <th>Nº</th>
             <th>DESCRIPCIÓN</th>
             <th>NRO. DÍAS</th>
+            <th>NRO. MESES</th>
             <th>ESTADO</th>
         </tr>
     </thead>
@@ -40,6 +41,7 @@
             <td style="text-align:center;">{{ $formapago->id }}</td>
             <td style="text-align:center;">{{ $formapago->descripcion }}</td>
             <td style="text-align:center;">{{ $formapago->numero_dia }}</td>
+            <td style="text-align:center;">{{ $formapago->numero_mes }}</td>
             <td style="text-align:center;">{{ $formapago->desc_estado }}</td>
         </tr>
         @endforeach
