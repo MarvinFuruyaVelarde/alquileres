@@ -92,21 +92,28 @@
                 @foreach($facturaDetalles as $facturaDetalle)
                 @php
                 $espacio = App\Models\View_Espacio::find($facturaDetalle->espacio);
-                if ($tipoFactura == 'AL' && $tipoGeneracion == 'A')
+                if ($tipoFactura == 'AL' && $tipoGeneracion == 'A'){
                   $detalle = $espacio->glosa_factura;
-                else if ($tipoFactura == 'EX')
+                  $codigo_rubro = $espacio->codigo_rubro;
+                } else if ($tipoFactura == 'EX') {
                   $detalle = $facturaDetalle->glosa;
-                if ($tipoFactura == 'AL' && $tipoGeneracion == 'M' && $facturaDetalle->espacio === null)
+                  $codigo_rubro = 99714;
+                } else if ($tipoFactura == 'AL' && $tipoGeneracion == 'M' && $facturaDetalle->espacio === null){
                   $detalle = $facturaDetalle->glosa;
-                if ($tipoFactura == 'AL' && $tipoGeneracion == 'M' && $facturaDetalle->espacio !== null)
+                  $codigo_rubro = 72149;
+                }else if ($tipoFactura == 'AL' && $tipoGeneracion == 'M' && $facturaDetalle->espacio !== null){
                   $detalle = $espacio->glosa_factura;
-                else if ($tipoFactura == 'MOR')
+                  $codigo_rubro = $espacio->codigo_rubro;
+                } else if ($tipoFactura == 'MOR'){
                   $detalle = $facturaDetalle->glosa;
-                else if ($tipoFactura == 'OTR')
+                  $codigo_rubro = 99112;
+                }else if ($tipoFactura == 'OTR'){
                   $detalle = $facturaDetalle->glosa;
+                  $codigo_rubro = 99114;
+                }
                 @endphp
                 <tr>
-                  <td style="width: 10%; text-align:center; font-size: 12px;">{{$j++}} </td>
+                  <td style="width: 10%; text-align:center; font-size: 12px;">{{$codigo_rubro}} </td>
                   <td style="width: 70%; text-align:center; font-size: 12px;">{{ $detalle }}</td>
                   <td style="text-align:center; font-size: 12px;">{{ $facturaDetalle->precio }}</td>
                 </tr>   

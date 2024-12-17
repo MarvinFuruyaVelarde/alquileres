@@ -10,6 +10,7 @@ use App\Models\Expensa;
 use App\Models\Factura;
 use App\Models\FacturaDetalle;
 use App\Models\NotaCobro;
+use App\Models\Rubro;
 use App\Models\View_Factura;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -206,26 +207,48 @@ class FacturaController extends Controller
             // Obtiene Detalle
             $facturas_detalle = FacturaDetalle::where('factura', $factura->id)->get();
             $subTotal = 0;
+            $subtotal = 0;
 
             // Obtiene datos si tiene más de un espacio
             foreach ($facturas_detalle as $factura_detalle) {
                 $espacio = Espacio::find($factura_detalle->espacio);
                 $montoDescuentoDetalle = null;
+                $codigoProducto = 1;
                 
-                if (($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'A') || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato != 'SIN/CODIGO'))
+                if (($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'A') || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato != 'SIN/CODIGO')){
                     $descripcion = $espacio->glosa_factura;
-                else if ($factura->tipo_factura == 'EX' || $factura->tipo_factura == 'MOR' || $factura->tipo_factura == 'OTR' || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato == 'SIN/CODIGO'))
+                    if ($espacio){
+                        $rubro = Rubro::find($espacio->rubro);
+                        $codigoProducto = $rubro?->codigo;
+                    }    
+                } else if ($factura->tipo_factura == 'EX' || $factura->tipo_factura == 'MOR' || $factura->tipo_factura == 'OTR' || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato == 'SIN/CODIGO')){
                     $descripcion = $factura_detalle->glosa;
-                
+
+                    if ($factura->tipo_factura == 'EX')
+                        $codigoProducto = 99714;
+                    else if ($factura->tipo_factura == 'MOR')
+                        $codigoProducto = 99112;
+                    else if ($factura->tipo_factura == 'OTR')
+                        $codigoProducto = 99114;
+                    else if ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato == 'SIN/CODIGO')
+                        $codigoProducto = 72149;
+                }
+
                 $precioUnitario = $factura_detalle->precio;
-                $subtotal = $factura_detalle->precio - $espacio->opcion_dcto;
-                $subTotal = $subTotal + $espacio->opcion_dcto;
+
+                if ($espacio && $espacio->opcion_dcto !== null){
+                    $subtotal = number_format($factura_detalle->precio - ($factura_detalle->precio * $espacio->opcion_dcto) / 100, 2, '.', '');
+                    $subTotal = number_format($subTotal + ($factura_detalle->precio * $espacio->opcion_dcto) / 100, 2, '.', '');
+                } else {
+                    $subtotal = $factura_detalle->precio;
+                    $subTotal = $subTotal;
+                }
                 
                 if ($espacio)
-                    $montoDescuentoDetalle = $espacio->opcion_dcto;
+                    $montoDescuentoDetalle = number_format(($factura_detalle->precio * ($espacio->opcion_dcto ?? 0)) / 100, 2, '.', '');
 
                 $detalleArray[] = [
-                    'codigoProducto' => '1',
+                    'codigoProducto' => $codigoProducto,
                     'descripcion' => $descripcion,
                     'cantidad' => 1,
                     'precioUnitario' => $precioUnitario,
