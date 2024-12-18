@@ -6,6 +6,7 @@ use App\Models\Aeropuerto;
 use App\Models\Cliente;
 use App\Models\Contrato;
 use App\Models\Espacio;
+use App\Models\EspacioExpensa;
 use App\Models\Expensa;
 use App\Models\Factura;
 use App\Models\FacturaDetalle;
@@ -90,12 +91,14 @@ class NotaCobroController extends Controller
                                 ->where('gestion', $anio)
                                 ->where('mes', $mes)
                                 ->where('tipo_canon', $notaCobroGenerada->tipo_canon)
+                                ->where('espacio', $notaCobroGenerada->id_espacio)
                                 ->exists();
 
             if (!$registroExistente) {
                 $cont++;
                 //Almacena datos de notas de cobro en la estructura factura
                 $factura = New Factura();
+                $factura->espacio = $notaCobroGenerada->id_espacio;
                 $factura->aeropuerto = $aeropuerto;
                 $factura->contrato = $notaCobroGenerada->id_contrato;
                 $factura->codigo_contrato = $notaCobroGenerada->codigo_contrato;
@@ -120,12 +123,17 @@ class NotaCobroController extends Controller
                 $factura->save();
 
                 $facturaId = $factura->id;
-
+                //dd($notaCobroGenerada->origen.' '.$notaCobroGenerada->id_contrato.' '.$notaCobroGenerada->id_forma_pago.' '.$periodoInicialFacturacion.' '.$periodoFacturacion.' '.$notaCobroGenerada->tipo_canon.' '.$notaCobroGenerada->numero);
                 // Registra Factura Detalle
                 $espacios = NotaCobro::obtenerEspaciosPorContrato($notaCobroGenerada->origen, $notaCobroGenerada->id_contrato, $notaCobroGenerada->id_forma_pago, $periodoInicialFacturacion, $periodoFacturacion, $notaCobroGenerada->tipo_canon, $notaCobroGenerada->numero);
                 $monto_total = 0;
                 foreach ($espacios as $espacio) {
+                    //Obtiene Forma de Pago 
+                    $consultaEspacio = Espacio::find($espacio->id);
+                    $formaPago = FormaPago::find($consultaEspacio->forma_pago);
+                    $numeroMes = $formaPago->numero_mes;
 
+                    //dd($consultaEspacio);
                     $facturaDetalle = New FacturaDetalle();
                     $facturaDetalle->factura = $facturaId;
                     $facturaDetalle->espacio = $espacio->id;
@@ -134,7 +142,43 @@ class NotaCobroController extends Controller
                     $facturaDetalle->fecha_final = $espacio->fecha_final;
                     $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
                     $facturaDetalle->total_canonmensual = $espacio->total_canonmensual;
-                    $facturaDetalle->precio = ($espacio->total_canonmensual/$numeroDiaFac) * NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
+                    
+                    //Obtener Fecha de Inicio dado el año, mes de facturación y el dia de inicio de contrato
+                    $fechaInicio = Carbon::parse($periodoFacturacion)->format('Y').'-'.Carbon::parse($periodoFacturacion)->format('m').'-'.Carbon::parse($consultaEspacio->fecha_inicial)->format('d'); //2024-07-15
+                    $fechaInicioCarbon = Carbon::parse($fechaInicio);
+                    $fechaFinalContrato = Carbon::parse($consultaEspacio->fecha_final);// 2024-07-31 
+                    $fechaProximoPago = $fechaInicioCarbon->addMonths($numeroMes);
+                    
+                    // Verifica que monto se obtiene para realizar el calculo
+                    if ($consultaEspacio->canon_dcto != null)
+                        $canon = $consultaEspacio->canon_dcto;
+                    else
+                        $canon = $espacio->total_canonmensual;
+                    
+                    ///dd('fechaInicio '.$fechaInicio.' fechaFinalContrato '.$fechaFinalContrato.' fechaProximoPago '.$fechaProximoPago->toDateString());
+                    
+                    if ($numeroMes === 1){
+                        $facturaDetalle->precio = ($canon/$numeroDiaFac) * NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
+                    } else{
+                        // Verifica si habra próximo pago
+                        if ($fechaProximoPago > $fechaFinalContrato){
+                            $numeroMeses = $fechaFinalContrato->diffInMonths($fechaInicio) ?? 0;
+                            if ($numeroMeses > 0){
+                                $nuevaFechaInicioCarbon = Carbon::parse($fechaInicio);
+                                $nuevaFechaInicio = $nuevaFechaInicioCarbon->addMonths($numeroMeses)->toDateString();
+                                $nuevoNumeroDias = $fechaFinalContrato->diffInDays($nuevaFechaInicio) + 1;
+                                if ($nuevoNumeroDias > 0){
+                                    $facturaDetalle->precio = number_format(($canon * $numeroMeses) + ($canon/$numeroDiaFac * $nuevoNumeroDias), 2, '.', '');
+                                }
+                            } else{ //Caso donde el calculo es por dias
+                                $numeroDias = $fechaFinalContrato->diffInDays($fechaInicio) + 1;
+                                $facturaDetalle->precio = number_format(($canon/$numeroDiaFac) * $numeroDias, 2, '.', '');                                
+                            }
+
+                        } else {
+                            $facturaDetalle->precio = number_format($canon * $numeroMes, 2, '.', '');
+                        }                           
+                    }
                     $monto_total = $monto_total + $facturaDetalle->precio;
                     $facturaDetalle->usuario_registro = auth()->id();
                     $facturaDetalle->fecha_registro = $fechaRegistro;
@@ -231,6 +275,7 @@ class NotaCobroController extends Controller
                                 ->where('mes', $mes)
                                 ->where('tipo_canon', $notaCobroGenerada->tarifa_fija)
                                 ->where('tipo_factura', $tipo)
+                                ->where('monto_total', $notaCobroGenerada->monto)
                                 ->exists();
 
             if (!$registroExistente) {
@@ -541,7 +586,7 @@ class NotaCobroController extends Controller
         $monto_total = $factura->monto_total;
         $tipoFactura = $factura->tipo_factura;
         $tipoGeneracion = $factura->tipo_generacion;
-       
+        //dd('aeropuertoDescripcion '.$aeropuertoDescripcion.' clienteRazonSocial '.$clienteRazonSocial.' fechaInicio '.$fechaInicio.' fechaFin '.$fechaFin.' fechaImpresion '.$fechaImpresion.' numero_nota_cobro '.$numero_nota_cobro.' concepto '.$concepto.' facturaDetalles '.$facturaDetalles.' monto_total '.$monto_total.' tipoFactura '.$tipoFactura.' tipoGeneracion '.$tipoGeneracion);
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('facturacion.notascobro.pdf.nota_cobro',compact('aeropuertoDescripcion', 'clienteRazonSocial', 'fechaInicio', 'fechaFin', 'fechaImpresion', 'numero_nota_cobro', 'concepto', 'facturaDetalles', 'monto_total', 'tipoFactura', 'tipoGeneracion'));
         return $pdf->stream();
