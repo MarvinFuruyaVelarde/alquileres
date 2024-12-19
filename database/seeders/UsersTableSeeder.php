@@ -50,7 +50,7 @@ class UsersTableSeeder extends Seeder
             'estado' => '1',
             'password' => bcrypt('123456'),
         ]);
-        $user2->assignRole('superadmin');
+        $user2->assignRole('ADMINISTRADOR');
 
         $user3 = User::create([
             "name" => 'ROBERT',
@@ -63,6 +63,6 @@ class UsersTableSeeder extends Seeder
             'estado' => '1',
             'password' => bcrypt('5501105'),
         ]);
-        $user3->assignRole('superadmin');
+        $user3->assignRole('ADMINISTRADOR');
     }
 }

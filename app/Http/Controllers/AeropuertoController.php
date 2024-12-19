@@ -18,7 +18,7 @@ class AeropuertoController extends Controller
 {
     public function index()
     {
-        if(auth()->user()->id==1){
+        /*if(auth()->user()->id==1){
             $aeropuertos = View_Aeropuerto::all();
         }else{
             $auth_user=auth()->user();
@@ -30,7 +30,9 @@ class AeropuertoController extends Controller
             $cont++;
         }
         $aeropuertos = View_Aeropuerto::whereIn('regional',$array)->get();
-        }
+        }*/
+
+        $aeropuertos = View_Aeropuerto::all();
         return view('parametricas.aeropuertos.index', compact('aeropuertos')); // Pasar a la vista
     }
 

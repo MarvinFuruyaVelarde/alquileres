@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\UsuarioRegional;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadoTableSeeder::class);
         $this->call(UsersTableSeeder::class);        
         $this->call(RegionalTableSeeder::class);
+        $this->call(UsuarioRegionalTableSeeder::class);
         $this->call(AeropuertoTableSeeder::class);
         $this->call(MonedaTableSeeder::class);
         $this->call(CuentaTableSeeder::class);

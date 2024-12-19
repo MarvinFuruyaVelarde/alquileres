@@ -17,7 +17,7 @@ class RegionalController extends Controller
 {
     public function index()
     {
-        if(auth()->user()->id==1){
+        /*if(auth()->user()->id==1){
             $regionales=View_Regional::where('id','>',0)->get();
         }else{
             $auth_user=auth()->user();
@@ -30,8 +30,9 @@ class RegionalController extends Controller
                 $cont++;
             }
             $regionales = View_Regional::whereIn('id',$array)->get();
-        }
+        }*/
         
+        $regionales=View_Regional::where('id','>',0)->get();
         return view('parametricas.regionales.index', compact('regionales')); // Pasar a la vista
     }
 
