@@ -32,13 +32,13 @@
                             </div>
                         
                             <div class="col-md-5">
-                                <label for="codigo" class="col-form-label">Código Contrato <span class="text-danger">(*)</span></label>
+                                <label for="codigo_old" class="col-form-label">Código Contrato <span class="text-danger">(*)</span></label>
                                 <div class="col-md-11">
-                                    <input id="codigo" type="text" class="form-control {{ $errors->has('codigo') ? ' error' : '' }}" name="codigo" value="{{ old('codigo',$contrato->codigo) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
-                                    <span id="error-codigo" class="error-codigo" style="color: rgb(220, 53, 69);"></span>
-                                    @if ($errors->has('codigo'))
+                                    <input id="codigo_old" type="text" class="form-control {{ $errors->has('codigo_old') ? ' error' : '' }}" name="codigo_old" value="{{ old('codigo_old',$contrato->codigo) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
+                                    <span id="error-codigo_old" class="error-codigo_old" style="color: rgb(220, 53, 69);"></span>
+                                    @if ($errors->has('codigo_old'))
                                         <span class="text-danger">
-                                            {{ $errors->first('codigo') }}
+                                            {{ $errors->first('codigo_old') }}
                                         </span>
                                     @endif
                                 </div>

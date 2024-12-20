@@ -437,8 +437,8 @@
                             </div>                          
 
                             <div class="col-md-3">
-                                <label for="objeto_contrato" class="col-form-label">Objeto de Contrato</label>
-                                <textarea id="objeto_contrato" class="form-control {{ $errors->has('objeto_contrato') ? ' error' : '' }}" name="objeto_contrato" rows="5">{{ old('objeto_contrato',$espacio->objeto_contrato) }}</textarea>
+                                <label for="objeto_contrato" class="col-form-label">Objeto de Contrato <span class="text-danger">(*)</span></label>
+                                <textarea id="objeto_contrato" class="form-control {{ $errors->has('objeto_contrato') ? ' error' : '' }}" name="objeto_contrato" rows="5" onkeyup="this.value = this.value.toUpperCase();">{{ old('objeto_contrato',$espacio->objeto_contrato) }}</textarea>
                                 <span id="error-objeto_contrato" class="error-objeto_contrato" style="color: rgb(220, 53, 69);"></span>
                                 @if ($errors->has('objeto_contrato'))
                                     <span class="text-danger">
@@ -448,8 +448,8 @@
                             </div>
                             
                             <div class="col-md-3">
-                                <label for="glosa_factura" class="col-form-label">Glosa para Facturación</label>
-                                <textarea id="glosa_factura" class="form-control {{ $errors->has('glosa_factura') ? ' error' : '' }}" name="glosa_factura" rows="5">{{ old('glosa_factura', $espacio->glosa_factura) }}</textarea>
+                                <label for="glosa_factura" class="col-form-label">Glosa para Facturación <span class="text-danger">(*)</span></label>
+                                <textarea id="glosa_factura" class="form-control {{ $errors->has('glosa_factura') ? ' error' : '' }}" name="glosa_factura" rows="5" onkeyup="this.value = this.value.toUpperCase();">{{ old('glosa_factura', $espacio->glosa_factura) }}</textarea>
                                 <span id="error-glosa_factura" class="error-glosa_factura" style="color: rgb(220, 53, 69);"></span>
                                 @if ($errors->has('glosa_factura'))
                                     <span class="text-danger">

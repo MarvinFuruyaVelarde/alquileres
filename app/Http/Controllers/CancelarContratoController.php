@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CancelarContratoRequest;
 use App\Http\Requests\EspacioRequest;
 use App\Models\Aeropuerto;
 use App\Models\Cliente;
@@ -34,7 +35,7 @@ class CancelarContratoController extends Controller
         return view('contratos.cancelar.edit',compact('contrato', 'aeropuertos', 'clientes', 'listaespacios'));
     }
 
-    public function update(Request $request, Contrato $contrato)
+    public function update(CancelarContratoRequest $request, Contrato $contrato)
     {
         //dd( $request->codigo);
         // Generar el nombre del archivo

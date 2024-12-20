@@ -25,7 +25,7 @@ class ContratoController extends Controller
 {
     public function index()
     {
-        $contratos = View_Contrato::where('estado','=',3)->orderBy('id', 'asc')->get(); // Obtener todos los contratos registrados
+        $contratos = View_Contrato::where('estado','=',3)->whereNull('deleted_at')->orderBy('id', 'asc')->get(); // Obtener todos los contratos registrados
         return view('contratos.lista.index', compact('contratos')); // Pasar a la vista
     }
 
@@ -168,6 +168,14 @@ class ContratoController extends Controller
 
     public function destroy(Contrato $contrato)
     {
+        $espaciosIds = Espacio::where('contrato', $contrato->id)->pluck('id');
+    
+        if ($espaciosIds->isNotEmpty()) {
+            EspacioExpensa::whereIn('espacio', $espaciosIds)->delete();
+        }
+
+        Espacio::where('contrato', $contrato->id)->delete();
+
         $contrato->delete();
         
         Alert::success('Contrato eliminado correctamente');
@@ -214,7 +222,7 @@ class ContratoController extends Controller
         $unidadesmedida=UnidadMedida::where('estado', 1)->orderBy('id', 'asc')->get();
         $formaspago=FormaPago::where('estado', 1)->orderBy('id', 'asc')->get();
         $espacio=new Espacio();
-        $listaespacios=View_Espacio::where('contrato', $contrato->id)->get();
+        $listaespacios=View_Espacio::where('contrato', $contrato->id)->whereNull('deleted_at')->get();
         $expensas = Expensa::where('estado', 1)->orderBy('id', 'asc')->get();
         return view('contratos.lista.create_espacio',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas'));
     }
@@ -260,7 +268,7 @@ class ContratoController extends Controller
                 $espacioExpensa->espacio=$espacioId;
                 $espacioExpensa->expensa=$expensa['expensa'];
                 $espacioExpensa->tarifa_fija=$expensa['tarifa_fija'];
-                $espacioExpensa->monto=$expensa['monto'];
+                $espacioExpensa->monto=$expensa['monto'] ?? null;
                 $espacioExpensa->save();
                 
             }
@@ -285,7 +293,7 @@ class ContratoController extends Controller
         $rubros=Rubro::where('id','>',0)->orderBy('id', 'asc')->get();
         $unidadesmedida=UnidadMedida::where('id','>',0)->orderBy('id', 'asc')->get();
         $formaspago=FormaPago::where('id','>',0)->orderBy('id', 'asc')->get();
-        $listaespacios=View_Espacio::where('contrato', $id_contrato)->get();
+        $listaespacios=View_Espacio::where('contrato', $id_contrato)->whereNull('deleted_at')->get();
         $expensas = Expensa::where('id','>',0)->orderBy('id', 'asc')->get();
         $espacioexpensas=EspacioExpensa::where('espacio', $espacio->id)->orderBy('id', 'asc')->get();
         //dd($espacioexpensas);
@@ -360,8 +368,9 @@ class ContratoController extends Controller
 
     public function destroyEspacio(Espacio $espacio)
     {
+        EspacioExpensa::where('espacio', $espacio->id)->delete();
         $espacio->delete();
-        
+
         Alert::success('Espacio eliminado correctamente!');
         return redirect()->back();
     }

@@ -30,6 +30,8 @@ class EspacioRequest extends FormRequest
             'fecha_inicial'=>'required',
             'fecha_final'=>'required',
             'forma_pago'=>'required',
+            'objeto_contrato'=>'required',
+            'glosa_factura'=>'required',
         ];
     }
     public function messages()
@@ -43,6 +45,8 @@ class EspacioRequest extends FormRequest
             'fecha_inicial.required'   => 'El ingreso de fecha inicial es obligatorio.',
             'fecha_final.required'   => 'El ingreso de fecha final es obligatorio.',
             'forma_pago.required'   => 'El ingreso de forma pago es obligatorio.',
+            'objeto_contrato.required' => 'El ingreso de objeto de contrato es obligatorio.',
+            'glosa_factura.required' => 'El ingreso de glosa para facturación es obligatorio.',
         ];
     }
 }

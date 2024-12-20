@@ -12,23 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement("
-           CREATE OR REPLACE VIEW public.view_contrato
- AS
- SELECT c.id,
-    a.codigo AS codigo_aeropuerto,
-    c.codigo AS codigo_contrato,
-    cl.razon_social AS nombre_cliente,
-    c.representante1 AS representante,
-    c.numero_documento1 AS nit_ci,
-    c.telefono_celular,
-    c.correo,
-    c.domicilio_legal,
-    c.estado,
-    e.descripcion AS desc_estado
-   FROM contrato c
-     JOIN aeropuerto a ON a.id = c.aeropuerto
-     JOIN cliente cl ON cl.id = c.cliente
-     JOIN estado e ON e.id = c.estado;
+            CREATE OR REPLACE VIEW public.view_contrato
+            AS
+            SELECT c.id,
+                a.codigo AS codigo_aeropuerto,
+                c.codigo AS codigo_contrato,
+                cl.razon_social AS nombre_cliente,
+                c.representante1 AS representante,
+                c.numero_documento1 AS nit_ci,
+                c.telefono_celular,
+                c.correo,
+                c.domicilio_legal,
+                c.estado,
+                e.descripcion AS desc_estado,
+                c.deleted_at
+            FROM contrato c
+                JOIN aeropuerto a ON a.id = c.aeropuerto
+                JOIN cliente cl ON cl.id = c.cliente
+                JOIN estado e ON e.id = c.estado;
         ");
     }
 

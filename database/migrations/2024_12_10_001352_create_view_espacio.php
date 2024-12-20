@@ -24,7 +24,8 @@ return new class extends Migration
                 e.fecha_final,
                 e.total_canonmensual,
                 e.glosa_factura,
-                e.estado
+                e.estado,
+	            e.deleted_at
             FROM espacio e
                 JOIN rubro r ON r.id = e.rubro
                 JOIN unidad_medida u ON u.id = e.unidad_medida

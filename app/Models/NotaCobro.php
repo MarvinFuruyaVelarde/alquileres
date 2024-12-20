@@ -63,9 +63,9 @@ class NotaCobro extends Model implements Auditable
         return !empty($result) ? (array) $result[0] : null;
     }
 
-    public static function obtenerMaxOrdenImpresion($tipoFactura, $mes, $gestion)
+    public static function obtenerMaxOrdenImpresion($tipoFactura, $mes, $gestion, $aeropuerto)
     {
-        $resultado = DB::select("SELECT obtener_max_orden_impresion(?, ?, ?) AS max_orden", [$tipoFactura, $mes, $gestion]);
+        $resultado = DB::select("SELECT obtener_max_orden_impresion(?, ?, ?, ?) AS max_orden", [$tipoFactura, $mes, $gestion, $aeropuerto]);
 
         return $resultado[0]->max_orden ?? 1;
     }

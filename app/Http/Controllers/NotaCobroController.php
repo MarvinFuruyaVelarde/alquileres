@@ -55,8 +55,7 @@ class NotaCobroController extends Controller
 
         // Llama a la función para generar todos los contratos dado el aeropuerto y periodo de facturación
         $notasCobro = NotaCobro::generaNotaCobroAlquiler($aeropuerto, $periodoFacturacion);
-        $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($tipo, $mes, $anio);
-
+        $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($tipo, $mes, $anio, $aeropuerto);
         // Generar el secuencial
         $notaCobroGeneradas = collect($notasCobro)->map(function ($nota) use ($tipo, $codRegional, $codAeropuerto, $mes, $anio, &$ordenImpresion) {
             $nota->correlativo = $ordenImpresion;
@@ -236,7 +235,7 @@ class NotaCobroController extends Controller
 
         // Llama a la función para generar todos los contratos dado el aeropuerto y periodo de facturación
         $notasCobro = NotaCobro::generaNotaCobroExpensa($aeropuerto, $periodoFacturacion);
-        $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($tipo, $mes, $anio);
+        $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($tipo, $mes, $anio, $aeropuerto);
 
         // Generar el secuencial
         $notaCobroGeneradas = collect($notasCobro)->map(function ($nota) use ($tipo, $codRegional, $codAeropuerto, $mes, $anio, &$ordenImpresion) {
@@ -557,6 +556,8 @@ class NotaCobroController extends Controller
     public function show($id_notacobro)
     {
         $factura = Factura::find($id_notacobro);
+        $espacio = Espacio::find($factura->espacio);
+        $formaPago = FormaPago::find($espacio->forma_pago);
         $aeropuerto = Aeropuerto::find($factura->aeropuerto);
         $aeropuertoDescripcion = $aeropuerto->descripcion;
         $cliente = Cliente::find($factura->cliente);
@@ -564,8 +565,10 @@ class NotaCobroController extends Controller
         $mes = $factura->mes;
         $gestion = $factura->gestion;
         $ultimoDia = Carbon::createFromDate($gestion, $mes)->endOfMonth()->day;
-        $fechaInicio = sprintf('%02d/%02d/%d', 1, $mes, $gestion);
-        $fechaFin = sprintf('%02d/%02d/%d', $ultimoDia, $mes, $gestion);
+        $fechaInicio = sprintf('%02d/%02d/%d', Carbon::parse($espacio->fecha_inicial)->format('d'), $mes, $gestion);
+        $fechaInicioCarbon = Carbon::createFromFormat('d/m/Y', $fechaInicio);
+        $fechaFinCarbon = $fechaInicioCarbon->copy()->addMonths($formaPago->numero_mes)->subDay();
+        $fechaFin = $fechaFinCarbon->format('d/m/Y');
         $fechaImpresion = Carbon::now()->format('Y-m-d H:i:s');
         $numero_nota_cobro = $factura->numero_nota_cobro;
 
