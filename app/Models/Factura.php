@@ -23,4 +23,9 @@ class Factura extends Model implements Auditable
     protected $fillable = ['id', 'aeropuerto', 'contrato', 'numero_nota_cobro', 'orden_impresion', 'gestion', 'mes', 'tipo_solicitante', 'ci', 'nit',
                            'tipo_canon', 'tipo_factura', 'razon_social_factura', 'numero_factura', 'cuf', 'cufd', 'autorizacion_feel', 'codigo_qr_feel', 'fecha_factura', 'fecha_emision', 
                            'fecha_vencimiento', 'estado', 'usuario_registro', 'fecha_registro', 'usuario_actualizacion', 'fecha_actualizacion'];
+
+    public function facturaDetalle()
+    {
+        return $this->hasMany(FacturaDetalle::class, 'factura', 'id');
+    }
 }

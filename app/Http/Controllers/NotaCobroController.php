@@ -97,8 +97,8 @@ class NotaCobroController extends Controller
                 $cont++;
                 //Almacena datos de notas de cobro en la estructura factura
                 $factura = New Factura();
-                $factura->espacio = $notaCobroGenerada->id_espacio;
                 $factura->aeropuerto = $aeropuerto;
+                $factura->espacio = $notaCobroGenerada->id_espacio;
                 $factura->contrato = $notaCobroGenerada->id_contrato;
                 $factura->codigo_contrato = $notaCobroGenerada->codigo_contrato;
                 $factura->numero_nota_cobro = $notaCobroGenerada->numero_nota_cobro;
@@ -264,17 +264,20 @@ class NotaCobroController extends Controller
                 </thead>';  
 
         $cont = 0; 
-        
+
         foreach ($notaCobroGeneradas as $notaCobroGenerada) {
             $espacio = Espacio::find($notaCobroGenerada->id_espacio);
             $expensa = Expensa::find($notaCobroGenerada->expensa);
-            // Verifica si ya existe en la estructura factura el contrato para la gestión, mes ingresado y tipo de canon
+            
+            // Verifica si ya existe en la estructura factura la expensa para la gestión, mes ingresado y tipo de canon
             $registroExistente = Factura::where('contrato', $notaCobroGenerada->id_contrato)
                                 ->where('gestion', $anio)
                                 ->where('mes', $mes)
                                 ->where('tipo_canon', $notaCobroGenerada->tarifa_fija)
                                 ->where('tipo_factura', $tipo)
-                                ->where('monto_total', $notaCobroGenerada->monto)
+                                ->whereHas('facturaDetalle', function ($query) use ($notaCobroGenerada) {
+                                    $query->where('expensa', $notaCobroGenerada->expensa);
+                                })
                                 ->exists();
 
             if (!$registroExistente) {
@@ -282,6 +285,7 @@ class NotaCobroController extends Controller
                 //Almacena datos de notas de cobro en la estructura factura
                 $factura = New Factura();
                 $factura->aeropuerto = $aeropuerto;
+                $factura->espacio = $notaCobroGenerada->id_espacio;
                 $factura->contrato = $notaCobroGenerada->id_contrato;
                 $factura->codigo_contrato = $notaCobroGenerada->codigo_contrato;
                 $factura->numero_nota_cobro = $notaCobroGenerada->numero_nota_cobro;
@@ -564,11 +568,23 @@ class NotaCobroController extends Controller
         $clienteRazonSocial = $cliente->razon_social;
         $mes = $factura->mes;
         $gestion = $factura->gestion;
-        $ultimoDia = Carbon::createFromDate($gestion, $mes)->endOfMonth()->day;
+
+        if ($factura->tipo_factura == 'EX')
+            $numeroMes = 1;
+        else
+            $numeroMes = $formaPago->numero_mes;
+
         $fechaInicio = sprintf('%02d/%02d/%d', Carbon::parse($espacio->fecha_inicial)->format('d'), $mes, $gestion);
-        $fechaInicioCarbon = Carbon::createFromFormat('d/m/Y', $fechaInicio);
-        $fechaFinCarbon = $fechaInicioCarbon->copy()->addMonths($formaPago->numero_mes)->subDay();
-        $fechaFin = $fechaFinCarbon->format('d/m/Y');
+
+        if ($factura->tipo_factura == 'EX'){
+            $ultimoDia = Carbon::createFromDate($gestion, $mes)->endOfMonth()->day;
+            $fechaFin = sprintf('%02d/%02d/%d', $ultimoDia, $mes, $gestion);
+        } else {
+            $fechaInicioCarbon = Carbon::createFromFormat('d/m/Y', $fechaInicio);
+            $fechaFinCarbon = $fechaInicioCarbon->copy()->addMonths($numeroMes)->subDay();
+            $fechaFin = $fechaFinCarbon->format('d/m/Y');
+        }
+        
         $fechaImpresion = Carbon::now()->format('Y-m-d H:i:s');
         $numero_nota_cobro = $factura->numero_nota_cobro;
 
