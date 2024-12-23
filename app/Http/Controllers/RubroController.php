@@ -16,7 +16,7 @@ class RubroController extends Controller
 {
     public function index()
     {
-        $rubros = View_Rubro::all(); // Obtener todos los rubros
+        $rubros = View_Rubro::where('estado','=',1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
         return view('parametricas.rubros.index', compact('rubros')); // Pasar a la vista
     }
 

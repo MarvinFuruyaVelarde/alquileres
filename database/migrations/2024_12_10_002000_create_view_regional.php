@@ -12,17 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement("
-        CREATE OR REPLACE VIEW public.view_regional
- AS
- SELECT r.id,
-    r.codigo,
-    r.descripcion,
-    r.estado,
-    es.descripcion AS desc_estado
-   FROM regional r
-     JOIN estado es ON r.estado = es.id
-  ORDER BY r.id;
-    ");
+            CREATE OR REPLACE VIEW public.view_regional
+            AS
+            SELECT r.id,
+                r.codigo,
+                r.descripcion,
+                r.estado,
+                es.descripcion AS desc_estado,
+                r.deleted_at
+            FROM regional r
+            JOIN estado es ON r.estado = es.id
+            ORDER BY r.id;
+        ");
     }
 
     /**

@@ -18,7 +18,8 @@ return new class extends Migration
                    r.codigo,
                    r.descripcion,
                    r.estado,
-                   es.descripcion AS desc_estado
+                   es.descripcion AS desc_estado,
+                   r.deleted_at 
               FROM rubro r
               JOIN estado es ON r.estado = es.id
              ORDER BY r.id;

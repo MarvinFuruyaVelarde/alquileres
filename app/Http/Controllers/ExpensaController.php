@@ -17,7 +17,7 @@ class ExpensaController extends Controller
 {
     public function index()
     {
-        $expensas = View_Expensa::all(); // Obtener todas las expensas
+        $expensas = View_Expensa::where('estado','=',1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
         return view('parametricas.expensas.index', compact('expensas')); // Pasar a la vista
     }
 

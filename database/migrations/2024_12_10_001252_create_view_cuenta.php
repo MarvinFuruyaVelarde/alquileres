@@ -12,19 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement("
-           CREATE OR REPLACE VIEW public.view_cuenta
- AS
- SELECT t.id,
-    t.descripcion,
-    t.numero_cuenta,
-    t.moneda,
-    t.estado,
-    m.descripcion AS desc_moneda,
-    es.descripcion AS desc_estado
-   FROM cuenta t
-     LEFT JOIN moneda m ON t.moneda = m.id
-     JOIN estado es ON t.estado = es.id
-  ORDER BY t.id;
+            CREATE OR REPLACE VIEW public.view_cuenta
+            AS
+            SELECT t.id,
+                t.descripcion,
+                t.numero_cuenta,
+                t.moneda,
+                t.estado,
+                m.descripcion AS desc_moneda,
+                es.descripcion AS desc_estado,
+                t.deleted_at
+            FROM cuenta t
+                LEFT JOIN moneda m ON t.moneda = m.id
+                JOIN estado es ON t.estado = es.id
+            ORDER BY t.id;
         ");
     }
 

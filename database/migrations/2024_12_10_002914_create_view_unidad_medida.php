@@ -13,14 +13,15 @@ return new class extends Migration
     {
         DB::statement("
             CREATE OR REPLACE VIEW public.view_unidad_medida
- AS
- SELECT u.id,
-    u.descripcion,
-    u.estado,
-    es.descripcion AS desc_estado
-   FROM unidad_medida u
-     JOIN estado es ON u.estado = es.id
-  ORDER BY u.id;
+            AS
+            SELECT u.id,
+                u.descripcion,
+                u.estado,
+                es.descripcion AS desc_estado,
+                u.deleted_at
+            FROM unidad_medida u
+                JOIN estado es ON u.estado = es.id
+            ORDER BY u.id;
         ");
     }
 

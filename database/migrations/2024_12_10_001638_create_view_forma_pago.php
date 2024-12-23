@@ -19,7 +19,8 @@ return new class extends Migration
                f.numero_dia,
                f.numero_mes,
                f.estado,
-               es.descripcion AS desc_estado
+               es.descripcion AS desc_estado,
+               f.deleted_at
           FROM forma_pago f
           JOIN estado es ON f.estado = es.id
          ORDER BY f.id;
