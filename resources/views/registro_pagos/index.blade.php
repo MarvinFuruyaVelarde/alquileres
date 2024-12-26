@@ -53,7 +53,7 @@
                                         <td class="text-center">{{$pagado}}</td>
                                         <td class="text-center">{{number_format($factura->monto_total - $pagado, 2, '.', '')}}</td>
                                         <td class="d-flex justify-content-center" > 
-                                        @can('garantias.create')
+                                        @can('registropagos.create')
                                                 <a href="{{route('registropagos.create',$factura->id)}}" class="btn btn-warning" title="Registrar Pago"><i class="bi bi-pencil-square"></i></a>
                                         @endcan                     
                                         </td>

@@ -18,9 +18,9 @@
     <div class="d-flex justify-content-between">
         <div class="d-flex">
         </div>
-        {{--@can('notacobromanual.create')--}}
+        @can('notacobromanual.create')
             <a href="{{route('notacobromanual.create')}}" class="btn btn-primary" title="Crea una nueva expensa"> <i class="bi bi-plus"></i> Registrar </a>
-        {{--@endcan--}}
+        @endcan
     </div>
 </div><!-- End Page Title -->
 <section class="section">
@@ -33,7 +33,9 @@
                         @csrf
                         <div class="d-flex align-items-center mb-3">
                             <p class="mb-0 me-auto">Cada registro tiene la opción de visualizar <i class="btn btn-danger bi-file-earmark-pdf"></i> y editar <i class="btn btn-warning bi bi-pencil-square"></i> una Nota de Cobro Manual.</p>
-                            <button id="aprobar" type="submit" class="btn btn-success" disabled>APROBAR</button>
+                            @can('notacobromanual.aprobar')
+                                <button id="aprobar" type="submit" class="btn btn-success" disabled>APROBAR</button>
+                            @endcan
                         </div>
                     
                         <!--CONTENIDO -->

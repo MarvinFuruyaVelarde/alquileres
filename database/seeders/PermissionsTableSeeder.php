@@ -113,5 +113,39 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['descripcion'=>'Eliminar plantillas','name'=>'plantillas.destroy','grupo'=>'PLANTILLAS']);
         Permission::create(['descripcion'=>'Visualizar plantillas','name'=>'plantillas.show','grupo'=>'PLANTILLAS']);
 
+        //Facturación
+        Permission::create(['descripcion'=>'Generar/Visualizar notas de cobro','name'=>'notacobro.index','grupo'=>'FACTURACIÓN']);
+        Permission::create(['descripcion'=>'Generar nota de cobro','name'=>'notacobro.generar','grupo'=>'FACTURACIÓN']);
+        Permission::create(['descripcion'=>'Visualizar nota de cobro','name'=>'notacobro.visualizar','grupo'=>'FACTURACIÓN']);
+        Permission::create(['descripcion'=>'Aprobar nota de cobro','name'=>'notacobro.aprobar','grupo'=>'FACTURACIÓN']);
+
+        Permission::create(['descripcion'=>'Ver lista notas de cobro manual','name'=>'notacobromanual.index','grupo'=>'FACTURACIÓN']);
+        Permission::create(['descripcion'=>'Registrar nota de cobro manual','name'=>'notacobromanual.create','grupo'=>'FACTURACIÓN']);
+        Permission::create(['descripcion'=>'Aprobar nota de cobro manual','name'=>'notacobromanual.aprobar','grupo'=>'FACTURACIÓN']);
+        Permission::create(['descripcion'=>'Modificar nota de cobro manual','name'=>'notacobromanual.edit','grupo'=>'FACTURACIÓN']);
+        Permission::create(['descripcion'=>'Visualizar nota de cobro manual','name'=>'notacobromanual.show','grupo'=>'FACTURACIÓN']);
+
+        Permission::create(['descripcion'=>'Generar/Visualizar facturación notas de cobro','name'=>'facturacion.index','grupo'=>'FACTURACIÓN']);
+        Permission::create(['descripcion'=>'Buscar notas de cobro/ Buscar factura generada','name'=>'facturacion.buscar','grupo'=>'FACTURACIÓN']);
+        Permission::create(['descripcion'=>'Generar factura','name'=>'facturacion.generar','grupo'=>'FACTURACIÓN']);
+
+
+        //Registro de Pagos
+        Permission::create(['descripcion'=>'Ver lista de registro de pagos','name'=>'registropagos.index','grupo'=>'REGISTRO DE PAGOS']);
+        Permission::create(['descripcion'=>'Registrar registro de pagos','name'=>'registropagos.create','grupo'=>'REGISTRO DE PAGOS']);
+
+        //Reportes 
+        Permission::create(['descripcion'=>'Ver reporte de contratos','name'=>'reportecontratos.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de cuentas por cobrar','name'=>'reportecuentaporcobrar.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de detalle de espacios','name'=>'reportedetalleespacios.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de facturas/notas de cobro','name'=>'reportefacturas.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de garantias','name'=>'reportegarantias.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de registro de pagos','name'=>'reporteregistropagos.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de tipo de espacios','name'=>'reportetipoespacios.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de resumén de contratos','name'=>'reporteresumencontratos.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de ingresos por aeropuertos','name'=>'reporteingresoaeropuertos.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de ingresos por clientes','name'=>'reporteingresoclientes.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de deudas','name'=>'reportedeudas.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de ingresos y deudas','name'=>'reporteingresodeudas.index','grupo'=>'REPORTES']);
     }
 }

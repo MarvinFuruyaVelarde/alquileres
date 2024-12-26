@@ -105,7 +105,7 @@ class NotaCobroManualController extends Controller
         $codAeropuerto = Aeropuerto::where('id', $request->aeropuerto)->value('codigo');
         $mes = Carbon::parse($request->periodo_facturacion)->format('m');
         $gestion = Carbon::parse($request->periodo_facturacion)->format('Y');   
-        $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($request->tipo, $mes, $gestion);
+        $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($request->tipo, $mes, $gestion, $request->aeropuerto);
         $numeroNotaCobro = $request->tipo.'/'.$codRegional.'/COM/'.$codAeropuerto.'/'.$mes.'/'.$gestion.'/'.$ordenImpresion;        
         $cliente = Cliente::find($request->cliente);
         $fechaRegistro = Carbon::now()->format('Y-m-d H:i:s');
@@ -170,7 +170,7 @@ class NotaCobroManualController extends Controller
             $listaExpensas = $request->input('expensas');
 
             foreach ($listaExpensas as $expensaId => $expensa) {
-                $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($request->tipo, $mes, $gestion);
+                $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($request->tipo, $mes, $gestion, $request->aeropuerto);
                 $numeroNotaCobro = $request->tipo.'/'.$codRegional.'/COM/'.$codAeropuerto.'/'.$mes.'/'.$gestion.'/'.$ordenImpresion;   
 
                 $factura = New Factura();

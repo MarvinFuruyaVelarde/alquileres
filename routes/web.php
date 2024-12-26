@@ -184,98 +184,98 @@ Route::middleware(['auth'])->group(function(){
     Route::get('api/plantilla1/{contrato}',[App\Http\Controllers\PlantillaController::class,'ajax1'])->name('plantillas1.ajax');
 
     //Facturación
-    Route::get('notacobro',[App\Http\Controllers\NotaCobroController::class,'index'])->name('notacobro.index');
-    Route::get('notacobro/generar',[App\Http\Controllers\NotaCobroController::class,'generaNotaCobro'])->name('notacobro.generaNotaCobro');
+    Route::get('notacobro',[App\Http\Controllers\NotaCobroController::class,'index'])->name('notacobro.index')->middleware('permission:notacobro.index');
+    Route::get('notacobro/generar',[App\Http\Controllers\NotaCobroController::class,'generaNotaCobro'])->name('notacobro.generaNotaCobro')->middleware('permission:notacobro.generar');
     Route::get('notacobro/obt_cliente/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroController::class,'obtieneCliente'])->name('notacobro.obtieneCliente');
-    Route::get('notacobro/visualizar',[App\Http\Controllers\NotaCobroController::class,'visualizaNotaCobro'])->name('notacobro.visualizaNotaCobro');
-    Route::post('notacobro/aprobar',[App\Http\Controllers\NotaCobroController::class,'aprobarNotaCobro'])->name('notacobro.aprobarNotaCobro');
+    Route::get('notacobro/visualizar',[App\Http\Controllers\NotaCobroController::class,'visualizaNotaCobro'])->name('notacobro.visualizaNotaCobro')->middleware('permission:notacobro.visualizar');
+    Route::post('notacobro/aprobar',[App\Http\Controllers\NotaCobroController::class,'aprobarNotaCobro'])->name('notacobro.aprobarNotaCobro')->middleware('permission:notacobro.aprobar');
     Route::get('notacobro/edit/{id}',[App\Http\Controllers\NotaCobroController::class,'edit'])->name('notacobro.edit');
     Route::put('notacobro/update/{id}/',[App\Http\Controllers\NotaCobroController::class,'update'])->name('notacobro.update');
     Route::get('notacobro/pdf/{id}',[App\Http\Controllers\NotaCobroController::class,'show'])->name('notacobro.show');
 
-    Route::get('notacobromanual',[App\Http\Controllers\NotaCobroManualController::class,'index'])->name('notacobromanual.index');
+    Route::get('notacobromanual',[App\Http\Controllers\NotaCobroManualController::class,'index'])->name('notacobromanual.index')->middleware('permission:notacobromanual.index');
     Route::get('notacobromanual/obt_cliente/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroManualController::class,'obtieneCliente'])->name('notacobromanual.obtieneCliente');
     Route::get('notacobromanual/obtCodigoContrato/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroManualController::class,'obtieneCodigoContrato'])->name('notacobromanual.obtieneCodigoContrato');
     Route::get('notacobromanual/obtieneExpensa',[App\Http\Controllers\NotaCobroManualController::class, 'obtieneExpensa'])->name('notacobromanual.obtieneExpensa');
     Route::get('notacobromanual/obtieneEspacioCanonVariable',[App\Http\Controllers\NotaCobroManualController::class, 'obtieneEspacioCanonVariable'])->name('notacobromanual.obtieneEspacioCanonVariable');
-    Route::get('notacobromanual/create',[App\Http\Controllers\NotaCobroManualController::class,'create'])->name('notacobromanual.create');
-    Route::post('notacobromanual/store',[App\Http\Controllers\NotaCobroManualController::class,'store'])->name('notacobromanual.store');
-    Route::get('notacobromanual/{notacobromanual}/edit',[App\Http\Controllers\NotaCobroManualController::class,'edit'])->name('notacobromanual.edit');
-    Route::put('notacobromanual/{idFactura}',[App\Http\Controllers\NotaCobroManualController::class,'update'])->name('notacobromanual.update');
-    Route::post('notacobromanual/aprobar',[App\Http\Controllers\NotaCobroManualController::class,'aprobarNotaCobroManual'])->name('notacobromanual.aprobarNotaCobroManual');
-    Route::get('notacobromanual/pdf/{id}',[App\Http\Controllers\NotaCobroManualController::class,'show'])->name('notacobromanual.show');
+    Route::get('notacobromanual/create',[App\Http\Controllers\NotaCobroManualController::class,'create'])->name('notacobromanual.create')->middleware('permission:notacobromanual.create');
+    Route::post('notacobromanual/store',[App\Http\Controllers\NotaCobroManualController::class,'store'])->name('notacobromanual.store')->middleware('permission:notacobromanual.create');
+    Route::get('notacobromanual/{notacobromanual}/edit',[App\Http\Controllers\NotaCobroManualController::class,'edit'])->name('notacobromanual.edit')->middleware('permission:notacobromanual.edit');
+    Route::put('notacobromanual/{idFactura}',[App\Http\Controllers\NotaCobroManualController::class,'update'])->name('notacobromanual.update')->middleware('permission:notacobromanual.edit');
+    Route::post('notacobromanual/aprobar',[App\Http\Controllers\NotaCobroManualController::class,'aprobarNotaCobroManual'])->name('notacobromanual.aprobarNotaCobroManual')->middleware('permission:notacobromanual.aprobar');
+    Route::get('notacobromanual/pdf/{id}',[App\Http\Controllers\NotaCobroManualController::class,'show'])->name('notacobromanual.show')->middleware('permission:notacobromanual.show');
     
 
-    Route::get('facturacion',[App\Http\Controllers\FacturaController::class,'index'])->name('facturacion.index');
-    Route::get('facturacion/buscaNotaCobroPendiente',[App\Http\Controllers\FacturaController::class,'buscaNotaCobroPendiente'])->name('facturacion.buscaNotaCobroPendiente');
-    Route::post('facturacion/generarfactura',[App\Http\Controllers\FacturaController::class,'generarFactura'])->name('facturacion.generarFactura');
-    Route::get('facturacion/buscaNotaCobroGenerada',[App\Http\Controllers\FacturaController::class,'buscaNotaCobroGenerada'])->name('facturacion.buscaNotaCobroGenerada');
+    Route::get('facturacion',[App\Http\Controllers\FacturaController::class,'index'])->name('facturacion.index')->middleware('permission:facturacion.index');
+    Route::get('facturacion/buscaNotaCobroPendiente',[App\Http\Controllers\FacturaController::class,'buscaNotaCobroPendiente'])->name('facturacion.buscaNotaCobroPendiente')->middleware('permission:facturacion.buscar');
+    Route::post('facturacion/generarfactura',[App\Http\Controllers\FacturaController::class,'generarFactura'])->name('facturacion.generarFactura')->middleware('permission:facturacion.generar');
+    Route::get('facturacion/buscaNotaCobroGenerada',[App\Http\Controllers\FacturaController::class,'buscaNotaCobroGenerada'])->name('facturacion.buscaNotaCobroGenerada')->middleware('permission:facturacion.buscar');
     Route::get('facturacion/pdf/{id}',[App\Http\Controllers\NotaCobroController::class,'show'])->name('facturacion.show');
     Route::get('facturacion/imprimir/{id}',[App\Http\Controllers\FacturaController::class,'imprimir'])->name('facturacion.imprimir');
     Route::get('facturacion/anular/{id}',[App\Http\Controllers\FacturaController::class,'anular'])->name('facturacion.anular');
 
     //Registro de Pagos
-    Route::get('registropagos',[App\Http\Controllers\DetallePagoFacturaController::class,'index'])->name('registropagos.index');
-    Route::get('registropagos/{factura}/create',[App\Http\Controllers\DetallePagoFacturaController::class,'create'])->name('registropagos.create');
-    Route::post('registropagos/store',[App\Http\Controllers\DetallePagoFacturaController::class,'store'])->name('registropagos.store');
+    Route::get('registropagos',[App\Http\Controllers\DetallePagoFacturaController::class,'index'])->name('registropagos.index')->middleware('permission:registropagos.index');
+    Route::get('registropagos/{factura}/create',[App\Http\Controllers\DetallePagoFacturaController::class,'create'])->name('registropagos.create')->middleware('permission:registropagos.create');
+    Route::post('registropagos/store',[App\Http\Controllers\DetallePagoFacturaController::class,'store'])->name('registropagos.store')->middleware('permission:registropagos.create');
 
     //Reportes
-    Route::get('reportecontratos',[App\Http\Controllers\ReporteContratoController::class,'index'])->name('reportecontratos.index');
+    Route::get('reportecontratos',[App\Http\Controllers\ReporteContratoController::class,'index'])->name('reportecontratos.index')->middleware('permission:reportecontratos.index');
     Route::get('reportecontratos/obtieneReporte',[App\Http\Controllers\ReporteContratoController::class,'obtieneReporte'])->name('reportecontratos.obtieneReporte');
     Route::get('reportecontratos/pdf',[App\Http\Controllers\ReporteContratoController::class,'show'])->name('reportecontratos.show');
     Route::get('reportecontratos/xls',[App\Http\Controllers\ReporteContratoController::class,'export'])->name('reportecontratos.export');
 
-    Route::get('reportecuentaporcobrar',[App\Http\Controllers\ReporteCuentaPorCobrarController::class,'index'])->name('reportecuentaporcobrar.index');
+    Route::get('reportecuentaporcobrar',[App\Http\Controllers\ReporteCuentaPorCobrarController::class,'index'])->name('reportecuentaporcobrar.index')->middleware('permission:reportecuentaporcobrar.index');
     Route::get('reportecuentaporcobrar/obtieneReporte',[App\Http\Controllers\ReporteCuentaPorCobrarController::class,'obtieneReporte'])->name('reportecuentaporcobrar.obtieneReporte');
     Route::get('reportecuentaporcobrar/pdf',[App\Http\Controllers\ReporteCuentaPorCobrarController::class,'show'])->name('reportecuentaporcobrar.show');
     Route::get('reportecuentaporcobrar/xls',[App\Http\Controllers\ReporteCuentaPorCobrarController::class,'export'])->name('reportecuentaporcobrar.export');
 
-    Route::get('reportedetalleespacios',[App\Http\Controllers\ReporteDetalleEspacioController::class,'index'])->name('reportedetalleespacios.index');
+    Route::get('reportedetalleespacios',[App\Http\Controllers\ReporteDetalleEspacioController::class,'index'])->name('reportedetalleespacios.index')->middleware('permission:reportedetalleespacios.index');
     Route::get('reportedetalleespacios/obtieneReporte',[App\Http\Controllers\ReporteDetalleEspacioController::class,'obtieneReporte'])->name('reportedetalleespacios.obtieneReporte');
     Route::get('reportedetalleespacios/pdf',[App\Http\Controllers\ReporteDetalleEspacioController::class,'show'])->name('reportedetalleespacios.show');
     Route::get('reportedetalleespacios/xls',[App\Http\Controllers\ReporteDetalleEspacioController::class,'export'])->name('reportedetalleespacios.export');
 
-    Route::get('reportefacturas',[App\Http\Controllers\ReporteFacturaController::class,'index'])->name('reportefacturas.index');
+    Route::get('reportefacturas',[App\Http\Controllers\ReporteFacturaController::class,'index'])->name('reportefacturas.index')->middleware('permission:reportefacturas.index');
     Route::get('reportefacturas/obtieneReporte',[App\Http\Controllers\ReporteFacturaController::class,'obtieneReporte'])->name('reportefacturas.obtieneReporte');
     Route::get('reportefacturas/pdf',[App\Http\Controllers\ReporteFacturaController::class,'show'])->name('reportefacturas.show');
     Route::get('reportefacturas/xls',[App\Http\Controllers\ReporteFacturaController::class,'export'])->name('reportefacturas.export');
 
-    Route::get('reportegarantias',[App\Http\Controllers\ReporteGarantiaController::class,'index'])->name('reportegarantias.index');
+    Route::get('reportegarantias',[App\Http\Controllers\ReporteGarantiaController::class,'index'])->name('reportegarantias.index')->middleware('permission:reportegarantias.index');
     Route::get('reportegarantias/obtieneReporte',[App\Http\Controllers\ReporteGarantiaController::class,'obtieneReporte'])->name('reportegarantias.obtieneReporte');
     Route::get('reportegarantias/pdf',[App\Http\Controllers\ReporteGarantiaController::class,'show'])->name('reportegarantias.show');
     Route::get('reportegarantias/xls',[App\Http\Controllers\ReporteGarantiaController::class,'export'])->name('reportegarantias.export');
 
-    Route::get('reporteregistropagos',[App\Http\Controllers\ReporteRegistroPagoController::class,'index'])->name('reporteregistropagos.index');
+    Route::get('reporteregistropagos',[App\Http\Controllers\ReporteRegistroPagoController::class,'index'])->name('reporteregistropagos.index')->middleware('permission:reporteregistropagos.index');
     Route::get('reporteregistropagos/obtieneReporte',[App\Http\Controllers\ReporteRegistroPagoController::class,'obtieneReporte'])->name('reporteregistropagos.obtieneReporte');
     Route::get('reporteregistropagos/pdf',[App\Http\Controllers\ReporteRegistroPagoController::class,'show'])->name('reporteregistropagos.show');
     Route::get('reporteregistropagos/xls',[App\Http\Controllers\ReporteRegistroPagoController::class,'export'])->name('reporteregistropagos.export');
 
-    Route::get('reportetipoespacios',[App\Http\Controllers\ReporteTipoEspacioController::class,'index'])->name('reportetipoespacios.index');
+    Route::get('reportetipoespacios',[App\Http\Controllers\ReporteTipoEspacioController::class,'index'])->name('reportetipoespacios.index')->middleware('permission:reportetipoespacios.index');
     Route::get('reportetipoespacios/obtieneReporte',[App\Http\Controllers\ReporteTipoEspacioController::class,'obtieneReporte'])->name('reportetipoespacios.obtieneReporte');
     Route::get('reportetipoespacios/pdf',[App\Http\Controllers\ReporteTipoEspacioController::class,'show'])->name('reportetipoespacios.show');
     Route::get('reportetipoespacios/xls',[App\Http\Controllers\ReporteTipoEspacioController::class,'export'])->name('reportetipoespacios.export');
 
-    Route::get('reporteresumencontratos',[App\Http\Controllers\ReporteResumenContratoController::class,'index'])->name('reporteresumencontratos.index');
+    Route::get('reporteresumencontratos',[App\Http\Controllers\ReporteResumenContratoController::class,'index'])->name('reporteresumencontratos.index')->middleware('permission:reporteresumencontratos.index');
     Route::get('reporteresumencontratos/obtieneReporte',[App\Http\Controllers\ReporteResumenContratoController::class,'obtieneReporte'])->name('reporteresumencontratos.obtieneReporte');
     Route::get('reporteresumencontratos/pdf',[App\Http\Controllers\ReporteResumenContratoController::class,'show'])->name('reporteresumencontratos.show');
     Route::get('reporteresumencontratos/xls',[App\Http\Controllers\ReporteResumenContratoController::class,'export'])->name('reporteresumencontratos.export');
 
-    Route::get('reporteingresoaeropuertos',[App\Http\Controllers\ReporteIngresoAeropuertoController::class,'index'])->name('reporteingresoaeropuertos.index');
+    Route::get('reporteingresoaeropuertos',[App\Http\Controllers\ReporteIngresoAeropuertoController::class,'index'])->name('reporteingresoaeropuertos.index')->middleware('permission:reporteingresoaeropuertos.index');
     Route::get('reporteingresoaeropuertos/obtieneReporte',[App\Http\Controllers\ReporteIngresoAeropuertoController::class,'obtieneReporte'])->name('reporteingresoaeropuertos.obtieneReporte');
     Route::get('reporteingresoaeropuertos/pdf',[App\Http\Controllers\ReporteIngresoAeropuertoController::class,'show'])->name('reporteingresoaeropuertos.show');
     Route::get('reporteingresoaeropuertos/xls',[App\Http\Controllers\ReporteIngresoAeropuertoController::class,'export'])->name('reporteingresoaeropuertos.export');
 
-    Route::get('reporteingresoclientes',[App\Http\Controllers\ReporteIngresoClienteController::class,'index'])->name('reporteingresoclientes.index');
+    Route::get('reporteingresoclientes',[App\Http\Controllers\ReporteIngresoClienteController::class,'index'])->name('reporteingresoclientes.index')->middleware('permission:reporteingresoclientes.index');
     Route::get('reporteingresoclientes/obtieneReporte',[App\Http\Controllers\ReporteIngresoClienteController::class,'obtieneReporte'])->name('reporteingresoclientes.obtieneReporte');
     Route::get('reporteingresoclientes/pdf',[App\Http\Controllers\ReporteIngresoClienteController::class,'show'])->name('reporteingresoclientes.show');
     Route::get('reporteingresoclientes/xls',[App\Http\Controllers\ReporteIngresoClienteController::class,'export'])->name('reporteingresoclientes.export');
 
-    Route::get('reportedeudas',[App\Http\Controllers\ReporteDeudaController::class,'index'])->name('reportedeudas.index');
+    Route::get('reportedeudas',[App\Http\Controllers\ReporteDeudaController::class,'index'])->name('reportedeudas.index')->middleware('permission:reportedeudas.index');
     Route::get('reportedeudas/obtieneReporte',[App\Http\Controllers\ReporteDeudaController::class,'obtieneReporte'])->name('reportedeudas.obtieneReporte');
     Route::get('reportedeudas/pdf',[App\Http\Controllers\ReporteDeudaController::class,'show'])->name('reportedeudas.show');
     Route::get('reportedeudas/xls',[App\Http\Controllers\ReporteDeudaController::class,'export'])->name('reportedeudas.export');
 
-    Route::get('reporteingresodeudas',[App\Http\Controllers\ReporteIngresoDeudaController::class,'index'])->name('reporteingresodeudas.index');
+    Route::get('reporteingresodeudas',[App\Http\Controllers\ReporteIngresoDeudaController::class,'index'])->name('reporteingresodeudas.index')->middleware('permission:reporteingresodeudas.index');
     Route::get('reporteingresodeudas/obtieneReporte',[App\Http\Controllers\ReporteIngresoDeudaController::class,'obtieneReporte'])->name('reporteingresodeudas.obtieneReporte');
     Route::get('reporteingresodeudas/pdf',[App\Http\Controllers\ReporteIngresoDeudaController::class,'show'])->name('reporteingresodeudas.show');
     Route::get('reporteingresodeudas/xls',[App\Http\Controllers\ReporteIngresoDeudaController::class,'export'])->name('reporteingresodeudas.export');

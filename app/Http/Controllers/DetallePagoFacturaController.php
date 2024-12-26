@@ -52,8 +52,8 @@ class DetallePagoFacturaController extends Controller
         else
             $detalle_pago->fecha_deposito=$request->fecha_deposito;
 
-        $detalle_pago->nro_registro_deposito=$request->registro_deposito;
-        $detalle_pago->nro_registro_cobro=$request->recibo_cobro;
+        $detalle_pago->numero_registro_deposito=$request->registro_deposito;
+        $detalle_pago->numero_registro_cobro=$request->recibo_cobro;
         $detalle_pago->observacion=$request->observacion;
         $detalle_pago->save();
 

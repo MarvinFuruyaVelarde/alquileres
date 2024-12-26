@@ -88,8 +88,12 @@
 
                         
                             <div class="col-12 col-md-2 d-flex justify-content-center align-self-end">
-                                <button id="buscar" type="" class="btn btn-primary me-2" disabled>BUSCAR</button> 
-                                <button id="generar" type="" class="btn btn-success me-2" disabled>GENERAR</button> 
+                                @can('facturacion.buscar')
+                                    <button id="buscar" type="" class="btn btn-primary me-2" disabled>BUSCAR</button>
+                                @endcan
+                                @can('facturacion.generar')
+                                    <button id="generar" type="" class="btn btn-success me-2" disabled>GENERAR</button>
+                                @endcan 
                             </div>
                         
                         </div>

@@ -86,9 +86,15 @@
 
                         
                             <div class="col-12 col-md-2 d-flex justify-content-center align-self-end">
-                                <button id="generar" type="" class="btn btn-primary me-2" disabled>GENERAR</button> 
-                                <button id="visualizar" type="" class="btn btn-primary me-2" style="display: none;" disabled>VISUALIZAR</button> 
-                                <button id="aprobar" type="submit" class="btn btn-success" style="display: none;" disabled>APROBAR</button> 
+                                @can('notacobro.generar')
+                                    <button id="generar" type="" class="btn btn-primary me-2" disabled>GENERAR</button> 
+                                @endcan
+                                @can('notacobro.visualizar')
+                                    <button id="visualizar" type="" class="btn btn-primary me-2" style="display: none;" disabled>VISUALIZAR</button>
+                                @endcan
+                                @can('notacobro.aprobar')
+                                    <button id="aprobar" type="submit" class="btn btn-success" style="display: none;" disabled>APROBAR</button> 
+                                @endcan
                             </div>
                         
                         </div>
