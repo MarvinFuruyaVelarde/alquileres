@@ -32,7 +32,7 @@ class AeropuertoController extends Controller
         $aeropuertos = View_Aeropuerto::whereIn('regional',$array)->get();
         }*/
 
-        $aeropuertos = View_Aeropuerto::where('estado','=',1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        $aeropuertos = View_Aeropuerto::where('id','>',0)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
         return view('parametricas.aeropuertos.index', compact('aeropuertos')); // Pasar a la vista
     }
 

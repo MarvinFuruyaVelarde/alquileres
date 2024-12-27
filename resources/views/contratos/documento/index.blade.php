@@ -72,12 +72,12 @@
                                             <a href="{{ route('documentocontratos.edit', $contrato) }}" class="btn btn-secondary" title="Cargar documento"><i class="bi bi-file-earmark-arrow-up"></i></a>
                                         @endif
                                     @endcan
-                                    {{--@can('documentocontratos.descargar')--}}
+                                    @can('documentocontratos.descargar')
                                         @if($contrato->ruta_documento)
                                             <a href="{{ asset($contrato->ruta_documento) }}" class="btn btn-danger" title="Descargar documento" target="_blank"><i class="bi bi-file-earmark-arrow-down"></i>
                                             </a>
                                         @endif
-                                    {{--@endcan--}}
+                                    @endcan
                                 </td>
                             </tr>
 

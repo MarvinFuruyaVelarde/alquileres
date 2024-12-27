@@ -82,12 +82,14 @@
                                         <a href="{{route('contratos.create_espacio',$contrato)}}" class="btn btn-dark" title="Registrar Espacio"><i class="bi bi-layout-text-sidebar"></i></a>
                                     @endcan
                                     @can('contratos.send')
-                                        <form action="{{ route('contratos.send', $contrato) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="btn btn-primary" title="Enviar Contrato para Aprobar" onclick="return confirm('¿Está seguro que desea enviar el CONTRATO para Aprobar?');"><i class="bi bi-send"></i>
-                                            </button>
-                                        </form>
+                                        @if($contrato->numero_espacio > 0)
+                                            <form action="{{ route('contratos.send', $contrato) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-primary" title="Enviar Contrato para Aprobar" onclick="return confirm('¿Está seguro que desea enviar el CONTRATO para Aprobar?');"><i class="bi bi-send"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     @endcan
                                 </td>
                             </tr>

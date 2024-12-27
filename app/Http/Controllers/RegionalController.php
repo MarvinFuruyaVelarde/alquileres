@@ -32,7 +32,7 @@ class RegionalController extends Controller
             $regionales = View_Regional::whereIn('id',$array)->get();
         }*/
         
-        $regionales=View_Regional::where('estado','=',1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        $regionales=View_Regional::where('id','>',0)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
         return view('parametricas.regionales.index', compact('regionales')); // Pasar a la vista
     }
 

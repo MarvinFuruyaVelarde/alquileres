@@ -25,11 +25,14 @@ return new class extends Migration
                 c.domicilio_legal,
                 c.estado,
                 e.descripcion AS desc_estado,
-                c.deleted_at
+                c.deleted_at,
+                COUNT(es.id) AS numero_espacio
             FROM contrato c
                 JOIN aeropuerto a ON a.id = c.aeropuerto
                 JOIN cliente cl ON cl.id = c.cliente
-                JOIN estado e ON e.id = c.estado;
+                JOIN estado e ON e.id = c.estado
+                LEFT JOIN espacio es ON es.contrato = c.id
+           GROUP BY c.id, a.codigo, c.codigo, cl.razon_social, c.representante1, c.numero_documento1, c.telefono_celular, c.correo, c.domicilio_legal, c.estado, e.descripcion, c.deleted_at;;
         ");
     }
 

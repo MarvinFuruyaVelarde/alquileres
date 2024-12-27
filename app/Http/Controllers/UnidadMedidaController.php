@@ -16,7 +16,7 @@ class UnidadMedidaController extends Controller
 {
     public function index()
     {
-        $unidadesmedida = View_UnidadMedida::where('estado','=',1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        $unidadesmedida = View_UnidadMedida::where('id','>',0)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
         return view('parametricas.unidadesmedida.index', compact('unidadesmedida')); // Pasar a la vista
     }
 

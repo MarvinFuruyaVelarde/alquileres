@@ -19,7 +19,7 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $clientes = View_Cliente::where('estado','=',1)->whereNull('deleted_at')->orderBy('razon_social', 'asc')->get();
+        $clientes = View_Cliente::where('id','>',0)->whereNull('deleted_at')->orderBy('razon_social', 'asc')->get();
         return view('parametricas.clientes.index', compact('clientes')); 
     }
 

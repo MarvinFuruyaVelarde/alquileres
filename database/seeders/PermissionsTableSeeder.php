@@ -101,6 +101,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['descripcion'=>'Enviar para aprobar contrato modificado','name'=>'cancelarcontratos.send','grupo'=>'CONTRATOS']);
         Permission::create(['descripcion'=>'Lista de documentos de contratos','name'=>'documentocontratos.index','grupo'=>'CONTRATOS']);
         Permission::create(['descripcion'=>'Cargar documento de contrato','name'=>'documentocontratos.edit','grupo'=>'CONTRATOS']);
+        Permission::create(['descripcion'=>'Descargar documento de contrato','name'=>'documentocontratos.descargar','grupo'=>'CONTRATOS']);
 
         //Garantias
         Permission::create(['descripcion'=>'Ver lista de garantias','name'=>'garantias.index','grupo'=>'GARANTIAS']);

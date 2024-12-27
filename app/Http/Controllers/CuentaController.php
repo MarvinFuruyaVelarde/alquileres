@@ -17,7 +17,7 @@ class CuentaController extends Controller
 {
     public function index()
     {
-        $cuentas = View_Cuenta::where('estado','=',1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        $cuentas = View_Cuenta::where('id','>',0)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
         return view('parametricas.cuentas.index', compact('cuentas')); // Pasar a la vista
     }
 

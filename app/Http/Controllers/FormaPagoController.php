@@ -16,7 +16,7 @@ class FormaPagoController extends Controller
 {
     public function index()
     {
-        $formaspago = View_FormaPago::where('estado','=',1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        $formaspago = View_FormaPago::where('id','>',0)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
         return view('parametricas.formaspago.index', compact('formaspago')); // Pasar a la vista
     }
     public function create()
