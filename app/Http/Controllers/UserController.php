@@ -23,7 +23,7 @@ class UserController extends Controller
     }
     public function index()
     {
-        $users=User::where('id','>',1)->get();
+        $users=User::where('estado', 1)->where('id', '<>', 1)->orderBy('id', 'asc')->get();
         return view('users.index',compact('users'));
     }
 
@@ -31,7 +31,7 @@ class UserController extends Controller
     {
         $roles=Role::where('id','>',1)->get();
         $expedidos=Expedido::where('id','>',0)->get();
-        $estados=Estado::where('id','>',0)->get();
+        $estados=Estado::whereIn('id', [1, 2])->orderBy('id', 'asc')->get();
         $regionales=Regional::where('id','>',0)->get();
         $user=new User();
         return view('users.create',compact('roles','user','expedidos','estados','regionales'));

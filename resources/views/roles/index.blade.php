@@ -11,7 +11,7 @@
         </ol>
         </nav>
         @can('roles.create')
-            <a href="{{route('roles.create')}}" class="btn btn-primary" title="Crea un nuevo rol con sus permisos">+ Crear Nuevo</a>
+            <a href="{{route('roles.create')}}" class="btn btn-primary" title="Crea un nuevo rol con sus permisos"> <i class="bi bi-plus"></i> Registrar</a>
         @endcan
     </div>
  </div><!-- End Page Title -->
@@ -28,18 +28,18 @@
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center">Rol</th>
-                        <th class="text-center ">Descripción</th>
-                        <th class="text-center ">Nro usuarios <br>con el rol</th>
-                        <th class="text-center" >Opciones</th>
+                        <th class="text-center">ROL</th>
+                        <th class="text-center ">DESCRIPCIÓN</th>
+                        <th class="text-center ">NRO. USUARIO(S) <br> CON EL ROL</th>
+                        <th class="text-center" >OPCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($roles as $role)
                         <tr>
-                            <td class="fw-bold">{{$role->name}}</td>
-                            <td class="text-wrap">{{$role->descripcion}}</td>
-                            <td class="text-wrap text-center"><h5><span class="badge bg-primary">{{$role->users_count}} Usuarios</span></h5></td>
+                            <td class="text-center fw-bold">{{$role->name}}</td>
+                            <td class="text-center text-wrap">{{$role->descripcion}}</td>
+                            <td class="text-center text-wrap"><h5><span class="badge bg-primary">{{$role->users_count}} Usuarios</span></h5></td>
                             <td class="d-flex justify-content-center" >
                                 @can('roles.show')
                                     <a href="{{route('roles.show',$role->id)}}" class="btn btn-info" title="Ver los permisos asignados al rol"><i class="bi bi-eye"></i></a>

@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-lg-4">
       {{Form::label('name','Primer Nombre')}} <span class="text-danger">(*)</span>
-          <input id="name" type="text" class="form-control {{ $errors->has('name') ? ' error' : '' }}" name="name" maxlength="8" value="{{ old('name',$user->name) }}"    autofocus onkeyup="this.value = this.value.toUpperCase();">
+          <input id="name" type="text" class="form-control {{ $errors->has('name') ? ' error' : '' }}" name="name" maxlength="30" value="{{ old('name',$user->name) }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
           @if ($errors->has('name'))
               <span class="text-danger">
                   {{ $errors->first('name') }}
@@ -15,7 +15,7 @@
     </div>
     <div class="col-lg-4">
         {{Form::label('segundo_nombre','Segundo Nombre')}} <span class="text-danger">(*)</span>
-            <input id="segundo_nombre" type="text" class="form-control {{ $errors->has('segundo_nombre') ? ' error' : '' }}" name="segundo_nombre" maxlength="8" value="{{ old('segundo_nombre',$user->segundo_nombre) }}"    autofocus onkeyup="this.value = this.value.toUpperCase();"">
+            <input id="segundo_nombre" type="text" class="form-control {{ $errors->has('segundo_nombre') ? ' error' : '' }}" name="segundo_nombre" maxlength="30" value="{{ old('segundo_nombre',$user->segundo_nombre) }}" onkeyup="this.value = this.value.toUpperCase();"">
             @if ($errors->has('segundo_nombre'))
                 <span class="text-danger">
                     {{ $errors->first('segundo_nombre') }}
@@ -24,7 +24,7 @@
     </div>
     <div class="col-lg-4">
         {{Form::label('apellido_paterno','Apellido Paterno')}} <span class="text-danger">(*)</span>
-            <input id="apellido_paterno" type="text" class="form-control {{ $errors->has('apellido_paterno') ? ' error' : '' }}" name="apellido_paterno" maxlength="8" value="{{ old('apellido_paterno',$user->apellido_paterno) }}"  autofocus onkeyup="this.value = this.value.toUpperCase();">
+            <input id="apellido_paterno" type="text" class="form-control {{ $errors->has('apellido_paterno') ? ' error' : '' }}" name="apellido_paterno" maxlength="30" value="{{ old('apellido_paterno',$user->apellido_paterno) }}" onkeyup="this.value = this.value.toUpperCase();">
             @if ($errors->has('apellido_paterno'))
                 <span class="text-danger">
                     {{ $errors->first('apellido_paterno') }}
@@ -36,7 +36,7 @@
 <div class="row">
     <div class="col-lg-4">
       {{Form::label('apellido_materno','Apellido Materno')}} <span class="text-danger">(*)</span>
-          <input id="apellido_materno" type="text" class="form-control {{ $errors->has('apellido_materno') ? ' error' : '' }}" name="apellido_materno" maxlength="8" value="{{ old('apellido_materno',$user->apellido_materno) }}"  autofocus onkeyup="this.value = this.value.toUpperCase();">
+          <input id="apellido_materno" type="text" class="form-control {{ $errors->has('apellido_materno') ? ' error' : '' }}" name="apellido_materno" maxlength="30" value="{{ old('apellido_materno',$user->apellido_materno) }}" onkeyup="this.value = this.value.toUpperCase();">
           @if ($errors->has('apellido_materno'))
               <span class="text-danger">
                   {{ $errors->first('apellido_materno') }}
@@ -45,7 +45,7 @@
     </div>
     <div class="col-lg-4">
         {{Form::label('ci','Carnet Identidad')}} <span class="text-danger">(*)</span>
-            <input id="ci" type="text" class="form-control {{ $errors->has('ci') ? ' error' : '' }}" name="ci"    value="{{ old('ci',$user->ci) }}">
+            <input id="ci" type="text" class="form-control {{ $errors->has('ci') ? ' error' : '' }}" name="ci" maxlength="30" value="{{ old('ci',$user->ci) }}" onkeyup="this.value = this.value.toUpperCase();">
             @if ($errors->has('ci'))
                 <span class="text-danger">
                     {{ $errors->first('ci') }}

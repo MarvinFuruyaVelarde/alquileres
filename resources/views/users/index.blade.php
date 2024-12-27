@@ -14,7 +14,7 @@
         </ol>
         </nav>
         @can('users.create')
-            <a href="{{route('users.create')}}" class="btn btn-primary" title="Crea un nuevo rol con sus permisos">Agregar Nuevo</a>
+            <a href="{{route('users.create')}}" class="btn btn-primary" title="Crea un nuevo rol con sus permisos"> <i class="bi bi-plus"></i> Registrar</a>
         @endcan
     </div>
  </div><!-- End Page Title -->
@@ -30,17 +30,17 @@
                 <table cellspacing="0" width="100%" id="datos" class="table table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th class="text-center">Nombre Completo</th>
-                            <th class="text-center">Correo</th>
-                            <th class="text-center">Rol Asignado</th>
-                            <th class="text-center">Opciones</th>
+                            <th class="text-center">NOMBRE COMPLETO</th>
+                            <th class="text-center">CORREO</th>
+                            <th class="text-center">ROL ASIGNADO</th>
+                            <th class="text-center">OPCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($users as $user)
 
                             <tr>
-                                <td>{{$user->primer_nombre}} {{$user->segundo_nombre}} {{$user->apellido_paterno}} {{$user->apellido_materno}}</td>
+                                <td class="text-center">{{$user->name}} {{$user->segundo_nombre}} {{$user->apellido_paterno}} {{$user->apellido_materno}}</td>
                                 <td class="text-center">{{$user->email}}</td>
                                 <td class="text-center">
                                     @foreach ($user->roles as $rol )
