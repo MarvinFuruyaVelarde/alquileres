@@ -148,5 +148,6 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['descripcion'=>'Ver reporte de ingresos por clientes','name'=>'reporteingresoclientes.index','grupo'=>'REPORTES']);
         Permission::create(['descripcion'=>'Ver reporte de deudas','name'=>'reportedeudas.index','grupo'=>'REPORTES']);
         Permission::create(['descripcion'=>'Ver reporte de ingresos y deudas','name'=>'reporteingresodeudas.index','grupo'=>'REPORTES']);
+        Permission::create(['descripcion'=>'Ver reporte de mora','name'=>'reportemora.index','grupo'=>'REPORTES']);
     }
 }

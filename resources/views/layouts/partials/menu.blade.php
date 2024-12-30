@@ -280,6 +280,14 @@
           </a>
         </li>
       @endcan
+      @can('reportemora.index')
+        <li class="nav-item">
+          <a class="nav-link {{ isActiveRoute('reportemora.*') }}" href="{{ route('reportemora.index') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Mora</span>
+          </a>
+        </li>
+      @endcan
     </ul>
 
   </aside><!-- End Sidebar-->
