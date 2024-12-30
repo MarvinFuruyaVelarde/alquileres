@@ -2,6 +2,8 @@
     Debe rellenar todos los campos marcados con <strong class="text-danger">(*)</strong>.
     Al momento de registrar un registro de pago.</p>
     <input type="hidden" name="factura_id" id="factura_id" value="{{ $factura->id }}">
+    <input type="hidden" name="mes" id="mes" value="{{ $factura->mes }}">
+    <input type="hidden" name="gestion" id="gestion" value="{{ $factura->gestion }}">
 <div class="row mb-1">
     <div class="col-md-1">
     </div>

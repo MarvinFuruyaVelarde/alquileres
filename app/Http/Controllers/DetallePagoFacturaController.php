@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\Cuenta;
 use App\Models\DetallePagoFactura;
 use App\Models\Factura;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -28,7 +29,12 @@ class DetallePagoFacturaController extends Controller
     }
     public function store(DetallePagoFacturaRequest $request)
     {
-        $fecha_actual=date('Y-m-d');
+        $fechaInicial = Carbon::createFromDate($request->gestion, $request->mes, 1)->startOfDay();
+        $fechaLimite = $fechaInicial->addMonth()->day(10)->startOfDay();
+        $diasMora = 0;
+        if (Carbon::parse($request->fecha_actual)->startOfDay() > $fechaLimite){
+            $diasMora = Carbon::parse($request->fecha_actual)->startOfDay()->diffInDays($fechaLimite->startOfDay());
+        }
         $factura=Factura::find($request->factura_id);
         $pagado_saldo=DetallePagoFactura::where('id_factura',$request->factura_id)->latest('id') ->first();
 
@@ -44,6 +50,7 @@ class DetallePagoFacturaController extends Controller
         $detalle_pago->id_factura=$request->factura_id;
         $detalle_pago->a_pagar=$suma_pagado;
         $detalle_pago->saldo=$request->saldo_registro_pago - $request->pagar;
+        $detalle_pago->mora=((($request->pagar*3)/100)/30)*$diasMora;
         $detalle_pago->fecha_pago=$request->fecha_actual;
         $detalle_pago->cuenta=$request->cuenta_destino;
 

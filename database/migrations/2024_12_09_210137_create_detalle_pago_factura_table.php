@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('id_factura')->nullable();
             $table->decimal('a_pagar', 12, 2)->nullable();
             $table->decimal('saldo', 12, 2)->nullable();
+            $table->decimal('mora', 12, 2)->nullable();
             $table->date('fecha_pago')->nullable();
             $table->integer('cuenta')->nullable();
             $table->date('fecha_deposito')->nullable();
