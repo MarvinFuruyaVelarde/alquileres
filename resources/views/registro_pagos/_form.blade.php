@@ -24,7 +24,7 @@
     <div class="col-md-5">
         <label for="aeropuerto" class="col-form-label">Numero de Factura <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="numero_factura" type="text" class="form-control {{ $errors->has('numero_factura') ? ' error' : '' }}" name="numero_factura" value="{{ old('numero_factura',$factura->id) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
+            <input id="numero_factura" type="text" class="form-control {{ $errors->has('numero_factura') ? ' error' : '' }}" name="numero_factura" value="{{ old('numero_factura',$factura->numero_factura) }}" autofocus onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
             <span id="error-codigo" class="error-codigo" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('numero_factura'))
                 <span class="text-danger">
@@ -251,7 +251,7 @@
     function mostrar() {
         var x = $("#cuenta_destino").val() != null ? $("#cuenta_destino").val() : $("#cuenta_destino").data('old');
         
-        if (x==8 || x==9) {
+        if (x==7 || x==8) {
             $("#fecha_deposito").show();
             $("#fecha_deposito").prop("", true);
             var el = document.getElementById("bloque");
