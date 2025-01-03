@@ -339,14 +339,16 @@ class ContratoController extends Controller
             if ($expensa['expensa'] != '0') {
 
                 // Verificar si ya existe una relación entre el espacio y la expensa
-                $espacioExpensa = EspacioExpensa::where('espacio', $espacioId)
-                                                ->where('expensa', $expensa['expensa'])
+                $espacioExpensa = EspacioExpensa::withTrashed()
+                                                ->where('espacio', $espacioId)
+                                                ->where('expensa', $expensa['expensa']) 
                                                 ->first();
 
                 if ($espacioExpensa) {
                     // Si ya existe, actualizarla
                     $espacioExpensa->tarifa_fija = $expensa['tarifa_fija'];
                     $espacioExpensa->monto = $expensa['monto'] ?? null;
+                    $espacioExpensa->deleted_at = null;
                     $espacioExpensa->save();
                 } else {
                     // Si no existe, crear una nueva
