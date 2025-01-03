@@ -33,11 +33,11 @@
                         <table cellspacing="0" width="100%" id="datos" class="table table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="text-center">NUMERO NOTA DE COBRO</th>
-                                    <th class="text-center">NUMERO DE FACTURA</th>
-                                    <th class="text-center">MONTO FACTURA EN Bs</th>
-                                    <th class="text-center">PAGADO</th>
-                                    <th class="text-center">SALDO</th> 
+                                    <th class="text-center">NÚMERO NOTA DE COBRO</th>
+                                    <th class="text-center">NÚMERO DE FACTURA</th>
+                                    <th class="text-center">MONTO FACTURA Bs</th>
+                                    <th class="text-center">PAGADO Bs</th>
+                                    <th class="text-center">SALDO Bs</th> 
                                     <th class="text-center">OPCIONES</th> 
                                 </tr>
                             </thead>
@@ -48,7 +48,7 @@
                                     @endphp
                                     <tr>
                                         <td class="text-center">{{$factura->numero_nota_cobro}}</td>
-                                        <td class="text-center">{{$factura->id}}</td>
+                                        <td class="text-center">{{$factura->numero_factura}}</td>
                                         <td class="text-center">{{$factura->monto_total}}</td>
                                         <td class="text-center">{{$pagado}}</td>
                                         <td class="text-center">{{number_format($factura->monto_total - $pagado, 2, '.', '')}}</td>

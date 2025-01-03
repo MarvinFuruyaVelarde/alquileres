@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('expensa')->nullable();
             $table->string('glosa',300)->nullable();
             $table->string('concepto',50)->nullable();
-            $table->date('fecha_inicial');
-            $table->date('fecha_final');
+            $table->date('fecha_inicial')->nullable();
+            $table->date('fecha_final')->nullable();
             $table->integer('dias_facturados')->nullable();
             $table->decimal('total_canonmensual', 12, 2)->nullable();
             $table->decimal('precio', 12, 2)->nullable();

@@ -560,8 +560,14 @@ class NotaCobroController extends Controller
     public function show($id_notacobro)
     {
         $factura = Factura::find($id_notacobro);
-        $espacio = Espacio::find($factura->espacio);
-        $formaPago = FormaPago::find($espacio->forma_pago);
+
+        if ($factura->espacio){
+            $espacio = Espacio::find($factura->espacio);
+            $formaPago = FormaPago::find($espacio->forma_pago);
+        } else {
+            $formaPago = FormaPago::find($factura->forma_pago);
+        }
+
         $aeropuerto = Aeropuerto::find($factura->aeropuerto);
         $aeropuertoDescripcion = $aeropuerto->descripcion;
         $cliente = Cliente::find($factura->cliente);
@@ -574,7 +580,8 @@ class NotaCobroController extends Controller
         else
             $numeroMes = $formaPago->numero_mes;
 
-        $fechaInicio = sprintf('%02d/%02d/%d', Carbon::parse($espacio->fecha_inicial)->format('d'), $mes, $gestion);
+        if ($factura->espacio)
+            $fechaInicio = sprintf('%02d/%02d/%d', Carbon::parse($espacio->fecha_inicial)->format('d'), $mes, $gestion);
 
         if ($factura->tipo_factura == 'EX'){
             $ultimoDia = Carbon::createFromDate($gestion, $mes)->endOfMonth()->day;

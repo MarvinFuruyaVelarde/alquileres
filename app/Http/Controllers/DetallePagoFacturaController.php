@@ -15,7 +15,7 @@ class DetallePagoFacturaController extends Controller
 {
     public function index()
     {
-        $facturas = Factura::all(); 
+        $facturas = Factura::where('estado', 8)->orderBy('id', 'desc')->get();
         return view('registro_pagos.index', compact('facturas')); 
     }
     public function create(Factura $factura)

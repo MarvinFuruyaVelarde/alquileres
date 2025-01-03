@@ -27,6 +27,8 @@
               Debe rellenar todos los campos marcados con <strong class="text-danger">(*)</strong>.
               Al momento de registrar una nota de cobro manual
             </p>
+            <input id="mes" type='hidden' name='mes' value=''/>
+            <input id="gestion" type='hidden' name='gestion' value=''/>
             <div class="row mb-1">
               <label>Tipo</label>
               <br><br>
@@ -120,7 +122,7 @@
                   @endif
               </div>
 
-              <div class="col-md-4">
+              <div id="f_periodo_inicial" class="col-md-4">
                   <label for="periodo_inicial" class="col-form-label">Periodo Inicial de Cobro <span class="text-danger">(*)</span></label>
                   <input id="periodo_inicial" type="date" class="form-control {{ $errors->has('periodo_inicial') ? 'error' : '' }}" name="periodo_inicial">
                   @if ($errors->has('periodo_inicial'))
@@ -128,7 +130,19 @@
                   @endif
               </div>
 
-              <div class="col-md-4">
+              <div id="f_numero_factura" class="col-md-4" style="display: none;">
+                <label for="numero_factura" class="col-form-label">Número de Factura</label>
+                <select id="numero_factura" class="form-control{{ $errors->has('numero_factura') ? ' error' : '' }}" name="numero_factura">
+                    <option value="">Seleccionar...</option>
+                </select>
+                @if ($errors->has('numero_factura'))
+                    <span class="text-danger">
+                        {{ $errors->first('numero_factura') }}
+                    </span>
+                @endif                                                         
+              </div>
+
+              <div id="f_periodo_final" class="col-md-4">
                   <label for="periodo_final" class="col-form-label">Periodo Final de Cobro <span class="text-danger">(*)</span></label>
                   <input id="periodo_final" type="date" class="form-control {{ $errors->has('periodo_final') ? 'error' : '' }}" name="periodo_final">
                   @if ($errors->has('periodo_final'))
@@ -140,6 +154,7 @@
             <div class="row mb-1">         
               <div class="col-md-4">
                   <label for="monto" class="col-form-label me-2">Monto</label>
+                  <input id="monto_mora" type='hidden' name='monto_mora' value=''/>
                   <input id="monto" type="text" class="form-control {{ $errors->has('monto') ? ' error' : '' }}" name="monto" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
               </div>
 
@@ -261,9 +276,65 @@
     // Ocultar el campo Por concepto de
     document.querySelectorAll('input[name="tipo"]').forEach((radio) => {
       radio.addEventListener('change', function() {
-          if (this.value === 'EX' || this.value === 'MOR' || this.value === 'OTR') {
+          if (this.value === 'EX' || this.value === 'OTR') {
               document.getElementById('tipo_espacio').style.display = 'none'; // Ocultar campo
+              document.getElementById('f_numero_factura').style.display = 'none';
+              document.getElementById('f_periodo_inicial').style.display = 'block';
+              document.getElementById('f_periodo_final').style.display = 'block';
+          } else if (this.value === 'MOR') {
+              document.getElementById('tipo_espacio').style.display = 'none';
+              document.getElementById('f_numero_factura').style.display = 'block';
+              document.getElementById('f_periodo_inicial').style.display = 'none';
+              document.getElementById('f_periodo_final').style.display = 'none';
+
+              // Cargar Número de Factura, cuando seleccione el código de contrato
+              $("#codigo").change(function(event) {
+                  if ($(this).val())
+                    getNumeroFactura($(this).val());
+              });
+              
+              function getNumeroFactura(codigoContrato) {
+                  var zone = $("#numero_factura");
+                  var encodedCodigoContrato = encodeURIComponent(codigoContrato);
+                  
+                  $.ajax({
+                    url: '{{ url("notacobromanual/obtNumeroFactura/") }}/'+encodedCodigoContrato,
+                    method: 'get',
+                    data: {'codigoContrato':encodedCodigoContrato},
+                    beforeSend: function(){
+                      zone.attr('disabled', true);
+                    },
+                    success: function (response) {
+                      zone.html(response.item);
+                      if (response.disabled) 
+                          zone.attr('disabled', true);
+                      else
+                          zone.attr('disabled', false);
+                    },
+                    error: function() {
+                      alert('Error al cargar el numero de factura.');
+                    }
+                  
+                  });
+              }
+
+              // Cargar monto dado el numero de factura seleccionado
+              document.getElementById('numero_factura').addEventListener('change', function () {
+                var numerosFactura = document.getElementById("numero_factura");
+                var montoFacturaSeleccionado = numerosFactura.options[numerosFactura.selectedIndex].getAttribute('data-monto');
+                var mesFacturaSeleccionado = numerosFactura.options[numerosFactura.selectedIndex].getAttribute('data-mes');
+                var gestionFacturaSeleccionado = numerosFactura.options[numerosFactura.selectedIndex].getAttribute('data-gestion');
+                document.getElementById('monto').disabled = true;
+                document.getElementById("monto").value = montoFacturaSeleccionado;
+                document.getElementById("monto_mora").value = montoFacturaSeleccionado;
+                document.getElementById("mes").value = mesFacturaSeleccionado;
+                document.getElementById("gestion").value = gestionFacturaSeleccionado;
+              });
+            
           } else {
+              document.getElementById('f_numero_factura').style.display = 'none';
+              document.getElementById('f_periodo_inicial').style.display = 'block';
+              document.getElementById('f_periodo_final').style.display = 'block';
               document.getElementById('tipo_espacio').style.display = 'block'; // Mostrar campo
           }
       });

@@ -70,6 +70,34 @@ class NotaCobroManualController extends Controller
 		return response()->json(['success'=>true, 'item'=>$html, 'disabled' => $disabled]);
 	}
 
+    public function obtieneNumeroFactura($codigoContrato) 
+    {   
+        $numerosFactura = DB::table('contrato as c')
+                ->join('factura as f', 'f.contrato', '=', 'c.id')
+                ->join('detalle_pago_factura as dp', 'dp.id_factura', '=', 'f.id')
+                ->where('dp.cobro_mora', 'S')
+                ->where('c.codigo', $codigoContrato)
+                ->groupBy('f.id')
+                ->select('f.id', 'f.numero_factura', 'f.mes', 'f.gestion', DB::raw('SUM(dp.mora) as monto'))
+                ->get();
+        
+        //dd($numerosFactura);
+        
+        if ($numerosFactura->isEmpty()) {
+            $html = '<option value="">Sin numero de factura</option>';
+            $disabled = true;  // Indicador para deshabilitar el select
+        } else {
+            $html = '<option value="">Seleccione</option>';
+            foreach ($numerosFactura as $numeroFactura) {
+                $selected = NULL;
+                $html .= "<option value='$numeroFactura->id' data-monto='$numeroFactura->monto' data-mes='$numeroFactura->mes' data-gestion='$numeroFactura->gestion' $selected>$numeroFactura->numero_factura</option>";
+                $disabled = false;
+            }
+        }
+                   
+		return response()->json(['success'=>true, 'item'=>$html, 'disabled' => $disabled]);
+	}
+
     public function obtieneExpensa(Request $request) 
     {       
         $fechaFinal = $request->query('periodoFacturacion');
@@ -141,7 +169,12 @@ class NotaCobroManualController extends Controller
             $factura->tipo_factura = $request->tipo;
             $factura->cliente = $request->cliente;
             $factura->razon_social_factura = $cliente->razon_social;
-            $factura->monto_total = $request->monto;
+
+            if ($request->tipo == 'MOR')
+                $factura->monto_total = $request->monto_mora;
+            else
+                $factura->monto_total = $request->monto;
+
             $factura->tipo_generacion = 'M';
             $factura->estado = 3;
             $factura->usuario_registro = auth()->id();
@@ -157,12 +190,25 @@ class NotaCobroManualController extends Controller
                 $facturaDetalle->concepto = $request->tipo_espacio;
             else if($request->tipo == 'MOR' || $request->tipo == 'OTR')
                 $facturaDetalle->concepto = 'V';
-
-            $facturaDetalle->fecha_inicial = $request->periodo_inicial;
-            $facturaDetalle->fecha_final = $request->periodo_final;
+            
+            if ($request->tipo == 'MOR') {
+                $facturaDetalle->fecha_inicial = Carbon::create($request->gestion, $request->mes, 1)->toDateString();
+                $facturaDetalle->fecha_final = Carbon::create($request->gestion, $request->mes, 1)->endOfMonth()->toDateString();
+            } else {
+                $facturaDetalle->fecha_inicial = $request->periodo_inicial;
+                $facturaDetalle->fecha_final = $request->periodo_final;
+            }
+            
             $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($request->periodo_inicial, $request->periodo_final, $periodoInicialFacturacion, $periodoFacturacion);
-            $facturaDetalle->total_canonmensual = $request->monto;
-            $facturaDetalle->precio = $request->monto;
+            
+            if ($request->tipo == 'MOR') {
+                $facturaDetalle->total_canonmensual = $request->monto_mora;
+                $facturaDetalle->precio = $request->monto_mora;
+            } else {
+                $facturaDetalle->total_canonmensual = $request->monto;
+                $facturaDetalle->precio = $request->monto;
+            }
+
             $facturaDetalle->usuario_registro = auth()->id();
             $facturaDetalle->fecha_registro = $fechaRegistro;
             $facturaDetalle->save();
