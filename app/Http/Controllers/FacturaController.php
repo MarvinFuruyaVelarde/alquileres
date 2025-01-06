@@ -120,8 +120,10 @@ class FacturaController extends Controller
 
     public function generarFactura(Request $request)
     {
-        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
-        $url   = 'https://clic.naabol.com.bo:8443/clic-core/facturas/recibir-sincrono';
+        //Descomentar $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
+        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJzZXJ2aWNlcyIsImlhdCI6MTY3NTM3NjQ1NCwiZXhwIjoyMzA2NTI4NDU0fQ.lWsrkIQjk489bb7OSXiYTFYPSBEKGybSb9rmJfoONHM';
+        //Descomentar $url   = 'https://clic.naabol.com.bo:8443/clic-core/facturas/recibir-sincrono';
+        $url   = 'https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/recibir-sincrono';
         $uuid  = Str::uuid()->toString();
 
         $cont = 0;
@@ -263,7 +265,7 @@ class FacturaController extends Controller
             $response = Http::withToken($token)->withoutVerifying()->post($url, [
                 'datosGenerales' => [
                     'nitEmisor' => 419945029,             // nit naabol
-                    'sucursalEmisor' => '0',              // preguntar si siempre se debe mandar 0? esto es la sucursal de la empresa en clic donde solo se tiene un registro reyes ortiz
+                    'sucursalEmisor' => '3',              // preguntar si siempre se debe mandar 0? esto es la sucursal de la empresa en clic donde solo se tiene un registro reyes ortiz
                     'puntoVentaEmisor' => '1',            // preguntar si siempre se debe mandar 1?
                     'codigoIntegracion' => $uuid,         // es una cadena autogenerada (UID4 sugerencia) 
                     'codigoCliente' => $codigoCliente,    // factura->ci o factura->nit dependiendo de factura->tipo_solicitante
@@ -394,8 +396,9 @@ class FacturaController extends Controller
                                 <td class='text-center'>{$notaCobro->desc_canon}</td>
                                 <td class='text-center'>{$notaCobro->desc_forma_pago}</td>
                                 <td class='d-flex justify-content-center'>
-                                <a href='" . route('facturacion.anular', $notaCobro->id) . "' class='btn btn-danger bi-arrow-90deg-left' title='Anular Factura'></a>
+                                <a href='" . route('facturacion.anular', $notaCobro->id) . "' class='btn btn-dark bi-arrow-90deg-left' title='Anular Factura'></a>
                                 <a href='" . route('facturacion.imprimir', $notaCobro->id_documento) . "' class='btn btn-primary bi-printer-fill' title='Visualizar Factura' target='_blank'></a>
+                                <a href='" . route('notacobro.show', $notaCobro->id) . "' class='btn btn-danger bi-file-earmark-pdf' title='Visualizar Nota de Cobro' target='_blank'></a>
                                 </td>
                             </tr>
                         </tbody>";
@@ -413,8 +416,9 @@ class FacturaController extends Controller
                                 <td class='text-center'>{$notaCobro->desc_canon}</td>
                                 <td class='text-center'>{$expensa->descripcion}</td>
                                 <td class='d-flex justify-content-center'>
-                                <a href='" . route('facturacion.anular', $notaCobro->id) . "' class='btn btn-danger bi-arrow-90deg-left' title='Anular Factura'></a>
+                                <a href='" . route('facturacion.anular', $notaCobro->id) . "' class='btn btn-dark bi-arrow-90deg-left' title='Anular Factura'></a>
                                 <a href='" . route('facturacion.imprimir', $notaCobro->id_documento) . "' class='btn btn-primary bi-printer-fill' title='Visualizar Factura' target='_blank'></a>
+                                <a href='" . route('notacobro.show', $notaCobro->id) . "' class='btn btn-danger bi-file-earmark-pdf' title='Visualizar Nota de Cobro' target='_blank'></a>
                                 </td>
                             </tr>
                         </tbody>";
