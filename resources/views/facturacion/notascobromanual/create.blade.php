@@ -92,6 +92,11 @@
                   <label for="cliente" class="col-form-label">Cliente <span class="text-danger">(*)</span></label>
                   <select id="cliente" class="form-control{{ $errors->has('cliente') ? ' error' : '' }}" name="cliente" disabled>
                       <option value="">Seleccionar...</option>
+                      @foreach($clientes as $cliente)
+                          <option value="{{ $cliente->id }}">
+                              {{ $cliente->razon_social }}
+                          </option>
+                      @endforeach
                   </select>
                   @if ($errors->has('cliente'))
                       <span class="text-danger">
@@ -368,29 +373,8 @@
 
     // Cargar Cliente, cuando seleccione el aeropuerto
     $("#aeropuerto").change(function(event) {
-        if ($(this).val())
-          getCliente($(this).val());
+      document.getElementById('cliente').disabled = false;
     });
-    
-    function getCliente(aeropuerto, cliente=null) {
-        var zone = $("#cliente");
-        
-        $.ajax({
-          url: '{{ url("notacobromanual/obt_cliente/") }}/'+aeropuerto+'/'+cliente,
-          method: 'get',
-          data: {'aeropuerto':aeropuerto},
-          beforeSend: function(){
-            zone.attr('disabled', true);
-          },
-          success: function (response) {
-            zone.attr('disabled', false).html(response.item);
-          },
-          error: function() {
-            alert('Error al cargar el código de cliente.');
-          }
-         
-        });
-    }
 
     // Cargar Codigo Contrato, cuando seleccione el aeropuerto y cliente
     $("#cliente").change(function(event) {

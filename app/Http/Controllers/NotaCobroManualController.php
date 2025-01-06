@@ -28,25 +28,6 @@ class NotaCobroManualController extends Controller
         return view('facturacion.notascobromanual.index', compact('notasCobroManual'));
     }
 
-    public function obtieneCliente($aeropuerto) 
-    {
-        $clientes = Contrato::select('cliente')
-                    ->selectRaw('(SELECT razon_social FROM cliente WHERE id = cliente) AS razon_social')
-                    ->where('aeropuerto', $aeropuerto)
-                    ->where('estado', 5)
-                    ->groupBy('cliente')
-                    ->orderBy('cliente')
-                    ->get();
-
-		$html = '<option value="">Seleccione</option>';
-		foreach ($clientes as $key => $item) {
-			$selected = NULL;
-			$html .= "<option value='$item->cliente' $selected>$item->razon_social</option>";
-		}
-                   
-		return response()->json(['success'=>true, 'item'=>$html]);
-	}
-
     public function obtieneCodigoContrato($aeropuerto, $cliente) 
     {   
         $codigosContrato = Contrato::where('aeropuerto', $aeropuerto)
@@ -55,11 +36,11 @@ class NotaCobroManualController extends Controller
                     ->pluck('codigo');
         
         if ($codigosContrato->isEmpty()) {
-            $html = '<option value="">Sin código</option>';
-            $disabled = true;  // Indicador para deshabilitar el select
+            $html = '<option value="SIN/CODIGO">SIN CODIGO</option>';
+            $disabled = false;  // Indicador para deshabilitar el select
         } else {
             $html = '<option value="">Seleccione</option>
-                     <option value="SIN/CODIGO">SIN CÓDIGO</option>';
+                     <option value="SIN/CODIGO">SIN CODIGO</option>';
             foreach ($codigosContrato as $codigoContrato) {
                 $selected = NULL;
                 $html .= "<option value='$codigoContrato' $selected>$codigoContrato</option>";
@@ -118,8 +99,9 @@ class NotaCobroManualController extends Controller
     public function create()
     {
         $aeropuertos = Aeropuerto::where('id','>',0)->where('estado', 1)->orderBy('id', 'asc')->get();
+        $clientes = Cliente::where('estado', 1)->select('id', 'razon_social')->get();
         $expensas = Expensa::where('id','>',0)->where('estado', 1)->orderBy('descripcion', 'asc')->get();
-        return view('facturacion.notascobromanual.create', compact('aeropuertos', 'expensas'));
+        return view('facturacion.notascobromanual.create', compact('aeropuertos', 'clientes', 'expensas'));
     }
 
     public function store(Request $request)

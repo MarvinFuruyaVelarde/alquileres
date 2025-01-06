@@ -194,7 +194,6 @@ Route::middleware(['auth'])->group(function(){
     Route::get('notacobro/pdf/{id}',[App\Http\Controllers\NotaCobroController::class,'show'])->name('notacobro.show');
 
     Route::get('notacobromanual',[App\Http\Controllers\NotaCobroManualController::class,'index'])->name('notacobromanual.index')->middleware('permission:notacobromanual.index');
-    Route::get('notacobromanual/obt_cliente/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroManualController::class,'obtieneCliente'])->name('notacobromanual.obtieneCliente');
     Route::get('notacobromanual/obtCodigoContrato/{aeropuerto}/{cliente}',[App\Http\Controllers\NotaCobroManualController::class,'obtieneCodigoContrato'])->name('notacobromanual.obtieneCodigoContrato');
     Route::get('notacobromanual/obtNumeroFactura/{codigoContrato}',[App\Http\Controllers\NotaCobroManualController::class,'obtieneNumeroFactura'])->where('codigoContrato', '.*')->name('notacobromanual.obtieneNumeroFactura');
     Route::get('notacobromanual/obtieneExpensa',[App\Http\Controllers\NotaCobroManualController::class, 'obtieneExpensa'])->name('notacobromanual.obtieneExpensa');

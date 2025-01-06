@@ -580,16 +580,23 @@ class NotaCobroController extends Controller
         else
             $numeroMes = $formaPago->numero_mes;
 
-        if ($factura->espacio)
+        // Cuando la Nota de Cobro no corresponde a ningún Contrato es Temporal
+        if ($factura->espacio){
             $fechaInicio = sprintf('%02d/%02d/%d', Carbon::parse($espacio->fecha_inicial)->format('d'), $mes, $gestion);
 
-        if ($factura->tipo_factura == 'EX'){
-            $ultimoDia = Carbon::createFromDate($gestion, $mes)->endOfMonth()->day;
-            $fechaFin = sprintf('%02d/%02d/%d', $ultimoDia, $mes, $gestion);
-        } else {
-            $fechaInicioCarbon = Carbon::createFromFormat('d/m/Y', $fechaInicio);
-            $fechaFinCarbon = $fechaInicioCarbon->copy()->addMonths($numeroMes)->subDay();
-            $fechaFin = $fechaFinCarbon->format('d/m/Y');
+            if ($factura->tipo_factura == 'EX'){
+                $ultimoDia = Carbon::createFromDate($gestion, $mes)->endOfMonth()->day;
+                $fechaFin = sprintf('%02d/%02d/%d', $ultimoDia, $mes, $gestion);
+            } else {
+                $fechaInicioCarbon = Carbon::createFromFormat('d/m/Y', $fechaInicio);
+                $fechaFinCarbon = $fechaInicioCarbon->copy()->addMonths($numeroMes)->subDay();
+                $fechaFin = $fechaFinCarbon->format('d/m/Y');
+            }
+
+        } else{
+            $facturaDetalles = FacturaDetalle::where('factura', $id_notacobro)->first();
+            $fechaInicio = Carbon::parse($facturaDetalles->fecha_inicial)->format('d/m/Y');
+            $fechaFin = Carbon::parse($facturaDetalles->fecha_final)->format('d/m/Y');
         }
         
         $fechaImpresion = Carbon::now()->format('Y-m-d H:i:s');

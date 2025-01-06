@@ -98,7 +98,7 @@
                                 <label for="codigo" class="col-form-label">Código Contrato <span class="text-danger">(*)</span></label>
                                 <select id="codigo" class="form-control  {{ $errors->has('codigo') ? ' error' : '' }}" name="codigo" autofocus {{ in_array($tipo_factura, ['EX', 'AL']) ? 'disabled' : '' }}>
                                     <option value="">Seleccionar...</option>
-                                    <option value="SIN/CODIGO" {{ old('codigo', $codigoContratoReg) == 'SIN/CODIGO' ? 'selected' : '' }}>SIN CÓDIGO</option>
+                                    <option value="SIN/CODIGO" {{ old('codigo', $codigoContratoReg) == 'SIN/CODIGO' ? 'selected' : '' }}>SIN CODIGO</option>
                                     @foreach($codigosContrato as $codigoContrato)
                                         <option value="{{ $codigoContrato }}"
                                             {{ old('codigo', $codigoContratoReg) == $codigoContrato ? 'selected' : '' }}>
