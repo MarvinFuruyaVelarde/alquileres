@@ -341,6 +341,7 @@ class FacturaController extends Controller
             Alert::success("Se ha procesado de manera correcta la generación de factura(s)");
             return redirect()->route('facturacion.index');
         } else {
+            dd($response->json());
             Alert::error("Ocurrio un inconveniente en la generación de factura(s)");
             return redirect()->route('facturacion.index');
         }
