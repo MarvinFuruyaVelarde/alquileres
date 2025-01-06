@@ -15,7 +15,7 @@ return new class extends Migration
        CREATE OR REPLACE FUNCTION public.genera_nota_cobro(
 		aeropuerto_id integer,
 		ultimo_dia date)
-		RETURNS TABLE(id_espacio integer, id_contrato integer, codigo_contrato character varying, id_cliente integer, tipo_solicitante integer, ci character varying, nit character varying, razon_social character varying, tipo_canon character varying, aeropuerto integer, id_forma_pago integer, forma_pago character varying, numero integer, origen text) 
+		RETURNS TABLE(id_contrato integer, codigo_contrato character varying, id_cliente integer, tipo_solicitante integer, ci character varying, nit character varying, razon_social character varying, tipo_canon character varying, aeropuerto integer, id_forma_pago integer, forma_pago character varying, numero integer, origen text) 
 		LANGUAGE 'plpgsql'
 		COST 100
 		VOLATILE PARALLEL UNSAFE
@@ -31,7 +31,6 @@ return new class extends Migration
 			RETURN QUERY
 			-- Primera consulta
 			SELECT 
-				E.id AS id_espacio,
 				E.contrato AS id_contrato,
 				C.codigo AS codigo_contrato,
 				CL.id AS id_cliente,
@@ -85,13 +84,12 @@ return new class extends Migration
 					OR MOD(EXTRACT(YEAR FROM ultimo_dia) * 12 + EXTRACT(MONTH FROM ultimo_dia) -
 							(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0)))
 			GROUP BY 
-				E.id, E.contrato, C.codigo, CL.id, c.tipo_solicitante, c.ci, c.nit, E.tipo_canon, C.aeropuerto, FP.id, FP.descripcion
+				E.contrato, C.codigo, CL.id, c.tipo_solicitante, c.ci, c.nit, E.tipo_canon, C.aeropuerto, FP.id, FP.descripcion
 			
 			UNION ALL 
 			
 			-- Segunda consulta
 			SELECT 
-				E.id AS id_espacio,
 				pl.contrato AS id_contrato,
 				c.codigo AS codigo_contrato,  
 				pl.cliente AS id_cliente,
@@ -144,7 +142,7 @@ return new class extends Migration
 					OR MOD(EXTRACT(YEAR FROM ultimo_dia) * 12 + EXTRACT(MONTH FROM ultimo_dia) -
 						(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0)))
 			GROUP BY 
-				E.id, pl.contrato, c.codigo, pl.cliente, c.tipo_solicitante, c.ci, c.nit, cl.razon_social, e.tipo_canon, c.aeropuerto, E.FORMA_PAGO, fp.descripcion, pl.numero
+				pl.contrato, c.codigo, pl.cliente, c.tipo_solicitante, c.ci, c.nit, cl.razon_social, e.tipo_canon, c.aeropuerto, E.FORMA_PAGO, fp.descripcion, pl.numero
 			
 			ORDER BY 
 				razon_social;

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('factura', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('aeropuerto');
-            $table->integer('espacio')->nullable();
             $table->integer('contrato')->nullable();
             $table->string('codigo_contrato',50)->nullable();
             $table->string('numero_nota_cobro',250);

@@ -23,7 +23,7 @@ class NotaCobro extends Model implements Auditable
     // Genera Nota(s) de Cobro Para Alquileres dado el Aeropuerto y Periodo de Facturación
     public static function generaNotaCobroAlquiler($aeropuertoId, $ultimoDia)
     {
-        return DB::select('SELECT id_espacio, id_contrato, codigo_contrato, id_cliente, tipo_solicitante, ci, nit, razon_social, tipo_canon, id_forma_pago, forma_pago, numero, origen FROM genera_nota_cobro(?, ?)', [$aeropuertoId, $ultimoDia]);
+        return DB::select('SELECT id_contrato, codigo_contrato, id_cliente, tipo_solicitante, ci, nit, razon_social, tipo_canon, id_forma_pago, forma_pago, numero, origen FROM genera_nota_cobro(?, ?)', [$aeropuertoId, $ultimoDia]);
     }
 
     // Genera Nota(s) de Cobro Para Expensas dado el el Aeropuerto y Periodo de Facturación

@@ -90,7 +90,6 @@ class NotaCobroController extends Controller
                                 ->where('gestion', $anio)
                                 ->where('mes', $mes)
                                 ->where('tipo_canon', $notaCobroGenerada->tipo_canon)
-                                ->where('espacio', $notaCobroGenerada->id_espacio)
                                 ->exists();
 
             if (!$registroExistente) {
@@ -98,7 +97,6 @@ class NotaCobroController extends Controller
                 //Almacena datos de notas de cobro en la estructura factura
                 $factura = New Factura();
                 $factura->aeropuerto = $aeropuerto;
-                $factura->espacio = $notaCobroGenerada->id_espacio;
                 $factura->contrato = $notaCobroGenerada->id_contrato;
                 $factura->codigo_contrato = $notaCobroGenerada->codigo_contrato;
                 $factura->numero_nota_cobro = $notaCobroGenerada->numero_nota_cobro;
@@ -264,7 +262,7 @@ class NotaCobroController extends Controller
                 </thead>';  
 
         $cont = 0; 
-
+        //dd($notaCobroGeneradas);
         foreach ($notaCobroGeneradas as $notaCobroGenerada) {
             $espacio = Espacio::find($notaCobroGenerada->id_espacio);
             $expensa = Expensa::find($notaCobroGenerada->expensa);
@@ -285,7 +283,6 @@ class NotaCobroController extends Controller
                 //Almacena datos de notas de cobro en la estructura factura
                 $factura = New Factura();
                 $factura->aeropuerto = $aeropuerto;
-                $factura->espacio = $notaCobroGenerada->id_espacio;
                 $factura->contrato = $notaCobroGenerada->id_contrato;
                 $factura->codigo_contrato = $notaCobroGenerada->codigo_contrato;
                 $factura->numero_nota_cobro = $notaCobroGenerada->numero_nota_cobro;
