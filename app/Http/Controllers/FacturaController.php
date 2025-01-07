@@ -267,7 +267,7 @@ class FacturaController extends Controller
                 'datosGenerales' => [
                     'nitEmisor' => 419945029,             // nit naabol
                     'sucursalEmisor' => '3',              // preguntar si siempre se debe mandar 0? esto es la sucursal de la empresa en clic donde solo se tiene un registro reyes ortiz
-                    'puntoVentaEmisor' => '1',            // preguntar si siempre se debe mandar 1?
+                    'puntoVentaEmisor' => null,            // preguntar si siempre se debe mandar 1?
                     'codigoIntegracion' => $uuid,         // es una cadena autogenerada (UID4 sugerencia) 
                     'codigoCliente' => $codigoCliente,    // factura->ci o factura->nit dependiendo de factura->tipo_solicitante
                     'celularCliente' => $celularCliente,  // contrato->telefono_celular
