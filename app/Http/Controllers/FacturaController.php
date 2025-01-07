@@ -121,9 +121,9 @@ class FacturaController extends Controller
 
     public function generarFactura(Request $request)
     {
-        //Descomentar $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
+        //Amb Prueba $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
         $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJzZXJ2aWNlcyIsImlhdCI6MTY3NTM3NjQ1NCwiZXhwIjoyMzA2NTI4NDU0fQ.lWsrkIQjk489bb7OSXiYTFYPSBEKGybSb9rmJfoONHM';
-        //Descomentar $url   = 'https://clic.naabol.com.bo:8443/clic-core/facturas/recibir-sincrono';
+        //Amb Prueba $url   = 'https://clic.naabol.com.bo:8443/clic-core/facturas/recibir-sincrono';
         $url   = 'https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/recibir-sincrono';
         $uuid  = Str::uuid()->toString();
 
@@ -347,7 +347,6 @@ class FacturaController extends Controller
                 'body' => $response->body(),
                 'headers' => $response->headers()
             ]);
-            dd($response->successful().'  '.$response->json()['codigo'].' '.$response->json()['respuesta'].' '.$response->json());
             Alert::error("Ocurrio un inconveniente en la generación de factura(s)");
             return redirect()->route('facturacion.index');
         }
@@ -449,8 +448,10 @@ class FacturaController extends Controller
     public function imprimir($id_documento) 
     {
         $idDocumento = $id_documento;
-        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
-        $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
+        //Amb Prueba $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
+        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJzZXJ2aWNlcyIsImlhdCI6MTY3NTM3NjQ1NCwiZXhwIjoyMzA2NTI4NDU0fQ.lWsrkIQjk489bb7OSXiYTFYPSBEKGybSb9rmJfoONHM';
+        //Amb Prueba $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
+        $url = "https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
         $response = Http::withToken($token)->withoutVerifying()->get($url);
         //dd($response->json());
 
@@ -481,8 +482,10 @@ class FacturaController extends Controller
 
         //dd($codigoIntegracion.' '.$cuf);
 
-        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
-        $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/anular";
+        //Amb Prueba $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
+        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJzZXJ2aWNlcyIsImlhdCI6MTY3NTM3NjQ1NCwiZXhwIjoyMzA2NTI4NDU0fQ.lWsrkIQjk489bb7OSXiYTFYPSBEKGybSb9rmJfoONHM';
+        //Amb Prueba $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/anular";
+        $url = "https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/anular";
 
         $cont = 0;
         // Consume Api Alquiler
