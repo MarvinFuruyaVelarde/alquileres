@@ -15,6 +15,7 @@ use App\Models\View_Factura;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -341,6 +342,11 @@ class FacturaController extends Controller
             Alert::success("Se ha procesado de manera correcta la generación de factura(s)");
             return redirect()->route('facturacion.index');
         } else {
+            Log::error('Error en la solicitud a la API', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+                'headers' => $response->headers()
+            ]);
             dd($response->successful().'  '.$response->json()['codigo'].' '.$response->json()['respuesta'].' '.$response->json());
             Alert::error("Ocurrio un inconveniente en la generación de factura(s)");
             return redirect()->route('facturacion.index');
