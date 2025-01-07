@@ -239,7 +239,7 @@
                             </div>
                         
                             <div class="col-md-3">
-                                <label for="fecha_final" class="col-form-label">Fecha Inicial <span class="text-danger">(*)</span></label>
+                                <label for="fecha_final" class="col-form-label">Fecha Final <span class="text-danger">(*)</span></label>
                                 <input id="fecha_final" type="date" class="form-control {{ $errors->has('fecha_final') ? ' error' : '' }}" name="fecha_final" value="{{ old('fecha_final',$espacio->fecha_final) }}">
                                 <span id="error-fecha_final" class="error-fecha_final" style="color: rgb(220, 53, 69);"></span>
                                 @if ($errors->has('fecha_final'))
