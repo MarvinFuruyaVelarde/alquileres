@@ -20,7 +20,7 @@ return new class extends Migration
                 fecha_fin date,
                 p_tipo_canon character varying DEFAULT NULL::character varying,
                 p_numero integer DEFAULT NULL::integer)
-                RETURNS TABLE(id integer, tipo_canon character varying, fecha_inicial date, fecha_final date, total_canonmensual numeric) 
+                RETURNS TABLE(id integer, tipo_canon character varying, fecha_inicial date, fecha_final date, total_canonmensual numeric, forma_pago integer) 
                 LANGUAGE 'plpgsql'
                 COST 100
                 VOLATILE PARALLEL UNSAFE
@@ -35,7 +35,8 @@ return new class extends Migration
                         E.TIPO_CANON,
                         E.fecha_inicial,
                         E.fecha_final,
-                        E.total_canonmensual
+                        E.total_canonmensual,
+                        E.FORMA_PAGO
                     FROM ESPACIO E
                     WHERE E.ESTADO = 5
                     AND E.tipo_canon = 'F'
@@ -91,7 +92,8 @@ return new class extends Migration
                         E.TIPO_CANON,
                         E.fecha_inicial,
                         E.fecha_final,
-                        E.total_canonmensual
+                        E.total_canonmensual,
+                        E.FORMA_PAGO
                     FROM PLANTILLA P
                     INNER JOIN ESPACIO E ON E.ID = P.ESPACIO
                     WHERE E.ESTADO = 5

@@ -73,15 +73,15 @@
                                   $glosa = $espacio->glosa_factura;
                                 else if ($tipoFactura == 'EX')
                                   $glosa = $facturaDetalle->glosa;
-                                $rangoFacturacionMensual = App\Models\NotaCobro::obtenerRangoFacturacion($mes, $gestion, $facturaDetalle->fecha_inicial, $facturaDetalle->fecha_final);
+                                //$rangoFacturacionMensual = App\Models\NotaCobro::obtenerRangoFacturacion($mes, $gestion, $facturaDetalle->fecha_inicial, $facturaDetalle->fecha_final);
                                 @endphp
                                 <form action="{{ route('notacobro.update', ['id' => $facturaDetalle->id]) }}" method="POST" style="display:inline;">
                                   @csrf
                                   @method('PUT')
                                   <td class="text-center col-4">{{ $espacio->descripcion }}<input type="hidden" name="id_espacio" value="{{ $facturaDetalle->espacio }}"></td>
                                   <td class="text-center col-4"><textarea name="glosa_factura" class="form-control text-center" rows="3">{{ $glosa }}</textarea></td>
-                                  <td class="text-center col-1"><input type="date" name="fecha_inicio" class="form-control text-center" value="{{ $rangoFacturacionMensual['fecha_inicio'] }}"></td>
-                                  <td class="text-center col-1"><input type="date" name="fecha_fin" class="form-control text-center" value="{{ $rangoFacturacionMensual['fecha_fin'] }}"></td>
+                                  <td class="text-center col-1"><input type="date" name="fecha_inicio" class="form-control text-center" value="{{ $facturaDetalle->fecha_inicial }}"></td>
+                                  <td class="text-center col-1"><input type="date" name="fecha_fin" class="form-control text-center" value="{{ $facturaDetalle->fecha_final }}"></td>
                                   <td class="text-center col-1"><input type="text" name="precio" class="form-control text-center" value="{{ $facturaDetalle->precio }}" step="0.01"></td>      
                                   <td class="text-center col-1">
                                     @can('notacobro.edit')                                        

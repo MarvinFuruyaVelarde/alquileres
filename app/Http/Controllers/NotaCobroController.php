@@ -124,6 +124,7 @@ class NotaCobroController extends Controller
                 // Registra Factura Detalle
                 $espacios = NotaCobro::obtenerEspaciosPorContrato($notaCobroGenerada->origen, $notaCobroGenerada->id_contrato, $notaCobroGenerada->id_forma_pago, $periodoInicialFacturacion, $periodoFacturacion, $notaCobroGenerada->tipo_canon, $notaCobroGenerada->numero);
                 $monto_total = 0;
+
                 foreach ($espacios as $espacio) {
                     //Obtiene Forma de Pago 
                     $consultaEspacio = Espacio::find($espacio->id);
@@ -135,8 +136,8 @@ class NotaCobroController extends Controller
                     $facturaDetalle->factura = $facturaId;
                     $facturaDetalle->espacio = $espacio->id;
                     $facturaDetalle->concepto = $notaCobroGenerada->tipo_canon;
-                    $facturaDetalle->fecha_inicial = $espacio->fecha_inicial;
-                    $facturaDetalle->fecha_final = $espacio->fecha_final;
+                    $facturaDetalle->fecha_inicial = sprintf('%04d-%02d-%02d', $anio, $mes, Carbon::createFromFormat('Y-m-d', $espacio->fecha_inicial)->day);
+                    $facturaDetalle->fecha_final = (Carbon::parse(sprintf('%04d-%02d-%02d', $anio, $mes, Carbon::createFromFormat('Y-m-d', $espacio->fecha_inicial)->day))->addMonths($numeroMes)->subDay())->format('Y-m-d');
                     $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
                     $facturaDetalle->total_canonmensual = $espacio->total_canonmensual;
                     
