@@ -270,6 +270,7 @@ class NotaCobroController extends Controller
             
             // Verifica si ya existe en la estructura factura la expensa para la gestión, mes ingresado y tipo de canon
             $registroExistente = Factura::where('contrato', $notaCobroGenerada->id_contrato)
+                                ->where('espacio', $notaCobroGenerada->id_espacio)
                                 ->where('gestion', $anio)
                                 ->where('mes', $mes)
                                 ->where('tipo_canon', $notaCobroGenerada->tarifa_fija)
@@ -284,6 +285,7 @@ class NotaCobroController extends Controller
                 //Almacena datos de notas de cobro en la estructura factura
                 $factura = New Factura();
                 $factura->aeropuerto = $aeropuerto;
+                $factura->espacio = $notaCobroGenerada->id_espacio;
                 $factura->contrato = $notaCobroGenerada->id_contrato;
                 $factura->codigo_contrato = $notaCobroGenerada->codigo_contrato;
                 $factura->numero_nota_cobro = $notaCobroGenerada->numero_nota_cobro;
