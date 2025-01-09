@@ -129,7 +129,7 @@ class FacturaController extends Controller
         //Amb Prueba $url   = 'https://clic.naabol.com.bo:8443/clic-core/facturas/recibir-sincrono';
         $url   = $aeropuerto->url.'clic-core/facturas/recibir-sincrono';
         $uuid  = Str::uuid()->toString();
-        dd($url.' '.$token.' '.$aeropuerto->sucursal);
+        //dd($url.' '.$token.' '.$aeropuerto->sucursal);
         $cont = 0;
 
         // Array de Notas de Cobro para ser facturadas
@@ -339,7 +339,7 @@ class FacturaController extends Controller
                 ], $response->status());*/
             }
         }
-
+        return $response;
         // Verificamos si todo el proceso fue éxitoso
         if ($cont == 0){
             Alert::success("Se ha procesado de manera correcta la generación de factura(s)");
