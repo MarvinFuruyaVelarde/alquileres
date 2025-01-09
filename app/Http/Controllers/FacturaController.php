@@ -462,8 +462,8 @@ class FacturaController extends Controller
         $url = $aeropuerto->url."clic-core/facturas/{$idDocumento}/pdf";
         $response = Http::withToken($token)->withoutVerifying()->get($url);
         //dd($response->json());
-
-        if (/*$response->successful() &&*/ $response->json()['codigo'] == 200 && $response->json()['respuesta'] == "OK") {
+        dd($response->successful().' '.$response->json()['codigo'].' '.$response->json()['respuesta']);
+        if ($response->successful() && $response->json()['codigo'] == 200 && $response->json()['respuesta'] == "OK") {
 
             // Obtiene la respuesta en formato JSON
             $pdfBase64 = $response->json()['archivo'];
