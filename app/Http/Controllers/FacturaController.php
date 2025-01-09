@@ -463,7 +463,7 @@ class FacturaController extends Controller
         $response = Http::withToken($token)->withoutVerifying()->get($url);
         //dd($response->json());
 
-        if ($response->successful() && $response->json()['codigo'] == 200 && $response->json()['respuesta'] == "OK") {
+        if (/*$response->successful() &&*/ $response->json()['codigo'] == 200 && $response->json()['respuesta'] == "OK") {
 
             // Obtiene la respuesta en formato JSON
             $pdfBase64 = $response->json()['archivo'];
