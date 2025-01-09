@@ -302,7 +302,7 @@ class FacturaController extends Controller
                 ]
             ]
             );
-            
+            return $response;
             //Respuesta
             if ($response->successful() && $response->json()['codigo'] == 200 && $response->json()['respuesta'] == "OK") {
                 // Actualiza registro de Factura con la respuesta obtenida
@@ -339,9 +339,9 @@ class FacturaController extends Controller
                 ], $response->status());*/
             }
         }
-        return $response;
+
         // Verificamos si todo el proceso fue éxitoso
-        if ($cont == 0){
+        /*if ($cont == 0){
             Alert::success("Se ha procesado de manera correcta la generación de factura(s)");
             return redirect()->route('facturacion.index');
         } else {
@@ -352,7 +352,7 @@ class FacturaController extends Controller
             ]);
             Alert::error("Ocurrio un inconveniente en la generación de factura(s)");
             return redirect()->route('facturacion.index');
-        }
+        }*/
     }
 
     public function buscaNotaCobroGenerada(Request $request) 
