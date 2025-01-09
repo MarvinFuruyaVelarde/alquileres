@@ -121,10 +121,13 @@ class FacturaController extends Controller
 
     public function generarFactura(Request $request)
     {
+        // Obtiene el aeropuerto para generar factura(s)
+        $aeropuerto = Aeropuerto::find($request->aeropuerto);
+
         //Amb Prueba $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
-        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJzZXJ2aWNlcyIsImlhdCI6MTY3NTM3NjQ1NCwiZXhwIjoyMzA2NTI4NDU0fQ.lWsrkIQjk489bb7OSXiYTFYPSBEKGybSb9rmJfoONHM';
+        $token = $aeropuerto->token;
         //Amb Prueba $url   = 'https://clic.naabol.com.bo:8443/clic-core/facturas/recibir-sincrono';
-        $url   = 'https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/recibir-sincrono';
+        $url   = $aeropuerto->url.'clic-core/facturas/recibir-sincrono';
         $uuid  = Str::uuid()->toString();
 
         $cont = 0;
@@ -265,13 +268,13 @@ class FacturaController extends Controller
             // Consume Api Alquiler
             $response = Http::withToken($token)->withoutVerifying()->post($url, [
                 'datosGenerales' => [
-                    'nitEmisor' => 419945029,             // nit naabol
-                    'sucursalEmisor' => '3',              // preguntar si siempre se debe mandar 0? esto es la sucursal de la empresa en clic donde solo se tiene un registro reyes ortiz
-                    'puntoVentaEmisor' => null,            // preguntar si siempre se debe mandar 1?
-                    'codigoIntegracion' => $uuid,         // es una cadena autogenerada (UID4 sugerencia) 
-                    'codigoCliente' => $codigoCliente,    // factura->ci o factura->nit dependiendo de factura->tipo_solicitante
-                    'celularCliente' => $celularCliente,  // contrato->telefono_celular
-                    'emailCliente' => $emailCliente,      // contrato->correo
+                    'nitEmisor' => 419945029,                  // nit naabol
+                    'sucursalEmisor' => $aeropuerto->sucursal, // preguntar si siempre se debe mandar 0? esto es la sucursal de la empresa en clic donde solo se tiene un registro reyes ortiz
+                    'puntoVentaEmisor' => null,                // preguntar si siempre se debe mandar 1?
+                    'codigoIntegracion' => $uuid,              // es una cadena autogenerada (UID4 sugerencia) 
+                    'codigoCliente' => $codigoCliente,         // factura->ci o factura->nit dependiendo de factura->tipo_solicitante
+                    'celularCliente' => $celularCliente,       // contrato->telefono_celular
+                    'emailCliente' => $emailCliente,           // contrato->correo
                     'atributosAdicionalesGeneral' => []
                 ],
                 'documentoFiscal' => [
@@ -448,10 +451,15 @@ class FacturaController extends Controller
     public function imprimir($id_documento) 
     {
         $idDocumento = $id_documento;
+
+        // Obtiene el aeropuerto para generar factura(s)
+        $idAeropuerto = Factura::where('id_documento', $idDocumento)->value('aeropuerto');
+        $aeropuerto = Aeropuerto::find($idAeropuerto);
+
         //Amb Prueba $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
-        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJzZXJ2aWNlcyIsImlhdCI6MTY3NTM3NjQ1NCwiZXhwIjoyMzA2NTI4NDU0fQ.lWsrkIQjk489bb7OSXiYTFYPSBEKGybSb9rmJfoONHM';
+        $token = $aeropuerto->token;
         //Amb Prueba $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
-        $url = "https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
+        $url = $aeropuerto->url."clic-core/facturas/{$idDocumento}/pdf";
         $response = Http::withToken($token)->withoutVerifying()->get($url);
         //dd($response->json());
 
@@ -480,12 +488,15 @@ class FacturaController extends Controller
         $codigoIntegracion = $factura->codigo_integracion;
         $cuf = $factura->cuf;
 
+        //Obtiene al aeropuerto
+        $aeropuerto = Aeropuerto::find($factura->aeropuerto);
+
         //dd($codigoIntegracion.' '.$cuf);
 
         //Amb Prueba $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
-        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJzZXJ2aWNlcyIsImlhdCI6MTY3NTM3NjQ1NCwiZXhwIjoyMzA2NTI4NDU0fQ.lWsrkIQjk489bb7OSXiYTFYPSBEKGybSb9rmJfoONHM';
+        $token = $aeropuerto->token;
         //Amb Prueba $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/anular";
-        $url = "https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/anular";
+        $url = $aeropuerto->url."clic-core/facturas/anular";
 
         $cont = 0;
         // Consume Api Alquiler
