@@ -457,19 +457,11 @@ class FacturaController extends Controller
         $aeropuerto = Aeropuerto::find($idAeropuerto);
 
         //Amb Prueba $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
-        //$token = $aeropuerto->token;
-        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJzZXJ2aWNlcyIsImlhdCI6MTY3NTM3NjQ1NCwiZXhwIjoyMzA2NTI4NDU0fQ.lWsrkIQjk489bb7OSXiYTFYPSBEKGybSb9rmJfoONHM';
+        $token = $aeropuerto->token;
         //Amb Prueba $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
-        //$url = $aeropuerto->url."clic-core/facturas/{$idDocumento}/pdf";
-        $url = "https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/";
-
-        /*$responsePDF = Http::withToken(
-            env('ENT_TOKEN')
-        )->withOptions(["verify" => false])->get($urlClick_obtenerPdf . $codFactura . '/pdf');*/
-
-        //$response = Http::withToken($token)->withoutVerifying()->get($url);
-        $response = Http::withToken($token)->withOptions(["verify" => false])->get($url . $idDocumento . '/pdf');
-        
+        $url = $aeropuerto->url."clic-core/facturas/{$idDocumento}/pdf";
+        dd($token.' '.$url.' '.$idDocumento);
+        $response = Http::withToken($token)->withoutVerifying()->get($url);
         //dd($response->json());
 
         if ($response->successful() && $response->json()['codigo'] == 200 && $response->json()['respuesta'] == "OK") {
@@ -487,7 +479,6 @@ class FacturaController extends Controller
             return response()->json([
                 'error' => 'No se pudo obtener la factura',
                 'status' => $response->status(),
-                'obtiene' => $response,
             ], $response->status());
         }
     }
