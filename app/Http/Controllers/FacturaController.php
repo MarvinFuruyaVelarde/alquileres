@@ -457,11 +457,11 @@ class FacturaController extends Controller
         $aeropuerto = Aeropuerto::find($idAeropuerto);
 
         //Amb Prueba $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
-        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJzZXJ2aWNlcyIsImlhdCI6MTY3NTM3NjQ1NCwiZXhwIjoyMzA2NTI4NDU0fQ.lWsrkIQjk489bb7OSXiYTFYPSBEKGybSb9rmJfoONHM';
+        $token = $aeropuerto->token;
         //Amb Prueba $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
-        $url = "https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/4435949/pdf";
+        $url = $aeropuerto->url."clic-core/facturas/{$idDocumento}/pdf";
         $response = Http::withToken($token)->withoutVerifying()->get($url);
-        dd($response->status(), $response->body(), $response->headers());
+        //dd($response->json());
 
         if ($response->successful() && $response->json()['codigo'] == 200 && $response->json()['respuesta'] == "OK") {
 
