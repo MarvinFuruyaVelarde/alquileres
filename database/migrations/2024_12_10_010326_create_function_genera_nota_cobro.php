@@ -82,6 +82,11 @@ return new class extends Migration
 					AND (MOD(EXTRACT(YEAR FROM primer_dia) * 12 + EXTRACT(MONTH FROM primer_dia) -
 							(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0 
 					OR MOD(EXTRACT(YEAR FROM ultimo_dia) * 12 + EXTRACT(MONTH FROM ultimo_dia) -
+							(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0))
+				OR (E.forma_pago = 6 
+					AND (MOD(EXTRACT(YEAR FROM primer_dia) * 12 + EXTRACT(MONTH FROM primer_dia) -
+							(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0 
+					OR MOD(EXTRACT(YEAR FROM ultimo_dia) * 12 + EXTRACT(MONTH FROM ultimo_dia) -
 							(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0)))
 			GROUP BY 
 				E.contrato, C.codigo, CL.id, c.tipo_solicitante, c.ci, c.nit, E.tipo_canon, C.aeropuerto, FP.id, FP.descripcion
@@ -137,6 +142,11 @@ return new class extends Migration
 					OR MOD((EXTRACT(YEAR FROM ultimo_dia) * 12 + EXTRACT(MONTH FROM ultimo_dia) -
 						(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial))), 6) = 0))
 			OR (E.forma_pago = 5 
+				AND (MOD(EXTRACT(YEAR FROM primer_dia) * 12 + EXTRACT(MONTH FROM primer_dia) -
+						(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0 
+					OR MOD(EXTRACT(YEAR FROM ultimo_dia) * 12 + EXTRACT(MONTH FROM ultimo_dia) -
+						(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0))
+			OR (E.forma_pago = 6 
 				AND (MOD(EXTRACT(YEAR FROM primer_dia) * 12 + EXTRACT(MONTH FROM primer_dia) -
 						(EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0 
 					OR MOD(EXTRACT(YEAR FROM ultimo_dia) * 12 + EXTRACT(MONTH FROM ultimo_dia) -

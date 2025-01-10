@@ -84,6 +84,14 @@ return new class extends Migration
                                         (EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0
                                 )
                             )
+                            OR (E.forma_pago = 6 
+                                AND (
+                                    MOD(EXTRACT(YEAR FROM fecha_inicio) * 12 + EXTRACT(MONTH FROM fecha_inicio) - 
+                                        (EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0 
+                                    OR MOD(EXTRACT(YEAR FROM fecha_fin) * 12 + EXTRACT(MONTH FROM fecha_fin) - 
+                                        (EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0
+                                )
+                            )
                     );
                 -- Si el parámetro tipo_consulta es 'P', ejecuta la segunda consulta
                 ELSIF p_origen = 'P' THEN
@@ -136,6 +144,14 @@ return new class extends Migration
                                 )
                             ) 
                             OR (E.forma_pago = 5 
+                                AND (
+                                    MOD(EXTRACT(YEAR FROM fecha_inicio) * 12 + EXTRACT(MONTH FROM fecha_inicio) - 
+                                        (EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0 
+                                    OR MOD(EXTRACT(YEAR FROM fecha_fin) * 12 + EXTRACT(MONTH FROM fecha_fin) - 
+                                        (EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0
+                                )
+                            )
+                            OR (E.forma_pago = 6 
                                 AND (
                                     MOD(EXTRACT(YEAR FROM fecha_inicio) * 12 + EXTRACT(MONTH FROM fecha_inicio) - 
                                         (EXTRACT(YEAR FROM E.fecha_inicial) * 12 + EXTRACT(MONTH FROM E.fecha_inicial)), 12) = 0 

@@ -189,7 +189,7 @@ class NotaCobroController extends Controller
                             }
 
                         } else {
-                            $facturaDetalle->precio = number_format($canon * $numeroMes, 2, '.', '');
+                            $facturaDetalle->precio = number_format($canon * ($numeroMes ?? 1), 2, '.', '');
                         }                           
                     }
                     $monto_total = $monto_total + $facturaDetalle->precio;

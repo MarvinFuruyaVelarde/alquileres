@@ -77,6 +77,10 @@ BEGIN
       OR (E.forma_pago = 5 AND 
           (MOD(EXTRACT(MONTH FROM AGE(ultimo_dia, E.fecha_inicial)), 12) = 0 OR 
           (EXTRACT(MONTH FROM E.fecha_inicial) = EXTRACT(MONTH FROM ultimo_dia) 
+           AND E.fecha_inicial <= ultimo_dia AND E.fecha_final >= primer_dia)))
+      OR (E.forma_pago = 6 AND 
+          (MOD(EXTRACT(MONTH FROM AGE(ultimo_dia, E.fecha_inicial)), 12) = 0 OR 
+          (EXTRACT(MONTH FROM E.fecha_inicial) = EXTRACT(MONTH FROM ultimo_dia) 
            AND E.fecha_inicial <= ultimo_dia AND E.fecha_final >= primer_dia))))
   GROUP BY E.id, E.contrato, detalle_espacio, C.codigo, CL.id, C.tipo_solicitante, C.ci, C.nit, E.tipo_canon, C.aeropuerto, FP.id, FP.descripcion;
 END;
