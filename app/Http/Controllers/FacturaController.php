@@ -487,7 +487,7 @@ class FacturaController extends Controller
             return response()->json([
                 'error' => 'No se pudo obtener la factura',
                 'status' => $response->status(),
-                'obtiene' => $token.' '.$url,
+                'obtiene' => $response,
             ], $response->status());
         }
     }
