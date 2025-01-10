@@ -461,7 +461,7 @@ class FacturaController extends Controller
         //Amb Prueba $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
         $url = $aeropuerto->url."clic-core/facturas/{$idDocumento}/pdf";
         $response = Http::withToken($token)->withoutVerifying()->get($url);
-        dd($token.' '.$url.' '.$response);
+        dd($token.' '.$url.' '.$response,' $response->json() '.$response->json()['codigo'].' respuesta '.$response->json()['respuesta']);
 
         if ($response->successful() && $response->json()['codigo'] == 200 && $response->json()['respuesta'] == "OK") {
 
