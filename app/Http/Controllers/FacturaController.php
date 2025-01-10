@@ -302,7 +302,7 @@ class FacturaController extends Controller
                 ]
             ]
             );
-            dd($response->status(), $response->body(), $response->headers());
+
             //Respuesta
             if ($response->successful() && $response->json()['codigo'] == 200 && $response->json()['respuesta'] == "OK") {
                 // Actualiza registro de Factura con la respuesta obtenida
