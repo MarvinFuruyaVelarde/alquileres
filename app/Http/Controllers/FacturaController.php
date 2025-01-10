@@ -459,7 +459,8 @@ class FacturaController extends Controller
         //Amb Prueba $token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3ZWJTZXJ2aWNlcyIsImlhdCI6MTY2Mjk4NzA4MSwiZXhwIjoyMjk0MTM5MDgxfQ.YEHBqciwMmQV2IKi5BbIEFo3xcHt2lbLswMII5GuxNo';
         $token = $aeropuerto->token;
         //Amb Prueba $url = "https://clic.naabol.com.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
-        $url = $aeropuerto->url."clic-core/facturas/{$idDocumento}/pdf";
+        //$url = $aeropuerto->url."clic-core/facturas/{$idDocumento}/pdf";
+        $url = "https://facturacion.cb.naabol.gob.bo:8443/clic-core/facturas/{$idDocumento}/pdf";
         $response = Http::withToken($token)->withoutVerifying()->get($url);
         //dd($response->json());
 
