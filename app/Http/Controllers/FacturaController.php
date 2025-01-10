@@ -468,7 +468,7 @@ class FacturaController extends Controller
         )->withOptions(["verify" => false])->get($urlClick_obtenerPdf . $codFactura . '/pdf');*/
 
         //$response = Http::withToken($token)->withoutVerifying()->get($url);
-        $response = Http::withToken($token)->withOptions(["verify" => false])->get($url);
+        $response = Http::withToken($token)->withOptions(["verify" => false])->get($url . $idDocumento . '/pdf');
         
         //dd($response->json());
 
