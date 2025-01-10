@@ -11,6 +11,7 @@ use App\Models\Factura;
 use App\Models\FacturaDetalle;
 use App\Models\NotaCobro;
 use App\Models\Rubro;
+use App\Models\UsuarioRegional;
 use App\Models\View_Factura;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,7 +24,21 @@ class FacturaController extends Controller
 {
     public function index()
     {
-        $aeropuertos = Aeropuerto::where('id','>',0)->orderBy('id', 'asc')->get();
+        if(auth()->user()->id==1){
+            $aeropuertos = Aeropuerto::where('estado', 1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $aeropuertos = Aeropuerto::whereIn('regional',$array)->where('estado', 1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        }
+
         return view('facturacion.facturacion.index', compact('aeropuertos')); 
     }
 

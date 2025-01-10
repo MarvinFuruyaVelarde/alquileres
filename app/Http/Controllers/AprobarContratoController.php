@@ -10,6 +10,7 @@ use App\Models\Expensa;
 use App\Models\FormaPago;
 use App\Models\Rubro;
 use App\Models\UnidadMedida;
+use App\Models\UsuarioRegional;
 use App\Models\View_Contrato;
 use App\Models\View_Espacio;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -18,7 +19,21 @@ class AprobarContratoController extends Controller
 {
     public function index()
     {
-        $contratos = View_Contrato::where('estado','=',4)->orderBy('id', 'asc')->get(); // Obtener contratos en estado pendiente y 
+        if(auth()->user()->id==1){
+            $contratos = View_Contrato::where('estado','=',4)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $contratos = View_Contrato::where('estado','=',4)->whereNull('deleted_at')->whereIn('regional',$array)->orderBy('id', 'asc')->get();
+        }
+
         return view('contratos.aprobar.index', compact('contratos')); // Pasar a la vista
     }
 

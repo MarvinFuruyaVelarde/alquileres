@@ -15,6 +15,7 @@ return new class extends Migration
             CREATE OR REPLACE VIEW public.view_contrato
             AS
             SELECT c.id,
+                a.regional,
                 a.codigo AS codigo_aeropuerto,
                 c.codigo AS codigo_contrato,
                 cl.razon_social AS nombre_cliente,
@@ -32,7 +33,7 @@ return new class extends Migration
                 JOIN cliente cl ON cl.id = c.cliente
                 JOIN estado e ON e.id = c.estado
                 LEFT JOIN espacio es ON es.contrato = c.id
-           GROUP BY c.id, a.codigo, c.codigo, cl.razon_social, c.representante1, c.numero_documento1, c.telefono_celular, c.correo, c.domicilio_legal, c.estado, e.descripcion, c.deleted_at;;
+           GROUP BY c.id, a.regional, a.codigo, c.codigo, cl.razon_social, c.representante1, c.numero_documento1, c.telefono_celular, c.correo, c.domicilio_legal, c.estado, e.descripcion, c.deleted_at;;
         ");
     }
 

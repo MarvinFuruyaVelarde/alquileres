@@ -15,6 +15,8 @@ use App\Models\FormaPago;
 use App\Models\Rubro;
 use App\Models\TipoSolicitante;
 use App\Models\UnidadMedida;
+use App\Models\UsuarioRegional;
+use App\Models\View_Aeropuerto;
 use App\Models\View_Contrato;
 use App\Models\View_Espacio;
 use Illuminate\Http\Request;
@@ -25,7 +27,21 @@ class ContratoController extends Controller
 {
     public function index()
     {
-        $contratos = View_Contrato::where('estado','=',3)->whereNull('deleted_at')->orderBy('id', 'asc')->get(); // Obtener todos los contratos registrados
+        if(auth()->user()->id==1){
+            $contratos = View_Contrato::where('estado','=',3)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $contratos = View_Contrato::where('estado','=',3)->whereNull('deleted_at')->whereIn('regional',$array)->orderBy('id', 'asc')->get();
+        }
+
         return view('contratos.lista.index', compact('contratos')); // Pasar a la vista
     }
 
@@ -56,7 +72,21 @@ class ContratoController extends Controller
 
     public function create()
     {
-        $aeropuertos=Aeropuerto::where('id','>',0)->orderBy('id', 'asc')->get();
+        if(auth()->user()->id==1){
+            $aeropuertos = Aeropuerto::where('estado', 1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $aeropuertos = Aeropuerto::whereIn('regional',$array)->where('estado', 1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        }
+
         $tipossolicitante=TipoSolicitante::where('id','>',0)->orderBy('id', 'asc')->get();
         $clientes=Cliente::where('id','>',0)->orderBy('razon_social', 'asc')->get();
         $expedidos=Expedido::where('id','>',0)->orderBy('id', 'asc')->get();
