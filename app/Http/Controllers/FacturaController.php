@@ -177,7 +177,12 @@ class FacturaController extends Controller
             $nombreRazonSocial = $cliente->razon_social;
             
             if ($factura->tipo_solicitante == 1){
-                $tipoDocumentoIdentidad = 'CI';
+
+                if (!in_array($aeropuerto->sucursal, [1, 24]))
+                    $tipoDocumentoIdentidad = 'CI';
+                else
+                    $tipoDocumentoIdentidad = 1;
+
                 $numeroDocumento = $factura->ci;
             } elseif ($factura->tipo_solicitante == 2){
                 $tipoDocumentoIdentidad = 'NIT';
