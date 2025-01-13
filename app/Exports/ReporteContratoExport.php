@@ -40,7 +40,7 @@ class ReporteContratoExport implements FromCollection, WithHeadings, WithTitle, 
         //return collect($contratos);
 
         $contratos = Reporte::reporteContrato($this->aeropuerto, $this->tipoSolicitante, $this->cliente, $this->ciNit, $this->estado);
-        dd($contratos);
+    
         // Convertir el array en una colección
         $contratos = collect($contratos);
 
