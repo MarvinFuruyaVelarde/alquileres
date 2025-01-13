@@ -297,7 +297,17 @@
                             </div>
                         
                             <div class="col-md-3">
-                                <label for="garantia" class="col-form-label">Garantia <span class="text-danger">(*)</span></label>
+                                <div class="d-flex align-items-center">
+                                    <label for="garantia" class="col-form-label me-3 mb-0">Garantia <span class="text-danger">(*)</span></label>
+                                    <div class="form-check me-3">
+                                        <input id="cobro_garantia1" class="form-check-input" type="radio" name="cobro_garantia" value="S" {{ (old('cobro_garantia', $espacio->garantia ?? 1) > 0) ? 'checked' : '' }} autofocus>
+                                        <label class="form-check-label" for="cobro_garantia1">Si</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input id="cobro_garantia2" class="form-check-input" type="radio" name="cobro_garantia"  value="N" {{ (old('cobro_garantia', $espacio->garantia ?? 1) == 0) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="cobro_garantia2">No</label>
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
                                     <input id="garantia_o" type='hidden' name='garantia_o' value='{{ old('garantia',$espacio->garantia) }}'/>
                                     <input id="garantia" type="text" class="form-control {{ $errors->has('garantia') ? ' error' : '' }}" name="garantia" value="{{ old('garantia',$espacio->garantia) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
@@ -596,8 +606,9 @@
 
         // Validar las fechas
         if (!fechaInicio || !fechaFin || canonBase === 0) {
-            document.getElementById('garantia').value = null;
-            document.getElementById('garantia_o').value = null;
+            const valorGarantia = 0;
+            document.getElementById('garantia').value = valorGarantia.toFixed(2);
+            document.getElementById('garantia_o').value = valorGarantia.toFixed(2);
             return;
         }
 
@@ -685,6 +696,24 @@
                     inputMonto.value = ''; // Limpiar el valor del input
                 }
             });
+        });
+
+        //Ver si se cobra Garantia
+        const cobroGarantiaSi = document.getElementById('cobro_garantia1');
+        const cobroGarantiaNo = document.getElementById('cobro_garantia2');
+        const valorGarantia = 0;
+
+        cobroGarantiaSi.addEventListener('change', function() {
+            if (cobroGarantiaSi.checked) {
+                calcularGarantia();
+            }
+        });
+
+        cobroGarantiaNo.addEventListener('change', function() {
+            if (cobroGarantiaNo.checked) {
+                document.getElementById('garantia').value = valorGarantia.toFixed(2);
+                document.getElementById('garantia_o').value = valorGarantia.toFixed(2);             
+            }
         });
 
     });
