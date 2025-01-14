@@ -51,10 +51,11 @@
                                 <td class="text-center">{{$garantia->pagado}}</td>
                                 <td class="text-center">{{$garantia->saldo}}</td>
                                 <td class="d-flex justify-content-center" > 
-                                @can('garantias.create')
-                                        <a href="{{route('garantias.create',$garantia->id_contrato)}}" class="btn btn-warning" title="Modificar Datos"><i class="bi bi-pencil-square"></i></a>
-                                @endcan
-                                                           
+                                @if($garantia->saldo != 0)
+                                    @can('garantias.create')
+                                            <a href="{{route('garantias.create',$garantia->id_contrato)}}" class="btn btn-warning" title="Modificar Datos"><i class="bi bi-pencil-square"></i></a>
+                                    @endcan
+                                @endif                
                                 </td>
                             </tr>
 

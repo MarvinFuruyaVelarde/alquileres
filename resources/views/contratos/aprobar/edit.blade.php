@@ -27,6 +27,7 @@
                         <input id="nit" type="hidden" name="nit" value="{{ $contrato->nit }}">
                         <input id="contrato" type="hidden" name="contrato" value="{{ $contrato->id }}">
                         <input id="contrato" type="hidden" name="contrato" value="{{ $contrato->id }}">
+                        <input id="accion" type="hidden" name="accion" value="">
                         <div class="row mb-1">
                             <div class="col-md-1">
                             </div>
@@ -146,7 +147,8 @@
     
                         <div class="row mt-2">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success">Aprobar</button>
+                                <button type="submit" class="btn btn-success" onclick="document.getElementById('accion').value='aprobar'">Aprobar</button>
+                                <button type="submit" class="btn btn-danger" onclick="document.getElementById('accion').value='rechazar'">Rechazar</button>
                                 <a href="{{ route('aprobarcontratos.index') }}" class="btn btn-warning">Cancelar</a>
                             </div>
                         </div>

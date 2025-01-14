@@ -66,7 +66,7 @@
                                 <td class="text-center">{{$contrato->domicilio_legal}}</td>
                                 <td class="d-flex justify-content-center" >
                                     @can('aprobarcontratos.edit')
-                                        <a href="{{route('aprobarcontratos.edit',$contrato)}}" class="btn btn-success" title="Modificar Datos"><i class="bi bi-check-square"></i></a>
+                                        <a href="{{route('aprobarcontratos.edit',$contrato)}}" class="btn btn-success" title="Aprobar Contratos"><i class="bi bi-check-square"></i></a>
                                     @endcan
                                 </td>
                             </tr>
