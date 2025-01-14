@@ -203,11 +203,11 @@ class FacturaController extends Controller
             $gestion = Carbon::parse($fecha)->format('Y');  
 
             if ($factura->tipo_canon == 'F' && $factura->tipo_factura == 'AL'){
-                $codigoUnidadMedida = 57;
+                $codigoUnidadMedida = 68;
                 $tipoDocumentoSector = 2;
                 $periodoFacturado = $mesLiteral.' '.$gestion;
             } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'AL'){
-                $codigoUnidadMedida = 58;
+                $codigoUnidadMedida = 68;
                 $tipoDocumentoSector = 1;
                 $periodoFacturado = null;
             } else if ($factura->tipo_canon == 'F' && $factura->tipo_factura == 'EX'){
