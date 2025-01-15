@@ -15,6 +15,7 @@ use App\Models\UsuarioRegional;
 use App\Models\View_Factura;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -136,6 +137,9 @@ class FacturaController extends Controller
 
     public function generarFactura(Request $request)
     {
+        $user = Auth::user();
+        $usuario = 'ALQ - '.$user->name.' '.($user->apellido_paterno ?? $user->apellido_materno);
+
         // Obtiene el aeropuerto para generar factura(s)
         $aeropuerto = Aeropuerto::find($request->aeropuerto);
 
@@ -242,13 +246,13 @@ class FacturaController extends Controller
                 $codigoProducto = 1;
                 
                 if (($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'A') || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato != 'SIN/CODIGO')){
-                    $descripcion = $espacio->glosa_factura;
+                    $descripcion = $espacio->glosa_factura.' - (NC) '.$factura->numero_nota_cobro;
                     if ($espacio){
                         $rubro = Rubro::find($espacio->rubro);
                         $codigoProducto = $rubro?->codigo;
                     }    
                 } else if ($factura->tipo_factura == 'EX' || $factura->tipo_factura == 'MOR' || $factura->tipo_factura == 'OTR' || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato == 'SIN/CODIGO')){
-                    $descripcion = $factura_detalle->glosa;
+                    $descripcion = $factura_detalle->glosa .' - (NC) '.$factura->numero_nota_cobro;
 
                     if ($factura->tipo_factura == 'EX')
                         $codigoProducto = 99714;
@@ -316,7 +320,7 @@ class FacturaController extends Controller
                         'montoTotal' => $montoTotal - $subTotal,                   // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
                         'montoTotalSujetoIva' => $montoTotalSujetoIva - $subTotal, // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
                         'periodoFacturado' => $periodoFacturado,                   // factura->mes factura->gestion 
-                        'usuario' => 'admin'                                       // admin
+                        'usuario' => $usuario                                       // admin
                     ],
                     'detalle' => $detalleArray
                 ]
