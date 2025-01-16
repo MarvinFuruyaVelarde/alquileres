@@ -165,7 +165,7 @@
 
               <div class="col-md-4">
                   <label for="glosa_factura" class="col-form-label">Glosa para Facturación</label>
-                  <textarea id="glosa_factura" class="form-control {{ $errors->has('glosa_factura') ? ' error' : '' }}" name="glosa_factura" rows="5"></textarea>
+                  <textarea id="glosa_factura" class="form-control {{ $errors->has('glosa_factura') ? ' error' : '' }}" name="glosa_factura" rows="5" onkeyup="this.value = this.value.toUpperCase();"></textarea>
                   <span id="error-glosa_factura" class="error-glosa_factura" style="color: rgb(220, 53, 69);"></span>
                   @if ($errors->has('glosa_factura'))
                       <span class="text-danger">
@@ -446,6 +446,10 @@
                     success: function(response) {
                         document.getElementById('label_tabla').style.display = 'block';
                         document.getElementById('lista_espacio').style.display = 'block';
+                        document.getElementById('periodo_inicial').value = '';
+                        document.getElementById('periodo_final').value = '';
+                        document.getElementById('monto').value = ''; 
+                        document.getElementById('glosa_factura').value = ''; 
                         // Llama a la función para cargar la grilla con los datos obtenidos
                         cargarEspacio(response);
                     },
@@ -464,25 +468,39 @@
                   $('#listaEspacios').html('');
                 }
               } else if (tipoSeleccionado === 'EX') {
-                $.ajax({
-                  url: '{{ url("notacobromanual/obtieneExpensa/") }}',
-                  method: 'get',
-                  data: {'aeropuerto': aeropuerto, 'cliente': cliente, 'codigo': codigo, 'periodoFacturacion': periodoFacturacion},
-                  success: function(response) {
-                      // Si aeropuerto, cliente, codigo y periodoFacturacion estan llenados y el tipo es Expensa mostramos la grilla y deshabilitamos periodo_inicial, final, monto y glosa
-                      document.getElementById('label_tabla').style.display = 'block';
-                      document.getElementById('lista_expensa').style.display = 'block';
-                      document.getElementById('periodo_inicial').disabled = true;
-                      document.getElementById('periodo_final').disabled = true;
-                      document.getElementById('monto').disabled = true;
-                      document.getElementById('glosa_factura').disabled = true;
-                      // Llama a la función para cargar la grilla con los datos obtenidos
-                      cargarExpensa(response);
-                  },
-                  error: function(xhr) {
-                      console.error("Error al obtener las expensas", xhr);
-                  }
-                });
+                if (codigo !== 'SIN/CODIGO'){
+                  $.ajax({
+                    url: '{{ url("notacobromanual/obtieneExpensa/") }}',
+                    method: 'get',
+                    data: {'aeropuerto': aeropuerto, 'cliente': cliente, 'codigo': codigo, 'periodoFacturacion': periodoFacturacion},
+                    success: function(response) {
+                        // Si aeropuerto, cliente, codigo y periodoFacturacion estan llenados y el tipo es Expensa mostramos la grilla y deshabilitamos periodo_inicial, final, monto y glosa
+                        document.getElementById('label_tabla').style.display = 'block';
+                        document.getElementById('lista_expensa').style.display = 'block';
+                        document.getElementById('periodo_inicial').disabled = true;
+                        document.getElementById('periodo_final').disabled = true;
+                        document.getElementById('monto').disabled = true;
+                        document.getElementById('glosa_factura').disabled = true;
+                        document.getElementById('periodo_inicial').value = '';
+                        document.getElementById('periodo_final').value = '';
+                        document.getElementById('monto').value = ''; 
+                        document.getElementById('glosa_factura').value = ''; 
+                        // Llama a la función para cargar la grilla con los datos obtenidos
+                        cargarExpensa(response);
+                    },
+                    error: function(xhr) {
+                        console.error("Error al obtener las expensas", xhr);
+                    }
+                  });
+                } else{
+                  document.getElementById('periodo_inicial').disabled = false;
+                  document.getElementById('periodo_final').disabled = false;
+                  document.getElementById('monto').disabled = false;
+                  document.getElementById('glosa_factura').disabled = false;
+                  document.getElementById('label_tabla').style.display = 'none';
+                  document.getElementById('lista_expensa').style.display = 'none';
+                  $('#listaExpensas').html('');
+                }
               }
           } else {
             document.getElementById('periodo_inicial').disabled = false;

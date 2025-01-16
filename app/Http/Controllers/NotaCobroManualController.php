@@ -209,7 +209,49 @@ class NotaCobroManualController extends Controller
             $facturaDetalle->usuario_registro = auth()->id();
             $facturaDetalle->fecha_registro = $fechaRegistro;
             $facturaDetalle->save();
-        } else if ($request->tipo == 'EX') { 
+        } else if($request->tipo == 'EX' && $request->codigo == 'SIN/CODIGO'){
+            $factura = New Factura();
+            $factura->aeropuerto = $request->aeropuerto;
+            $factura->contrato = 0;
+            $factura->codigo_contrato = $request->codigo;
+            $factura->numero_nota_cobro = $numeroNotaCobro;
+            $factura->orden_impresion = $ordenImpresion;
+            $factura->mes = $mes;
+            $factura->gestion = $gestion;
+            $factura->tipo_solicitante = $cliente->tipo_solicitante;
+
+            if ($cliente->tipo_solicitante == 1) 
+                $factura->ci = $cliente->numero_identificacion;
+            else
+                $factura->nit = $cliente->numero_identificacion;
+
+            $factura->tipo_canon = 'V';
+            $factura->forma_pago = 1;                                   
+            $factura->tipo_factura = $request->tipo;                   
+            $factura->cliente = $request->cliente;                      
+            $factura->razon_social_factura = $cliente->razon_social;    
+            $factura->monto_total = $request->monto;        
+            $factura->tipo_generacion = 'M';                            
+            $factura->estado = 3;                                       
+            $factura->usuario_registro = auth()->id();                  
+            $factura->fecha_registro = $fechaRegistro;                 
+            $factura->save();
+            $facturaId = $factura->id;
+
+            $facturaDetalle = New FacturaDetalle();
+            $facturaDetalle->factura = $facturaId;
+            $facturaDetalle->glosa = $request->glosa_factura; 
+            $facturaDetalle->concepto = 'V';
+            $facturaDetalle->fecha_inicial = $request->periodo_inicial;
+            $facturaDetalle->fecha_final = $request->periodo_final;
+            $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($request->periodo_inicial, $request->periodo_final, $periodoInicialFacturacion, $periodoFacturacion);
+            $facturaDetalle->total_canonmensual = $request->monto;
+            $facturaDetalle->precio = $request->monto;
+            $facturaDetalle->usuario_registro = auth()->id();
+            $facturaDetalle->fecha_registro = $fechaRegistro;
+            $facturaDetalle->save();
+
+        } else if ($request->tipo == 'EX' && $request->codigo != 'SIN/CODIGO') { 
             $listaExpensas = $request->input('expensas');
 
             foreach ($listaExpensas as $expensaId => $expensa) {
@@ -353,7 +395,7 @@ class NotaCobroManualController extends Controller
         $tipoCanon = $factura->tipo_canon;
         $facturaDetalles = collect();
 
-        if ($factura['tipo_factura'] == 'EX'){
+        if ($factura['tipo_factura'] == 'EX' && $factura['codigo_contrato'] != 'SIN/CODIGO'){
             $viewEspacio = View_Espacio::where('id', $factura->espacio)
                                     ->where('contrato', $factura->contrato)
                                     ->first();
@@ -404,7 +446,27 @@ class NotaCobroManualController extends Controller
             $facturaDetalle->total_canonmensual = $request->monto;
             $facturaDetalle->precio = $request->monto;
             $facturaDetalle->save();
-        } else if ($factura->tipo_factura == 'EX'){
+        } else if ($factura->tipo_factura == 'EX' && $factura->codigo_contrato == 'SIN/CODIGO'){
+            $mes = Carbon::parse($request->periodo_facturacion)->format('m');
+            $gestion = Carbon::parse($request->periodo_facturacion)->format('Y');   
+            $periodoFacturacion = $request->periodo_facturacion;
+            $periodoInicialFacturacion = Carbon::parse($periodoFacturacion)->startOfMonth()->toDateString();
+
+            $factura->mes = $mes;
+            $factura->gestion = $gestion;
+            $factura->monto_total = $request->monto;
+            $factura->save();
+
+            $facturaDetalle = FacturaDetalle::where('factura', $idFactura)->first();
+            $facturaDetalle->glosa = $request->glosa_factura; 
+            $facturaDetalle->fecha_inicial = $request->periodo_inicial;
+            $facturaDetalle->fecha_final = $request->periodo_final;
+            $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($request->periodo_inicial, $request->periodo_final, $periodoInicialFacturacion, $periodoFacturacion);
+            $facturaDetalle->total_canonmensual = $request->monto;
+            $facturaDetalle->precio = $request->monto;
+            $facturaDetalle->save();
+
+        } else if ($factura->tipo_factura == 'EX' && $factura->codigo_contrato != 'SIN/CODIGO'){
             $mes = $factura->mes;
             $gestion = $factura->gestion; 
             $fecha = Carbon::createFromDate($gestion, $mes, 1);

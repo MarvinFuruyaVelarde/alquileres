@@ -148,7 +148,7 @@
 
                             <div class="col-md-4">
                                 <label for="glosa_factura" class="col-form-label">Glosa para Facturación</label>
-                                <textarea id="glosa_factura" class="form-control {{ $errors->has('glosa_factura') ? ' error' : '' }}" name="glosa_factura" rows="5">{{ $glosa }}</textarea>
+                                <textarea id="glosa_factura" class="form-control {{ $errors->has('glosa_factura') ? ' error' : '' }}" name="glosa_factura" rows="5" onkeyup="this.value = this.value.toUpperCase();">{{ $glosa }}</textarea>
                                 <span id="error-glosa_factura" class="error-glosa_factura" style="color: rgb(220, 53, 69);"></span>
                                 @if ($errors->has('glosa_factura'))
                                     <span class="text-danger">
@@ -302,7 +302,7 @@
           labelTabla.style.display = 'block';
           listaEspacio.style.display = 'block';
       }
-      else if (selectedTipo === 'EX') {
+      else if (selectedTipo === 'EX' && document.getElementById('codigo').value != 'SIN/CODIGO') {
           labelTabla.style.display = 'block';
           listaExpensa.style.display = 'block';
       } else {
@@ -324,7 +324,7 @@
       function togglePeriodoInicial() {
           const selectedValue = document.querySelector('input[name="tipo"]:checked').value;
           // Desactiva el campo si el valor seleccionado es "EX", de lo contrario lo activa
-          const shouldDisable = (selectedValue === 'EX' || (selectedValue === 'AL' && document.getElementById('codigo').value !== 'SIN/CODIGO'));
+          const shouldDisable = ((selectedValue === 'EX' && document.getElementById('codigo').value !== 'SIN/CODIGO') || (selectedValue === 'AL' && document.getElementById('codigo').value !== 'SIN/CODIGO'));
           periodoFacturacionInput.disabled = shouldDisable;
           periodoInicialInput.disabled = shouldDisable;
           periodoFinalInput.disabled = shouldDisable;
