@@ -441,6 +441,7 @@ class FacturaController extends Controller
             foreach ($notasCobro as $notaCobro) {
                 $facturaDetalle = FacturaDetalle::where('factura', $notaCobro->id)->first();
                 $expensa = Expensa::find($facturaDetalle->expensa);
+                $descripcionExpensa = $expensa->descripcion ?? $facturaDetalle->glosa;
                 $cont++;
                 $html1.="<tbody>
                             <tr>
@@ -448,7 +449,7 @@ class FacturaController extends Controller
                                 <td class='text-center'>{$notaCobro->numero_nota_cobro}</td>
                                 <td class='text-center'>{$notaCobro->razon_social}</td>
                                 <td class='text-center'>{$notaCobro->desc_canon}</td>
-                                <td class='text-center'>{$expensa->descripcion}</td>
+                                <td class='text-center'>{$descripcionExpensa}</td>
                                 <td class='d-flex justify-content-center'>
                                 <a href='" . route('facturacion.anular', $notaCobro->id) . "' class='btn btn-dark bi-arrow-90deg-left' title='Anular Factura'></a>
                                 <a href='" . route('facturacion.imprimir', $notaCobro->id_documento) . "' class='btn btn-primary bi-printer-fill' title='Visualizar Factura' target='_blank'></a>
