@@ -47,6 +47,8 @@ document.getElementById('tipo_solicitante').addEventListener('change', function 
 
 // al Ingresar al formulario para registrar/editar
 var value = document.getElementById('tipo_solicitante').value;
+var tipoIdentificacion = $('#cliente option:selected').data('tipo-identificacion');
+var numeroIdentificacion = $('#cliente option:selected').data('numero-identificacion');
 var nitCont = document.getElementById('nit-container');
 var ciCont = document.getElementById('ci-container');
 var cjurCont = document.getElementById('cjur-container');
@@ -82,6 +84,20 @@ if (value === '2') {
     }
 }
 
+//Verificar dado el cliente si es Ci o Nit
+if (tipoIdentificacion == 1){
+    nitCont.style.display = 'none'; // Ocultar campo
+    nit.value = "";
+    ciCont.style.display = 'block'; // Mostrar campo
+    document.getElementById('ci').value = numeroIdentificacion;
+    document.getElementById('ci_o').value = numeroIdentificacion;
+}else if(tipoIdentificacion == 2){
+    ciCont.style.display = 'none'; // Ocultar campo
+    ci.value = "";
+    nitCont.style.display = 'block'; // Mostrar campo
+    document.getElementById('nit').value = numeroIdentificacion;
+    document.getElementById('nit_o').value = numeroIdentificacion;
+}
 
 //Hab/Deshab campos dependientes Ci o Nit, si se cambia de opción 
 document.getElementById('tipo_solicitante').addEventListener('change', function () {
@@ -101,6 +117,7 @@ document.getElementById('tipo_solicitante').addEventListener('change', function 
     
     if (value === '2') {
         nitCont.style.display = 'block'; // Mostrar campo
+        nit.value = "";
         ciCont.style.display = 'none'; // Ocultar campo
         ci.value = "";
         cjurCont.style.display = ''; // Mostrar campo
@@ -140,11 +157,21 @@ function getCliente(tipoSolicitante) {
 $("#cliente").change(function(event) {
     var selectedOption = $(this).find(':selected');
     var numeroIdentificacion = selectedOption.data('numero-identificacion');
-
-    if (document.getElementById('tipo_solicitante').value == 1){
+    var tipoIdentificacion = selectedOption.data('tipo-identificacion');
+    var nitCont = document.getElementById('nit-container');
+    var ciCont = document.getElementById('ci-container');
+    var nit = document.getElementById("nit");
+    var ci = document.getElementById("ci");
+    if (tipoIdentificacion == 1){
+        nitCont.style.display = 'none'; // Ocultar campo
+        nit.value = "";
+        ciCont.style.display = 'block'; // Mostrar campo
         document.getElementById('ci').value = numeroIdentificacion;
         document.getElementById('ci_o').value = numeroIdentificacion;
-    }else if(document.getElementById('tipo_solicitante').value == 2){
+    }else if(tipoIdentificacion == 2){
+        ciCont.style.display = 'none'; // Ocultar campo
+        ci.value = "";
+        nitCont.style.display = 'block'; // Mostrar campo
         document.getElementById('nit').value = numeroIdentificacion;
         document.getElementById('nit_o').value = numeroIdentificacion;
     }

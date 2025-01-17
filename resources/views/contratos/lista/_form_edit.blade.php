@@ -74,7 +74,9 @@
                 <option value="">Seleccionar...</option>
                 @foreach($clientes as $cliente)
                     <option value="{{ $cliente->id }}" 
-                        {{ old('cliente', $contrato->cliente) == $cliente->id ? 'selected' : '' }}>
+                        {{ old('cliente', $contrato->cliente) == $cliente->id ? 'selected' : '' }}
+                        data-tipo-identificacion="{{ $cliente->tipo_identificacion }}"
+                        data-numero-identificacion="{{ $cliente->numero_identificacion }}">
                         {{ $cliente->razon_social }}
                     </option>
                 @endforeach

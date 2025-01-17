@@ -55,7 +55,7 @@ class ContratoController extends Controller
 		$html = '<option value="">Seleccione</option>';
 		foreach ($clientes as $key => $item) {
 			$selected = NULL;
-			$html .= "<option value='$item->id' data-numero-identificacion='$item->numero_identificacion' $selected>$item->razon_social</option>";
+			$html .= "<option value='$item->id' data-tipo-identificacion='$item->tipo_identificacion' data-numero-identificacion='$item->numero_identificacion' $selected>$item->razon_social</option>";
 		}
                    
 		return response()->json(['success'=>true, 'item'=>$html]);
@@ -156,13 +156,16 @@ class ContratoController extends Controller
         $contrato->aeropuerto = $request->aeropuerto;
         $contrato->tipo_solicitante = $request->tipo_solicitante;
         $contrato->cliente = $request->cliente;
-        if ($request->tipo_solicitante == 1){ 
+        $cliente = Cliente::find($contrato->cliente);
+
+        if ($cliente->tipo_identificacion == 1){ 
             $contrato->ci = $request->ci_o;
             $contrato->nit = null;
         }else{
             $contrato->nit = $request->nit_o;
             $contrato->ci = null;
         }
+        
         $contrato->domicilio_legal = $request->domicilio_legal;
         $contrato->telefono_celular = $request->telefono_celular;
         $contrato->correo = $request->correo;
