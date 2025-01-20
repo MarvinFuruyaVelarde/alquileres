@@ -11,6 +11,7 @@ use App\Models\Factura;
 use App\Models\FacturaDetalle;
 use App\Models\NotaCobro;
 use App\Models\Rubro;
+use App\Models\TipoIdentificacion;
 use App\Models\UsuarioRegional;
 use App\Models\View_Factura;
 use Carbon\Carbon;
@@ -180,17 +181,18 @@ class FacturaController extends Controller
             // Obtiene Documento Fiscal
             $cliente = Cliente::find($factura->cliente);
             $nombreRazonSocial = $cliente->razon_social;
-            
-            if ($factura->tipo_solicitante == 1){
+            $tipoIdentificacion = TipoIdentificacion::find($cliente->tipo_identificacion);
+
+            if ($tipoIdentificacion->descripcion == 'CI'){
 
                 if (!in_array($aeropuerto->sucursal, [1, 24]))
-                    $tipoDocumentoIdentidad = 'CI';
+                    $tipoDocumentoIdentidad = $tipoIdentificacion->descripcion;
                 else
                     $tipoDocumentoIdentidad = 1;
 
                 $numeroDocumento = $factura->ci;
-            } elseif ($factura->tipo_solicitante == 2){
-                $tipoDocumentoIdentidad = 'NIT';
+            } elseif ($tipoIdentificacion->descripcion == 'NIT'){
+                $tipoDocumentoIdentidad = $tipoIdentificacion->descripcion;
                 $numeroDocumento = $factura->nit;
             }
 
