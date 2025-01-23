@@ -46,7 +46,7 @@ class AprobarContratoController extends Controller
         $unidadesmedida=UnidadMedida::where('id','>',0)->orderBy('id', 'asc')->get();
         $formaspago=FormaPago::where('id','>',0)->orderBy('id', 'asc')->get();
         $espacio=new Espacio();
-        $listaespacios=View_Espacio::where('contrato', $contrato->id)->get();
+        $listaespacios=View_Espacio::where('contrato', $contrato->id)->where('estado', 4)->whereNull('deleted_at')->get();
         $expensas = Expensa::where('id','>',0)->orderBy('id', 'asc')->get();
         return view('contratos.aprobar.edit',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas'));
 
