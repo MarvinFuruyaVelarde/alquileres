@@ -327,8 +327,7 @@ class ContratoController extends Controller
 
         $cliente=Contrato::where('id', $id_contrato)->first();
         $clientes=Cliente::where('id', $cliente->cliente)->first();
-
-
+        $tipoIdentificacion=TipoIdentificacion::find($clientes->tipo_identificacion);
         $rubros=Rubro::where('id','>',0)->orderBy('id', 'asc')->get();
         $unidadesmedida=UnidadMedida::where('id','>',0)->orderBy('id', 'asc')->get();
         $formaspago=FormaPago::where('id','>',0)->orderBy('id', 'asc')->get();
@@ -336,7 +335,7 @@ class ContratoController extends Controller
         $expensas = Expensa::where('id','>',0)->orderBy('id', 'asc')->get();
         $espacioexpensas=EspacioExpensa::where('espacio', $espacio->id)->orderBy('id', 'asc')->get();
         //dd($espacioexpensas);
-        return view('contratos.lista.edit_espacio',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas', 'espacioexpensas'));
+        return view('contratos.lista.edit_espacio',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas', 'espacioexpensas', 'tipoIdentificacion'));
     }
 
     public function updateEspacio(EspacioRequest $request, Espacio $espacio)

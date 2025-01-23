@@ -29,7 +29,7 @@
                     <form action="{{route('contratos.update_espacio', ['espacio' => $espacio->id])}}" method="post">
                         @csrf
                         @method('PUT') 
-                        <input id="tipo_solicitante" type="hidden" name="tipo_solicitante" value="{{ $contrato->tipo_solicitante }}">
+                        <input id="tipo_identificacion" type="hidden" name="tipo_identificacion" value="{{ $tipoIdentificacion->descripcion }}">
                         <input id="ci" type="hidden" name="ci" value="{{ $contrato->ci }}">
                         <input id="nit" type="hidden" name="nit" value="{{ $contrato->nit }}">
                         <input id="contrato" type="hidden" name="contrato" value="{{ $contrato->id }}">
@@ -553,7 +553,7 @@
 @section('scripts')
 <script>
   //Asignación de Ci/Nit
-  if(document.getElementById('tipo_solicitante').value === '1'){
+  if(document.getElementById('tipo_identificacion').value === 'CI'){
     document.getElementById('ci_nit').value = document.getElementById('ci').value
   } else{
     document.getElementById('ci_nit').value = document.getElementById('nit').value
