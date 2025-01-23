@@ -13,6 +13,7 @@ use App\Models\Expedido;
 use App\Models\Expensa;
 use App\Models\FormaPago;
 use App\Models\Rubro;
+use App\Models\TipoIdentificacion;
 use App\Models\TipoSolicitante;
 use App\Models\UnidadMedida;
 use App\Models\UsuarioRegional;
@@ -105,10 +106,14 @@ class ContratoController extends Controller
         $contrato->fecha_hora_registro = $fechaHoraActual;
         $contrato->tipo_solicitante = $request->tipo_solicitante;
         $contrato->cliente = $request->cliente;
-        if ($request->tipo_solicitante == 1) 
+        $cliente = Cliente::find($request->cliente);
+        $tipoIdentificacion = TipoIdentificacion::find($cliente->tipo_identificacion);
+        
+        if ($tipoIdentificacion->descripcion == 'CI') 
             $contrato->ci = $request->ci_o;
         else
             $contrato->nit = $request->nit_o;
+
         $contrato->domicilio_legal = $request->domicilio_legal;
         $contrato->telefono_celular = $request->telefono_celular;
         $contrato->correo = $request->correo;
