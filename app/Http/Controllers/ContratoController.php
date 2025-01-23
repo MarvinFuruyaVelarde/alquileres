@@ -256,13 +256,14 @@ class ContratoController extends Controller
         //dd($contrato);
         $aeropuertos=Aeropuerto::where('id', $contrato->aeropuerto)->first();
         $clientes=Cliente::where('id', $contrato->cliente)->first();
+        $tipoIdentificacion=TipoIdentificacion::find($clientes->tipo_identificacion);
         $rubros=Rubro::where('estado', 1)->orderBy('id', 'asc')->get();
         $unidadesmedida=UnidadMedida::where('estado', 1)->orderBy('id', 'asc')->get();
         $formaspago=FormaPago::where('estado', 1)->orderBy('id', 'asc')->get();
         $espacio=new Espacio();
         $listaespacios=View_Espacio::where('contrato', $contrato->id)->whereNull('deleted_at')->get();
         $expensas = Expensa::where('estado', 1)->orderBy('id', 'asc')->get();
-        return view('contratos.lista.create_espacio',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas'));
+        return view('contratos.lista.create_espacio',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas', 'tipoIdentificacion'));
     }
 
     public function storeEspacio(EspacioRequest $request)
