@@ -31,7 +31,7 @@ class CancelarContratoController extends Controller
     {
         $aeropuertos = Aeropuerto::find($contrato->aeropuerto);
         $clientes=Cliente::find($contrato->cliente);
-        $listaespacios=View_Espacio::where('contrato', $contrato->id)->get();
+        $listaespacios=View_Espacio::where('contrato', $contrato->id)->where('estado', 5)->whereNull('deleted_at')->get();
         return view('contratos.cancelar.edit',compact('contrato', 'aeropuertos', 'clientes', 'listaespacios'));
     }
 
