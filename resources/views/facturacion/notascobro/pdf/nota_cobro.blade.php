@@ -57,6 +57,9 @@
                   <div style="font-size: 14px;">
                     <span style="font-weight: bold;">SEÑOR(ES): </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$clienteRazonSocial}}
                   </div>
+                  <div style="font-size: 14px;">
+                    <span style="font-weight: bold;">CONTRATO: </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$codigoContrato}}
+                  </div>
                   <div style="font-size: 13px;">
                     <span style="font-weight: bold;">REFERENCIA: </span>&nbsp;&nbsp;&nbsp;&nbsp;Nota de Cobro correspondiente a &nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">{{$fechaInicio}} a {{$fechaFin}}</span>
                   </div>

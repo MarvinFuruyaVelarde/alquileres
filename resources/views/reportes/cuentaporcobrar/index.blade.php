@@ -99,6 +99,7 @@
                                         <th class="text-center">MONTO FACTURA</th>                                   
                                         <th class="text-center">PAGADO</th>
                                         <th class="text-center">SALDO</th>
+                                        <th class="text-center">FECHA DE PAGO</th>
                                     </tr>
                                 </thead>
                                 <tbody id="dato">
@@ -175,13 +176,14 @@
                             <td class="text-center">${item.monto_facturado || ''}</td>
                             <td class="text-center">${item.monto_pagado || ''}</td>
                             <td class="text-center">${item.saldo || ''}</td>
+                            <td class="text-center">${item.fecha_pago || ''}</td>
                         </tr>
                     `;
                 });
             } else {
                 grillaHtml = `
                     <tr>
-                        <td colspan="4" class="text-center">No existen datos para la consulta realizada</td>
+                        <td colspan="14" class="text-center">No existen datos para la consulta realizada</td>
                     </tr>
                 `;
             }

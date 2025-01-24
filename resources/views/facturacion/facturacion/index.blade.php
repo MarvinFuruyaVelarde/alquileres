@@ -304,5 +304,15 @@
         } 
     });
 
+    document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('btn-anular')) {
+        event.preventDefault();
+        const userConfirmed = confirm('¿Está seguro que desea anular esta factura? Esta acción no se puede deshacer.');
+        if (userConfirmed) {
+            window.location.href = event.target.getAttribute('href');
+        }
+    }
+});
+
 </script>
 @endsection

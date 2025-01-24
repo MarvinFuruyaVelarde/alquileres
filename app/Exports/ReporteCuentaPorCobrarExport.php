@@ -53,6 +53,7 @@ class ReporteCuentaPorCobrarExport implements FromCollection, WithHeadings, With
                 'monto_facturado' => $cuentaporcobrar->monto_facturado ?? '',
                 'monto_pagado' => $cuentaporcobrar->monto_pagado ?? '',           
                 'saldo' => $cuentaporcobrar->saldo ?? '',
+                'fecha_pago' => $cuentaporcobrar->fecha_pago ?? '',
             ];
         });
     }
@@ -76,6 +77,7 @@ class ReporteCuentaPorCobrarExport implements FromCollection, WithHeadings, With
             'MONTO FACTURA',
             'PAGADO',
             'SALDO',
+            'FECHA DE PAGO',
         ];
     }
 
@@ -99,7 +101,7 @@ class ReporteCuentaPorCobrarExport implements FromCollection, WithHeadings, With
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nREPORTE DE CUENTAS POR COBRAR";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:M1');
+                $sheet->mergeCells('A1:N1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -114,7 +116,7 @@ class ReporteCuentaPorCobrarExport implements FromCollection, WithHeadings, With
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'M') as $columnID) {
+                foreach (range('A', 'N') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -124,7 +126,7 @@ class ReporteCuentaPorCobrarExport implements FromCollection, WithHeadings, With
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:M2';
+                $headerRange = 'A2:N2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -158,6 +160,7 @@ class ReporteCuentaPorCobrarExport implements FromCollection, WithHeadings, With
                     'K' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna MONTO FACTURA
                     'L' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna PAGADO
                     'M' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna SALDO
+                    'N' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna FECHA DE PAGO
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

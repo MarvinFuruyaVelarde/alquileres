@@ -40,6 +40,7 @@
             <th>MONTO FACTURA</th>                                   
             <th>PAGADO</th>
             <th>SALDO</th>
+            <th>FECHA DE PAGO</th>
         </tr>
     </thead>
 
@@ -59,6 +60,7 @@
             <td style="text-align:center;">{{ $cuentaporcobrar->monto_facturado }}</td>
             <td style="text-align:center;">{{ $cuentaporcobrar->monto_pagado }}</td>
             <td style="text-align:center;">{{ $cuentaporcobrar->saldo }}</td>
+            <td style="text-align:center;">{{ $cuentaporcobrar->fecha_pago }}</td>
         </tr>
         @endforeach
     </tbody>

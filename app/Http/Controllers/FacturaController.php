@@ -432,7 +432,7 @@ class FacturaController extends Controller
                                 <td class='text-center'>{$notaCobro->desc_canon}</td>
                                 <td class='text-center'>{$notaCobro->desc_forma_pago}</td>
                                 <td class='d-flex justify-content-center'>
-                                <a href='" . route('facturacion.anular', $notaCobro->id) . "' class='btn btn-dark bi-arrow-90deg-left' title='Anular Factura'></a>
+                                <a href='" . route('facturacion.anular', $notaCobro->id) . "' class='btn btn-dark bi-arrow-90deg-left btn-anular' title='Anular Factura'></a>
                                 <a href='" . route('facturacion.imprimir', $notaCobro->id_documento) . "' class='btn btn-primary bi-printer-fill' title='Visualizar Factura' target='_blank'></a>
                                 <a href='" . route('notacobro.show', $notaCobro->id) . "' class='btn btn-danger bi-file-earmark-pdf' title='Visualizar Nota de Cobro' target='_blank'></a>
                                 </td>

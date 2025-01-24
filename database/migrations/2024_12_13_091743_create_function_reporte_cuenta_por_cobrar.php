@@ -18,7 +18,7 @@ return new class extends Migration
             p_id_cliente integer DEFAULT NULL::integer,
             p_fecha_inicial date DEFAULT NULL::date,
             p_fecha_final date DEFAULT NULL::date)
-            RETURNS TABLE(id_factura integer, id_aeropuerto integer, cod_aeropuerto character varying, id_cliente integer, cliente character varying, ci character varying, nit character varying, gestion integer, mes integer, fecha_nota_cobro date, numero_nota_cobro integer, fecha_emision_factura date, numero_factura bigint, tipo character varying, monto_facturado numeric, monto_pagado numeric, saldo numeric) 
+            RETURNS TABLE(id_factura integer, id_aeropuerto integer, cod_aeropuerto character varying, id_cliente integer, cliente character varying, ci character varying, nit character varying, gestion integer, mes integer, fecha_nota_cobro date, numero_nota_cobro integer, fecha_emision_factura date, numero_factura bigint, tipo character varying, monto_facturado numeric, monto_pagado numeric, saldo numeric, fecha_pago date) 
             LANGUAGE 'plpgsql'
             COST 100
             VOLATILE PARALLEL UNSAFE
@@ -42,7 +42,8 @@ return new class extends Migration
                 F.TIPO_FACTURA AS tipo,
                 F.MONTO_TOTAL AS monto_facturado,
                 COALESCE(SUM(DP.A_PAGAR), 0) AS monto_pagado,
-                F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR), 0) AS saldo
+                F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR), 0) AS saldo,
+	            MAX(DP.FECHA_PAGO)
             FROM FACTURA F
             INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO
             INNER JOIN CLIENTE CL ON CL.ID = F.CLIENTE

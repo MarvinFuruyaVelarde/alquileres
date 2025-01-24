@@ -33,6 +33,7 @@
                         <table cellspacing="0" width="100%" id="datos" class="table table-hover table-bordered">
                             <thead>
                                 <tr>
+                                    <th class="text-center">CLIENTE</th>
                                     <th class="text-center">NÚMERO NOTA DE COBRO</th>
                                     <th class="text-center">NÚMERO DE FACTURA</th>
                                     <th class="text-center">MONTO FACTURA Bs</th>
@@ -47,6 +48,7 @@
                                         $pagado = App\Models\DetallePagoFactura::where('id_factura', $factura->id)->sum('a_pagar');
                                     @endphp
                                     <tr>
+                                        <td class="text-center">{{$factura->razon_social_factura}}</td>
                                         <td class="text-center">{{$factura->numero_nota_cobro}}</td>
                                         <td class="text-center">{{$factura->numero_factura}}</td>
                                         <td class="text-center">{{$factura->monto_total}}</td>

@@ -85,6 +85,6 @@ class Reporte extends Model
     // Obtiene Reporte de Cuenta por Cobrar
     public static function reporteCuentaPorCobrar($aeropuerto = null, $cliente = null, $fechaInicial = null, $fechaFinal = null )
     {
-        return DB::select('SELECT cod_aeropuerto, cliente, ci, nit, gestion, mes, fecha_nota_cobro, numero_nota_cobro, fecha_emision_factura, numero_factura, tipo, monto_facturado, monto_pagado, saldo  FROM reporte_cuenta_por_cobrar(?, ?, ?, ?)', [$aeropuerto, $cliente, $fechaInicial, $fechaFinal]);
+        return DB::select('SELECT cod_aeropuerto, cliente, ci, nit, gestion, mes, fecha_nota_cobro, numero_nota_cobro, fecha_emision_factura, numero_factura, tipo, monto_facturado, monto_pagado, saldo, fecha_pago FROM reporte_cuenta_por_cobrar(?, ?, ?, ?)', [$aeropuerto, $cliente, $fechaInicial, $fechaFinal]);
     }
 }
