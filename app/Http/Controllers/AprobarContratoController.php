@@ -9,6 +9,7 @@ use App\Models\Espacio;
 use App\Models\Expensa;
 use App\Models\FormaPago;
 use App\Models\Rubro;
+use App\Models\TipoIdentificacion;
 use App\Models\UnidadMedida;
 use App\Models\UsuarioRegional;
 use App\Models\View_Contrato;
@@ -42,13 +43,14 @@ class AprobarContratoController extends Controller
     {
         $aeropuertos=Aeropuerto::where('id', $contrato->aeropuerto)->first();
         $clientes=Cliente::where('id', $contrato->cliente)->first();
+        $tipoIdentificacion=TipoIdentificacion::find($clientes->tipo_identificacion);
         $rubros=Rubro::where('id','>',0)->orderBy('id', 'asc')->get();
         $unidadesmedida=UnidadMedida::where('id','>',0)->orderBy('id', 'asc')->get();
         $formaspago=FormaPago::where('id','>',0)->orderBy('id', 'asc')->get();
         $espacio=new Espacio();
         $listaespacios=View_Espacio::where('contrato', $contrato->id)->where('estado', 4)->whereNull('deleted_at')->get();
         $expensas = Expensa::where('id','>',0)->orderBy('id', 'asc')->get();
-        return view('contratos.aprobar.edit',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas'));
+        return view('contratos.aprobar.edit',compact('contrato', 'aeropuertos', 'clientes', 'rubros', 'unidadesmedida', 'formaspago', 'espacio', 'listaespacios', 'expensas', 'tipoIdentificacion'));
 
     }
 
