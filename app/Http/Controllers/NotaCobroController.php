@@ -185,18 +185,24 @@ class NotaCobroController extends Controller
                     if ($numeroMes === 1){
                         $facturaDetalle->precio = ($canon/$numeroDiaFac) * NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
                     } else if($numeroMes === null){
-                        $numeroMeses = $fechaFinalContrato->diffInMonths($fechaInicio) ?? 0;
-                        if ($numeroMeses > 0){
-                            $nuevaFechaInicioCarbon = Carbon::parse($fechaInicio);
-                            $nuevaFechaInicio = $nuevaFechaInicioCarbon->addMonths($numeroMeses)->toDateString();
+                        // Calculo de diferencia de meses
+                        $numeroMeses = Carbon::parse($fechaInicio)->diffInMonths(($fechaFinalContrato->endOfDay())->addDay());
+                        $fechaFinalContrato = $fechaFinalContrato->subDay();
+                        $nuevaFechaInicioCarbon = Carbon::parse($fechaInicio);
+                        $nuevaFechaInicio = $nuevaFechaInicioCarbon->addMonths($numeroMeses)->toDateString();
+                        
+                        //Calculo de diferencia de dias
+                        if (Carbon::parse($fechaInicio)->day === 1 && $fechaFinalContrato->isLastOfMonth()) {
+                            $nuevoNumeroDias = $fechaFinalContrato->diffInDays($nuevaFechaInicio);
+                        } else if (Carbon::parse($fechaInicio)->day === ($fechaFinalContrato->addDay())->day){
+                            $fechaFinalContrato = $fechaFinalContrato->subDay();
+                            $nuevoNumeroDias = $fechaFinalContrato->diffInDays($nuevaFechaInicio);
+                        } else{
+                            $fechaFinalContrato = $fechaFinalContrato->subDay();
                             $nuevoNumeroDias = $fechaFinalContrato->diffInDays($nuevaFechaInicio) + 1;
-                            if ($nuevoNumeroDias > 0){
-                                $facturaDetalle->precio = number_format(($canon * $numeroMeses) + ($canon/$numeroDiaFac * $nuevoNumeroDias), 2, '.', '');
-                            }
-                        } else{ //Caso donde el calculo es por dias
-                            $numeroDias = $fechaFinalContrato->diffInDays($fechaInicio) + 1;
-                            $facturaDetalle->precio = number_format(($canon/$numeroDiaFac) * $numeroDias, 2, '.', '');                                
                         }
+                        
+                        $facturaDetalle->precio = number_format(($canon * $numeroMeses) + ($canon/$numeroDiaFac * $nuevoNumeroDias), 2, '.', '');
                     } else{
                         // Verifica si habra próximo pago
                         if ($fechaProximoPago > $fechaFinalContrato){
