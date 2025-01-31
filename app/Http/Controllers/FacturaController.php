@@ -269,13 +269,16 @@ class FacturaController extends Controller
 
                 $precioUnitario = $factura_detalle->precio;
 
-                if ($espacio && $espacio->opcion_dcto !== null){
+                /*if ($espacio && $espacio->opcion_dcto !== null){
                     $subtotal = number_format($factura_detalle->precio - ($factura_detalle->precio * $espacio->opcion_dcto) / 100, 2, '.', '');
                     $subTotal = number_format($subTotal + ($factura_detalle->precio * $espacio->opcion_dcto) / 100, 2, '.', '');
                 } else {
                     $subtotal = $factura_detalle->precio;
                     $subTotal = $subTotal;
-                }
+                }*/
+
+                $subtotal = $factura_detalle->precio;
+                //$subTotal = $subTotal;
                 
                 if ($espacio)
                     $montoDescuentoDetalle = number_format(($factura_detalle->precio * ($espacio->opcion_dcto ?? 0)) / 100, 2, '.', '');
@@ -319,9 +322,9 @@ class FacturaController extends Controller
                         'metodoPago' => 1,                                         // null no tiene un metodo de pago definido el contrato (estaba con 1)
                         'codigoMoneda' => 'BOB',                                   // BOB catalogo de moneda
                         'tipoCambio' => 1,                                         // Si el tipo Moneda es Bolivianos, el tipo de cambio es 1.
-                        'montoTotalMoneda' => $montoTotalMoneda - $subTotal,       // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
-                        'montoTotal' => $montoTotal - $subTotal,                   // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
-                        'montoTotalSujetoIva' => $montoTotalSujetoIva - $subTotal, // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
+                        'montoTotalMoneda' => $montoTotalMoneda/* - $subTotal*/,       // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
+                        'montoTotal' => $montoTotal/* - $subTotal*/,                   // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
+                        'montoTotalSujetoIva' => $montoTotalSujetoIva/* - $subTotal*/, // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
                         'periodoFacturado' => $periodoFacturado,                   // factura->mes factura->gestion 
                         'usuario' => $usuario                                       // admin
                     ],
