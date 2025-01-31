@@ -286,7 +286,7 @@ class FacturaController extends Controller
                     'cantidad' => 1,
                     'precioUnitario' => $precioUnitario,
                     'subtotal' => $subtotal,
-                    'montoDescuentoDetalle' => $montoDescuentoDetalle,
+                    'montoDescuentoDetalle' => null,
                     'codigoDetalleTransaccion' => 1,
                     'codigoUnidadMedida' => $codigoUnidadMedida
                 ];
