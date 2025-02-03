@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('domicilio_legal',150);
             $table->string('telefono_celular',10);
             $table->string('correo',50);
-            $table->string('actividad_principal',100);
+            $table->string('actividad_principal',150);
             $table->string('matricula_comercio',50)->nullable();
             $table->decimal('garantia',13, 2)->nullable();
             $table->decimal('saldo_garantia',13, 2)->nullable();

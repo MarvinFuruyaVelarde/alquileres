@@ -9,6 +9,7 @@ use App\Models\Espacio;
 use App\Models\Expensa;
 use App\Models\Factura;
 use App\Models\FacturaDetalle;
+use App\Models\FormaPago;
 use App\Models\NotaCobro;
 use App\Models\Rubro;
 use App\Models\TipoIdentificacion;
@@ -245,7 +246,7 @@ class FacturaController extends Controller
             // Obtiene datos si tiene más de un espacio
             foreach ($facturas_detalle as $factura_detalle) {
                 $espacio = Espacio::find($factura_detalle->espacio);
-                $montoDescuentoDetalle = null;
+                //$montoDescuentoDetalle = null;
                 $codigoProducto = 1;
                 
                 if (($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'A') || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato != 'SIN/CODIGO')){
@@ -267,7 +268,7 @@ class FacturaController extends Controller
                         $codigoProducto = 72149;
                 }
 
-                $precioUnitario = $factura_detalle->precio;
+                $precioUnitario = $factura_detalle->total_canonmensual;
 
                 /*if ($espacio && $espacio->opcion_dcto !== null){
                     $subtotal = number_format($factura_detalle->precio - ($factura_detalle->precio * $espacio->opcion_dcto) / 100, 2, '.', '');
@@ -280,13 +281,17 @@ class FacturaController extends Controller
                 $subtotal = $factura_detalle->precio;
                 //$subTotal = $subTotal;
                 
-                if ($espacio)
-                    $montoDescuentoDetalle = number_format(($factura_detalle->precio * ($espacio->opcion_dcto ?? 0)) / 100, 2, '.', '');
+                /*if ($espacio)
+                    $montoDescuentoDetalle = number_format(($factura_detalle->precio * ($espacio->opcion_dcto ?? 0)) / 100, 2, '.', '');*/
+
+                //Obtiene Cantidad
+                $formaPago = FormaPago::find($factura->forma_pago);
+                $cantidad = $formaPago->numero_mes ?? 1;
 
                 $detalleArray[] = [
                     'codigoProducto' => $codigoProducto,
                     'descripcion' => $descripcion,
-                    'cantidad' => 1,
+                    'cantidad' => $cantidad,
                     'precioUnitario' => $precioUnitario,
                     'subtotal' => $subtotal,
                     'montoDescuentoDetalle' => null,
