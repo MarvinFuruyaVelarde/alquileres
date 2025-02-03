@@ -166,7 +166,12 @@ class NotaCobroController extends Controller
                     }
 
                     $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
-                    $facturaDetalle->total_canonmensual = $espacio->total_canonmensual;
+                    
+                    //Verifica si tiene dcto el espacio
+                    if ($consultaEspacio->canon_dcto != null)
+                        $facturaDetalle->total_canonmensual = $consultaEspacio->canon_dcto;
+                    else 
+                        $facturaDetalle->total_canonmensual = $espacio->total_canonmensual;
                     
                     //Obtener Fecha de Inicio dado el año, mes de facturación y el dia de inicio de contrato
                     $fechaInicio = Carbon::parse($periodoFacturacion)->format('Y').'-'.Carbon::parse($periodoFacturacion)->format('m').'-'.Carbon::parse($consultaEspacio->fecha_inicial)->format('d'); //2024-07-15
