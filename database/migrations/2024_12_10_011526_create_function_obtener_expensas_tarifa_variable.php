@@ -33,14 +33,15 @@ return new class extends Migration
                         ' CON UNA GARANTIA DE ', e.garantia, ' CON UN CANON MENSUAL DE ', e.total_canonmensual) AS detalle_espacio,
                 EE.EXPENSA,
                 EX.DESCRIPCION,
-                EX.FACTOR,
+                AE.FACTOR,
                 EX.UNIDAD_MEDIDA,
                 EE.TARIFA_FIJA
             FROM CONTRATO C
             INNER JOIN ESPACIO E ON E.CONTRATO = C.ID
             INNER JOIN ESPACIO_EXPENSA EE ON EE.ESPACIO = E.ID
             INNER JOIN UNIDAD_MEDIDA U ON U.ID = E.UNIDAD_MEDIDA 
-            INNER JOIN EXPENSA EX ON EX.ID = EE.EXPENSA  
+            INNER JOIN EXPENSA EX ON EX.ID = EE.EXPENSA
+             LEFT JOIN AEROPUERTO_EXPENSA AE ON AE.AEROPUERTO = C.AEROPUERTO AND AE.EXPENSA = EX.ID  
             WHERE C.ESTADO = 5
             AND E.ESTADO = 5
             AND EE.TARIFA_FIJA = 'V'
