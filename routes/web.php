@@ -80,6 +80,9 @@ Route::middleware(['auth'])->group(function(){
     Route::get('expensas/pdf',[App\Http\Controllers\ExpensaController::class,'show'])->name('expensas.show')->middleware('permission:expensas.show');
     Route::get('expensas/xls',[App\Http\Controllers\ExpensaController::class,'export'])->name('expensas.export')->middleware('permission:expensas.show');
 
+    Route::get('expensas/factor/{expensa}',[App\Http\Controllers\ExpensaController::class,'createAeropuertoExpensa'])->name('expensas.create_aeropuerto_expensa');
+    Route::post('expensas/factor/store',[App\Http\Controllers\ExpensaController::class,'storeAeropuertoExpensa'])->name('expensas.store_aeropuerto_expensa');
+
     //formas de pago
     Route::get('formaspago',[App\Http\Controllers\FormaPagoController::class,'index'])->name('formaspago.index')->middleware('permission:formaspago.index');
     Route::get('formaspago/create',[App\Http\Controllers\FormaPagoController::class,'create'])->name('formaspago.create')->middleware('permission:formaspago.create');

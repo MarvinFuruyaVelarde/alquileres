@@ -16,7 +16,6 @@ return new class extends Migration
             AS
             SELECT e.id,
                 e.descripcion,
-                e.factor,
                 e.unidad_medida,
                 e.estado,
                 es.descripcion AS desc_estado,

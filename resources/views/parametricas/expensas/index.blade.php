@@ -44,7 +44,6 @@
                     <thead>
                         <tr>
                             <th class="text-center">DESCRIPCIÓN</th>
-                            <th class="text-center">FACTOR</th>
                             <th class="text-center">UNIDAD DE MEDIDA</th>
                             <th class="text-center">ESTADO</th>
                             <th class="text-center">OPCIONES</th>
@@ -55,7 +54,6 @@
 
                             <tr>
                                 <td class="text-center">{{$expensa->descripcion}}</td>
-                                <td class="text-center">{{$expensa->factor}}</td>
                                 <td class="text-center">{{$expensa->unidad_medida}}</td>
                                 <td class="text-center">{{$expensa->desc_estado}}</td>
                                 <td class="d-flex justify-content-center" >
@@ -73,6 +71,7 @@
                                             </button>
                                         </form>
                                     @endcan
+                                    <a href="{{route('expensas.create_aeropuerto_expensa', $expensa->id)}}" class="btn btn-dark" title="Registrar Factor"><i class="bi bi-layout-text-sidebar"></i></a>
                                 </td>
                             </tr>
 

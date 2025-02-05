@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class ExpensaRequest extends FormRequest
+class AeropuertoExpensaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,6 @@ class ExpensaRequest extends FormRequest
         return true;
     }
 
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,15 +23,17 @@ class ExpensaRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'descripcion'=>'required',
-            'estado'=>'required',
+            'aeropuerto'=>'required',
+            'factor'=>'required',
         ];
     }
+
     public function messages()
     {
         return [
-            'descripcion.required' => 'El ingreso de descripción es obligatorio.',
-            'estado.required'   => 'El ingreso de estado es obligatorio.',
+            'aeropuerto.required' => 'El ingreso de aeropuerto es obligatorio.',
+            'factor.required'   => 'El ingreso de factor es obligatorio.',
         ];
     }
+    
 }

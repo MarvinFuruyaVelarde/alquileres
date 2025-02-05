@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('expensa', function (Blueprint $table) {
+        Schema::create('aeropuerto_expensa', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion',50);
-            $table->integer('estado');
-            $table->string('unidad_medida',50)->nullable();
-            $table->foreign('estado')->references('id')->on('estado');
+            $table->integer('aeropuerto');
+            $table->integer('expensa');
+            $table->decimal('factor');
+            $table->foreign('aeropuerto')->references('id')->on('aeropuerto');
+            $table->foreign('expensa')->references('id')->on('expensa');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expensa');
+        Schema::dropIfExists('aeropuerto_expensa');
     }
 };
