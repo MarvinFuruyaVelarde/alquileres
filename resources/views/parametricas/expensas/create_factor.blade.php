@@ -160,16 +160,16 @@
                                         <tr>
                                             <td class="text-center col-2">{{ $aeropuertoExpensa->desc_aeropuerto }}</td>
                                             <td class="text-center col-2">{{ $aeropuertoExpensa->factor }}</td>                
-                                            <td class="text-center col-1" >
-                                                <a {{--href="{{route('contratos.edit_espacio', ['contrato' => $contrato->id, 'espacio' => $listaespacio->id])}}"--}} class="btn btn-warning" title="Modificar Datos"><i class="bi bi-pencil-square"></i></a>
-                                                <form {{--action="{{ route('contratos.destroy_espacio', $listaespacio->id) }}"--}} method="POST" style="display:inline;">                                                
+                                            {{--<td class="text-center col-1" >
+                                                <a href="{{route('contratos.edit_espacio', ['contrato' => $contrato->id, 'espacio' => $listaespacio->id])}}" class="btn btn-warning" title="Modificar Datos"><i class="bi bi-pencil-square"></i></a>
+                                                <form action="{{ route('contratos.destroy_espacio', $listaespacio->id) }}" method="POST" style="display:inline;">                                                
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger" title="Eliminar Registro" onclick="return confirm('¿Está seguro que desea eliminar el ESPACIO?');"><i class="bi bi-trash"></i>
                                                     </button>
                                                 </form>
                                                                         
-                                            </td>
+                                            </td>--}}
                                         </tr>
                                     @empty
                                         <tr>
