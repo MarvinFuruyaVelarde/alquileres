@@ -213,7 +213,8 @@ class FacturaController extends Controller
             if ($factura->tipo_canon == 'F' && $factura->tipo_factura == 'AL'){
                 $codigoUnidadMedida = 68;
                 $tipoDocumentoSector = 2;
-                $periodoFacturado = $mesLiteral.' '.$gestion;
+                //Prod $periodoFacturado = $mesLiteral.' '.$gestion;
+                $periodoFacturado = $factura->numero_nota_cobro;
             } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'AL'){
                 $codigoUnidadMedida = 68;
                 $tipoDocumentoSector = 1;
