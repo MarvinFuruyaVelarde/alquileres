@@ -203,26 +203,42 @@ class FacturaController extends Controller
             $montoTotal = FacturaDetalle::where('factura', $factura->id)
                             ->sum('precio');
 
-            $montoTotalSujetoIva = FacturaDetalle::where('factura', $factura->id)
-                                    ->sum('precio');
 
+            //Verificar si es Alquiler Zona Franca
+            if ($aeropuerto->sucursal !== 25)  
+                $montoTotalSujetoIva = FacturaDetalle::where('factura', $factura->id)->sum('precio');
+            else
+                $montoTotalSujetoIva = null;
+            
             $fecha = $request->fecha;
             $mesLiteral = strtoupper(Carbon::parse($fecha)->locale('es')->translatedFormat('F'));
             $gestion = Carbon::parse($fecha)->format('Y');  
 
             if ($factura->tipo_canon == 'F' && $factura->tipo_factura == 'AL'){
                 $codigoUnidadMedida = 68;
-                $tipoDocumentoSector = 2;
                 //Prod $periodoFacturado = $mesLiteral.' '.$gestion;
                 $periodoFacturado = $factura->numero_nota_cobro;
+                
+                //Verificar si es Alquiler Zona Franca
+                if ($aeropuerto->sucursal !== 25) 
+                    $tipoDocumentoSector = 2;
+                else
+                    $tipoDocumentoSector = 42;
+            
             } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'AL'){
                 $codigoUnidadMedida = 68;
                 $tipoDocumentoSector = 1;
                 $periodoFacturado = null;
             } else if ($factura->tipo_canon == 'F' && $factura->tipo_factura == 'EX'){
                 $codigoUnidadMedida = 58;
-                $tipoDocumentoSector = 1;
                 $periodoFacturado = null;
+                
+                //Verificar si es Alquiler Zona Franca
+                if ($aeropuerto->sucursal !== 25) 
+                    $tipoDocumentoSector = 1;
+                else
+                    $tipoDocumentoSector = 42;
+
             } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'EX'){
                 $codigoUnidadMedida = 58;
                 $tipoDocumentoSector = 1;
