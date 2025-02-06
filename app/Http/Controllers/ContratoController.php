@@ -334,7 +334,13 @@ class ContratoController extends Controller
         $cliente=Contrato::where('id', $id_contrato)->first();
         $clientes=Cliente::where('id', $cliente->cliente)->first();
         $tipoIdentificacion=TipoIdentificacion::find($clientes->tipo_identificacion);
-        $rubros=Rubro::where('id','>',0)->orderBy('id', 'asc')->get();
+
+        //Despliegue de Rubro según Aeropuerto
+        if ($contrato->aeropuerto !== 12)
+            $rubros=Rubro::where('estado', 1)->whereNull('aeropuerto')->orderBy('id', 'asc')->get();
+        else
+            $rubros=Rubro::where('estado', 1)->where('aeropuerto', $contrato->aeropuerto)->orderBy('id', 'asc')->get();
+
         $unidadesmedida=UnidadMedida::where('id','>',0)->orderBy('id', 'asc')->get();
         $formaspago=FormaPago::where('id','>',0)->orderBy('id', 'asc')->get();
         $listaespacios=View_Espacio::where('contrato', $id_contrato)->whereNull('deleted_at')->get();
