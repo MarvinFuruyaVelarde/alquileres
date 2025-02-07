@@ -227,8 +227,14 @@ class FacturaController extends Controller
             
             } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'AL'){
                 $codigoUnidadMedida = 68;
-                $tipoDocumentoSector = 1;
                 $periodoFacturado = null;
+
+                //Verificar si es Alquiler Zona Franca
+                if ($aeropuerto->sucursal !== 25) 
+                    $tipoDocumentoSector = 1;
+                else
+                    $tipoDocumentoSector = 5;
+
             } else if ($factura->tipo_canon == 'F' && $factura->tipo_factura == 'EX'){
                 $codigoUnidadMedida = 58;
                 $periodoFacturado = null;
@@ -237,20 +243,37 @@ class FacturaController extends Controller
                 if ($aeropuerto->sucursal !== 25) 
                     $tipoDocumentoSector = 1;
                 else
-                    $tipoDocumentoSector = 42;
+                    $tipoDocumentoSector = 5;
 
             } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'EX'){
                 $codigoUnidadMedida = 58;
-                $tipoDocumentoSector = 1;
                 $periodoFacturado = null;
+
+                //Verificar si es Alquiler Zona Franca
+                if ($aeropuerto->sucursal !== 25) 
+                    $tipoDocumentoSector = 1;
+                else
+                    $tipoDocumentoSector = 5;
+
             } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'MOR'){
                 $codigoUnidadMedida = 58;
-                $tipoDocumentoSector = 1;
                 $periodoFacturado = null;
+
+                //Verificar si es Alquiler Zona Franca
+                if ($aeropuerto->sucursal !== 25) 
+                    $tipoDocumentoSector = 1;
+                else
+                    $tipoDocumentoSector = 5;
+
             } else if ($factura->tipo_canon == 'V' && $factura->tipo_factura == 'OTR'){
                 $codigoUnidadMedida = 58;
-                $tipoDocumentoSector = 1;
                 $periodoFacturado = null;
+
+                //Verificar si es Alquiler Zona Franca
+                if ($aeropuerto->sucursal !== 25) 
+                    $tipoDocumentoSector = 1;
+                else
+                    $tipoDocumentoSector = 5;
             }
 
             $detalleArray = [];
