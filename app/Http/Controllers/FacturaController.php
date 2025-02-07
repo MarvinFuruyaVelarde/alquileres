@@ -186,7 +186,7 @@ class FacturaController extends Controller
 
             if ($tipoIdentificacion->descripcion == 'CI'){
 
-                if (!in_array($aeropuerto->sucursal, [1, 2, 24]))
+                if (!in_array($aeropuerto->sucursal, [1, 2, 24, 25]))
                     $tipoDocumentoIdentidad = $tipoIdentificacion->descripcion;
                 else
                     $tipoDocumentoIdentidad = 1;
