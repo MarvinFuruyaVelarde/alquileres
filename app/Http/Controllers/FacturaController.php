@@ -298,9 +298,13 @@ class FacturaController extends Controller
                 } else if ($factura->tipo_factura == 'EX' || $factura->tipo_factura == 'MOR' || $factura->tipo_factura == 'OTR' || ($factura->tipo_factura == 'AL' && $factura->tipo_generacion == 'M' && $factura->codigo_contrato == 'SIN/CODIGO')){
                     $descripcion = $factura_detalle->glosa .' - (NC) '.$factura->numero_nota_cobro;
 
-                    if ($factura->tipo_factura == 'EX')
-                        $codigoProducto = 99714;
-                    else if ($factura->tipo_factura == 'MOR')
+                    if ($factura->tipo_factura == 'EX'){
+                        //Verificar si es Zona Franca
+                        if ($aeropuerto->sucursal !== 25) 
+                            $codigoProducto = 99714;
+                        else
+                            $codigoProducto = 99850;
+                    } else if ($factura->tipo_factura == 'MOR')
                         $codigoProducto = 99112;
                     else if ($factura->tipo_factura == 'OTR')
                         $codigoProducto = 99114;
