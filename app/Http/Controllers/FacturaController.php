@@ -216,7 +216,8 @@ class FacturaController extends Controller
 
             if ($factura->tipo_canon == 'F' && $factura->tipo_factura == 'AL'){
                 $codigoUnidadMedida = 68;
-                $periodoFacturado = $mesLiteral.' '.$gestion;
+                //Prod $periodoFacturado = $mesLiteral.' '.$gestion;
+                $periodoFacturado = $factura->numero_nota_cobro;
                 
                 //Verificar si es Alquiler Zona Franca
                 if ($aeropuerto->sucursal !== 25) 
