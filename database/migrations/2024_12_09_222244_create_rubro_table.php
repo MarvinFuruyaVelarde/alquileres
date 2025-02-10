@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('codigo');
             $table->string('descripcion');
             $table->integer('estado');
+            $table->integer('aeropuerto')->nullable();
             $table->foreign('estado')->references('id')->on('estado');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

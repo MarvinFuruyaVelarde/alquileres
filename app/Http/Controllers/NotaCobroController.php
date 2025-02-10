@@ -344,10 +344,14 @@ class NotaCobroController extends Controller
                 $factura->mes = $mes;
                 $factura->gestion = $anio;
                 $factura->tipo_solicitante = $notaCobroGenerada->tipo_solicitante;
-                if ($notaCobroGenerada->tipo_solicitante == 1) 
+                $cliente = Cliente::find($notaCobroGenerada->id_cliente);
+                $tipoIdentificacion = TipoIdentificacion::find($cliente->tipo_identificacion);
+
+                if ($tipoIdentificacion->descripcion == 'CI') 
                     $factura->ci = $notaCobroGenerada->ci;
                 else
                     $factura->nit = $notaCobroGenerada->nit;
+                
                 $factura->tipo_canon = $notaCobroGenerada->tarifa_fija;
                 $factura->forma_pago = $notaCobroGenerada->id_forma_pago;
                 $factura->tipo_factura = 'EX';

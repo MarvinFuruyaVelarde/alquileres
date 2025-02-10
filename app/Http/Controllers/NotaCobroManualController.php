@@ -12,6 +12,7 @@ use App\Models\Factura;
 use App\Models\FacturaDetalle;
 use App\Models\NotaCobro;
 use App\Models\Regional;
+use App\Models\TipoIdentificacion;
 use App\Models\UsuarioRegional;
 use App\Models\View_Espacio;
 use App\Models\View_NotaCobraManual;
@@ -133,6 +134,7 @@ class NotaCobroManualController extends Controller
         $ordenImpresion = NotaCobro::obtenerMaxOrdenImpresion($request->tipo, $mes, $gestion, $request->aeropuerto);
         $numeroNotaCobro = $request->tipo.'/'.$codRegional.'/COM/'.$codAeropuerto.'/'.$mes.'/'.$gestion.'/'.$ordenImpresion;        
         $cliente = Cliente::find($request->cliente);
+        $tipoIdentificacion = TipoIdentificacion::find($cliente->tipo_identificacion);
         $fechaRegistro = Carbon::now()->format('Y-m-d H:i:s');
         $periodoFacturacion = $request->periodo_facturacion;
         $periodoInicialFacturacion = Carbon::parse($periodoFacturacion)->startOfMonth()->toDateString();
@@ -152,11 +154,12 @@ class NotaCobroManualController extends Controller
             $factura->mes = $mes;
             $factura->gestion = $gestion;
             $factura->tipo_solicitante = $cliente->tipo_solicitante;
-            if ($cliente->tipo_solicitante == 1) 
+            
+            if ($tipoIdentificacion->descripcion == 'CI') 
                 $factura->ci = $cliente->numero_identificacion;
             else
                 $factura->nit = $cliente->numero_identificacion;
-        
+
             if ($request->tipo == 'AL')
                 $factura->tipo_canon = $request->tipo_espacio;
             else if($request->tipo == 'MOR' || $request->tipo == 'OTR')
@@ -220,7 +223,7 @@ class NotaCobroManualController extends Controller
             $factura->gestion = $gestion;
             $factura->tipo_solicitante = $cliente->tipo_solicitante;
 
-            if ($cliente->tipo_solicitante == 1) 
+            if ($tipoIdentificacion->descripcion == 'CI') 
                 $factura->ci = $cliente->numero_identificacion;
             else
                 $factura->nit = $cliente->numero_identificacion;
@@ -268,8 +271,8 @@ class NotaCobroManualController extends Controller
                 $factura->gestion = $gestion;                               
                 $factura->tipo_solicitante = $cliente->tipo_solicitante;    
 
-                if ($cliente->tipo_solicitante == 1) 
-                    $factura->ci = $cliente->numero_identificacion; 
+                if ($tipoIdentificacion->descripcion == 'CI') 
+                    $factura->ci = $cliente->numero_identificacion;
                 else
                     $factura->nit = $cliente->numero_identificacion;            
             
@@ -312,10 +315,11 @@ class NotaCobroManualController extends Controller
             $factura->mes = $mes;                                     
             $factura->gestion = $gestion;                             
             $factura->tipo_solicitante = $cliente->tipo_solicitante;  
-            if ($cliente->tipo_solicitante == 1) 
-                $factura->ci = $cliente->numero_identificacion;       
+
+            if ($tipoIdentificacion->descripcion == 'CI') 
+                $factura->ci = $cliente->numero_identificacion;
             else
-                $factura->nit = $cliente->numero_identificacion;      
+                $factura->nit = $cliente->numero_identificacion;    
         
             $factura->tipo_canon = 'V';                               
 
