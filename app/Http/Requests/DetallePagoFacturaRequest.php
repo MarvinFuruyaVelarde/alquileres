@@ -29,7 +29,7 @@ class DetallePagoFacturaRequest extends FormRequest
                 'cuenta_destino' => 'required',
                 'fecha_actual' => 'required',
                 'registro_deposito' => 'required',
-                'fecha_deposito'=>Rule::requiredIf($request->input('cuenta_destino')==8 || $request->input('cuenta_destino')==9 )
+                'fecha_deposito'=>Rule::requiredIf($request->input('cuenta_destino')==7 || $request->input('cuenta_destino')==8 )
             ];
             return $rules;
         } else{
@@ -38,7 +38,7 @@ class DetallePagoFacturaRequest extends FormRequest
                 'cuenta_destino' => 'required',
                 'fecha_actual' => 'required',
                 'registro_deposito' => 'required',
-                'fecha_deposito'=>Rule::requiredIf($request->input('cuenta_destino')==8 || $request->input('cuenta_destino')==9 )
+                'fecha_deposito'=>Rule::requiredIf($request->input('cuenta_destino')==7 || $request->input('cuenta_destino')==8 )
             ];
         }
     }
