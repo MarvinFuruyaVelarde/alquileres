@@ -50,6 +50,7 @@ function convertirNumeroATexto($numero) {
     ];
 
     if ($numero < 20) {
+        $numero = intval($numero);
         return $unidades[$numero];
     } elseif ($numero < 100) {
         $decena = intval($numero / 10);
