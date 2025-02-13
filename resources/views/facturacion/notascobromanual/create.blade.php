@@ -305,7 +305,7 @@
                   $.ajax({
                     url: '{{ url("notacobromanual/obtNumeroFactura/") }}/'+encodedCodigoContrato,
                     method: 'get',
-                    data: {'codigoContrato':encodedCodigoContrato},
+                    //data: {'codigoContrato':encodedCodigoContrato},
                     beforeSend: function(){
                       zone.attr('disabled', true);
                     },
