@@ -54,7 +54,7 @@ class NotaCobroManualController extends Controller
 	}
 
     public function obtieneNumeroFactura($codigoContrato) 
-    {   
+    {   dd($codigoContrato);
         $numerosFactura = DB::table('contrato as c')
                 ->join('factura as f', 'f.contrato', '=', 'c.id')
                 ->join('detalle_pago_factura as dp', 'dp.id_factura', '=', 'f.id')
