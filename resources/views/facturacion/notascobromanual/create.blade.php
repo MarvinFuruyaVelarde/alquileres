@@ -303,9 +303,10 @@
                   var encodedCodigoContrato = encodeURIComponent(codigoContrato);
                   
                   $.ajax({
-                    url: '{{ url("notacobromanual/obtNumeroFactura/") }}/'+encodedCodigoContrato,
+                    //url: '{{ url("notacobromanual/obtNumeroFactura/") }}/'+encodedCodigoContrato,
+                    url: '{{ url("notacobromanual/obtNumeroFactura/") }}',
                     method: 'get',
-                    //data: {'codigoContrato':encodedCodigoContrato},
+                    data: {'codigoContrato':encodedCodigoContrato},
                     beforeSend: function(){
                       zone.attr('disabled', true);
                     },
