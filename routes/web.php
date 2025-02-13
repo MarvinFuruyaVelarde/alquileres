@@ -207,7 +207,7 @@ Route::middleware(['auth'])->group(function(){
     Route::put('notacobromanual/{idFactura}',[App\Http\Controllers\NotaCobroManualController::class,'update'])->name('notacobromanual.update')->middleware('permission:notacobromanual.edit');
     Route::post('notacobromanual/aprobar',[App\Http\Controllers\NotaCobroManualController::class,'aprobarNotaCobroManual'])->name('notacobromanual.aprobarNotaCobroManual')->middleware('permission:notacobromanual.aprobar');
     Route::get('notacobromanual/pdf/{id}',[App\Http\Controllers\NotaCobroManualController::class,'show'])->name('notacobromanual.show')->middleware('permission:notacobromanual.show');
-    
+    Route::get('test/{codigoContrato}', function ($codigoContrato) {dd($codigoContrato);})->where('codigoContrato', '.*');
 
     Route::get('facturacion',[App\Http\Controllers\FacturaController::class,'index'])->name('facturacion.index')->middleware('permission:facturacion.index');
     Route::get('facturacion/buscaNotaCobroPendiente',[App\Http\Controllers\FacturaController::class,'buscaNotaCobroPendiente'])->name('facturacion.buscaNotaCobroPendiente')->middleware('permission:facturacion.buscar');
