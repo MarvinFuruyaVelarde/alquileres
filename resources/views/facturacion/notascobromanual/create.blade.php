@@ -300,13 +300,13 @@
               
               function getNumeroFactura(codigoContrato) {
                   var zone = $("#numero_factura");
-                  var encodedCodigoContrato = encodeURIComponent(codigoContrato);
+                  //var encodedCodigoContrato = encodeURIComponent(codigoContrato);
                   
                   $.ajax({
                     //url: '{{ url("notacobromanual/obtNumeroFactura/") }}/'+encodedCodigoContrato,
                     url: '{{ url("notacobromanual/obtNumeroFactura/") }}',
                     method: 'get',
-                    data: {'codigoContrato':encodedCodigoContrato},
+                    data: {'codigoContrato':codigoContrato},
                     beforeSend: function(){
                       zone.attr('disabled', true);
                     },
