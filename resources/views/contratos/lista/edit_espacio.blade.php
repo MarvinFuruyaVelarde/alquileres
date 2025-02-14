@@ -30,8 +30,6 @@
                         @csrf
                         @method('PUT') 
                         <input id="tipo_identificacion" type="hidden" name="tipo_identificacion" value="{{ $tipoIdentificacion->descripcion }}">
-                        <input id="ci" type="hidden" name="ci" value="{{ $contrato->ci }}">
-                        <input id="nit" type="hidden" name="nit" value="{{ $contrato->nit }}">
                         <input id="contrato" type="hidden" name="contrato" value="{{ $contrato->id }}">
                         <div class="row mb-1">
                             <div class="col-md-1">
@@ -92,7 +90,7 @@
                             <div class="col-md-5">
                                 <label for="ci_nit" class="col-form-label">Ci/Nit <span class="text-danger">(*)</span></label>
                                 <div class="col-md-12">
-                                    <input id="ci_nit" type="text" class="form-control {{ $errors->has('ci_nit') ? ' error' : '' }}" name="ci_nit" value="" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
+                                    <input id="ci_nit" type="text" class="form-control {{ $errors->has('ci_nit') ? ' error' : '' }}" name="ci_nit" value="{{ old('ci_nit',$clientes->numero_identificacion) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50" disabled>
                                     <span id="error-ci_nit" class="error-ci" style="color: rgb(220, 53, 69);"></span>
                                     @if ($errors->has('ci_nit'))
                                         <span class="text-danger">
@@ -552,13 +550,6 @@
 
 @section('scripts')
 <script>
-  //Asignación de Ci/Nit
-  if(document.getElementById('tipo_identificacion').value === 'CI'){
-    document.getElementById('ci_nit').value = document.getElementById('ci').value
-  } else{
-    document.getElementById('ci_nit').value = document.getElementById('nit').value
-  }
-
   // Calculo Total Canon Menusla
   function calcularTotalCanonMensual() {
         const cantidad = parseFloat(document.getElementById('cantidad').value) || 0;
