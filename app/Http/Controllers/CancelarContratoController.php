@@ -132,7 +132,19 @@ class CancelarContratoController extends Controller
 
     public function updateEspacio(EspacioRequest $request, Espacio $espacio)
     {   
-        //dd($request->estado);
+        //Actualizar Información del Contrato 
+        $cliente = Cliente::find($request->id_cliente);
+        $contrato = Contrato::find($request->id_cliente);
+        $contrato->tipo_solicitante = $cliente->tipo_solicitante;
+        if ($cliente->tipo_identificacion == 1){
+            $contrato->ci = $cliente->numero_identificacion;
+            $contrato->nit = null;
+        } else{
+            $contrato->nit = $cliente->numero_identificacion;
+            $contrato->ci = null;
+        }
+        $contrato->save();
+        
         $listaExpensas = $request->input('lista_expensas');
         
         $espacio->tipo_canon = $request->tipo_canon;
