@@ -29,6 +29,7 @@
             </p>
             <input id="mes" type='hidden' name='mes' value=''/>
             <input id="gestion" type='hidden' name='gestion' value=''/>
+            <input id="id_detalle_pago_factura" type='hidden' name='id_detalle_pago_factura' value=''/>
             <div class="row mb-1">
               <label>Tipo</label>
               <br><br>
@@ -335,6 +336,7 @@
                 document.getElementById("monto_mora").value = montoFacturaSeleccionado;
                 document.getElementById("mes").value = mesFacturaSeleccionado;
                 document.getElementById("gestion").value = gestionFacturaSeleccionado;
+                getIdDetallePagoFactura(document.getElementById("numero_factura").value);
               });
             
           } else {
@@ -607,5 +609,30 @@
         document.getElementById(`total_a_pagar_${index}`).value = total.toFixed(2); // Redondear a 2 decimales si es necesario
     }
 
+    //Función Obtiene Id's de Detalle de Pago de Factura
+    function getIdDetallePagoFactura(idFactura) {
+      var inputHidden = document.getElementById("id_detalle_pago_factura");
+
+      $.ajax({
+        url: '{{ url("notacobromanual/obtIdDetallePagoFactura/") }}',
+        method: 'get',
+        data: {'idFactura':idFactura},
+        beforeSend: function(){
+          inputHidden.disabled = true;
+        },
+        success: function (response) {
+          if (response.success) {
+            // Convertir el array en una cadena JSON y asignarlo al input
+            inputHidden.value = JSON.stringify(response.detalle_pago_ids);
+            inputHidden.disabled = false;
+          }
+        },
+        error: function() {
+          alert('Error al cargar el Id Detalle Pago.');
+          inputHidden.value = "";
+        }
+      
+      });
+    }
 </script>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aeropuerto;
 use App\Models\Cliente;
 use App\Models\Contrato;
+use App\Models\DetallePagoFactura;
 use App\Models\Espacio;
 use App\Models\Estado;
 use App\Models\Expensa;
@@ -61,6 +62,8 @@ class NotaCobroManualController extends Controller
                 ->join('detalle_pago_factura as dp', 'dp.id_factura', '=', 'f.id')
                 ->where('dp.cobro_mora', 'S')
                 ->where('c.codigo', $codigoContrato)
+                ->whereIn('f.tipo_factura', ['AL', 'OTR'])
+                ->whereNull('dp.estado')
                 ->groupBy('f.id')
                 ->select('f.id', 'f.numero_factura', 'f.mes', 'f.gestion', DB::raw('SUM(dp.mora) as monto'))
                 ->get();
@@ -81,6 +84,25 @@ class NotaCobroManualController extends Controller
                    
 		return response()->json(['success'=>true, 'item'=>$html, 'disabled' => $disabled]);
 	}
+
+    public function obtieneIdDetallePago(Request $request)
+    {
+        $idFactura = $request->idFactura;
+        // Obtiene los Id's de Detalle de Pago de Factura
+        $idDetallePago = DB::table('contrato as C')
+                ->join('factura as F', 'F.contrato', '=', 'C.id')
+                ->join('detalle_pago_factura as DP', 'DP.id_factura', '=', 'F.id')
+                ->where('DP.cobro_mora', 'S')
+                ->where('F.id', $idFactura)
+                ->groupBy('F.id', 'DP.id')
+                ->select('DP.id as ID_DP')
+                ->get();
+        
+        // Convertir los IDs en un array
+        $idArray = !$idDetallePago->isEmpty() ? $idDetallePago->pluck('ID_DP')->toArray() : [];
+        
+        return response()->json(['success' => true, 'detalle_pago_ids' => $idArray]);
+    }
 
     public function obtieneExpensa(Request $request) 
     {       
@@ -213,6 +235,15 @@ class NotaCobroManualController extends Controller
             $facturaDetalle->usuario_registro = auth()->id();
             $facturaDetalle->fecha_registro = $fechaRegistro;
             $facturaDetalle->save();
+
+            //Actualiza Detalle Pago Factura cuando es Mora
+            if ($request->tipo == 'MOR'){
+                $idDetallePagoArray = json_decode($request->id_detalle_pago_factura, true);
+                if (is_array($idDetallePagoArray) && !empty($idDetallePagoArray)) {
+                    //Actualiza a Estado Registrado el/los registros de Detalle Pago de Factura
+                    DetallePagoFactura::whereIn('id', $idDetallePagoArray)->update(['estado' => 3]);
+                }
+            }
         } else if($request->tipo == 'EX' && $request->codigo == 'SIN/CODIGO'){
             $factura = New Factura();
             $factura->aeropuerto = $request->aeropuerto;

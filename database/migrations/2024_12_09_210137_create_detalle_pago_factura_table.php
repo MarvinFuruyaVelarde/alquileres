@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('numero_registro_cobro')->nullable();
             $table->text('observacion')->nullable();
             $table->string('cobro_mora', 1)->nullable();
+            $table->integer('estado')->nullable();
             $table->foreign('id_factura')->references('id')->on('factura');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
