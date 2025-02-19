@@ -62,7 +62,7 @@ class NotaCobroManualController extends Controller
                 ->join('detalle_pago_factura as dp', 'dp.id_factura', '=', 'f.id')
                 ->where('dp.cobro_mora', 'S')
                 ->where('c.codigo', $codigoContrato)
-                ->whereIn('f.tipo_factura', ['AL', 'OTR'])
+                ->where('f.tipo_factura', 'AL')
                 ->whereNull('dp.estado')
                 ->groupBy('f.id')
                 ->select('f.id', 'f.numero_factura', 'f.mes', 'f.gestion', DB::raw('SUM(dp.mora) as monto'))
