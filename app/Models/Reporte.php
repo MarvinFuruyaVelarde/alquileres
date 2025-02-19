@@ -87,4 +87,11 @@ class Reporte extends Model
     {
         return DB::select('SELECT cod_aeropuerto, cliente, ci, nit, gestion, mes, fecha_nota_cobro, numero_nota_cobro, fecha_emision_factura, numero_factura, tipo, monto_facturado, monto_pagado, saldo, fecha_pago FROM reporte_cuenta_por_cobrar(?, ?, ?, ?)', [$aeropuerto, $cliente, $fechaInicial, $fechaFinal]);
     }
+
+    // Obtiene Reporte de Mora
+    public static function reporteMora($aeropuerto = null, $cliente = null )
+    {
+        return DB::select('SELECT codigo, cliente, tipo_factura, numero_factura, fecha_max_pago, fecha_actual, dia_mora, monto_a_pagar, monto_pagado, saldo, mora FROM reporte_mora(?, ?)', [$aeropuerto, $cliente]);
+    }
+
 }

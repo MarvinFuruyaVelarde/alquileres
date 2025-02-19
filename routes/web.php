@@ -283,8 +283,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('reporteingresodeudas/pdf',[App\Http\Controllers\ReporteIngresoDeudaController::class,'show'])->name('reporteingresodeudas.show');
     Route::get('reporteingresodeudas/xls',[App\Http\Controllers\ReporteIngresoDeudaController::class,'export'])->name('reporteingresodeudas.export');
 
-    Route::get('reportemora',[App\Http\Controllers\ReporteIngresoDeudaController::class,'index'])->name('reportemora.index')->middleware('permission:reportemora.index');
-    /*Route::get('reporteingresodeudas/obtieneReporte',[App\Http\Controllers\ReporteIngresoDeudaController::class,'obtieneReporte'])->name('reporteingresodeudas.obtieneReporte');
-    Route::get('reporteingresodeudas/pdf',[App\Http\Controllers\ReporteIngresoDeudaController::class,'show'])->name('reporteingresodeudas.show');
-    Route::get('reporteingresodeudas/xls',[App\Http\Controllers\ReporteIngresoDeudaController::class,'export'])->name('reporteingresodeudas.export');*/
+    Route::get('reportemora',[App\Http\Controllers\ReporteMoraController::class,'index'])->name('reportemora.index')->middleware('permission:reportemora.index');
+    Route::get('reportemora/obtieneReporte',[App\Http\Controllers\ReporteMoraController::class,'obtieneReporte'])->name('reportemora.obtieneReporte');
+    Route::get('reportemora/pdf',[App\Http\Controllers\ReporteMoraController::class,'show'])->name('reportemora.show');
+    Route::get('reportemora/xls',[App\Http\Controllers\ReporteMoraController::class,'export'])->name('reportemora.export');
 });
