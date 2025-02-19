@@ -26,8 +26,22 @@ use RealRashid\SweetAlert\Facades\Alert;
 class NotaCobroManualController extends Controller
 {
     public function index()
-    {
-        $notasCobroManual = View_NotaCobraManual::where('id','>',0)->get();
+    {   
+        if(auth()->user()->id==1){
+            $notasCobroManual = View_NotaCobraManual::where('id','>',0)->get();
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $notasCobroManual = View_NotaCobraManual::where('id','>',0)->whereIn('regional',$array)->orderBy('id', 'asc')->get();
+        }
+        
         return view('facturacion.notascobromanual.index', compact('notasCobroManual'));
     }
 
