@@ -54,6 +54,9 @@ class ReporteRegistroPagoExport implements FromCollection, WithHeadings, WithTit
                 'pagado' => $registropago->pagado ?? '',
                 'saldo' => $registropago->saldo ?? '',
                 'fecha_pago' => $registropago->fecha_pago ?? '',
+                'numero_registro_deposito' => $registropago->numero_registro_deposito ?? '',
+                'numero_registro_cobro' => $registropago->numero_registro_cobro ?? '',
+                'observacion' => $registropago->observacion ?? '',
             ];
         });
     }
@@ -78,6 +81,9 @@ class ReporteRegistroPagoExport implements FromCollection, WithHeadings, WithTit
             'PAGADO (BS.)',
             'SALDO (BS.)',
             'FECHA DE PAGO',
+            'NRO. REG. DEP/CHQ/TRANS',
+            'NRO. RECIBO COBRO',
+            'OBSERVACIÓN',
         ];
     }
 
@@ -101,7 +107,7 @@ class ReporteRegistroPagoExport implements FromCollection, WithHeadings, WithTit
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nREPORTE DE REGISTRO DE PAGOS";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:N1');
+                $sheet->mergeCells('A1:Q1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -116,7 +122,7 @@ class ReporteRegistroPagoExport implements FromCollection, WithHeadings, WithTit
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'N') as $columnID) {
+                foreach (range('A', 'Q') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -126,7 +132,7 @@ class ReporteRegistroPagoExport implements FromCollection, WithHeadings, WithTit
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:N2';
+                $headerRange = 'A2:Q2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -161,6 +167,9 @@ class ReporteRegistroPagoExport implements FromCollection, WithHeadings, WithTit
                     'L' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna PAGADO (BS.)
                     'M' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna SALDO (BS.)
                     'N' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna FECHA DE PAGO
+                    'O' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NRO. REG.DEP/CHQ/TRANS
+                    'P' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NRO. RECIBO COBRO
+                    'Q' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna OBSERVACIÓN
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

@@ -25,7 +25,7 @@ class Reporte extends Model
     // Obtiene Reporte de Detalle Espacios
     public static function reporteDetalleEspacio($aeropuerto = null, $cliente = null, $totalCanonMensual = null, $estado = null)
     {
-        return DB::select('SELECT cod_aeropuerto, cliente, objeto_contrato, ubicacion, superficie, desc_unidad_medida, precio_unitario, total_canonmensual, fecha_inicial, fecha_final, codigo_contrato, estado FROM reporte_detalle_espacio(?, ?, ?, ?)', [$aeropuerto, $cliente, $totalCanonMensual, $estado]);
+        return DB::select('SELECT cod_aeropuerto, cliente, objeto_contrato, ubicacion, superficie, desc_unidad_medida, precio_unitario, total_canonmensual, fecha_inicial, fecha_final, codigo_contrato, garantia, forma_pago , expensas , estado FROM reporte_detalle_espacio(?, ?, ?, ?)', [$aeropuerto, $cliente, $totalCanonMensual, $estado]);
     }
 
     // Obtiene Reporte de Facturas
@@ -43,7 +43,7 @@ class Reporte extends Model
     // Obtiene Reporte de Registro de Pagos
     public static function reporteRegistroPago($aeropuerto = null, $cliente = null, $gestion = null, $mes = null)
     {
-        return DB::select('SELECT cliente, aeropuerto, ci, nit, gestion, mes_literal, fecha_nota_cobro, numero_nota_cobro, fecha_emision_factura, numero_factura, tipo, monto_factura, pagado, saldo, fecha_pago FROM reporte_registro_pago(?, ?, ?, ?)', [$aeropuerto, $cliente, $gestion, $mes]);
+        return DB::select('SELECT cliente, aeropuerto, ci, nit, gestion, mes_literal, fecha_nota_cobro, numero_nota_cobro, fecha_emision_factura, numero_factura, tipo, monto_factura, pagado, saldo, fecha_pago, numero_registro_deposito, numero_registro_cobro, observacion FROM reporte_registro_pago(?, ?, ?, ?)', [$aeropuerto, $cliente, $gestion, $mes]);
     }
 
     // Obtiene Reporte de Tipo de Espacios

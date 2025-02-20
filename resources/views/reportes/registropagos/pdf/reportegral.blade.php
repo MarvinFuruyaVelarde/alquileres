@@ -41,6 +41,9 @@
             <th>PAGADO (BS.)</th>
             <th>SALDO (BS.)</th>
             <th>FECHA DE PAGO</th>
+            <th>NRO. REG. DEP/CHQ/TRANS</th>
+            <th>NRO. RECIBO COBRO</th>
+            <th>OBSERVACIÓN</th>
         </tr>
     </thead>
 
@@ -61,6 +64,9 @@
             <td style="text-align:center;">{{ $registropago->pagado }}</td>
             <td style="text-align:center;">{{ $registropago->saldo }}</td>
             <td style="text-align:center;">{{ $registropago->fecha_pago }}</td>
+            <td style="text-align:center;">{{ $registropago->numero_registro_deposito }}</td>
+            <td style="text-align:center;">{{ $registropago->numero_registro_cobro }}</td>
+            <td style="text-align:center;">{{ $registropago->observacion }}</td>
         </tr>
         @endforeach
     </tbody>

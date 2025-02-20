@@ -56,6 +56,9 @@ class ReporteDetalleEspacioExport implements FromCollection, WithHeadings, WithT
                 'fecha_inicial' => $detalleEspacio->fecha_inicial ?? '',
                 'fecha_final' => $detalleEspacio->fecha_final ?? '',
                 'codigo_contrato' => $detalleEspacio->codigo_contrato ?? '',
+                'garantia' => $detalleEspacio->garantia ?? '',
+                'forma_pago' => $detalleEspacio->forma_pago ?? '',
+                'expensas' => $detalleEspacio->expensas ?? '',
                 'estado' => $detalleEspacio->estado ?? '',
             ];
         });
@@ -78,6 +81,9 @@ class ReporteDetalleEspacioExport implements FromCollection, WithHeadings, WithT
             'FECHA INICIAL',
             'FECHA FINAL',
             'CODIGO CONTRATO',
+            'GARANTIA',
+            'FORMA PAGO',
+            'EXPENSAS',
             'ESTADO',
         ];
     }
@@ -102,7 +108,7 @@ class ReporteDetalleEspacioExport implements FromCollection, WithHeadings, WithT
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nREPORTE DE DETALLE DE ESPACIOS";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:L1');
+                $sheet->mergeCells('A1:O1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -117,7 +123,7 @@ class ReporteDetalleEspacioExport implements FromCollection, WithHeadings, WithT
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'L') as $columnID) {
+                foreach (range('A', 'O') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -127,7 +133,7 @@ class ReporteDetalleEspacioExport implements FromCollection, WithHeadings, WithT
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:L2';
+                $headerRange = 'A2:O2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -159,7 +165,10 @@ class ReporteDetalleEspacioExport implements FromCollection, WithHeadings, WithT
                     'I' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
                     'J' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna TELÉFONO/CELULAR
                     'K' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CORREO
-                    'L' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
+                    'L' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna GARANTIA
+                    'M' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna FORMA PAGO
+                    'N' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna EXPENSAS
+                    'O' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

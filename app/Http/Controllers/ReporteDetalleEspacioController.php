@@ -37,7 +37,7 @@ class ReporteDetalleEspacioController extends Controller
     {
         $pdf = App::make('dompdf.wrapper');
         $detalleEspacios = Reporte::reporteDetalleEspacio($request->query('aeropuerto'), $request->query('cliente'), $request->query('totalCanonMensual'), $request->query('estado'));
-        $pdf->loadView('reportes.detalleespacios.pdf.reportegral',compact('detalleEspacios'))->setPaper('legal', 'landscape');
+        $pdf->loadView('reportes.detalleespacios.pdf.reportegral',compact('detalleEspacios'))->setPaper('a3', 'landscape');
         return $pdf->stream();
     }
 

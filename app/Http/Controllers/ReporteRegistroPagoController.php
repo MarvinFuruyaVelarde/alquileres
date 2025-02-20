@@ -43,7 +43,7 @@ class ReporteRegistroPagoController extends Controller
     {
         $pdf = App::make('dompdf.wrapper');
         $registropagos = Reporte::reporteRegistroPago($request->query('aeropuerto'), $request->query('cliente'), $request->query('gestion'), $request->query('mes'));
-        $pdf->loadView('reportes.registropagos.pdf.reportegral',compact('registropagos'))->setPaper('legal', 'landscape');
+        $pdf->loadView('reportes.registropagos.pdf.reportegral',compact('registropagos'))->setPaper('a3', 'landscape');
         return $pdf->stream();
     }
 

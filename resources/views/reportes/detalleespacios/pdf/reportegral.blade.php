@@ -38,6 +38,9 @@
             <th>FECHA INICIAL</th>
             <th>FECHA FINAL</th>
             <th>CODIGO CONTRATO</th>
+            <th>GARANTIA</th>
+            <th>FORMA PAGO</th>
+            <th>EXPENSAS</th>
             <th>ESTADO</th>
         </tr>
     </thead>
@@ -56,6 +59,9 @@
             <td style="text-align:center;">{{ $detalleEspacio->fecha_inicial }}</td>
             <td style="text-align:center;">{{ $detalleEspacio->fecha_final }}</td>
             <td style="text-align:center;">{{ $detalleEspacio->codigo_contrato }}</td>
+            <td style="text-align:center;">{{ $detalleEspacio->garantia }}</td>
+            <td style="text-align:center;">{{ $detalleEspacio->forma_pago }}</td>
+            <td style="text-align:center;">{{ $detalleEspacio->expensas }}</td>
             <td style="text-align:center;">{{ $detalleEspacio->estado }}</td>
         </tr>
         @endforeach

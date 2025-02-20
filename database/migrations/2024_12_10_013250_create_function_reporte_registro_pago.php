@@ -17,7 +17,7 @@ return new class extends Migration
 	p_cliente integer DEFAULT NULL::integer,
 	p_gestion integer DEFAULT NULL::integer,
 	p_mes integer DEFAULT NULL::integer)
-    RETURNS TABLE(cliente character varying, aeropuerto character varying, ci character varying, nit character varying, gestion integer, mes_literal text, fecha_nota_cobro date, numero_nota_cobro integer, fecha_emision_factura date, numero_factura bigint, tipo character varying, monto_factura numeric, pagado numeric, saldo numeric, fecha_pago date) 
+    RETURNS TABLE(cliente character varying, aeropuerto character varying, ci character varying, nit character varying, gestion integer, mes_literal text, fecha_nota_cobro date, numero_nota_cobro integer, fecha_emision_factura date, numero_factura bigint, tipo character varying, monto_factura numeric, pagado numeric, saldo numeric, fecha_pago date, numero_registro_deposito bigint, numero_registro_cobro integer, observacion text) 
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE PARALLEL UNSAFE
@@ -41,7 +41,10 @@ BEGIN
         F.MONTO_TOTAL AS monto_factura,
         D.A_PAGAR AS pagado,
         D.SALDO,
-        D.FECHA_PAGO
+        D.FECHA_PAGO,
+	   	D.NUMERO_REGISTRO_DEPOSITO,
+	   	D.NUMERO_REGISTRO_COBRO,
+	   	D.OBSERVACION
     FROM FACTURA F
     INNER JOIN DETALLE_PAGO_FACTURA D ON D.ID_FACTURA = F.ID
     INNER JOIN CLIENTE CL ON CL.ID = F.CLIENTE
