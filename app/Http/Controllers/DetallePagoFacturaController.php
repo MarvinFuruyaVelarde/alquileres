@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\Cuenta;
 use App\Models\DetallePagoFactura;
 use App\Models\Factura;
+use App\Models\UsuarioRegional;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -15,7 +16,20 @@ class DetallePagoFacturaController extends Controller
 {
     public function index()
     {
-        $facturas = Factura::where('estado', 8)->orderBy('id', 'desc')->get();
+        if(auth()->user()->id==1){
+            $facturas = Factura::where('estado', 8)->orderBy('id', 'desc')->get();
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $facturas = Factura::join('aeropuerto as a', 'a.id', '=', 'factura.aeropuerto')->where('factura.estado', 8)->whereIn('a.regional', [$array])->orderByDesc('factura.id')->select('factura.*', 'a.*')->get();
+        }
         return view('registro_pagos.index', compact('facturas')); 
     }
     public function create(Factura $factura)
