@@ -37,11 +37,13 @@ class ReporteFacturaExport implements FromCollection, WithHeadings, WithTitle, W
         // Usar map para agregar el atributo ci_nit
         return $facturas->map(function ($factura) {
             return [
+                'codigo' => $factura->codigo ?? '',
                 'razon_social' => $factura->razon_social ?? '',
                 'gestion' => $factura->gestion ?? '',
                 'mes' => $factura->mes_literal ?? '',
                 'numero_nota_cobro' => $factura->numero_nota_cobro ?? '',
                 'numero_factura' => $factura->numero_factura ?? '',
+                'monto_total' => $factura->monto_total ?? '',
             ];
         });
     }
@@ -52,11 +54,13 @@ class ReporteFacturaExport implements FromCollection, WithHeadings, WithTitle, W
     public function headings(): array
     {
         return [
+            'AEROPUERTO',
             'CLIENTE',
             'GESTIÓN',
             'MES',
             'NÚMERO NOTA DE COBRO',
             'NÚMERO DE FACTURA',
+            'MONTO TOTAL (BS)',
         ];
     }
 
@@ -80,7 +84,7 @@ class ReporteFacturaExport implements FromCollection, WithHeadings, WithTitle, W
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nREPORTE DE FACTURAS/NOTAS DE COBRO";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:E1');
+                $sheet->mergeCells('A1:G1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -95,7 +99,7 @@ class ReporteFacturaExport implements FromCollection, WithHeadings, WithTitle, W
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'E') as $columnID) {
+                foreach (range('A', 'G') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -105,7 +109,7 @@ class ReporteFacturaExport implements FromCollection, WithHeadings, WithTitle, W
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:E2';
+                $headerRange = 'A2:G2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -126,11 +130,13 @@ class ReporteFacturaExport implements FromCollection, WithHeadings, WithTitle, W
 
                 // Aplicar estilos a las columnas
                 $columns = [
-                    'A' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CLIENTE
-                    'B' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna GESTION
-                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna MES
-                    'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NÚMERO NOTA DE COBRO
-                    'E' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NÚMERO DE FACTURA
+                    'A' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna COD. AEROPUERTO
+                    'B' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CLIENTE
+                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna GESTION
+                    'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna MES
+                    'E' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NÚMERO NOTA DE COBRO
+                    'F' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NÚMERO DE FACTURA
+                    'G' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna MONTO TOTAL
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

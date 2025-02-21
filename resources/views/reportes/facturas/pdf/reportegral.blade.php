@@ -27,22 +27,26 @@
 <table  style="width:100%; font-size:10">
     <thead>
         <tr style="background: darkgray; text-align: center;">
+            <th>AEROPUERTO</th>
             <th>CLIENTE</th>
             <th>GESTIÓN</th>
             <th>MES</th>
             <th>NÚMERO NOTA DE COBRO</th>
             <th>NÚMERO DE FACTURA</th>
+            <th>MONTO TOTAL (BS)</th>
         </tr>
     </thead>
 
     <tbody>
         @foreach($facturas as $factura)
         <tr>
+            <td style="text-align:center;">{{ $factura->codigo }}</td>
             <td style="text-align:center;">{{ $factura->razon_social }}</td>
             <td style="text-align:center;">{{ $factura->gestion }}</td>
             <td style="text-align:center;">{{ $factura->mes_literal }}</td>
             <td style="text-align:center;">{{ $factura->numero_nota_cobro }}</td>
             <td style="text-align:center;">{{ $factura->numero_factura }}</td>
+            <td style="text-align:center;">{{ $factura->monto_total }}</td>
         </tr>
         @endforeach
     </tbody>

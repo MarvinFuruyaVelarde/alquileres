@@ -31,7 +31,7 @@ class Reporte extends Model
     // Obtiene Reporte de Facturas
     public static function reporteFactura($gestion = null, $mes = null)
     {
-        return DB::select('SELECT razon_social, gestion, mes_literal, numero_nota_cobro, numero_factura FROM reporte_factura(?, ?)', [$gestion, $mes]);
+        return DB::select('SELECT codigo, razon_social, gestion, mes_literal, numero_nota_cobro, numero_factura, monto_total FROM reporte_factura(?, ?)', [$gestion, $mes]);
     }
 
     // Obtiene Reporte de Garantias

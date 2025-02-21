@@ -12,33 +12,36 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement("
-       CREATE OR REPLACE FUNCTION public.reporte_factura(
-	p_gestion integer DEFAULT NULL::integer,
-	p_mes integer DEFAULT NULL::integer)
-    RETURNS TABLE(cliente integer, razon_social character varying, mes integer, mes_literal text, gestion integer, numero_nota_cobro integer, numero_factura bigint) 
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE PARALLEL UNSAFE
-    ROWS 1000
+        CREATE OR REPLACE FUNCTION public.reporte_factura(
+            p_gestion integer DEFAULT NULL::integer,
+            p_mes integer DEFAULT NULL::integer)
+            RETURNS TABLE(codigo character varying, cliente integer, razon_social character varying, mes integer, mes_literal text, gestion integer, numero_nota_cobro integer, numero_factura bigint, monto_total numeric) 
+            LANGUAGE 'plpgsql'
+            COST 100
+            VOLATILE PARALLEL UNSAFE
+            ROWS 1000
 
-AS $$
-BEGIN
-    RETURN QUERY
-    SELECT F.CLIENTE,
-           CL.RAZON_SOCIAL,
-           F.MES,
-			UPPER(TO_CHAR(TO_DATE(F.MES::TEXT, 'MM'), 'TMMonth')) AS MES_LITERAL,
-           F.GESTION,
-           F.ORDEN_IMPRESION AS NUMERO_NOTA_COBRO,
-           F.NUMERO_FACTURA
-      FROM FACTURA F
-     INNER JOIN CLIENTE CL ON CL.ID = F.CLIENTE
-     WHERE (p_gestion IS NULL OR F.GESTION = p_gestion)
-       AND (p_mes IS NULL OR F.MES = p_mes)
-     ORDER BY CL.RAZON_SOCIAL;
-END;
-$$;
-    ");
+        AS $$
+        BEGIN
+            RETURN QUERY
+            SELECT A.CODIGO,
+                F.CLIENTE,
+                CL.RAZON_SOCIAL,
+                F.MES,
+                    UPPER(TO_CHAR(TO_DATE(F.MES::TEXT, 'MM'), 'TMMonth')) AS MES_LITERAL,
+                F.GESTION,
+                F.ORDEN_IMPRESION AS NUMERO_NOTA_COBRO,
+                F.NUMERO_FACTURA,
+                F.MONTO_TOTAL
+            FROM FACTURA F
+            INNER JOIN CLIENTE CL ON CL.ID = F.CLIENTE
+            INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO
+            WHERE (p_gestion IS NULL OR F.GESTION = p_gestion)
+            AND (p_mes IS NULL OR F.MES = p_mes)
+            ORDER BY CL.RAZON_SOCIAL;
+        END;
+        $$;
+        ");
     }
 
     /**

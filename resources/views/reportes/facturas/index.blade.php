@@ -70,11 +70,13 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>                                    
+                                        <th class="text-center">AEROPUERTO</th>
                                         <th class="text-center">CLIENTE</th>
                                         <th class="text-center">GESTIÓN</th>
                                         <th class="text-center">MES</th>
                                         <th class="text-center">NÚMERO NOTA DE COBRO</th>                                        
                                         <th class="text-center">NÚMERO DE FACTURA</th>
+                                        <th class="text-center">MONTO TOTAL (BS)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="dato">
@@ -136,11 +138,13 @@
                 data.forEach(function(item) {
                     grillaHtml += `
                         <tr>    
-                            <td class="text-center col-5">${item.razon_social || ''}</td>
-                            <td class="text-center col-1">${item.gestion || ''}</td>
-                            <td class="text-center col-2">${item.mes_literal || ''}</td>
-                            <td class="text-center col-2">${item.numero_nota_cobro || ''}</td>
-                            <td class="text-center col-2">${item.numero_factura || ''}</td>
+                            <td class="text-center">${item.codigo || ''}</td>
+                            <td class="text-center">${item.razon_social || ''}</td>
+                            <td class="text-center">${item.gestion || ''}</td>
+                            <td class="text-center">${item.mes_literal || ''}</td>
+                            <td class="text-center">${item.numero_nota_cobro || ''}</td>
+                            <td class="text-center">${item.numero_factura || ''}</td>
+                            <td class="text-center">${item.monto_total || ''}</td>
                         </tr>
                     `;
                 });
