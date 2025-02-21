@@ -15,7 +15,7 @@ return new class extends Migration
         CREATE OR REPLACE FUNCTION public.reporte_factura(
             p_gestion integer DEFAULT NULL::integer,
             p_mes integer DEFAULT NULL::integer)
-            RETURNS TABLE(codigo character varying, cliente integer, razon_social character varying, mes integer, mes_literal text, gestion integer, numero_nota_cobro integer, numero_factura bigint, monto_total numeric) 
+            RETURNS TABLE(codigo character varying, cliente integer, razon_social character varying, mes integer, mes_literal text, gestion integer, numero_nota_cobro integer, tipo_factura character varying, numero_factura bigint, monto_total numeric, estado character varying) 
             LANGUAGE 'plpgsql'
             COST 100
             VOLATILE PARALLEL UNSAFE
@@ -31,11 +31,15 @@ return new class extends Migration
                     UPPER(TO_CHAR(TO_DATE(F.MES::TEXT, 'MM'), 'TMMonth')) AS MES_LITERAL,
                 F.GESTION,
                 F.ORDEN_IMPRESION AS NUMERO_NOTA_COBRO,
+                F.TIPO_FACTURA,
                 F.NUMERO_FACTURA,
-                F.MONTO_TOTAL
+                F.MONTO_TOTAL,
+                E.DESCRIPCION AS ESTADO
             FROM FACTURA F
             INNER JOIN CLIENTE CL ON CL.ID = F.CLIENTE
             INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO
+            INNER JOIN ESTADO E ON E.ID = F.ESTADO
+            WHERE F.ESTADO IN (7,8)
             WHERE (p_gestion IS NULL OR F.GESTION = p_gestion)
             AND (p_mes IS NULL OR F.MES = p_mes)
             ORDER BY CL.RAZON_SOCIAL;

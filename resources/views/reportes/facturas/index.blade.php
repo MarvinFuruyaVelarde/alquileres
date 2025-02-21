@@ -75,8 +75,10 @@
                                         <th class="text-center">GESTIÓN</th>
                                         <th class="text-center">MES</th>
                                         <th class="text-center">NÚMERO NOTA DE COBRO</th>                                        
+                                        <th class="text-center">TIPO FACTURA</th>
                                         <th class="text-center">NÚMERO DE FACTURA</th>
                                         <th class="text-center">MONTO TOTAL (BS)</th>
+                                        <th class="text-center">ESTADO</th>
                                     </tr>
                                 </thead>
                                 <tbody id="dato">
@@ -123,7 +125,7 @@
             } else {
                 $('#dato').html(`
                     <tr>
-                        <td colspan="5" class="text-center">No existen datos para la consulta realizada</td>
+                        <td colspan="9" class="text-center">No existen datos para la consulta realizada</td>
                     </tr>
                 `);
             }
@@ -143,15 +145,17 @@
                             <td class="text-center">${item.gestion || ''}</td>
                             <td class="text-center">${item.mes_literal || ''}</td>
                             <td class="text-center">${item.numero_nota_cobro || ''}</td>
+                            <td class="text-center">${item.tipo_factura || ''}</td>
                             <td class="text-center">${item.numero_factura || ''}</td>
                             <td class="text-center">${item.monto_total || ''}</td>
+                            <td class="text-center">${item.estado || ''}</td>
                         </tr>
                     `;
                 });
             } else {
                 grillaHtml = `
                     <tr>
-                        <td colspan="5" class="text-center">No existen datos para la consulta realizada</td>
+                        <td colspan="9" class="text-center">No existen datos para la consulta realizada</td>
                     </tr>
                 `;
             }

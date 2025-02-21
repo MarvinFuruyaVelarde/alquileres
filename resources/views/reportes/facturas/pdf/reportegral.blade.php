@@ -32,8 +32,10 @@
             <th>GESTIÓN</th>
             <th>MES</th>
             <th>NÚMERO NOTA DE COBRO</th>
+            <th>TIPO FACTURA</th>
             <th>NÚMERO DE FACTURA</th>
             <th>MONTO TOTAL (BS)</th>
+            <th>ESTADO</th>
         </tr>
     </thead>
 
@@ -45,8 +47,10 @@
             <td style="text-align:center;">{{ $factura->gestion }}</td>
             <td style="text-align:center;">{{ $factura->mes_literal }}</td>
             <td style="text-align:center;">{{ $factura->numero_nota_cobro }}</td>
+            <td style="text-align:center;">{{ $factura->tipo_factura }}</td>
             <td style="text-align:center;">{{ $factura->numero_factura }}</td>
             <td style="text-align:center;">{{ $factura->monto_total }}</td>
+            <td style="text-align:center;">{{ $factura->estado }}</td>
         </tr>
         @endforeach
     </tbody>
