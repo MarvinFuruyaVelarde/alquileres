@@ -106,6 +106,7 @@ class NotaCobroController extends Controller
                                 ->where('gestion', $anio)
                                 ->where('mes', $mes)
                                 ->where('tipo_canon', $notaCobroGenerada->tipo_canon)
+                                ->whereNull('espacio')
                                 ->exists();
 
             if (!$registroExistente) {
