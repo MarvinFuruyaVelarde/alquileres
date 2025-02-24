@@ -47,7 +47,7 @@ class GarantiaController extends Controller
         $garantia->contrato = $request->contrato;
         $garantia->a_pagar = $request->a_pagar;
         $garantia->saldo = $request->saldo_garantia - $request->a_pagar;
-        $garantia->fecha_pago = now();
+        $garantia->fecha_pago = $request->fecha_pago??now();
         $garantia->cuenta = $request->cuenta_destino;
         $garantia->numero_cuenta = $request->nro_cuenta_garantia??0;
         $garantia->fecha_deposito = $request->fecha_deposito??now();        

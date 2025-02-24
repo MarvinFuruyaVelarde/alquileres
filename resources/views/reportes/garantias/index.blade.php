@@ -60,6 +60,7 @@
                                         <th class="text-center">GARANTIA</th>
                                         <th class="text-center">PAGADO</th>
                                         <th class="text-center">SALDO</th>
+                                        <th class="text-center">FECHA DE PAGO</th>
                                         <th class="text-center">FECHA DEPOSITO</th>
                                         <th class="text-center">CUENTA</th>
                                         <th class="text-center">NRO. CUENTA</th>
@@ -129,6 +130,7 @@
                             <td class="text-center col-1">${item.garantia || ''}</td>
                             <td class="text-center col-1">${item.pagado || ''}</td>
                             <td class="text-center col-1">${item.saldo || ''}</td>
+                            <td class="text-center col-1">${item.fecha_pago || ''}</td>
                             <td class="text-center col-1">${item.fecha_deposito || ''}</td>
                             <td class="text-center col-3">${item.cuenta || ''}</td>
                             <td class="text-center col-1">${item.numero_cuenta || ''}</td>

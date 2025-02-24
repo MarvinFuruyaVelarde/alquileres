@@ -25,6 +25,7 @@ class GarantiaRequest extends FormRequest
         $rules = [
             'a_pagar' => 'required',
             'cuenta_destino' => 'required',
+            'fecha_pago' => 'required',
         ];
     
         // Condicionalmente agregar la regla para fecha_deposito
@@ -39,6 +40,7 @@ class GarantiaRequest extends FormRequest
         return [
             'a_pagar.required' => 'El ingreso del importe a pagar es obligatorio.',
             'cuenta_destino.required' => 'El ingreso de la cuenta destino es obligatorio.',
+            'fecha_pago.required' => 'El ingreso de fecha de pago es obligatorio.',
             //'fecha_deposito.required' => 'El ingreso de la fecha de deposito es obligatorio.',
         ];
     }

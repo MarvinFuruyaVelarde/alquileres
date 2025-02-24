@@ -41,6 +41,7 @@ class ReporteGarantiaExport implements FromCollection, WithHeadings, WithTitle, 
                 'garantia' => $garantia->garantia ?? '',
                 'pagado' => $garantia->pagado ?? '',
                 'saldo' => $garantia->saldo ?? '',
+                'fecha_pago' => $garantia->fecha_pago ?? '',
                 'fecha_deposito' => $garantia->fecha_deposito ?? '',
                 'cuenta' => $garantia->cuenta ?? '',
                 'numero_cuenta' => $garantia->numero_cuenta ?? '',
@@ -60,6 +61,7 @@ class ReporteGarantiaExport implements FromCollection, WithHeadings, WithTitle, 
             'GARANTIA',
             'PAGADO',
             'SALDO',
+            'FECHA DE PAGO',
             'FECHA DEPOSITO',
             'CUENTA',
             'NRO. CUENTA',
@@ -86,7 +88,7 @@ class ReporteGarantiaExport implements FromCollection, WithHeadings, WithTitle, 
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nREPORTE DE GARANTIAS";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:I1');
+                $sheet->mergeCells('A1:J1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -101,7 +103,7 @@ class ReporteGarantiaExport implements FromCollection, WithHeadings, WithTitle, 
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'I') as $columnID) {
+                foreach (range('A', 'J') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -111,7 +113,7 @@ class ReporteGarantiaExport implements FromCollection, WithHeadings, WithTitle, 
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:I2';
+                $headerRange = 'A2:J2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -138,9 +140,10 @@ class ReporteGarantiaExport implements FromCollection, WithHeadings, WithTitle, 
                     'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna GARANTIA
                     'E' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna PAGADO
                     'F' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna SALDO
-                    'G' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna FECHA DEPOSITO
-                    'H' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CUENTA
-                    'I' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NRO. CUENTA
+                    'G' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna FECHA DE PAGO
+                    'H' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna FECHA DEPOSITO
+                    'I' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CUENTA
+                    'J' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NRO. CUENTA
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

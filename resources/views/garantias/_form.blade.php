@@ -20,7 +20,7 @@
     
     <div class="col-md-5">
         <label for="cliente" class="col-form-label">Cliente </label>
-        <div class="col-md-11">
+        <div class="col-md-12">
             <input id="cliente" disabled type="text" class="form-control {{ $errors->has('cliente') ? ' error' : '' }}" name="cliente" value="{{ $cliente->razon_social }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
         </div>
     </div>
@@ -33,7 +33,7 @@
     <div class="col-md-1">
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         <label for="garantia" class="col-form-label">Garantía </label>
         <div class="col-md-11">
             <input id="garantia" disabled type="text" class="form-control {{ $errors->has('garantia') ? ' error' : '' }}" name="garantia" value="{{ old('garantia',$contrato->garantia) }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
@@ -47,9 +47,9 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <label for="saldo" class="col-form-label">Saldo (Bs.) </label>
-        <div class="col-md-11">
+        <div class="col-md-12">
             <input type='hidden' name='saldo_garantia' value='{{ old('saldo',$contrato->saldo_garantia) }}'/>
             <input id="saldo" disabled type="text" class="form-control {{ $errors->has('saldo') ? ' error' : '' }}" name="saldo" value="{{ old('saldo',$contrato->saldo_garantia) }}" autofocus onkeyup="this.value = this.value.toUpperCase();">
         </div>
@@ -76,7 +76,7 @@
 
     <div class="col-md-5">
         <label for="cuenta_destino" class="col-form-label">Cuenta Destino <span class="text-danger">(*)</span></label>
-        <div class="col-md-11">
+        <div class="col-md-12">
             <select id="cuenta_destino" class="form-control{{ $errors->has('cuenta_destino') ? ' error' : '' }}" name="cuenta_destino">
                 <option value="">Seleccionar...</option>
                 @foreach($cuentas as $cuenta)
@@ -103,17 +103,28 @@
 
     
 
-    <div class="col-md-5">
+    <div class="col-md-4">
         <label for="nro_cuenta" class="col-form-label">Numero de Cuenta </span></label>
         <div class="col-md-11">
             <input id="nro_cuenta_garantia" type='hidden' name='nro_cuenta_garantia' value=''/>
             <input id="nro_cuenta" type="text" class="form-control {{ $errors->has('nro_cuenta') ? ' error' : '' }}" name="nro_cuenta" value=" " autofocus onkeyup="this.value = this.value.toUpperCase();" disabled>
         </div>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-3">
+        <label for="fecha_pago" class="col-form-label">Fecha de Pago <span class="text-danger">(*)</span></label>
+        <div class="col-md-11">
+            <input id="fecha_pago"  type="date" class="form-control {{ $errors->has('fecha_pago') ? ' error' : '' }}" name="fecha_pago" value=" ">
+            @if ($errors->has('fecha_pago'))
+                <span class="text-danger">
+                    {{ $errors->first('fecha_pago') }}
+                </span>
+            @endif
+        </div>
+    </div>
+    <div class="col-md-3">
         <div id = 'fecha_container' style= "display: none;">
             <label for="fecha_deposito" class="col-form-label">Fecha de Deposito en Cuenta <span class="text-danger">(*)</span></label>
-            <div class="col-md-11">
+            <div class="col-md-12">
                 <input id="fecha_deposito"  type="date" class="form-control {{ $errors->has('fecha_deposito') ? ' error' : '' }}" name="fecha_deposito" value=" ">
                 @if ($errors->has('fecha_deposito'))
                     <span class="text-danger">

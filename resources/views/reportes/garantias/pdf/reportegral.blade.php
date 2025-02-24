@@ -33,6 +33,7 @@
             <th>GARANTIA</th>
             <th>PAGADO</th>
             <th>SALDO</th>
+            <th>FECHA DE PAGO</th>
             <th>FECHA DEPOSITO</th>
             <th>CUENTA</th>
             <th>NRO. CUENTA</th>
@@ -48,6 +49,7 @@
             <td style="text-align:center;">{{ $garantia->garantia }}</td>
             <td style="text-align:center;">{{ $garantia->pagado }}</td>
             <td style="text-align:center;">{{ $garantia->saldo }}</td>
+            <td style="text-align:center;">{{ $garantia->fecha_pago }}</td>
             <td style="text-align:center;">{{ $garantia->fecha_deposito }}</td>
             <td style="text-align:center;">{{ $garantia->cuenta }}</td>
             <td style="text-align:center;">{{ $garantia->numero_cuenta }}</td>
