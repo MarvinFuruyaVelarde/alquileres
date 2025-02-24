@@ -18,7 +18,7 @@ return new class extends Migration
             p_cliente integer DEFAULT NULL::integer,
             p_total_canonmensual text DEFAULT NULL::text,
             p_estado integer DEFAULT NULL::integer)
-            RETURNS TABLE(cod_aeropuerto character varying, cliente character varying, objeto_contrato character varying, ubicacion character varying, superficie numeric, desc_unidad_medida character varying, precio_unitario numeric, total_canonmensual numeric, fecha_inicial date, fecha_final date, codigo_contrato character varying, estado character varying, garantia numeric, forma_pago character varying, expensas text) 
+            RETURNS TABLE(cod_aeropuerto character varying, cliente character varying, objeto_contrato character varying, ubicacion character varying, superficie numeric, desc_unidad_medida character varying, precio_unitario numeric, total_canonmensual numeric, fecha_inicial text, fecha_final text, codigo_contrato character varying, estado character varying, garantia numeric, forma_pago character varying, expensas text) 
             LANGUAGE 'plpgsql'
             COST 100
             VOLATILE PARALLEL UNSAFE
@@ -35,8 +35,8 @@ return new class extends Migration
                 UM.DESCRIPCION AS desc_unidad_medida,
                 E.PRECIO_UNITARIO,
                 E.TOTAL_CANONMENSUAL,
-                E.FECHA_INICIAL,
-                E.FECHA_FINAL,
+                TO_CHAR(E.FECHA_INICIAL, 'DD/MM/YYYY') AS FECHA_INICIAL,
+                TO_CHAR(E.FECHA_FINAL, 'DD/MM/YYYY') AS FECHA_FINAL,
                 C.CODIGO AS codigo_contrato,
                 ES.DESCRIPCION AS estado,
                 E.GARANTIA,

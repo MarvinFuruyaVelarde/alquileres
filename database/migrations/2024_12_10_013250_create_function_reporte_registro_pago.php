@@ -17,7 +17,7 @@ return new class extends Migration
 	p_cliente integer DEFAULT NULL::integer,
 	p_gestion integer DEFAULT NULL::integer,
 	p_mes integer DEFAULT NULL::integer)
-    RETURNS TABLE(cliente character varying, aeropuerto character varying, ci character varying, nit character varying, gestion integer, mes_literal text, fecha_nota_cobro date, numero_nota_cobro integer, fecha_emision_factura date, numero_factura bigint, tipo character varying, monto_factura numeric, pagado numeric, saldo numeric, fecha_pago date, numero_registro_deposito bigint, numero_registro_cobro integer, observacion text) 
+    RETURNS TABLE(cliente character varying, aeropuerto character varying, ci character varying, nit character varying, gestion integer, mes_literal text, fecha_nota_cobro text, numero_nota_cobro integer, fecha_emision_factura text, numero_factura bigint, tipo character varying, monto_factura numeric, pagado numeric, saldo numeric, fecha_pago text, numero_registro_deposito bigint, numero_registro_cobro integer, observacion text)
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE PARALLEL UNSAFE
@@ -33,15 +33,15 @@ BEGIN
         F.NIT,
         F.GESTION,
         UPPER(TO_CHAR(TO_DATE(F.MES::TEXT, 'MM'), 'TMMonth')) AS mes_literal,
-        F.FECHA_REGISTRO::DATE AS fecha_nota_cobro,
+        TO_CHAR(F.FECHA_REGISTRO::DATE, 'DD/MM/YYYY') AS fecha_nota_cobro,
         F.ORDEN_IMPRESION AS numero_nota_cobro,
-        F.FECHA_EMISION AS fecha_emision_factura,
+        TO_CHAR(F.FECHA_EMISION, 'DD/MM/YYYY') AS fecha_emision_factura,
         F.NUMERO_FACTURA,
         F.TIPO_FACTURA AS tipo,
         F.MONTO_TOTAL AS monto_factura,
         D.A_PAGAR AS pagado,
         D.SALDO,
-        D.FECHA_PAGO,
+        TO_CHAR(D.FECHA_PAGO, 'DD/MM/YYYY') AS FECHA_PAGO,
 	   	D.NUMERO_REGISTRO_DEPOSITO,
 	   	D.NUMERO_REGISTRO_COBRO,
 	   	D.OBSERVACION

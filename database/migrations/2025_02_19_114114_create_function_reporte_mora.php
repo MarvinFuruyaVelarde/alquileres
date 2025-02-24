@@ -16,7 +16,7 @@ return new class extends Migration
         CREATE OR REPLACE FUNCTION public.reporte_mora(
             p_id_aeropuerto integer DEFAULT NULL::integer,
             p_id_cliente integer DEFAULT NULL::integer)
-            RETURNS TABLE(codigo character varying, cliente character varying, tipo_factura character varying, numero_factura bigint, fecha_max_pago date, fecha_actual date, dia_mora integer, monto_a_pagar numeric, monto_pagado numeric, saldo numeric, mora numeric) 
+            RETURNS TABLE(codigo character varying, cliente character varying, tipo_factura character varying, numero_factura bigint, fecha_max_pago text, fecha_actual date, dia_mora integer, monto_a_pagar numeric, monto_pagado numeric, saldo numeric, mora numeric) 
             LANGUAGE 'plpgsql'
             COST 100
             VOLATILE PARALLEL UNSAFE
@@ -29,7 +29,7 @@ return new class extends Migration
                 C.RAZON_SOCIAL AS CLIENTE,
                 F.TIPO_FACTURA,
                 F.NUMERO_FACTURA,
-                ((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE AS FECHA_MAX_PAGO,
+                TO_CHAR(((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE, 'DD/MM/YYY') AS FECHA_MAX_PAGO,
                 CURRENT_DATE AS FECHA_ACTUAL,
                 CURRENT_DATE - ((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE AS DIA_MORA,
                 F.MONTO_TOTAL AS MONTO_A_PAGAR,

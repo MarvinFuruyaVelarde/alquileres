@@ -17,7 +17,7 @@ return new class extends Migration
 	p_aeropuerto integer DEFAULT NULL::integer,
 	p_cliente integer DEFAULT NULL::integer,
 	p_tipo_espacio character DEFAULT NULL::bpchar)
-    RETURNS TABLE(cod_aeropuerto character varying, cliente character varying, tipo_espacio text, rubro character varying, objeto_contrato character varying, canon_mensual numeric, fecha_inicial date, fecha_final date, codigo_contrato character varying) 
+    RETURNS TABLE(cod_aeropuerto character varying, cliente character varying, tipo_espacio text, rubro character varying, objeto_contrato character varying, canon_mensual numeric, fecha_inicial text, fecha_final text, codigo_contrato character varying)
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE PARALLEL UNSAFE
@@ -36,8 +36,8 @@ BEGIN
            R.DESCRIPCION AS rubro,
            E.OBJETO_CONTRATO,
            E.TOTAL_CANONMENSUAL AS canon_mensual,
-           E.FECHA_INICIAL,
-           E.FECHA_FINAL,
+           TO_CHAR(E.FECHA_INICIAL, 'DD/MM/YYYY') AS FECHA_INICIAL,
+           TO_CHAR(E.FECHA_FINAL, 'DD/MM/YYYY') AS FECHA_FINAL,
            C.CODIGO AS codigo_contrato
       FROM ESPACIO E
      INNER JOIN CONTRATO C ON C.ID = E.CONTRATO

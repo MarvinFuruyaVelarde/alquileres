@@ -14,7 +14,7 @@ return new class extends Migration
         DB::statement("
             CREATE OR REPLACE FUNCTION public.reporte_garantia(
                 p_cliente_id integer DEFAULT NULL::integer)
-                RETURNS TABLE(id integer, cod_aeropuerto character varying, id_cliente integer, cliente character varying, codigo_contrato character varying, garantia numeric, pagado numeric, saldo numeric, fecha_pago date, fecha_deposito date, cuenta character varying, numero_cuenta bigint) 
+                RETURNS TABLE(id integer, cod_aeropuerto character varying, id_cliente integer, cliente character varying, codigo_contrato character varying, garantia numeric, pagado numeric, saldo numeric, fecha_pago text, fecha_deposito text, cuenta character varying, numero_cuenta bigint)
                 LANGUAGE 'plpgsql'
                 COST 100
                 VOLATILE PARALLEL UNSAFE
@@ -32,8 +32,8 @@ return new class extends Migration
                     C.GARANTIA,
                     G.A_PAGAR AS PAGADO,
                     G.SALDO,
-                    G.FECHA_PAGO,
-                    G.FECHA_DEPOSITO,
+                    TO_CHAR(G.FECHA_PAGO, 'DD/MM/YYYY') AS FECHA_PAGO,
+                    TO_CHAR(G.FECHA_DEPOSITO, 'DD/MM/YYYY') AS FECHA_DEPOSITO,
                     CU.DESCRIPCION AS CUENTA,
                     G.NUMERO_CUENTA
                 FROM GARANTIA G
