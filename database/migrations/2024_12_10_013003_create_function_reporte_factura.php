@@ -40,8 +40,8 @@ return new class extends Migration
             INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO
             INNER JOIN ESTADO E ON E.ID = F.ESTADO
             WHERE F.ESTADO IN (7,8)
-            WHERE (p_gestion IS NULL OR F.GESTION = p_gestion)
-            AND (p_mes IS NULL OR F.MES = p_mes)
+              AND (p_gestion IS NULL OR F.GESTION = p_gestion)
+              AND (p_mes IS NULL OR F.MES = p_mes)
             ORDER BY CL.RAZON_SOCIAL;
         END;
         $$;
