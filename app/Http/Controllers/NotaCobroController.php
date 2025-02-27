@@ -354,7 +354,7 @@ class NotaCobroController extends Controller
                     $factura->nit = $notaCobroGenerada->nit;
                 
                 $factura->tipo_canon = $notaCobroGenerada->tarifa_fija;
-                $factura->forma_pago = $notaCobroGenerada->id_forma_pago;
+                $factura->forma_pago = 1;
                 $factura->tipo_factura = 'EX';
                 $factura->cliente = $notaCobroGenerada->id_cliente;
                 $factura->razon_social_factura = $notaCobroGenerada->razon_social;
