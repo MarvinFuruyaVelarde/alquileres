@@ -231,9 +231,12 @@
         var aeropuerto = $("#aeropuerto").val();
         var periodoFacturacion = $("#fecha").val();
         var tipo = $("#tipo").val();
+        var fechaArray = periodoFacturacion.split("-");
+        var periodoFacturacionF = fechaArray[2] + "/" + fechaArray[1] + "/" + fechaArray[0];
 
-         // Llamar a la función que hace la petición AJAX con estos valores
-        generaNotaCobro(aeropuerto, periodoFacturacion, tipo);
+        // Llamar a la función que hace la petición AJAX con estos valores
+        if (confirm("¿Está seguro de realizar la generación de Notas de Cobro a Fecha " + periodoFacturacionF + "?"))
+            generaNotaCobro(aeropuerto, periodoFacturacion, tipo); 
     });
 
     function generaNotaCobro(aeropuerto, periodoFacturacion, tipo) {

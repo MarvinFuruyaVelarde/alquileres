@@ -55,6 +55,7 @@ return new class extends Migration
             AND (p_cliente IS NULL OR C.CLIENTE = p_cliente)
             AND (p_total_canonmensual IS NULL OR CAST(E.TOTAL_CANONMENSUAL AS TEXT) LIKE '%' || p_total_canonmensual || '%')
             AND (p_estado IS NULL OR E.ESTADO = p_estado)
+            AND EE.DELETED_AT IS NULL
             GROUP BY E.ID, A.CODIGO, CL.RAZON_SOCIAL, UM.DESCRIPCION, C.CODIGO, ES.DESCRIPCION, FP.DESCRIPCION;   
         END;
         $$;
