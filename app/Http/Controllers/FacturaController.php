@@ -186,14 +186,19 @@ class FacturaController extends Controller
 
             if ($tipoIdentificacion->descripcion == 'CI'){
 
-                if (!in_array($aeropuerto->sucursal, [1, 2, 24, 25]))
+                if (!in_array($aeropuerto->sucursal, [1, 2, 24, 25, 26]))
                     $tipoDocumentoIdentidad = $tipoIdentificacion->descripcion;
                 else
                     $tipoDocumentoIdentidad = 1;
 
                 $numeroDocumento = $factura->ci;
             } elseif ($tipoIdentificacion->descripcion == 'NIT'){
-                $tipoDocumentoIdentidad = $tipoIdentificacion->descripcion;
+
+                if (!in_array($aeropuerto->sucursal, [26]))
+                    $tipoDocumentoIdentidad = $tipoIdentificacion->descripcion;
+                else
+                    $tipoDocumentoIdentidad = 5;
+
                 $numeroDocumento = $factura->nit;
             }
 
