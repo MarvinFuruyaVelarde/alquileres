@@ -202,6 +202,12 @@ class FacturaController extends Controller
                 $numeroDocumento = $factura->nit;
             }
 
+            //Obtiene Codigo de Moneda
+            if (!in_array($aeropuerto->sucursal, [26]))
+                $codigoMoneda = 'BOB';
+            else
+                $codigoMoneda = 1;
+
             $montoTotalMoneda = FacturaDetalle::where('factura', $factura->id)
                                 ->sum('precio');
 
@@ -373,7 +379,7 @@ class FacturaController extends Controller
                         'complemento' => null,                                     // null
                         'fechaEmisionFactura' => 'null',                           // null
                         'metodoPago' => 1,                                         // null no tiene un metodo de pago definido el contrato (estaba con 1)
-                        'codigoMoneda' => 'BOB',                                   // BOB catalogo de moneda
+                        'codigoMoneda' => $codigoMoneda,                           // BOB catalogo de moneda
                         'tipoCambio' => 1,                                         // Si el tipo Moneda es Bolivianos, el tipo de cambio es 1.
                         'montoTotalMoneda' => $montoTotalMoneda/* - $subTotal*/,       // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
                         'montoTotal' => $montoTotal/* - $subTotal*/,                   // factura_detalle->total_canonmensual, agrupar espacios asociados a la Nota de Cobro
