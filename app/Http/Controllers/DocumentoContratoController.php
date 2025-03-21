@@ -33,7 +33,15 @@ class DocumentoContratoController extends Controller
     {
         if ($request->hasFile('documento_contrato')) {
             $file = $request->file('documento_contrato');
-            Log::info('Tamaño del archivo recibido: ' . $file->getSize() . ' bytes');
+        
+            if ($file->isValid()) {
+                $extension = $file->extension();
+                // Continuar con guardar o procesar...
+            } else {
+                return redirect()->back()->with('error', 'El archivo no es válido.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'No se subió ningún archivo.');
         }
 
         //dd('LLega');
