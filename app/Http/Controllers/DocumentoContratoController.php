@@ -11,6 +11,7 @@ use App\Models\View_DocumentoContrato;
 use App\Models\View_Espacio;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Log;
 
 class DocumentoContratoController extends Controller
 {
@@ -30,6 +31,11 @@ class DocumentoContratoController extends Controller
 
     public function update(Request $request, Contrato $contrato)
     {
+        if ($request->hasFile('documento_contrato')) {
+            $file = $request->file('documento_contrato');
+            Log::info('Tamaño del archivo recibido: ' . $file->getSize() . ' bytes');
+        }
+
         //dd('LLega');
         // Generar el nombre del archivo
         $timestamp = now()->format('YmdHis');
