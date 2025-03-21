@@ -31,7 +31,6 @@ class DocumentoContratoController extends Controller
 
     public function update(Request $request, Contrato $contrato)
     {
-        dd(getcwd());
         dd($request->all());
         if ($request->hasFile('documento_contrato')) {
             $file = $request->file('documento_contrato');
