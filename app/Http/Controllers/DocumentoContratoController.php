@@ -31,29 +31,7 @@ class DocumentoContratoController extends Controller
 
     public function update(Request $request, Contrato $contrato)
     {
-        dd($request->all());
-        if ($request->hasFile('documento_contrato')) {
-            $file = $request->file('documento_contrato');
-
-            // Log para verificar si el archivo llega
-            Log::info('Archivo recibido', ['nombre' => $file->getClientOriginalName(), 'tamaño' => $file->getSize()]);
-
-            if ($file->isValid()) {
-                $extension = $file->extension();
-
-                // Log para verificar si es válido
-                Log::info('Archivo válido', ['extension' => $extension]);
-
-                // Aquí continuarías guardando el archivo
-            } else {
-                Log::error('Archivo no válido');
-                return back()->with('error', 'El archivo no es válido.');
-            }
-        } else {
-            Log::error('No se subió ningún archivo');
-            return back()->with('error', 'No se subió ningún archivo.');
-        }
-
+        //dd($request->all());
         //dd('LLega');
         // Generar el nombre del archivo
         $timestamp = now()->format('YmdHis');
