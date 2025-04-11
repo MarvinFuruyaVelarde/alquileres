@@ -628,6 +628,7 @@ class NotaCobroController extends Controller
         $aeropuertoDescripcion = $aeropuerto->descripcion;
         $cliente = Cliente::find($factura->cliente);
         $clienteRazonSocial = $cliente->razon_social;
+        $nitCi = $factura->ci ?? $factura->nit;
         $codigoContrato = $factura->codigo_contrato;
         $mes = $factura->mes;
         $gestion = $factura->gestion;
@@ -656,6 +657,7 @@ class NotaCobroController extends Controller
             $fechaFin = Carbon::parse($facturaDetalles->fecha_final)->format('d/m/Y');
         }
         
+        $fechaRegistro = $factura->fecha_registro;
         $fechaImpresion = Carbon::now()->format('Y-m-d H:i:s');
         $numero_nota_cobro = $factura->numero_nota_cobro;
 
@@ -678,7 +680,7 @@ class NotaCobroController extends Controller
         $tipoGeneracion = $factura->tipo_generacion;
         //dd('aeropuertoDescripcion '.$aeropuertoDescripcion.' clienteRazonSocial '.$clienteRazonSocial.' fechaInicio '.$fechaInicio.' fechaFin '.$fechaFin.' fechaImpresion '.$fechaImpresion.' numero_nota_cobro '.$numero_nota_cobro.' concepto '.$concepto.' facturaDetalles '.$facturaDetalles.' monto_total '.$monto_total.' tipoFactura '.$tipoFactura.' tipoGeneracion '.$tipoGeneracion);
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('facturacion.notascobro.pdf.nota_cobro',compact('aeropuertoDescripcion', 'clienteRazonSocial', 'codigoContrato', 'fechaInicio', 'fechaFin', 'fechaImpresion', 'numero_nota_cobro', 'concepto', 'facturaDetalles', 'monto_total', 'tipoFactura', 'tipoGeneracion'));
+        $pdf->loadView('facturacion.notascobro.pdf.nota_cobro',compact('aeropuertoDescripcion', 'clienteRazonSocial', 'nitCi', 'codigoContrato', 'fechaInicio', 'fechaFin', 'fechaRegistro', 'fechaImpresion', 'numero_nota_cobro', 'concepto', 'facturaDetalles', 'monto_total', 'tipoFactura', 'tipoGeneracion'));
         return $pdf->stream();
     }
 

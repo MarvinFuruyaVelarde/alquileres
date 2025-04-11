@@ -290,6 +290,12 @@
 
     // Nota(s) de Cobro seleccionada
     document.getElementById('generar').addEventListener('click', function(event) {
+        // Evitar que el formulario se envíe si ya está en proceso
+        if (this.disabled) {
+            event.preventDefault();
+            return;
+        }
+
         // Obtener los checkboxes seleccionados
         let checkboxesSeleccionados = document.querySelectorAll('input[name="notacobro[]"]:checked');
         let notasCobroSeleccionadas = [];
@@ -301,7 +307,13 @@
         if (notasCobroSeleccionadas.length === 0) {
             event.preventDefault(); // Prevenir el comportamiento por defecto del botón
             alert('Por favor, seleccione al menos una nota de cobro para generar.');
-        } 
+        } else {
+            // Deshabilitar el botón para evitar clics múltiples
+            this.disabled = true;
+
+            // Deja que el formulario se envíe normalmente
+            this.closest('form').submit();
+        }
     });
 
     document.addEventListener('click', (event) => {

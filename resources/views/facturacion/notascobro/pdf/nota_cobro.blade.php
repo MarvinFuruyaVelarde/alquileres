@@ -36,8 +36,9 @@
                 </td>
                 
                 <td style="width: 35%; font-size: 10px; text-align: right;">
-                  <span style="font-weight: bold;">FECHA DE IMPRESIÓN: </span> {{$fechaImpresion}}
-                  <br><br><br>
+                  <span style="font-weight: bold;">FECHA DE CREACIÓN: </span> {{ \Carbon\Carbon::parse($fechaRegistro)->format('d/m/Y H:i:s') }}
+                  <span style="font-weight: bold;">FECHA DE IMPRESIÓN: </span> {{ \Carbon\Carbon::parse($fechaImpresion)->format('d/m/Y H:i:s') }}
+                  <br><br>
                   <div style="font-size: 12px;">
                     {{$numero_nota_cobro}}
                   </div>
@@ -56,6 +57,9 @@
                   </div>
                   <div style="font-size: 14px;">
                     <span style="font-weight: bold;">SEÑOR(ES): </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$clienteRazonSocial}}
+                  </div>
+                  <div style="font-size: 14px;">
+                    <span style="font-weight: bold;">NIT/CI: </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$nitCi}}
                   </div>
                   <div style="font-size: 14px;">
                     <span style="font-weight: bold;">CONTRATO: </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$codigoContrato}}
