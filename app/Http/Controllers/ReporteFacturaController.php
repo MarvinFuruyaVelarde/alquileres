@@ -66,7 +66,7 @@ class ReporteFacturaController extends Controller
             }
             $facturas = Reporte::reporteFactura($array, $request->query('gestion'), $request->query('mes'));
         }
-        
+        dd($facturas);
         $pdf->loadView('reportes.facturas.pdf.reportegral',compact('facturas'))->setPaper('legal', 'landscape');
         return $pdf->stream();
     }
