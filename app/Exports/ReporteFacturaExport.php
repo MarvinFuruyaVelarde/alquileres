@@ -14,13 +14,15 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class ReporteFacturaExport implements FromCollection, WithHeadings, WithTitle, WithEvents
 {
+    protected $regional;
     protected $gestion;
     protected $mes;
 
     // Constructor para recibir parámetros
-    public function __construct($gestion, $mes)
+    public function __construct($regional, $gestion, $mes)
     {
         //dd($aeropuerto.' '.$tipoSolicitante.' '.$cliente.' '.$ciNit.' '.$estado);
+        $this->regional = $regional;
         $this->gestion = $gestion;
         $this->mes = $mes;
     }
@@ -30,7 +32,7 @@ class ReporteFacturaExport implements FromCollection, WithHeadings, WithTitle, W
     */
     public function collection()
     {
-        $facturas = Reporte::reporteFactura($this->gestion, $this->mes);
+        $facturas = Reporte::reporteFactura($this->regional, $this->gestion, $this->mes);
         // Convertir el array en una colección
         $facturas = collect($facturas);
 

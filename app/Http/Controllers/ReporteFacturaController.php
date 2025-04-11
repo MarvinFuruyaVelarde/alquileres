@@ -51,7 +51,22 @@ class ReporteFacturaController extends Controller
     public function show(Request $request)
     {
         $pdf = App::make('dompdf.wrapper');
-        $facturas = Reporte::reporteFactura($request->query('gestion'), $request->query('mes'));
+
+        if(auth()->user()->id==1){
+            $facturas = Reporte::reporteFactura([1, 2, 3, 4], $request->query('gestion'), $request->query('mes'));
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $facturas = Reporte::reporteFactura($array, $request->query('gestion'), $request->query('mes'));
+        }
+        
         $pdf->loadView('reportes.facturas.pdf.reportegral',compact('facturas'))->setPaper('legal', 'landscape');
         return $pdf->stream();
     }
@@ -60,6 +75,20 @@ class ReporteFacturaController extends Controller
     {
         $gestion = $request->query('gestion');
         $mes = $request->query('mes');
-        return Excel::download(new ReporteFacturaExport($gestion, $mes), 'reporte_facturas_notas_cobro.xlsx');
+
+        if(auth()->user()->id==1){
+            return Excel::download(new ReporteFacturaExport([1, 2, 3, 4], $gestion, $mes), 'reporte_facturas_notas_cobro.xlsx');
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            return Excel::download(new ReporteFacturaExport($array, $gestion, $mes), 'reporte_facturas_notas_cobro.xlsx');
+        }
     }
 }
