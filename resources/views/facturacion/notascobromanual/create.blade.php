@@ -191,6 +191,13 @@
                   </div>
               </div>
             </div>
+
+            <div id="f_correo" class="row mb-1" style="display: none;">         
+              <div class="col-md-4">
+                  <label for="correo" class="col-form-label me-2">Correo</label>
+                  <input id="correo" type="text" class="form-control {{ $errors->has('monto') ? ' error' : '' }}" name="correo" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+              </div>
+            </div>
             <br>
 
             <div id="label_tabla"class="row mb-1" style="display: none;">
@@ -270,6 +277,7 @@
                 document.getElementById('periodo_final').value = '';
                 document.getElementById('monto').value = ''; 
                 document.getElementById('glosa_factura').value = ''; 
+                document.getElementById('f_correo').style.display = 'none';
                 document.getElementById('label_tabla').style.display = 'none';
                 document.getElementById('lista_espacio').style.display = 'none';
                 $('#listaEspacios').html('');  
@@ -447,6 +455,7 @@
                     method: 'get',
                     data: {'aeropuerto': aeropuerto, 'cliente': cliente, 'codigo': codigo, 'periodoFacturacion': periodoFacturacion},
                     success: function(response) {
+                        document.getElementById('f_correo').style.display = 'none';
                         document.getElementById('label_tabla').style.display = 'block';
                         document.getElementById('lista_espacio').style.display = 'block';
                         document.getElementById('periodo_inicial').value = '';
@@ -466,6 +475,7 @@
                   document.getElementById('monto').disabled = false;
                   document.getElementById('glosa_factura').disabled = false;
                   document.getElementById('tipo_espacio').style.display = 'block';
+                  document.getElementById('f_correo').style.display = 'block';
                   document.getElementById('label_tabla').style.display = 'none';
                   document.getElementById('lista_espacio').style.display = 'none';
                   $('#listaEspacios').html('');
@@ -478,6 +488,7 @@
                     data: {'aeropuerto': aeropuerto, 'cliente': cliente, 'codigo': codigo, 'periodoFacturacion': periodoFacturacion},
                     success: function(response) {
                         // Si aeropuerto, cliente, codigo y periodoFacturacion estan llenados y el tipo es Expensa mostramos la grilla y deshabilitamos periodo_inicial, final, monto y glosa
+                        document.getElementById('f_correo').style.display = 'none';
                         document.getElementById('label_tabla').style.display = 'block';
                         document.getElementById('lista_expensa').style.display = 'block';
                         document.getElementById('periodo_inicial').disabled = true;
@@ -500,6 +511,7 @@
                   document.getElementById('periodo_final').disabled = false;
                   document.getElementById('monto').disabled = false;
                   document.getElementById('glosa_factura').disabled = false;
+                  document.getElementById('f_correo').style.display = 'block';
                   document.getElementById('label_tabla').style.display = 'none';
                   document.getElementById('lista_expensa').style.display = 'none';
                   $('#listaExpensas').html('');
@@ -513,6 +525,17 @@
 
             if (tipoSeleccionado == 'AL')
               document.getElementById('tipo_espacio').style.display = 'block';
+            else if (tipoSeleccionado === 'MOR'){
+              if (codigo !== 'SIN/CODIGO')
+                  document.getElementById('f_correo').style.display = 'none';
+                else
+                  document.getElementById('f_correo').style.display = 'block';
+            } else if (tipoSeleccionado === 'OTR'){
+              if (codigo !== 'SIN/CODIGO')
+                  document.getElementById('f_correo').style.display = 'none';
+                else
+                  document.getElementById('f_correo').style.display = 'block';
+            }
 
             document.getElementById('label_tabla').style.display = 'none';
             document.getElementById('lista_espacio').style.display = 'none';

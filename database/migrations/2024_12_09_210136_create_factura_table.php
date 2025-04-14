@@ -49,6 +49,7 @@ return new class extends Migration
             $table->timestamp('fecha_registro');
             $table->integer('usuario_actualizacion')->nullable();
             $table->timestamp('fecha_actualizacion')->nullable();
+            $table->string('correo',50)->nullable();
             $table->foreign('aeropuerto')->references('id')->on('aeropuerto');
             $table->foreign('tipo_solicitante')->references('id')->on('tipo_solicitante');
             $table->foreign('cliente')->references('id')->on('cliente');

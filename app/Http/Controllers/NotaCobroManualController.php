@@ -216,6 +216,7 @@ class NotaCobroManualController extends Controller
             $factura->estado = 3;
             $factura->usuario_registro = auth()->id();
             $factura->fecha_registro = $fechaRegistro;
+            $factura->correo = $request->correo;
             $factura->save();
             $facturaId = $factura->id;
 
@@ -283,7 +284,8 @@ class NotaCobroManualController extends Controller
             $factura->tipo_generacion = 'M';                            
             $factura->estado = 3;                                       
             $factura->usuario_registro = auth()->id();                  
-            $factura->fecha_registro = $fechaRegistro;                 
+            $factura->fecha_registro = $fechaRegistro;   
+            $factura->correo = $request->correo;              
             $factura->save();
             $facturaId = $factura->id;
 

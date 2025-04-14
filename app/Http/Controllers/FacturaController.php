@@ -176,7 +176,7 @@ class FacturaController extends Controller
                 $emailCliente = $contrato->correo;
             } else {
                 $celularCliente = null;
-                $emailCliente = null;
+                $emailCliente = $factura->correo;
             }
 
             // Obtiene Documento Fiscal
