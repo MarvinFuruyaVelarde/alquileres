@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('fecha_pago')->nullable();
             $table->integer('cuenta')->nullable();
             $table->date('fecha_deposito')->nullable();
-            $table->bigInteger('numero_registro_deposito')->nullable();
+            $table->string('numero_registro_deposito', 50)->nullable();
             $table->integer('numero_registro_cobro')->nullable();
             $table->text('observacion')->nullable();
             $table->string('cobro_mora', 1)->nullable();

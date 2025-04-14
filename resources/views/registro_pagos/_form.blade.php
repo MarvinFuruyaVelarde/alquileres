@@ -149,8 +149,7 @@
     <div class="col-md-5">
         <label for="correo" class="col-form-label">Nro. Registro Deposito/Cheque/Transferencia: <span class="text-danger">(*)</span></label>
         <div class="col-md-11">
-            <input id="registro_deposito" type="text" class="form-control {{ $errors->has('registro_deposito') ? ' error' : '' }}" name="registro_deposito" value="{{ old('registro_deposito') }}" autofocus onkeydown="javascript: return event.keyCode === 8 ||
-                      event.keyCode === 46 ? true : !isNaN(Number(event.key))">
+            <input id="registro_deposito" type="text" class="form-control {{ $errors->has('registro_deposito') ? ' error' : '' }}" name="registro_deposito" value="{{ old('registro_deposito') }}">
             <span id="error-codigo" class="error-correo" style="color: rgb(220, 53, 69);"></span>
             @if ($errors->has('registro_deposito'))
                 <span class="text-danger">

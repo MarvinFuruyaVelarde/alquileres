@@ -13,49 +13,49 @@ return new class extends Migration
     {
         DB::statement("
             CREATE OR REPLACE FUNCTION public.reporte_registro_pago(
-	p_aeropuerto integer DEFAULT NULL::integer,
-	p_cliente integer DEFAULT NULL::integer,
-	p_gestion integer DEFAULT NULL::integer,
-	p_mes integer DEFAULT NULL::integer)
-    RETURNS TABLE(cliente character varying, aeropuerto character varying, ci character varying, nit character varying, gestion integer, mes_literal text, fecha_nota_cobro text, numero_nota_cobro integer, fecha_emision_factura text, numero_factura bigint, tipo character varying, monto_factura numeric, pagado numeric, saldo numeric, fecha_pago text, numero_registro_deposito bigint, numero_registro_cobro integer, observacion text)
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE PARALLEL UNSAFE
-    ROWS 1000
+                p_aeropuerto integer DEFAULT NULL::integer,
+                p_cliente integer DEFAULT NULL::integer,
+                p_gestion integer DEFAULT NULL::integer,
+                p_mes integer DEFAULT NULL::integer)
+                RETURNS TABLE(cliente character varying, aeropuerto character varying, ci character varying, nit character varying, gestion integer, mes_literal text, fecha_nota_cobro text, numero_nota_cobro integer, fecha_emision_factura text, numero_factura bigint, tipo character varying, monto_factura numeric, pagado numeric, saldo numeric, fecha_pago text, numero_registro_deposito character varying, numero_registro_cobro integer, observacion text)
+                LANGUAGE 'plpgsql'
+                COST 100
+                VOLATILE PARALLEL UNSAFE
+                ROWS 1000
 
-AS $$
-BEGIN
-    RETURN QUERY
-    SELECT 
-        CL.RAZON_SOCIAL AS cliente,
-        A.CODIGO AS aeropuerto,
-        F.CI,
-        F.NIT,
-        F.GESTION,
-        UPPER(TO_CHAR(TO_DATE(F.MES::TEXT, 'MM'), 'TMMonth')) AS mes_literal,
-        TO_CHAR(F.FECHA_REGISTRO::DATE, 'DD/MM/YYYY') AS fecha_nota_cobro,
-        F.ORDEN_IMPRESION AS numero_nota_cobro,
-        TO_CHAR(F.FECHA_EMISION, 'DD/MM/YYYY') AS fecha_emision_factura,
-        F.NUMERO_FACTURA,
-        F.TIPO_FACTURA AS tipo,
-        F.MONTO_TOTAL AS monto_factura,
-        D.A_PAGAR AS pagado,
-        D.SALDO,
-        TO_CHAR(D.FECHA_PAGO, 'DD/MM/YYYY') AS FECHA_PAGO,
-	   	D.NUMERO_REGISTRO_DEPOSITO,
-	   	D.NUMERO_REGISTRO_COBRO,
-	   	D.OBSERVACION
-    FROM FACTURA F
-    INNER JOIN DETALLE_PAGO_FACTURA D ON D.ID_FACTURA = F.ID
-    INNER JOIN CLIENTE CL ON CL.ID = F.CLIENTE
-    INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO
-    WHERE (p_aeropuerto IS NULL OR A.ID = p_aeropuerto)
-      AND (p_cliente IS NULL OR CL.ID = p_cliente)
-      AND (p_gestion IS NULL OR F.GESTION = p_gestion)
-      AND (p_mes IS NULL OR F.MES = p_mes)
-    ORDER BY CL.RAZON_SOCIAL ASC, D.ID DESC;
-END;
-$$;
+            AS $$
+            BEGIN
+                RETURN QUERY
+                SELECT 
+                    CL.RAZON_SOCIAL AS cliente,
+                    A.CODIGO AS aeropuerto,
+                    F.CI,
+                    F.NIT,
+                    F.GESTION,
+                    UPPER(TO_CHAR(TO_DATE(F.MES::TEXT, 'MM'), 'TMMonth')) AS mes_literal,
+                    TO_CHAR(F.FECHA_REGISTRO::DATE, 'DD/MM/YYYY') AS fecha_nota_cobro,
+                    F.ORDEN_IMPRESION AS numero_nota_cobro,
+                    TO_CHAR(F.FECHA_EMISION, 'DD/MM/YYYY') AS fecha_emision_factura,
+                    F.NUMERO_FACTURA,
+                    F.TIPO_FACTURA AS tipo,
+                    F.MONTO_TOTAL AS monto_factura,
+                    D.A_PAGAR AS pagado,
+                    D.SALDO,
+                    TO_CHAR(D.FECHA_PAGO, 'DD/MM/YYYY') AS FECHA_PAGO,
+                    D.NUMERO_REGISTRO_DEPOSITO,
+                    D.NUMERO_REGISTRO_COBRO,
+                    D.OBSERVACION
+                FROM FACTURA F
+                INNER JOIN DETALLE_PAGO_FACTURA D ON D.ID_FACTURA = F.ID
+                INNER JOIN CLIENTE CL ON CL.ID = F.CLIENTE
+                INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO
+                WHERE (p_aeropuerto IS NULL OR A.ID = p_aeropuerto)
+                AND (p_cliente IS NULL OR CL.ID = p_cliente)
+                AND (p_gestion IS NULL OR F.GESTION = p_gestion)
+                AND (p_mes IS NULL OR F.MES = p_mes)
+                ORDER BY CL.RAZON_SOCIAL ASC, D.ID DESC;
+            END;
+            $$;
         ");
     }
 
