@@ -19,7 +19,7 @@ class Reporte extends Model
     // Obtiene Reporte de Contratos
     public static function reporteContrato($aeropuerto = null, $tipoSolicitante = null, $cliente = null, $identificacion = null, $estado = null)
     {
-        return DB::select('SELECT cod_aeropuerto, cliente_nombre, representante, desc_tipo_solicitante, ci, nit, domicilio_legal, telefono_celular, correo, desc_estado FROM reporte_contrato(?, ?, ?, ?, ?)', [$aeropuerto, $tipoSolicitante, $cliente, $identificacion, $estado]);
+        return DB::select('SELECT codigo, cod_aeropuerto, cliente_nombre, representante, desc_tipo_solicitante, ci, nit, domicilio_legal, telefono_celular, correo, desc_estado, canon_total FROM reporte_contrato(?, ?, ?, ?, ?)', [$aeropuerto, $tipoSolicitante, $cliente, $identificacion, $estado]);
     }
 
     // Obtiene Reporte de Detalle Espacios

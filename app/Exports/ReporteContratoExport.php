@@ -47,8 +47,10 @@ class ReporteContratoExport implements FromCollection, WithHeadings, WithTitle, 
         // Usar map para agregar el atributo ci_nit
         return $contratos->map(function ($contrato) {
             return [
+                'codigo' => $contrato->codigo ?? '',
                 'cod_aeropuerto' => $contrato->cod_aeropuerto ?? '',
                 'cliente' => $contrato->cliente_nombre ?? '',
+                'canon_total' => $contrato->canon_total ?? '',
                 'representante' => $contrato->representante ?? '',
                 'tipo_solicitante' => $contrato->desc_tipo_solicitante ?? '',
                 'ci_nit' => $contrato->ci ?? $contrato->nit ?? '',
@@ -66,8 +68,10 @@ class ReporteContratoExport implements FromCollection, WithHeadings, WithTitle, 
     public function headings(): array
     {
         return [
+            'CODIGO',
             'COD. AEROPUERTO',
             'CLIENTE',
+            'CANON TOTAL',
             'REPRESENTANTE',
             'TIPO SOLICITANTE',
             'CI/NIT',
@@ -98,7 +102,7 @@ class ReporteContratoExport implements FromCollection, WithHeadings, WithTitle, 
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nREPORTE DE CONTRATOS";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:I1');
+                $sheet->mergeCells('A1:K1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -113,7 +117,7 @@ class ReporteContratoExport implements FromCollection, WithHeadings, WithTitle, 
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'I') as $columnID) {
+                foreach (range('A', 'K') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -123,7 +127,7 @@ class ReporteContratoExport implements FromCollection, WithHeadings, WithTitle, 
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:I2';
+                $headerRange = 'A2:K2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -144,15 +148,17 @@ class ReporteContratoExport implements FromCollection, WithHeadings, WithTitle, 
 
                 // Aplicar estilos a las columnas
                 $columns = [
-                    'A' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna COD. AEROPUERTO
-                    'B' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CLIENTE
-                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna REPRESENTANTE
-                    'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna TIPO SOLICITANTE
-                    'E' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NIT/CI
-                    'F' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna DOMICILIO LEGAL
-                    'G' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna TELÉFONO/CELULAR
-                    'H' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CORREO
-                    'I' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
+                    'A' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CODIGO
+                    'B' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna COD. AEROPUERTO
+                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CLIENTE
+                    'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CANON TOTAL
+                    'E' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna REPRESENTANTE
+                    'F' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna TIPO SOLICITANTE
+                    'G' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna NIT/CI
+                    'H' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna DOMICILIO LEGAL
+                    'I' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna TELÉFONO/CELULAR
+                    'J' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna CORREO
+                    'K' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna ESTADO
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

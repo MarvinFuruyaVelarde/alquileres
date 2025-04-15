@@ -27,8 +27,10 @@
 <table  style="width:100%; font-size:10">
     <thead>
         <tr style="background: darkgray; text-align: center;">
+            <th>CODIGO</th>
             <th>COD. AEROPUERTO</th>
             <th>CLIENTE</th>
+            <th>CANON_TOTAL</th>
             <th>REPRESENTANTE</th>
             <th>TIPO SOLICITANTE</th>
             <th>NIT/CI</th>
@@ -42,8 +44,10 @@
     <tbody>
         @foreach($contratos as $contrato)
         <tr>
+            <td style="text-align:center;">{{ $contrato->codigo }}</td>
             <td style="text-align:center;">{{ $contrato->cod_aeropuerto }}</td>
             <td style="text-align:center;">{{ $contrato->cliente_nombre }}</td>
+            <td style="text-align:center;">{{ $contrato->canon_total }}</td>
             <td style="text-align:center;">{{ $contrato->representante }}</td>
             <td style="text-align:center;">{{ $contrato->desc_tipo_solicitante }}</td>
             <td style="text-align:center;">{{ $contrato->nit ?? $contrato->ci ?? '' }}</td>

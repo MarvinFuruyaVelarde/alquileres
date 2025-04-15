@@ -117,8 +117,10 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
+                                        <th class="text-center">CODIGO</th>
                                         <th class="text-center">COD. AEROPUERTO</th>
                                         <th class="text-center">CLIENTE</th>
+                                        <th class="text-center">CANON TOTAL</th>
                                         <th class="text-center">REPRESENTANTE</th>
                                         <th class="text-center">TIPO SOLICITANTE</th>
                                         <th class="text-center">NIT/CI</th>
@@ -197,8 +199,10 @@
                 data.forEach(function(item) {
                     grillaHtml += `
                         <tr>    
+                            <td class="text-center col-3">${item.codigo || ''}</td>
                             <td class="text-center col-3">${item.cod_aeropuerto || ''}</td>
                             <td class="text-center col-3">${item.cliente_nombre || ''}</td>
+                            <td class="text-center col-3">${item.canon_total || ''}</td>
                             <td class="text-center col-3">${item.representante || ''}</td>
                             <td class="text-center col-3">${item.desc_tipo_solicitante || ''}</td>
                             <td class="text-center col-3">${item.nit || item.ci || ''}</td>
