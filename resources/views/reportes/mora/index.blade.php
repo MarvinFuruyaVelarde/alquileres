@@ -80,6 +80,7 @@
                                         <th class="text-center">MONTO PAGADO</th>
                                         <th class="text-center">SALDO</th>
                                         <th class="text-center">MORA</th>
+                                        <th class="text-center">FECHA DE PAGO</th>
                                     </tr>
                                 </thead>
                                 <tbody id="dato">
@@ -151,13 +152,14 @@
                             <td class="text-center">${item.monto_pagado || ''}</td> 
                             <td class="text-center">${item.saldo || ''}</td>
                             <td class="text-center">${item.mora || ''}</td>                          
+                            <td class="text-center">${item.fecha_pago || ''}</td>                          
                         </tr>
                     `;
                 });
             } else {
                 grillaHtml = `
                     <tr>
-                        <td colspan="10" class="text-center">No existen datos para la consulta realizada</td>
+                        <td colspan="11" class="text-center">No existen datos para la consulta realizada</td>
                     </tr>
                 `;
             }

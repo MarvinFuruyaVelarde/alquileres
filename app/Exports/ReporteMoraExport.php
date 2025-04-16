@@ -46,6 +46,7 @@ class ReporteMoraExport implements FromCollection, WithHeadings, WithTitle, With
                 'monto_pagado' => $mora->monto_pagado ?? '',
                 'saldo' => $mora->saldo ?? '',
                 'mora' => $mora->mora ?? '',                
+                'fecha_pago' => $mora->fecha_pago ?? '',                
             ];
         });
     }
@@ -66,6 +67,7 @@ class ReporteMoraExport implements FromCollection, WithHeadings, WithTitle, With
             'MONTO PAGADO',
             'SALDO',
             'MORA',
+            'FECHA DE PAGO',
         ];
     }
 
@@ -89,7 +91,7 @@ class ReporteMoraExport implements FromCollection, WithHeadings, WithTitle, With
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nREPORTE DE MORA";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:J1');
+                $sheet->mergeCells('A1:K1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -104,7 +106,7 @@ class ReporteMoraExport implements FromCollection, WithHeadings, WithTitle, With
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'J') as $columnID) {
+                foreach (range('A', 'K') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -114,7 +116,7 @@ class ReporteMoraExport implements FromCollection, WithHeadings, WithTitle, With
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:J2';
+                $headerRange = 'A2:K2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -145,6 +147,7 @@ class ReporteMoraExport implements FromCollection, WithHeadings, WithTitle, With
                     'H' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna MONTO PAGADO
                     'I' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna SALDO
                     'J' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna MORA
+                    'K' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna FECHA DE PAGO
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

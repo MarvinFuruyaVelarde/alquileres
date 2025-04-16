@@ -37,6 +37,7 @@
             <th>MONTO PAGADO</th>
             <th>SALDO</th>
             <th>MORA</th>
+            <th>FECHA_PAGO</th>
         </tr>
     </thead>
 
@@ -53,6 +54,7 @@
             <td style="text-align:center;">{{ $mora->monto_pagado }}</td>
             <td style="text-align:center;">{{ $mora->saldo }}</td>
             <td style="text-align:center;">{{ $mora->mora }}</td>
+            <td style="text-align:center;">{{ $mora->fecha_pago }}</td>
         </tr>
         @endforeach
     </tbody>
