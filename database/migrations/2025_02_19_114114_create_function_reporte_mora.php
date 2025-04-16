@@ -16,7 +16,7 @@ return new class extends Migration
         CREATE OR REPLACE FUNCTION public.reporte_mora(
             p_id_aeropuerto integer DEFAULT NULL::integer,
             p_id_cliente integer DEFAULT NULL::integer)
-            RETURNS TABLE(codigo character varying, cliente character varying, tipo_factura character varying, numero_factura bigint, fecha_max_pago text, fecha_actual date, dia_mora integer, monto_a_pagar numeric, monto_pagado numeric, saldo numeric, mora numeric, fecha_pago date) 
+            RETURNS TABLE(codigo character varying, cliente character varying, tipo_factura character varying, numero_factura bigint, fecha_max_pago text, fecha_actual date, dia_mora integer, monto_a_pagar numeric, monto_pagado numeric, saldo numeric, mora numeric, fecha_pago text) 
             LANGUAGE 'plpgsql'
             COST 100
             VOLATILE PARALLEL UNSAFE
@@ -29,15 +29,18 @@ return new class extends Migration
                 C.RAZON_SOCIAL AS CLIENTE,
                 F.TIPO_FACTURA,
                 F.NUMERO_FACTURA,
-                TO_CHAR(((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE, 'DD/MM/YYY') AS FECHA_MAX_PAGO,
+                TO_CHAR(((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE, 'DD/MM/YYYY') AS FECHA_MAX_PAGO,
                 CURRENT_DATE AS FECHA_ACTUAL,
-                CURRENT_DATE - ((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE AS DIA_MORA,
+                CASE 
+                    WHEN F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR),0) = 0 THEN GREATEST(MAX(DP.FECHA_PAGO) - ((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE, 0)   
+                    ELSE CURRENT_DATE - ((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE
+                END AS DIA_MORA,
                 F.MONTO_TOTAL AS MONTO_A_PAGAR,
                 COALESCE(SUM(DP.A_PAGAR), 0) AS MONTO_PAGADO,
                 F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR), 0) AS SALDO,
                 ROUND(((F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR), 0)) * 0.03 / 30) * (CURRENT_DATE - ((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE), 2) AS MORA,
                 CASE 
-                    WHEN F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR),0) = 0 THEN MAX(DP.FECHA_PAGO)
+                    WHEN F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR),0) = 0 THEN TO_CHAR(MAX(DP.FECHA_PAGO), 'DD/MM/YYYY')
                     ELSE NULL
                 END AS FECHA_PAGO
             FROM FACTURA F
