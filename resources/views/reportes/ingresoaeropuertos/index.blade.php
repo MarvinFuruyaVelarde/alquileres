@@ -63,6 +63,22 @@
                                     <span class="text-danger">{{ $errors->first('fecha_final') }}</span>
                                 @endif
                             </div>
+
+                            <div class="col-md-2">
+                                <label for="tipo_factura" class="col-form-label">Tipo de Factura</label>
+                                <select id="tipo_factura" class="form-control{{ $errors->has('tipo_factura') ? ' error' : '' }}" name="tipo_factura">
+                                    <option value="">Seleccionar...</option>
+                                    <option value="AL">ALQUILER</option>
+                                    <option value="EX">EXPENSA</option>
+                                    <option value="MOR">MORA</option>
+                                    <option value="OTR">OTRO</option>
+                                </select>
+                                @if ($errors->has('tipo_factura'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('tipo_factura') }}
+                                    </span>
+                                @endif
+                            </div>
                         </div>                    
             
                         <div id="reporte_contrato" class="table-responsive" style="display: none;"> 
@@ -93,7 +109,7 @@
 <script>
     $(document).ready(function() {
         // Detecta cambios en los filtros y actualiza el reporte
-        $('#aeropuerto, #fecha_inicial, #fecha_final').change(function() {
+        $('#aeropuerto, #fecha_inicial, #fecha_final, #tipo_factura').change(function() {
             actualizarReporte();
         });
 
@@ -102,13 +118,14 @@
             var aeropuerto = $('#aeropuerto').val();
             var fechaInicial = $('#fecha_inicial').val();
             var fechaFinal = $('#fecha_final').val();
+            var tipoFactura = $('#tipo_factura').val();
 
             // Verifica que al menos un campo tenga valor
-            if ((aeropuerto && (fechaInicial && fechaFinal)) || (fechaInicial && fechaFinal)) {
+            if ((aeropuerto && (fechaInicial && fechaFinal)) || (fechaInicial && fechaFinal) || tipoFactura) {
                 $.ajax({
                     url: '{{ url("reporteingresoaeropuertos/obtieneReporte/") }}',
                     method: 'get',
-                    data: {'aeropuerto': aeropuerto, 'fechaInicial': fechaInicial, 'fechaFinal': fechaFinal},
+                    data: {'aeropuerto': aeropuerto, 'fechaInicial': fechaInicial, 'fechaFinal': fechaFinal, 'tipoFactura': tipoFactura},
                     success: function(response) {
                         mostrarConsulta(response);
                     },

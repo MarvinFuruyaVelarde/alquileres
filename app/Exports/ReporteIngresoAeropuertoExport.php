@@ -17,13 +17,15 @@ class ReporteIngresoAeropuertoExport implements FromCollection, WithHeadings, Wi
     protected $aeropuerto;
     protected $fechaInicial;
     protected $fechaFinal;
+    protected $tipoFactura;
 
     // Constructor para recibir parámetros
-    public function __construct($aeropuerto, $fechaInicial, $fechaFinal)
+    public function __construct($aeropuerto, $fechaInicial, $fechaFinal, $tipoFactura)
     {
         $this->aeropuerto = $aeropuerto;
         $this->fechaInicial = $fechaInicial;
         $this->fechaFinal = $fechaFinal;
+        $this->tipoFactura = $tipoFactura;
     }
 
     /**
@@ -31,7 +33,7 @@ class ReporteIngresoAeropuertoExport implements FromCollection, WithHeadings, Wi
     */
     public function collection()
     {
-        $ingresoAeropuertos = Reporte::reporteIngresoAeropuerto($this->aeropuerto, $this->fechaInicial, $this->fechaFinal);
+        $ingresoAeropuertos = Reporte::reporteIngresoAeropuerto($this->aeropuerto, $this->fechaInicial, $this->fechaFinal, $this->tipoFactura);
         // Convertir el array en una colección
         $ingresoAeropuertos = collect($ingresoAeropuertos);
 

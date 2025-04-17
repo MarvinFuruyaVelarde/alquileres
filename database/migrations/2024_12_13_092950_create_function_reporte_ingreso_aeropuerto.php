@@ -16,7 +16,8 @@ return new class extends Migration
         CREATE OR REPLACE FUNCTION public.reporte_ingreso_aeropuerto(
             p_id_aeropuerto integer DEFAULT NULL::integer,
             p_fecha_inicial date DEFAULT NULL::date,
-            p_fecha_final date DEFAULT NULL::date)
+            p_fecha_final date DEFAULT NULL::date,
+	        p_tipo_factura varchar DEFAULT NULL::varchar)
             RETURNS TABLE(aeropuerto integer, cod_aeropuerto character varying, desc_aeropuerto character varying, total_ingreso numeric) 
             LANGUAGE 'plpgsql'
             COST 100
@@ -36,6 +37,7 @@ return new class extends Migration
             WHERE (p_id_aeropuerto IS NULL OR F.AEROPUERTO = p_id_aeropuerto)
             AND (p_fecha_inicial IS NULL OR DP.FECHA_PAGO >= p_fecha_inicial)
             AND (p_fecha_final IS NULL OR DP.FECHA_PAGO <= p_fecha_final)
+            AND (p_tipo_factura IS NULL OR F.TIPO_FACTURA = p_tipo_factura)
             GROUP BY F.AEROPUERTO, A.CODIGO, A.DESCRIPCION
             ORDER BY F.AEROPUERTO ASC;
         END;
