@@ -121,7 +121,7 @@
             var tipoFactura = $('#tipo_factura').val();
 
             // Verifica que al menos un campo tenga valor
-            if ((aeropuerto && (fechaInicial && fechaFinal)) || (fechaInicial && fechaFinal) || tipoFactura) {
+            if (aeropuerto || (fechaInicial && fechaFinal) || tipoFactura) {
                 $.ajax({
                     url: '{{ url("reporteingresoaeropuertos/obtieneReporte/") }}',
                     method: 'get',
