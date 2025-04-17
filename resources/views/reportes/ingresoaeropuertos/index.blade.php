@@ -173,13 +173,14 @@
         const aeropuerto = document.getElementById('aeropuerto').value;
         const fechaInicial = document.getElementById('fecha_inicial').value;
         const fechaFinal = document.getElementById('fecha_final').value;
+        const tipoFactura = document.getElementById('tipo_factura').value;
 
         // Crear la URL con los parámetros
         let url = tipo === 'pdf' 
             ? "{{ route('reporteingresoaeropuertos.show') }}" 
             : "{{ route('reporteingresoaeropuertos.export') }}";
 
-        url += `?aeropuerto=${aeropuerto}&fechaInicial=${fechaInicial}&fechaFinal=${fechaFinal}`;
+        url += `?aeropuerto=${aeropuerto}&fechaInicial=${fechaInicial}&fechaFinal=${fechaFinal}&tipoFactura=${tipoFactura}`;
 
         // Redirigir a la URL generada
         window.open(url, tipo === 'pdf' ? '_blank' : '_self');
