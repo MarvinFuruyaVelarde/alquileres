@@ -40,7 +40,7 @@ class ReporteContratoController extends Controller
     {
         $pdf = App::make('dompdf.wrapper');
         $contratos = Reporte::reporteContrato($request->query('aeropuerto'), $request->query('tipoSolicitante'), $request->query('cliente'), $request->query('ciNit'), $request->query('estado'));
-        $pdf->loadView('reportes.contratos.pdf.reportegral',compact('contratos'))->setPaper('legal', 'landscape');
+        $pdf->loadView('reportes.contratos.pdf.reportegral',compact('contratos'))->setPaper('a3', 'landscape');
         return $pdf->stream();
     }
 
