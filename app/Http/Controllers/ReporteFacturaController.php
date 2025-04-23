@@ -66,7 +66,8 @@ class ReporteFacturaController extends Controller
             }
             $facturas = Reporte::reporteFactura($array, $request->query('gestion'), $request->query('mes'));
         }
-        
+        ini_set('memory_limit', '512M'); // o más si es necesario
+        set_time_limit(300);
         $pdf->loadView('reportes.facturas.pdf.reportegral',compact('facturas'))->setPaper('legal', 'landscape');
         return $pdf->stream();
     }
