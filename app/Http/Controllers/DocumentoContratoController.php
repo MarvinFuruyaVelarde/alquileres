@@ -31,7 +31,7 @@ class DocumentoContratoController extends Controller
 
     public function update(Request $request, Contrato $contrato)
     {
-        //dd($request->all());
+        dd($request->all());
         //dd('LLega');
         // Generar el nombre del archivo
         $timestamp = now()->format('YmdHis');
