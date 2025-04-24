@@ -36,6 +36,8 @@ class DocumentoContratoController extends Controller
         // Generar el nombre del archivo
         $timestamp = now()->format('YmdHis');
         $name = "{$timestamp}_{$contrato->id}";
+        ini_set('memory_limit', '1024M');
+        set_time_limit(300);
         $extension = $request->file('documento_contrato')->extension();
         $nombre_documento = "{$name}.{$extension}";
 
