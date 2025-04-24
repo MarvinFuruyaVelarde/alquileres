@@ -31,6 +31,7 @@ class DocumentoContratoController extends Controller
 
     public function update(Request $request, Contrato $contrato)
     {
+        dd(ini_get('upload_max_filesize'), ini_get('post_max_size'));
         dd($request->all());
         //dd('LLega');
         // Generar el nombre del archivo
