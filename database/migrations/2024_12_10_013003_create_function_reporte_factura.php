@@ -13,6 +13,8 @@ return new class extends Migration
     {
         DB::statement("
         CREATE OR REPLACE FUNCTION public.reporte_factura(
+            p_aeropuerto integer DEFAULT NULL::integer,
+            p_cliente integer DEFAULT NULL::integer,
             p_regional integer[] DEFAULT NULL::integer[],
             p_gestion integer DEFAULT NULL::integer,
             p_mes integer DEFAULT NULL::integer)
@@ -41,6 +43,8 @@ return new class extends Migration
             INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO
             INNER JOIN ESTADO E ON E.ID = F.ESTADO
             WHERE F.ESTADO IN (7,8)
+            AND (p_aeropuerto IS NULL OR F.AEROPUERTO = p_aeropuerto)
+            AND (p_cliente IS NULL OR F.CLIENTE = p_cliente)
             AND A.REGIONAL = ANY(p_regional)
             AND (p_gestion IS NULL OR F.GESTION = p_gestion)
             AND (p_mes IS NULL OR F.MES = p_mes)

@@ -29,11 +29,11 @@ class Reporte extends Model
     }
 
     // Obtiene Reporte de Facturas
-    public static function reporteFactura(array $regional, $gestion = null, $mes = null)
+    public static function reporteFactura($aeropuerto = null, $cliente = null, array $regional, $gestion = null, $mes = null)
     {
         // Convertimos el array PHP a una cadena PostgreSQL tipo '{1,2,3}'
         $regional_pg_array = '{' . implode(',', $regional) . '}';
-        return DB::select('SELECT codigo, razon_social, gestion, mes_literal, numero_nota_cobro, tipo_factura, numero_factura, monto_total, estado FROM reporte_factura(?::integer[], ?, ?)', [$regional_pg_array, $gestion, $mes]);
+        return DB::select('SELECT codigo, razon_social, gestion, mes_literal, numero_nota_cobro, tipo_factura, numero_factura, monto_total, estado FROM reporte_factura(?, ?, ?::integer[], ?, ?)', [$aeropuerto, $cliente, $regional_pg_array, $gestion, $mes]);
     }
 
     // Obtiene Reporte de Garantias

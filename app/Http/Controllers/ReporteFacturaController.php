@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ReporteFacturaExport;
+use App\Models\Aeropuerto;
+use App\Models\Cliente;
 use App\Models\Factura;
 use App\Models\Reporte;
 use App\Models\UsuarioRegional;
@@ -15,6 +17,14 @@ class ReporteFacturaController extends Controller
 {
     public function index()
     {
+        $aeropuertos = Aeropuerto::where('estado', 1) 
+                            ->orderBy('id', 'asc')
+                            ->get();
+
+        $clientes = Cliente::where('estado', 1)
+                        ->orderBy('razon_social', 'asc')
+                        ->get();
+
         $gestiones = Factura::select('gestion')
                         ->groupBy('gestion')
                         ->orderBy('gestion', 'desc')
@@ -25,13 +35,13 @@ class ReporteFacturaController extends Controller
                                FROM generate_series(1, 12)
                               ORDER BY mes;");
         
-        return view('reportes.facturas.index', compact('gestiones', 'meses'));
+        return view('reportes.facturas.index', compact('aeropuertos', 'clientes', 'gestiones', 'meses'));
     }
 
     public function obtieneReporte(Request $request) 
     {
         if(auth()->user()->id==1){
-            $dato = Reporte::reporteFactura([1, 2, 3, 4], $request->query('gestion'), $request->query('mes'));
+            $dato = Reporte::reporteFactura($request->query('aeropuerto'), $request->query('cliente'), [1, 2, 3, 4], $request->query('gestion'), $request->query('mes'));
         } else{
             $auth_user=auth()->user();
             $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
@@ -42,7 +52,7 @@ class ReporteFacturaController extends Controller
                 $array[$cont]=$value->regional;
                 $cont++;
             }
-            $dato = Reporte::reporteFactura($array, $request->query('gestion'), $request->query('mes'));
+            $dato = Reporte::reporteFactura($request->query('aeropuerto'), $request->query('cliente'), $array, $request->query('aeropuerto'), $request->query('cliente'), $request->query('gestion'), $request->query('mes'));
         }
 
 		return $dato;

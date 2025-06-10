@@ -30,6 +30,40 @@
                     <form {{--action="{{route('notacobro.aprobarNotaCobro')}}" method="POST"--}}>
                         @csrf
                         <div class="row mb-5 align-items-center">
+
+                            <div class="col-md-4">
+                                <label for="aeropuerto" class="col-form-label">Aeropuerto</label>
+                                <select id="aeropuerto" class="form-control{{ $errors->has('aeropuerto') ? ' error' : '' }}" name="aeropuerto">
+                                    <option value="">Seleccionar...</option>
+                                    @foreach($aeropuertos as $aeropuerto)
+                                        <option value="{{ $aeropuerto->id }}">
+                                            {{ $aeropuerto->descripcion }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('aeropuerto'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('aeropuerto') }}
+                                    </span>
+                                @endif                                                         
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="cliente" class="col-form-label">Cliente</label>
+                                <select id="cliente" class="form-control{{ $errors->has('cliente') ? ' error' : '' }}" name="cliente" >
+                                    <option value="">Seleccionar...</option>
+                                    @foreach($clientes as $cliente)
+                                        <option value="{{ $cliente->id }}">
+                                            {{ $cliente->razon_social }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('cliente'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('cliente') }}
+                                    </span>
+                                @endif            
+                            </div>
                         
                             <div class="col-md-2">
                                 <label for="gestion" class="col-form-label">Gestión</label>
@@ -100,21 +134,23 @@
 <script>
     $(document).ready(function() {
         // Detecta cambios en los filtros y actualiza el reporte
-        $('#gestion, #mes').change(function() {
+        $('#aeropuerto, #cliente, #gestion, #mes').change(function() {
             actualizarReporte();
         });
 
         // Función para enviar los datos al servidor y mostrar los resultados
         function actualizarReporte() {
+            var aeropuerto = $('#aeropuerto').val();
+            var cliente = $('#cliente').val();
             var gestion = $('#gestion').val();
             var mes = $('#mes').val();
 
             // Verifica que al menos un campo tenga valor
-            if (gestion || mes) {
+            if (aeropuerto || cliente || gestion || mes) {
                 $.ajax({
                     url: '{{ url("reportefacturas/obtieneReporte/") }}',
                     method: 'get',
-                    data: {'gestion': gestion, 'mes': mes},
+                    data: {'aeropuerto': aeropuerto, 'cliente': cliente, 'gestion': gestion, 'mes': mes},
                     success: function(response) {
                         mostrarConsulta(response);
                     },
