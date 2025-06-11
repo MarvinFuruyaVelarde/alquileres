@@ -201,6 +201,8 @@
 
     function generarReporte(tipo) {
         // Capturar valores seleccionados en los campos
+        const aeropuerto = document.getElementById('aeropuerto').value;
+        const cliente = document.getElementById('cliente').value;
         const gestion = document.getElementById('gestion').value;
         const mes = document.getElementById('mes').value;
 
