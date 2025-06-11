@@ -168,6 +168,7 @@
 
     function generarReporte(tipo) {
         // Capturar valores seleccionados en los campos
+        const aeropuerto = document.getElementById('aeropuerto').value;
         const cliente = document.getElementById('cliente').value;
 
         // Crear la URL con los parámetros
@@ -175,7 +176,7 @@
             ? "{{ route('reportegarantias.show') }}" 
             : "{{ route('reportegarantias.export') }}";
 
-        url += `?cliente=${cliente}`;
+        url += `?aeropuerto=${aeropuerto}&cliente=${cliente}`;
 
         // Redirigir a la URL generada
         window.open(url, tipo === 'pdf' ? '_blank' : '_self');

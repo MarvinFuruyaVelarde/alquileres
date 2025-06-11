@@ -209,7 +209,7 @@
             ? "{{ route('reportefacturas.show') }}" 
             : "{{ route('reportefacturas.export') }}";
 
-        url += `?gestion=${gestion}&mes=${mes}`;
+        url += `?aeropuerto=${aeropuerto}&cliente=${cliente}&gestion=${gestion}&mes=${mes}`;
 
         // Redirigir a la URL generada
         window.open(url, tipo === 'pdf' ? '_blank' : '_self');
