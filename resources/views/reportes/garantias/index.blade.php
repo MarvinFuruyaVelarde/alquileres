@@ -32,6 +32,23 @@
                         <div class="row mb-5 align-items-center">
 
                             <div class="col-md-4">
+                                <label for="aeropuerto" class="col-form-label">Aeropuerto</label>
+                                <select id="aeropuerto" class="form-control{{ $errors->has('aeropuerto') ? ' error' : '' }}" name="aeropuerto">
+                                    <option value="">Seleccionar...</option>
+                                    @foreach($aeropuertos as $aeropuerto)
+                                        <option value="{{ $aeropuerto->id }}">
+                                            {{ $aeropuerto->descripcion }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('aeropuerto'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('aeropuerto') }}
+                                    </span>
+                                @endif                                                         
+                            </div>
+
+                            <div class="col-md-4">
                                 <label for="cliente" class="col-form-label">Cliente</label>
                                 <select id="cliente" class="form-control{{ $errors->has('cliente') ? ' error' : '' }}" name="cliente" >
                                     <option value="">Seleccionar...</option>
@@ -85,20 +102,21 @@
 <script>
     $(document).ready(function() {
         // Detecta cambios en los filtros y actualiza el reporte
-        $('#cliente').change(function() {
+        $('#aeropuerto, #cliente').change(function() {
             actualizarReporte();
         });
 
         // Función para enviar los datos al servidor y mostrar los resultados
         function actualizarReporte() {
+            var aeropuerto = $('#aeropuerto').val();
             var cliente = $('#cliente').val();
 
             // Verifica que al menos un campo tenga valor
-            if (cliente) {
+            if (aeropuerto || cliente) {
                 $.ajax({
                     url: '{{ url("reportegarantias/obtieneReporte/") }}',
                     method: 'get',
-                    data: {'cliente': cliente},
+                    data: {'aeropuerto': aeropuerto, 'cliente': cliente},
                     success: function(response) {
                         mostrarConsulta(response);
                     },

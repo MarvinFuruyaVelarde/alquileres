@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ReporteGarantiaExport;
+use App\Models\Aeropuerto;
 use App\Models\Cliente;
 use App\Models\Reporte;
 use Illuminate\Http\Request;
@@ -13,15 +14,19 @@ class ReporteGarantiaController extends Controller
 {
     public function index()
     {
+        $aeropuertos = Aeropuerto::where('estado', 1) 
+                            ->orderBy('id', 'asc')
+                            ->get();
+
         $clientes = Cliente::where('estado', 1)
                             ->orderBy('razon_social', 'asc')
                             ->get();
-        return view('reportes.garantias.index', compact('clientes'));
+        return view('reportes.garantias.index', compact('aeropuertos', 'clientes'));
     }
 
     public function obtieneReporte(Request $request) 
     {
-        $dato = Reporte::reporteGarantia($request->query('cliente'));
+        $dato = Reporte::reporteGarantia($request->query('aeropuerto'), $request->query('cliente'));
 		return $dato;
 	}
 

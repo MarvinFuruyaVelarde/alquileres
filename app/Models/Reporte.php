@@ -37,9 +37,9 @@ class Reporte extends Model
     }
 
     // Obtiene Reporte de Garantias
-    public static function reporteGarantia($cliente = null)
+    public static function reporteGarantia($aeropuerto = null, $cliente = null)
     {
-        return DB::select('SELECT cod_aeropuerto, cliente, codigo_contrato, garantia, pagado, saldo, fecha_pago, fecha_deposito, cuenta, numero_cuenta FROM reporte_garantia(?)', [$cliente]);
+        return DB::select('SELECT cod_aeropuerto, cliente, codigo_contrato, garantia, pagado, saldo, fecha_pago, fecha_deposito, cuenta, numero_cuenta FROM reporte_garantia(?, ?)', [$aeropuerto, $cliente]);
     }
 
     // Obtiene Reporte de Registro de Pagos

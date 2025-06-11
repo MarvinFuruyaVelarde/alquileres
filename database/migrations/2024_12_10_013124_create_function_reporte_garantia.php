@@ -13,6 +13,7 @@ return new class extends Migration
     {
         DB::statement("
             CREATE OR REPLACE FUNCTION public.reporte_garantia(
+                p_aeropuerto integer DEFAULT NULL::integer
                 p_cliente_id integer DEFAULT NULL::integer)
                 RETURNS TABLE(id integer, cod_aeropuerto character varying, id_cliente integer, cliente character varying, codigo_contrato character varying, garantia numeric, pagado numeric, saldo numeric, fecha_pago text, fecha_deposito text, cuenta character varying, numero_cuenta bigint)
                 LANGUAGE 'plpgsql'
@@ -42,6 +43,7 @@ return new class extends Migration
                 INNER JOIN AEROPUERTO A ON A.ID = C.AEROPUERTO
                 INNER JOIN CUENTA CU ON CU.ID = G.CUENTA
                 WHERE (p_cliente_id IS NULL OR CL.ID = p_cliente_id)
+                AND (p_aeropuerto IS NULL OR C.AEROPUERTO = p_aeropuerto)
                 GROUP BY G.ID, A.CODIGO, CL.ID, CL.RAZON_SOCIAL, C.CODIGO, C.GARANTIA, C.PAGO_GARANTIA, C.SALDO_GARANTIA, G.FECHA_DEPOSITO, CU.DESCRIPCION, G.NUMERO_CUENTA
                 ORDER BY CL.RAZON_SOCIAL ASC, G.ID DESC;
             END;
