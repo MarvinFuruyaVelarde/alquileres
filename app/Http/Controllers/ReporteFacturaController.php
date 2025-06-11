@@ -63,7 +63,7 @@ class ReporteFacturaController extends Controller
         $pdf = App::make('dompdf.wrapper');
 
         if(auth()->user()->id==1){
-            $facturas = Reporte::reporteFactura([1, 2, 3, 4], $request->query('gestion'), $request->query('mes'));
+            $facturas = Reporte::reporteFactura($request->query('aeropuerto'), $request->query('cliente'), [1, 2, 3, 4], $request->query('gestion'), $request->query('mes'));
         } else{
             $auth_user=auth()->user();
             $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
@@ -74,7 +74,7 @@ class ReporteFacturaController extends Controller
                 $array[$cont]=$value->regional;
                 $cont++;
             }
-            $facturas = Reporte::reporteFactura($array, $request->query('gestion'), $request->query('mes'));
+            $facturas = Reporte::reporteFactura($request->query('aeropuerto'), $request->query('cliente'), $array, $request->query('gestion'), $request->query('mes'));
         }
 
         ini_set('memory_limit', '1024M');
@@ -86,11 +86,13 @@ class ReporteFacturaController extends Controller
 
     public function export(Request $request)
     {
+        $aeropuerto = $request->query('aeropuerto');
+        $cliente = $request->query('cliente');
         $gestion = $request->query('gestion');
         $mes = $request->query('mes');
 
         if(auth()->user()->id==1){
-            return Excel::download(new ReporteFacturaExport([1, 2, 3, 4], $gestion, $mes), 'reporte_facturas_notas_cobro.xlsx');
+            return Excel::download(new ReporteFacturaExport($aeropuerto, $cliente, [1, 2, 3, 4], $gestion, $mes), 'reporte_facturas_notas_cobro.xlsx');
         } else{
             $auth_user=auth()->user();
             $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
@@ -101,7 +103,7 @@ class ReporteFacturaController extends Controller
                 $array[$cont]=$value->regional;
                 $cont++;
             }
-            return Excel::download(new ReporteFacturaExport($array, $gestion, $mes), 'reporte_facturas_notas_cobro.xlsx');
+            return Excel::download(new ReporteFacturaExport($aeropuerto, $cliente, $array, $gestion, $mes), 'reporte_facturas_notas_cobro.xlsx');
         }
     }
 }

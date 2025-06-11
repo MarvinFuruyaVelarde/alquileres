@@ -33,14 +33,15 @@ class ReporteGarantiaController extends Controller
     public function show(Request $request)
     {
         $pdf = App::make('dompdf.wrapper');
-        $garantias = Reporte::reporteGarantia($request->query('cliente'));
+        $garantias = Reporte::reporteGarantia($request->query('aeropuerto'), $request->query('cliente'));
         $pdf->loadView('reportes.garantias.pdf.reportegral',compact('garantias'))->setPaper('legal', 'landscape');
         return $pdf->stream();
     }
 
     public function export(Request $request)
     {
+        $aeropuerto = $request->query('aeropuerto');
         $cliente = $request->query('cliente');
-        return Excel::download(new ReporteGarantiaExport($cliente), 'reporte_garantias.xlsx');
+        return Excel::download(new ReporteGarantiaExport($aeropuerto, $cliente), 'reporte_garantias.xlsx');
     }
 }

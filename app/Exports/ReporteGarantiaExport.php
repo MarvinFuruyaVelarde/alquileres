@@ -14,11 +14,13 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class ReporteGarantiaExport implements FromCollection, WithHeadings, WithTitle, WithEvents
 {
+    protected $aeropuerto;
     protected $cliente;
 
     // Constructor para recibir parámetros
-    public function __construct($cliente)
+    public function __construct($aeropuerto, $cliente)
     {
+        $this->aeropuerto = $aeropuerto;
         $this->cliente = $cliente;
     }
 
@@ -28,7 +30,7 @@ class ReporteGarantiaExport implements FromCollection, WithHeadings, WithTitle, 
     */
     public function collection()
     {
-        $garantias = Reporte::reporteGarantia($this->cliente);
+        $garantias = Reporte::reporteGarantia($this->aeropuerto, $this->cliente);
         // Convertir el array en una colección
         $garantias = collect($garantias);
 
