@@ -122,7 +122,7 @@
             var periodoInicial = $('#periodo_inicial').val();
             var periodoFinal = $('#periodo_final').val();
             // Verifica que al menos un campo tenga valor
-            if (regional || aeropuerto && (periodoInicial && periodoFinal)) {
+            if ((regional || aeropuerto) && (periodoInicial && periodoFinal)) {
                 $.ajax({
                     url: '{{ url("reporteresumencontratos/obtieneReporte/") }}',
                     method: 'get',
