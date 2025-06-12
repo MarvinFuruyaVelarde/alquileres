@@ -20,7 +20,7 @@ return new class extends Migration
             p_mes_inicial integer DEFAULT NULL::integer,
             p_gestion_final integer DEFAULT NULL::integer,
             p_mes_final integer DEFAULT NULL::integer)
-            RETURNS TABLE(regional character varying, cod_aeropuerto character varying, numero_contratos bigint, total numeric, estado character varying) 
+            RETURNS TABLE(regional character varying, cod_aeropuerto character varying, numero_contratos bigint, total numeric, estado text) 
             LANGUAGE 'plpgsql'
             COST 100
             VOLATILE PARALLEL UNSAFE
@@ -30,23 +30,25 @@ return new class extends Migration
         BEGIN
             RETURN QUERY
             SELECT R.CODIGO AS regional,
-                A.CODIGO AS cod_aeropuerto,
-                COUNT(*) AS numero_contratos,
-                SUM(F.MONTO_TOTAL) AS total,
-                E.DESCRIPCION AS estado
-            FROM FACTURA F
-            INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO 
-            INNER JOIN REGIONAL R ON R.ID = A.REGIONAL
-            INNER JOIN ESTADO E ON E.ID = F.ESTADO
-            WHERE F.ESTADO = 8     
-            AND TIPO_FACTURA = 'AL'
-            AND ((p_id_regional IS NULL) OR (R.ID = p_id_regional))
-            AND ((p_id_aeropuerto IS NULL) OR (A.ID = p_id_aeropuerto))
-            AND ((F.GESTION || TO_CHAR(F.MES, 'FM00'))::INTEGER BETWEEN 
-                (p_gestion_inicial || TO_CHAR(p_mes_inicial, 'FM00'))::INTEGER AND 
-                (p_gestion_final || TO_CHAR(p_mes_final, 'FM00'))::INTEGER)
-            GROUP BY R.CODIGO, A.CODIGO, E.DESCRIPCION
-            ORDER BY R.CODIGO ASC, A.CODIGO ASC;
+                   A.CODIGO AS cod_aeropuerto,
+                   COUNT(C.ID) AS numero_contratos,
+                   SUM(COALESCE(FS.monto_total, 0)) AS total,
+                   'GENERADO' AS estado
+              FROM CONTRATO C
+			 INNER JOIN AEROPUERTO A ON A.ID = C.AEROPUERTO
+			 INNER JOIN REGIONAL R ON R.ID = A.REGIONAL
+			  LEFT JOIN (SELECT F.CONTRATO, SUM(F.MONTO_TOTAL) AS monto_total
+			     		   FROM FACTURA F
+				          WHERE F.ESTADO = 8
+				          	AND TIPO_FACTURA = 'AL'
+				           	AND ((F.GESTION || TO_CHAR(F.MES, 'FM00'))::INTEGER BETWEEN 
+				   			   	(p_gestion_inicial || TO_CHAR(p_mes_inicial, 'FM00'))::INTEGER AND
+				   			   	(p_gestion_final || TO_CHAR(p_mes_final, 'FM00'))::INTEGER)
+			      		  GROUP BY F.CONTRATO) FS ON FS.CONTRATO = C.ID
+			 WHERE ((p_id_regional IS NULL) OR (R.ID = p_id_regional))
+			   AND ((p_id_aeropuerto IS NULL) OR (A.ID = p_id_aeropuerto))
+		     GROUP BY R.CODIGO, A.CODIGO
+			 ORDER BY R.CODIGO ASC, A.CODIGO ASC;
         END;
         $$;
         ");
