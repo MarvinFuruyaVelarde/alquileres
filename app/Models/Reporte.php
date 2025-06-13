@@ -63,7 +63,7 @@ class Reporte extends Model
     // Obtiene Reporte de Ingreso por Aeropuerto
     public static function reporteIngresoAeropuerto($aeropuerto = null, $fechaInicial = null, $fechaFinal = null, $tipoFactura = null )
     {
-        return DB::select('SELECT cod_aeropuerto, desc_aeropuerto, total_ingreso FROM reporte_ingreso_aeropuerto(?, ?, ?, ?)', [$aeropuerto, $fechaInicial, $fechaFinal, $tipoFactura]);
+        return DB::select('SELECT cod_aeropuerto, desc_aeropuerto, total_ingreso, tipo_factura FROM reporte_ingreso_aeropuerto(?, ?, ?, ?)', [$aeropuerto, $fechaInicial, $fechaFinal, $tipoFactura]);
     }
 
     // Obtiene Reporte de Ingreso por Cliente

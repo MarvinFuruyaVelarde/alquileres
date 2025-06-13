@@ -42,6 +42,7 @@ class ReporteIngresoAeropuertoExport implements FromCollection, WithHeadings, Wi
             return [
                 'cod_aeropuerto' => $ingresoAeropuerto->cod_aeropuerto ?? '',
                 'desc_aeropuerto' => $ingresoAeropuerto->desc_aeropuerto ?? '',
+                'tipo_factura' => $ingresoAeropuerto->tipo_factura ?? '',
                 'total_ingreso' => $ingresoAeropuerto->total_ingreso ?? '',
             ];
         });
@@ -55,6 +56,7 @@ class ReporteIngresoAeropuertoExport implements FromCollection, WithHeadings, Wi
         return [
             'COD. AEROPUERTO',
             'AEROPUERTO',
+            'TIPO FACTURA',
             'TOTAL INGRESO (BS)',            
         ];
     }
@@ -79,7 +81,7 @@ class ReporteIngresoAeropuertoExport implements FromCollection, WithHeadings, Wi
                 // Establecer el título con salto de línea
                 $title = "NAVEGACIÓN AÉREA Y AEROPUERTOS BOLIVIANOS\nSISTEMA ALQUILERES\nREPORTE DE INGRESOS POR AEROPUERTO";
                 $sheet->setCellValue('A1', $title);
-                $sheet->mergeCells('A1:C1');
+                $sheet->mergeCells('A1:D1');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
                         'bold' => true,
@@ -94,7 +96,7 @@ class ReporteIngresoAeropuertoExport implements FromCollection, WithHeadings, Wi
                 ]);
 
                 // Ajustar el ancho de las columnas
-                foreach (range('A', 'C') as $columnID) {
+                foreach (range('A', 'D') as $columnID) {
                     $sheet->getColumnDimension($columnID)->setWidth(30);
                 }
 
@@ -104,7 +106,7 @@ class ReporteIngresoAeropuertoExport implements FromCollection, WithHeadings, Wi
 
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
-                $headerRange = 'A2:C2';
+                $headerRange = 'A2:D2';
 
                 // Aplicar estilos a los encabezados
                 $sheet->getStyle($headerRange)->applyFromArray([
@@ -127,7 +129,8 @@ class ReporteIngresoAeropuertoExport implements FromCollection, WithHeadings, Wi
                 $columns = [
                     'A' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna COD. AEROPUERTO
                     'B' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna DESC. AEROPUERTO
-                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna TOTAL INGRESO
+                    'C' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna TIPO FACTURA
+                    'D' => Alignment::HORIZONTAL_CENTER, // Alinear al centro para la columna TOTAL INGRESO
                 ];
 
                 foreach ($columns as $columnID => $horizontalAlignment) {

@@ -29,6 +29,7 @@
         <tr style="background: darkgray; text-align: center;">
             <th>COD. AEROPUERTO</th>
             <th>AEROPUERTO</th>
+            <th>TIPO FACTURA</th>
             <th>TOTAL INGRESO (BS)</th>
         </tr>
     </thead>
@@ -38,6 +39,7 @@
         <tr>
             <td style="text-align:center;">{{ $ingresoAeropuerto->cod_aeropuerto }}</td>
             <td style="text-align:center;">{{ $ingresoAeropuerto->desc_aeropuerto }}</td>
+            <td style="text-align:center;">{{ $ingresoAeropuerto->tipo_factura }}</td>
             <td style="text-align:center;">{{ $ingresoAeropuerto->total_ingreso }}</td>
         </tr>
         @endforeach

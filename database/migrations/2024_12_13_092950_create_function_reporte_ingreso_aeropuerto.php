@@ -17,8 +17,8 @@ return new class extends Migration
             p_id_aeropuerto integer DEFAULT NULL::integer,
             p_fecha_inicial date DEFAULT NULL::date,
             p_fecha_final date DEFAULT NULL::date,
-	        p_tipo_factura varchar DEFAULT NULL::varchar)
-            RETURNS TABLE(aeropuerto integer, cod_aeropuerto character varying, desc_aeropuerto character varying, total_ingreso numeric) 
+            p_tipo_factura character varying DEFAULT NULL::character varying)
+            RETURNS TABLE(aeropuerto integer, cod_aeropuerto character varying, desc_aeropuerto character varying, total_ingreso numeric, tipo_factura text) 
             LANGUAGE 'plpgsql'
             COST 100
             VOLATILE PARALLEL UNSAFE
@@ -30,7 +30,14 @@ return new class extends Migration
             SELECT F.AEROPUERTO,
                 A.CODIGO AS COD_AEROPUERTO,
                 A.DESCRIPCION AS DESC_AEROPUERTO,
-                SUM(DP.A_PAGAR) AS TOTAL_INGRESO
+                SUM(DP.A_PAGAR) AS TOTAL_INGRESO,
+                CASE F.TIPO_FACTURA
+                    WHEN 'AL' THEN 'ALQUILER'
+                    WHEN 'EX' THEN 'EXPENSA'
+                    WHEN 'MOR' THEN 'MORA'
+                    WHEN 'OTR' THEN 'OTRO'
+                    ELSE NULL
+                END AS TIPO_FACTURA
             FROM DETALLE_PAGO_FACTURA DP
             INNER JOIN FACTURA F ON F.ID = DP.ID_FACTURA
             INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO
@@ -38,7 +45,7 @@ return new class extends Migration
             AND (p_fecha_inicial IS NULL OR DP.FECHA_PAGO >= p_fecha_inicial)
             AND (p_fecha_final IS NULL OR DP.FECHA_PAGO <= p_fecha_final)
             AND (p_tipo_factura IS NULL OR F.TIPO_FACTURA = p_tipo_factura)
-            GROUP BY F.AEROPUERTO, A.CODIGO, A.DESCRIPCION
+            GROUP BY F.AEROPUERTO, A.CODIGO, A.DESCRIPCION, F.TIPO_FACTURA
             ORDER BY F.AEROPUERTO ASC;
         END;
         $$;

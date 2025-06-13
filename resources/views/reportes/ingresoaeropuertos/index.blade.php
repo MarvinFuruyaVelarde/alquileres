@@ -87,6 +87,7 @@
                                     <tr>
                                         <th class="text-center">COD. AEROPUERTO</th>
                                         <th class="text-center">AEROPUERTO</th>
+                                        <th class="text-center">TIPO FACTURA</th>
                                         <th class="text-center">TOTAL INGRESO (BS)</th>
                                     </tr>
                                 </thead>
@@ -153,6 +154,7 @@
                         <tr>    
                             <td class="text-center col-3">${item.cod_aeropuerto || ''}</td>
                             <td class="text-center col-3">${item.desc_aeropuerto || ''}</td>
+                            <td class="text-center col-3">${item.tipo_factura || ''}</td>
                             <td class="text-center col-3">${item.total_ingreso || ''}</td>
                         </tr>
                     `;
@@ -160,7 +162,7 @@
             } else {
                 grillaHtml = `
                     <tr>
-                        <td colspan="3" class="text-center">No existen datos para la consulta realizada</td>
+                        <td colspan="4" class="text-center">No existen datos para la consulta realizada</td>
                     </tr>
                 `;
             }
