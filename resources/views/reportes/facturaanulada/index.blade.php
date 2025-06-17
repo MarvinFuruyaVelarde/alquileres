@@ -189,8 +189,8 @@
 
         // Crear la URL con los parámetros
         let url = tipo === 'pdf' 
-            ? "{{ route('reportefacturas.show') }}" 
-            : "{{ route('reportefacturas.export') }}";
+            ? "{{ route('reportefacturaanulada.show') }}" 
+            : "{{ route('reportefacturaanulada.export') }}";
 
         url += `?aeropuerto=${aeropuerto}&cliente=${cliente}&tipoFactura=${tipoFactura}`;
 
