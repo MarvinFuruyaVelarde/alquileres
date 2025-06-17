@@ -181,22 +181,21 @@
         }
     });
 
-    /*function generarReporte(tipo) {
+    function generarReporte(tipo) {
         // Capturar valores seleccionados en los campos
         const aeropuerto = document.getElementById('aeropuerto').value;
         const cliente = document.getElementById('cliente').value;
-        const gestion = document.getElementById('gestion').value;
-        const mes = document.getElementById('mes').value;
+        const tipoFactura = document.getElementById('tipo_factura').value;
 
         // Crear la URL con los parámetros
         let url = tipo === 'pdf' 
             ? "{{ route('reportefacturas.show') }}" 
             : "{{ route('reportefacturas.export') }}";
 
-        url += `?aeropuerto=${aeropuerto}&cliente=${cliente}&gestion=${gestion}&mes=${mes}`;
+        url += `?aeropuerto=${aeropuerto}&cliente=${cliente}&tipoFactura=${tipoFactura}`;
 
         // Redirigir a la URL generada
         window.open(url, tipo === 'pdf' ? '_blank' : '_self');
-    }*/
+    }
 </script>
 @endsection

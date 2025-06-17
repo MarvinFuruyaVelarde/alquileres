@@ -290,4 +290,6 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('reportefacturaanulada',[App\Http\Controllers\ReporteFacturaAnuladaController::class,'index'])->name('reportefacturaanulada.index')->middleware('permission:reportefacturaanulada.index');
     Route::get('reportefacturaanulada/obtieneReporte',[App\Http\Controllers\ReporteFacturaAnuladaController::class,'obtieneReporte'])->name('reportefacturaanulada.obtieneReporte');
+    Route::get('reportefacturaanulada/pdf',[App\Http\Controllers\ReporteFacturaAnuladaController::class,'show'])->name('reportefacturaanulada.show');
+    Route::get('reportefacturaanulada/xls',[App\Http\Controllers\ReporteFacturaAnuladaController::class,'export'])->name('reportefacturaanulada.export');
 });
