@@ -287,4 +287,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('reportemora/obtieneReporte',[App\Http\Controllers\ReporteMoraController::class,'obtieneReporte'])->name('reportemora.obtieneReporte');
     Route::get('reportemora/pdf',[App\Http\Controllers\ReporteMoraController::class,'show'])->name('reportemora.show');
     Route::get('reportemora/xls',[App\Http\Controllers\ReporteMoraController::class,'export'])->name('reportemora.export');
+
+    Route::get('reportefacturaanulada',[App\Http\Controllers\ReporteFacturaAnuladaController::class,'index'])->name('reportefacturaanulada.index')->middleware('permission:reportefacturaanulada.index');
+    Route::get('reportefacturaanulada/obtieneReporte',[App\Http\Controllers\ReporteFacturaAnuladaController::class,'obtieneReporte'])->name('reportefacturaanulada.obtieneReporte');
 });

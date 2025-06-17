@@ -13,7 +13,7 @@ return new class extends Migration
     {
         DB::statement("
             CREATE OR REPLACE FUNCTION public.reporte_garantia(
-                p_aeropuerto integer DEFAULT NULL::integer
+                p_aeropuerto integer DEFAULT NULL::integer,
                 p_cliente_id integer DEFAULT NULL::integer)
                 RETURNS TABLE(id integer, cod_aeropuerto character varying, id_cliente integer, cliente character varying, codigo_contrato character varying, garantia numeric, pagado numeric, saldo numeric, fecha_pago text, fecha_deposito text, cuenta character varying, numero_cuenta bigint)
                 LANGUAGE 'plpgsql'

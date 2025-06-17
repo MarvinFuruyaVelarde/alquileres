@@ -96,4 +96,10 @@ class Reporte extends Model
         return DB::select('SELECT codigo, cliente, tipo_factura, numero_factura, fecha_max_pago, fecha_actual, dia_mora, monto_a_pagar, monto_pagado, saldo, mora, fecha_pago FROM reporte_mora(?, ?)', [$aeropuerto, $cliente]);
     }
 
+    // Obtiene Reporte de Facturas Anuladas
+    public static function reporteFacturaAnulada($aeropuerto = null, $cliente = null, $tipoFactura = null )
+    {
+        return DB::select('SELECT codigo_aeropuerto, razon_social, codigo_contrato, numero_nota_cobro, mes, gestion, tipo_factura, monto_total, numero_factura, fecha_emision, usuario, fecha_anulacion FROM reporte_factura_anulada(?, ?, ?)', [$aeropuerto, $cliente, $tipoFactura]);
+    }
+
 }

@@ -235,11 +235,11 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link {{ isActiveRoute(['reportecontratos.*', 'reportecuentaporcobrar.*', 'reportedetalleespacios.*','reportefacturas.*', 'reportegarantias.*', 'reporteregistropagos.*','reportetipoespacios.*', 'reporteresumencontratos.*', 'reporteingresoaeropuertos.*','reporteingresoclientes.*', 'reportedeudas.*', 'reporteingresodeudas.*', 'reportemora.*']) }}" data-bs-target="#reportes-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link {{ isActiveRoute(['reportecontratos.*', 'reportecuentaporcobrar.*', 'reportedetalleespacios.*','reportefacturas.*', 'reportegarantias.*', 'reporteregistropagos.*','reportetipoespacios.*', 'reporteresumencontratos.*', 'reporteingresoaeropuertos.*','reporteingresoclientes.*', 'reportedeudas.*', 'reporteingresodeudas.*', 'reportemora.*', 'reportefacturaanulada.*']) }}" data-bs-target="#reportes-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-card-checklist"></i>
         <span>REPORTES</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
-      <ul id="reportes-nav" class="nav-content collapse {{ mostrar(['reportecontratos.*', 'reportecuentaporcobrar.*', 'reportedetalleespacios.*','reportefacturas.*', 'reportegarantias.*', 'reporteregistropagos.*','reportetipoespacios.*', 'reporteresumencontratos.*', 'reporteingresoaeropuertos.*','reporteingresoclientes.*', 'reportedeudas.*', 'reporteingresodeudas.*', 'reportemora.*']) }}" data-bs-parent="#sidebar-nav">
+      <ul id="reportes-nav" class="nav-content collapse {{ mostrar(['reportecontratos.*', 'reportecuentaporcobrar.*', 'reportedetalleespacios.*','reportefacturas.*', 'reportegarantias.*', 'reporteregistropagos.*','reportetipoespacios.*', 'reporteresumencontratos.*', 'reporteingresoaeropuertos.*','reporteingresoclientes.*', 'reportedeudas.*', 'reporteingresodeudas.*', 'reportemora.*', 'reportefacturaanulada.*']) }}" data-bs-parent="#sidebar-nav">
         @can('reportecontratos.index')
         <li>
           <a href="{{ route('reportecontratos.index') }}" class="{{ isActiveSubMenu(['reportecontratos.*']) }}">
@@ -340,6 +340,14 @@
         <li>
           <a href="{{ route('reportemora.index') }}" class="{{ isActiveSubMenu(['reportemora.*']) }}">
             <i class="bi bi-circle fs-6"></i><span>Mora</span>
+          </a>
+        </li>
+        @endcan
+
+        @can('reportefacturaanulada.index')
+        <li>
+          <a href="{{ route('reportefacturaanulada.index') }}" class="{{ isActiveSubMenu(['reportefacturaanulada.*']) }}">
+            <i class="bi bi-circle fs-6"></i><span>Facturas Anuladas</span>
           </a>
         </li>
         @endcan
