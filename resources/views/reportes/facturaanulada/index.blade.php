@@ -156,7 +156,7 @@
                     grillaHtml += `
                         <tr>    
                             <td class="text-center">${item.codigo_aeropuerto || ''}</td>
-                            <td class="text-center">${item.razon_social_factura || ''}</td>
+                            <td class="text-center">${item.razon_social || ''}</td>
                             <td class="text-center">${item.codigo_contrato || ''}</td>
                             <td class="text-center">${item.numero_nota_cobro || ''}</td>
                             <td class="text-center">${item.mes || ''}</td>
