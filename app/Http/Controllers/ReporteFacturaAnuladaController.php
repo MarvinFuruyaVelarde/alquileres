@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ReporteFacturaAnuladaExport;
 use App\Models\Aeropuerto;
 use App\Models\Cliente;
 use App\Models\Reporte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReporteFacturaAnuladaController extends Controller
 {
@@ -37,13 +39,11 @@ class ReporteFacturaAnuladaController extends Controller
         return $pdf->stream();
     }
 
-    /*public function export(Request $request)
+    public function export(Request $request)
     {
         $aeropuerto = $request->query('aeropuerto');
-        $tipoSolicitante = $request->query('tipoSolicitante');
         $cliente = $request->query('cliente');
-        $ciNit = $request->query('ciNit');
-        $estado = $request->query('estado');
-        return Excel::download(new ReporteContratoExport($aeropuerto, $tipoSolicitante, $cliente, $ciNit, $estado), 'reporte_contratos.xlsx');
-    }*/
+        $tipoFactura = $request->query('tipoFactura');
+        return Excel::download(new ReporteFacturaAnuladaExport($aeropuerto, $cliente, $tipoFactura), 'reporte_facturas_anuladas.xlsx');
+    }
 }

@@ -83,7 +83,7 @@
                                     <tr>                                    
                                         <th class="text-center">AEROPUERTO</th>
                                         <th class="text-center">CLIENTE</th>
-                                        <th class="text-center">CODIGO CONTRATO</th>
+                                        <th class="text-center">CÓDIGO CONTRATO</th>
                                         <th class="text-center">NUMERO NOTA DE COBRO</th>
                                         <th class="text-center">MES</th>                                        
                                         <th class="text-center">GESTIÓN</th>
