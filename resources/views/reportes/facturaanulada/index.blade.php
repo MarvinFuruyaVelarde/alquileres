@@ -114,7 +114,7 @@
 <script>
     $(document).ready(function() {
         // Detecta cambios en los filtros y actualiza el reporte
-        $('#aeropuerto, #cliente, #tipo').change(function() {
+        $('#aeropuerto, #cliente, #tipo_factura').change(function() {
             actualizarReporte();
         });
 
@@ -125,7 +125,7 @@
             var tipo_factura = $('#tipo_factura').val();
 
             // Verifica que al menos un campo tenga valor
-            if (aeropuerto || cliente || tipo) {
+            if (aeropuerto || cliente || tipo_factura) {
                 $.ajax({
                     url: '{{ url("reportefacturaanulada/obtieneReporte/") }}',
                     method: 'get',
