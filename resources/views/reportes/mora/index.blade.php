@@ -79,7 +79,9 @@
                                         <th class="text-center">MONTO A PAGAR</th>
                                         <th class="text-center">MONTO PAGADO</th>
                                         <th class="text-center">SALDO</th>
-                                        <th class="text-center">MORA</th>
+                                        <th class="text-center">MORA GENERADA</th>
+                                        <th class="text-center">MORA POR GENERAR</th>
+                                        <th class="text-center">MORA TOTAL</th>
                                         <th class="text-center">FECHA DE PAGO</th>
                                     </tr>
                                 </thead>
@@ -151,7 +153,9 @@
                             <td class="text-center">${item.monto_a_pagar || ''}</td>
                             <td class="text-center">${item.monto_pagado || ''}</td> 
                             <td class="text-center">${item.saldo || ''}</td>
-                            <td class="text-center">${item.mora || ''}</td>                          
+                            <td class="text-center">${item.mora_generada || ''}</td>
+                            <td class="text-center">${item.mora_por_generar || ''}</td>
+                            <td class="text-center">${item.mora_total || ''}</td>                          
                             <td class="text-center">${item.fecha_pago || ''}</td>                          
                         </tr>
                     `;

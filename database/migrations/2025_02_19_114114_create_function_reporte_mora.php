@@ -16,7 +16,7 @@ return new class extends Migration
         CREATE OR REPLACE FUNCTION public.reporte_mora(
             p_id_aeropuerto integer DEFAULT NULL::integer,
             p_id_cliente integer DEFAULT NULL::integer)
-            RETURNS TABLE(codigo character varying, cliente character varying, tipo_factura character varying, numero_factura bigint, fecha_max_pago text, fecha_actual date, dia_mora integer, monto_a_pagar numeric, monto_pagado numeric, saldo numeric, mora numeric, fecha_pago text) 
+            RETURNS TABLE(codigo character varying, cliente character varying, tipo_factura character varying, numero_factura bigint, fecha_max_pago text, fecha_actual date, dia_mora integer, monto_a_pagar numeric, monto_pagado numeric, saldo numeric, mora_generada numeric, mora_por_generar numeric, mora_total numeric, fecha_pago text)
             LANGUAGE 'plpgsql'
             COST 100
             VOLATILE PARALLEL UNSAFE
@@ -38,11 +38,13 @@ return new class extends Migration
                 F.MONTO_TOTAL AS MONTO_A_PAGAR,
                 COALESCE(SUM(DP.A_PAGAR), 0) AS MONTO_PAGADO,
                 F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR), 0) AS SALDO,
-                ROUND(((F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR), 0)) * 0.03 / 30) * (CURRENT_DATE - ((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE), 2) AS MORA,
+                SUM(DP.MORA) AS MORA_GENERADA,
+                ROUND(((F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR), 0)) * 0.03 / 30) * (CURRENT_DATE - ((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE), 2) AS MORA_POR_GENERAR,
+                SUM(DP.MORA) + ROUND(((F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR), 0)) * 0.03 / 30) * (CURRENT_DATE - ((TO_DATE(F.gestion || '-' || F.mes || '-01', 'YYYY-MM-DD') + INTERVAL '1 MONTH')::DATE + INTERVAL '9 DAYS')::DATE), 2) AS MORA_TOTAL,
                 CASE 
                     WHEN F.MONTO_TOTAL - COALESCE(SUM(DP.A_PAGAR),0) = 0 THEN TO_CHAR(MAX(DP.FECHA_PAGO), 'DD/MM/YYYY')
                     ELSE NULL
-                END AS FECHA_PAGO
+                END AS FECHA_PAGO	
             FROM FACTURA F
             LEFT JOIN DETALLE_PAGO_FACTURA DP ON DP.ID_FACTURA = F.ID
             INNER JOIN CLIENTE C ON C.ID = F.CLIENTE

@@ -36,7 +36,9 @@
             <th>MONTO A PAGAR</th>
             <th>MONTO PAGADO</th>
             <th>SALDO</th>
-            <th>MORA</th>
+            <th>MORA GENERADA</th>
+            <th>MORA POR GENERAR</th>
+            <th>MORA TOTAL</th>
             <th>FECHA_PAGO</th>
         </tr>
     </thead>
@@ -53,7 +55,9 @@
             <td style="text-align:center;">{{ $mora->monto_a_pagar }}</td>
             <td style="text-align:center;">{{ $mora->monto_pagado }}</td>
             <td style="text-align:center;">{{ $mora->saldo }}</td>
-            <td style="text-align:center;">{{ $mora->mora }}</td>
+            <td style="text-align:center;">{{ $mora->mora_generada }}</td>
+            <td style="text-align:center;">{{ $mora->mora_por_generar }}</td>
+            <td style="text-align:center;">{{ $mora->mora_total }}</td>
             <td style="text-align:center;">{{ $mora->fecha_pago }}</td>
         </tr>
         @endforeach
