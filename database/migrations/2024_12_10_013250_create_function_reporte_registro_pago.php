@@ -49,7 +49,8 @@ return new class extends Migration
                 INNER JOIN DETALLE_PAGO_FACTURA D ON D.ID_FACTURA = F.ID
                 INNER JOIN CLIENTE CL ON CL.ID = F.CLIENTE
                 INNER JOIN AEROPUERTO A ON A.ID = F.AEROPUERTO
-                WHERE (p_aeropuerto IS NULL OR A.ID = p_aeropuerto)
+                WHERE D.DELETED_AT IS NULL
+				AND (p_aeropuerto IS NULL OR A.ID = p_aeropuerto)
                 AND (p_cliente IS NULL OR CL.ID = p_cliente)
                 AND (p_gestion IS NULL OR F.GESTION = p_gestion)
                 AND (p_mes IS NULL OR F.MES = p_mes)

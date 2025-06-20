@@ -174,6 +174,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('garantias',[App\Http\Controllers\GarantiaController::class,'index'])->name('garantias.index')->middleware('permission:garantias.index');
     Route::get('garantias/{contrato}/create',[App\Http\Controllers\GarantiaController::class,'create'])->name('garantias.create')->middleware('permission:garantias.create');
     Route::post('garantias/store',[App\Http\Controllers\GarantiaController::class,'store'])->name('garantias.store')->middleware('permission:garantias.create');
+    Route::get('garantias/{contrato}/detalle',[App\Http\Controllers\GarantiaController::class,'detalle'])->name('garantias.detalle')->middleware('permission:garantias.detalle');
+    Route::delete('garantias/detalle/{id}', [App\Http\Controllers\GarantiaController::class, 'destroy'])->name('garantias.destroy')->middleware('permission:garantias.destroy');
 
     //Plantilla
     Route::get('plantilla',[App\Http\Controllers\PlantillaController::class,'index'])->name('plantillas.index')->middleware('permission:plantillas.index');
@@ -221,6 +223,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('registropagos',[App\Http\Controllers\DetallePagoFacturaController::class,'index'])->name('registropagos.index')->middleware('permission:registropagos.index');
     Route::get('registropagos/{factura}/create',[App\Http\Controllers\DetallePagoFacturaController::class,'create'])->name('registropagos.create')->middleware('permission:registropagos.create');
     Route::post('registropagos/store',[App\Http\Controllers\DetallePagoFacturaController::class,'store'])->name('registropagos.store')->middleware('permission:registropagos.create');
+    Route::get('registropagos/{factura}/detalle',[App\Http\Controllers\DetallePagoFacturaController::class,'detalle'])->name('registropagos.detalle')->middleware('permission:registropagos.detalle');
+    Route::delete('registropagos/detalle/{id}', [App\Http\Controllers\DetallePagoFacturaController::class, 'destroy'])->name('registropagos.destroy')->middleware('permission:registropagos.destroy');
 
     //Reportes
     Route::get('reportecontratos',[App\Http\Controllers\ReporteContratoController::class,'index'])->name('reportecontratos.index')->middleware('permission:reportecontratos.index');

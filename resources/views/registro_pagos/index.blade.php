@@ -57,7 +57,10 @@
                                         <td class="d-flex justify-content-center" > 
                                         @can('registropagos.create')
                                                 <a href="{{route('registropagos.create',$factura->id)}}" class="btn btn-warning" title="Registrar Pago"><i class="bi bi-pencil-square"></i></a>
-                                        @endcan                     
+                                        @endcan    
+                                        @can('registropagos.detalle')
+                                            <a href="{{route('registropagos.detalle',$factura->id)}}" class="btn btn-dark" title="Detalle Registro de Pago"><i class="bi bi-layout-text-sidebar"></i></a>
+                                        @endcan                   
                                         </td>
                                     </tr>
                                 @endforeach

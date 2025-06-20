@@ -55,7 +55,10 @@
                                     @can('garantias.create')
                                             <a href="{{route('garantias.create',$garantia->id_contrato)}}" class="btn btn-warning" title="Registrar Pago de Garantia"><i class="bi bi-pencil-square"></i></a>
                                     @endcan
-                                @endif                
+                                @endif
+                                @can('garantias.detalle')
+                                    <a href="{{route('garantias.detalle',$garantia->id_contrato)}}" class="btn btn-dark" title="Detalle Pago de Garantia"><i class="bi bi-layout-text-sidebar"></i></a>
+                                @endcan                
                                 </td>
                             </tr>
 

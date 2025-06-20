@@ -42,7 +42,8 @@ return new class extends Migration
                 INNER JOIN CLIENTE CL ON CL.ID = C.CLIENTE
                 INNER JOIN AEROPUERTO A ON A.ID = C.AEROPUERTO
                 INNER JOIN CUENTA CU ON CU.ID = G.CUENTA
-                WHERE (p_cliente_id IS NULL OR CL.ID = p_cliente_id)
+                WHERE G.DELETED_AT IS NULL 
+                AND (p_cliente_id IS NULL OR CL.ID = p_cliente_id)
                 AND (p_aeropuerto IS NULL OR C.AEROPUERTO = p_aeropuerto)
                 GROUP BY G.ID, A.CODIGO, CL.ID, CL.RAZON_SOCIAL, C.CODIGO, C.GARANTIA, C.PAGO_GARANTIA, C.SALDO_GARANTIA, G.FECHA_DEPOSITO, CU.DESCRIPCION, G.NUMERO_CUENTA
                 ORDER BY CL.RAZON_SOCIAL ASC, G.ID DESC;

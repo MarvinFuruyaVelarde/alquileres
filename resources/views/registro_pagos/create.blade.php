@@ -7,7 +7,7 @@
     <h1>REGISTRO DE PAGOS</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('garantias.index') }}">Registro de Pagos</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('registropagos.index') }}">Registro de Pagos</a></li>
         <li class="breadcrumb-item active">Registro de Pagos</li>
       </ol>
     </nav>

@@ -86,4 +86,28 @@ class DetallePagoFacturaController extends Controller
         Alert::success("Registro de Pago registrado correctamente");
         return redirect()->route('registropagos.index');
     }
+    
+    public function detalle(Factura $factura)    
+    {
+        $cuentas=Cuenta::where('id','>',0)->get();
+        $cliente = Cliente::find($factura->cliente);
+        $pagado = DetallePagoFactura::where('id_factura', $factura->id)->whereNull('deleted_at')->sum('a_pagar');
+        $fecha_actual=date('Y-m-d');
+        $detallePagoFacturas = DetallePagoFactura::where('id_factura', $factura->id)->orderBy('id', 'desc')->get();
+
+        return view('registro_pagos.detalle', compact('factura','cliente','pagado','fecha_actual','cuentas', 'detallePagoFacturas'));
+    }
+
+    public function destroy($id)
+    {   
+        $detallePagoFactura = DetallePagoFactura::findOrFail($id);
+        $detallePagoFactura->delete();
+        $pagado = DetallePagoFactura::where('id_factura', $detallePagoFactura->id_factura)->whereNull('deleted_at')->sum('a_pagar');
+
+        return response()->json([
+            'success' => true, 
+            'message' => 'Registro de Pago eliminado correctamente',
+            'nuevo_pagado' => $pagado
+        ]);
+    }
 }

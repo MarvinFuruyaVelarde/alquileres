@@ -34,7 +34,7 @@ class GarantiaController extends Controller
 
         $cliente = Cliente::where('id', '=', $contrato->cliente)->first();  
         //$contratos=Contrato::where('id','=',$contrato->id)->get();     
-     $cuentas=Cuenta::where('id','>',0)->get();
+        $cuentas=Cuenta::where('id','>',0)->get();
         $garantia=new Garantia();
         //dd($cuentas);
         return view('garantias.create',compact('garantia','contrato','cliente','cuentas'));
@@ -65,5 +65,34 @@ class GarantiaController extends Controller
 
         Alert::success("Garantía registrada correctamente!");
         return redirect()->route('garantias.index');
+    }
+
+    public function detalle(Contrato $contrato)    
+    {
+        $cliente = Cliente::where('id', '=', $contrato->cliente)->first();      
+        $cuentas=Cuenta::where('id','>',0)->get();
+        $garantias = Garantia::where('contrato', $contrato->id)->orderBy('id', 'desc')->get();
+        return view('garantias.detalle',compact('contrato','cliente','garantias'));
+    }
+
+    public function destroy($id)
+    {   
+        $garantia = Garantia::findOrFail($id);
+
+        // Actualizar montos en Contrato
+        $contrato = Contrato::find($garantia->contrato);
+        $contrato->saldo_garantia = $contrato->saldo_garantia + $garantia->a_pagar;
+        $contrato->pago_garantia = $contrato->pago_garantia - $garantia->a_pagar;
+        $contrato->save();
+
+        // Elimina registro en Garantia
+        $garantia->delete();
+
+        return response()->json([
+            'success' => true, 
+            'message' => 'Registro de Pago de Garantía eliminado correctamente',
+            'nuevo_saldo' => number_format($contrato->saldo_garantia, 2, '.', ','),
+            'nuevo_pagado' => number_format($contrato->pago_garantia, 2, '.', ',')
+        ]);
     }
 }
