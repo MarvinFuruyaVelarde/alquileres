@@ -17,13 +17,14 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Nuevo Factor por Aeropuerto</h5>
+                    <h5 class="card-title">Editar Factor por Aeropuerto</h5>
                 
                     <p>
                     Debe rellenar todos los campos marcados con <strong class="text-danger">(*)</strong>.
-                    Al momento de registrar un factor</p>
-                    <form action="{{route('expensas.store_aeropuerto_expensa')}}" method="post">
+                    Al momento de editar un factor</p>
+                    <form action="{{route('expensas.update_aeropuerto_expensa', ['aeropuerto_expensa' => $aeropuerto_expensa->id])}}" method="post">
                         @csrf
+                        @method('PUT') 
                         <input id="expensa" type="hidden" name="expensa" value="{{ $expensa->id }}">
                         <div class="row mb-1">
                             <div class="col-md-1">
@@ -81,7 +82,7 @@
                         <div class="row mb-1">
                             <div>
                                 <br><br>
-                                <h5 class="text-muted">REGISTRO FACTOR POR AEROPUERTO</h5>
+                                <h5 class="text-muted">EDITAR FACTOR POR AEROPUERTO</h5>
                                 <hr class="mb-1" style="border-top: 2px solid rgb(1, 41, 112);">
                                 <br>
                             </div>
@@ -97,7 +98,8 @@
                                     <select id="aeropuerto" class="form-control{{ $errors->has('aeropuerto') ? ' error' : '' }}" name="aeropuerto">
                                         <option value="">Seleccionar...</option>
                                         @foreach($aeropuertos as $aeropuerto)
-                                            <option value="{{ $aeropuerto->id }}" >
+                                            <option value="{{ $aeropuerto->id }}" 
+                                                {{ old('aeropuerto', $aeropuerto_expensa->aeropuerto) == $aeropuerto->id ? 'selected' : '' }}>
                                                 {{ $aeropuerto->descripcion }}
                                             </option>
                                         @endforeach
@@ -115,7 +117,7 @@
                             <div class="col-md-2">
                                 <label for="factor" class="col-form-label">Factor <span class="text-danger">(*)</span></label>
                                 <div class="col-md-11">
-                                    <input id="factor" type="text" class="form-control{{ $errors->has('factor') ? ' error' : '' }}" name="factor" value="{{ old('factor',$expensa->factor) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="decimal">
+                                    <input id="factor" type="text" class="form-control{{ $errors->has('factor') ? ' error' : '' }}" name="factor" value="{{ old('factor',$aeropuerto_expensa->factor) }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="decimal">
                                     <span id="error-factor" class="error-factor" style="color: rgb(220, 53, 69);"></span>
                                     @if ($errors->has('factor'))
                                         <span class="text-danger">
@@ -161,7 +163,13 @@
                                             <td class="text-center col-2">{{ $aeropuertoExpensa->desc_aeropuerto }}</td>
                                             <td class="text-center col-2">{{ $aeropuertoExpensa->factor }}</td>                
                                             <td class="text-center col-1" >
-                                                <a href="{{route('expensas.edit_aeropuerto_expensa', ['aeropuerto_expensa' => $aeropuertoExpensa->id])}}" class="btn btn-warning" title="Modificar Datos"><i class="bi bi-pencil-square"></i></a>                                                                      
+                                                <a href="{{route('expensas.edit_aeropuerto_expensa', ['aeropuerto_expensa' => $aeropuertoExpensa->id])}}" class="btn btn-warning" title="Modificar Datos"><i class="bi bi-pencil-square"></i></a>
+                                                {{--<form action="{{ route('contratos.destroy_espacio', $listaespacio->id) }}" method="POST" style="display:inline;">                                                
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger" title="Eliminar Registro" onclick="return confirm('¿Está seguro que desea eliminar el ESPACIO?');"><i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>--}}                                                                        
                                             </td>
                                         </tr>
                                     @empty

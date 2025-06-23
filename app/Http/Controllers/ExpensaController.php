@@ -121,6 +121,42 @@ class ExpensaController extends Controller
         return redirect()->back();
     }
 
+    public function editAeropuertoExpensa(AeropuertoExpensa $aeropuerto_expensa)
+    {
+        $expensa = Expensa::find($aeropuerto_expensa->expensa);
+        $estado = Estado::find($expensa->estado);
+        $estadoDesc = $estado->descripcion;
+        
+        if(auth()->user()->id==1){
+            $aeropuertos = Aeropuerto::where('estado', 1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $aeropuertos = Aeropuerto::whereIn('regional',$array)->where('estado', 1)->whereNull('deleted_at')->orderBy('id', 'asc')->get();
+        }
+
+        $aeropuertoExpensas = View_AeropuertoExpensa::where('expensa', $expensa->id)->get();
+        return view('parametricas.expensas.edit_factor',compact('aeropuerto_expensa', 'expensa', 'estadoDesc', 'aeropuertos', 'aeropuertoExpensas'));
+    }
+
+    public function updateAeropuertoExpensa(AeropuertoExpensaRequest $request, AeropuertoExpensa $aeropuertoExpensa)
+    {
+        $aeropuertoExpensa->aeropuerto = $request->aeropuerto;
+        $aeropuertoExpensa->factor = $request->factor;
+        $aeropuertoExpensa->save();
+
+
+        Alert::success("Factor modificado correctamente!");
+        return redirect()->route('expensas.create_aeropuerto_expensa', ['expensa' => $request->expensa]);
+    }
+
     public function show()
     {
         $pdf = App::make('dompdf.wrapper');
