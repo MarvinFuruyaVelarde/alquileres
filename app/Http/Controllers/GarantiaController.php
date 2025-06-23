@@ -7,6 +7,7 @@ use App\Models\Garantia;
 use App\Models\Contrato; 
 use App\Models\Cliente; 
 use App\Models\Cuenta;
+use App\Models\UsuarioRegional;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +15,22 @@ class GarantiaController extends Controller
 {
     public function index()
     {
-        $garantias = View_Garantia::all(); 
+
+        if(auth()->user()->id==1){
+            $garantias = View_Garantia::all(); 
+        } else{
+            $auth_user=auth()->user();
+            $usuario_regional=UsuarioRegional::where('usuario',$auth_user->id)->get();
+            $array = [];
+            $cont=0;
+
+            foreach ($usuario_regional as $value) {
+                $array[$cont]=$value->regional;
+                $cont++;
+            }
+            $garantias = View_Garantia::where('regional', $array)->get();
+        }
+ 
         return view('garantias.index', compact('garantias')); 
     }
 
