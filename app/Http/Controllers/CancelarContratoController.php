@@ -39,57 +39,65 @@ class CancelarContratoController extends Controller
     {
         //dd( $request->codigo);
         // Generar el nombre del archivo
-        $timestamp = now()->format('YmdHis');
-        $name = "{$timestamp}_{$contrato->id}";
-        $extension = $request->file('documento_respaldo')->extension();
-        $nombre_documento = "{$name}.{$extension}";
+        if ($request->objetivo === 'M' || $request->objetivo === 'A'){
+            $timestamp = now()->format('YmdHis');
+            $name = "{$timestamp}_{$contrato->id}";
+            $extension = $request->file('documento_respaldo')->extension();
+            $nombre_documento = "{$name}.{$extension}";
 
-        // Almacenar el archivo
-        $path = public_path('/contrato_cancelado');
-        $request->file('documento_respaldo')->move($path, $nombre_documento);    
-        
-        //dd($path.'/'.$nombre_documento);
+            // Almacenar el archivo
+            $path = public_path('/contrato_cancelado');
+            $request->file('documento_respaldo')->move($path, $nombre_documento);    
+            
+            //dd($path.'/'.$nombre_documento);
 
-        // Guardar en la BD 
-        $contrato_cancelado = New ContratoCancelado();
+            // Guardar en la BD 
+            $contrato_cancelado = New ContratoCancelado();
 
-        $contrato_cancelado->contrato = $contrato->id;
-        $contrato_cancelado->objetivo = $request->objetivo;
-        $contrato_cancelado->motivo = $request->motivo;
-        $contrato_cancelado->ruta_documento = $path.'/'.$nombre_documento;
+            $contrato_cancelado->contrato = $contrato->id;
+            $contrato_cancelado->objetivo = $request->objetivo;
+            $contrato_cancelado->motivo = $request->motivo;
+            $contrato_cancelado->ruta_documento = $path.'/'.$nombre_documento;
 
-        if ($request->objetivo == 'M'){
-            $contrato_cancelado->codigo_nuevo = $request->codigo;
-            $contrato_cancelado->codigo_anterior = $contrato->codigo;
+            if ($request->objetivo == 'M'){
+                $contrato_cancelado->codigo_nuevo = $request->codigo;
+                $contrato_cancelado->codigo_anterior = $contrato->codigo;
+            }
+
+            $contrato_cancelado->save();
+
+            //Cambia el estado a los espacios del contrato 
+            $espacios = Espacio::where('contrato', $contrato->id)->get();
+
+            // Recorrer cada espacio y actualizar su estado a Modificado
+            foreach ($espacios as $espacio) {
+
+                if ($request->objetivo == 'M')
+                    $espacio->estado = 6;
+                else 
+                    $espacio->estado = 7;
+
+                $espacio->save();
+            }
         }
-
-        $contrato_cancelado->save();
-
-        //Cambia el estado a los espacios del contrato 
-        $espacios = Espacio::where('contrato', $contrato->id)->get();
-
-        // Recorrer cada espacio y actualizar su estado a Modificado
-        foreach ($espacios as $espacio) {
-
-            if ($request->objetivo == 'M')
-                $espacio->estado = 6;
-            else 
-                $espacio->estado = 7;
-
-            $espacio->save();
-        }
-
         
         if ($request->objetivo == 'M'){
             $contrato->codigo = $request->codigo;    
             $contrato->estado = 6;
-        } else {
+        } else if ($request->objetivo == 'A') {
             $contrato->estado = 7;
-        } 
+        } else{
+            $contrato->correo = $request->correo;
+        }
 
         // Guardar los cambios
         $contrato->save();
-        Alert::success("Contrato cancelado correctamente");
+    
+        if ($request->objetivo == 'M' || $request->objetivo == 'A'){
+            Alert::success("Contrato cancelado correctamente");
+        } else if ($request->objetivo == 'C') {
+            Alert::success("Correo modificado correctamente");
+        } 
 
         return redirect()->route('cancelarcontratos.index');
     }

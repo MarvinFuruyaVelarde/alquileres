@@ -148,23 +148,27 @@
 
                         <div class="row mb-1">
                         
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="col-sm-10">
                                     <label for="objetivo" class="col-form-label">Objetivo <span class="text-danger">(*)</span></label>
                                 </div>
                                 <div class="col-sm-10 d-flex align-items-center">
                                     <div class="form-check me-3">
-                                        <input id="objetivo1" class="form-check-input" type="radio" name="objetivo" value="M" checked autofocus>
+                                        <input id="objetivo1" class="form-check-input" type="radio" name="objetivo" value="M" {{ old('objetivo', 'M') == 'M' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="objetivo1">Modificar</label>
                                     </div>
-                                    <div class="form-check">
-                                        <input id="objetivo2" class="form-check-input" type="radio" name="objetivo" value="A">
+                                    <div class="form-check me-3">
+                                        <input id="objetivo2" class="form-check-input" type="radio" name="objetivo" value="A" {{ old('objetivo') == 'A' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="objetivo2">Anular</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input id="objetivo3" class="form-check-input" type="radio" name="objetivo" value="C" {{ old('objetivo') == 'C' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="objetivo2">Correo</label>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2" id="f_motivo">
                                 <label for="motivo" class="col-form-label">Motivo <span class="text-danger">(*)</span></label>
                                 <textarea id="motivo" class="form-control {{ $errors->has('motivo') ? ' error' : '' }}" name="motivo" rows="5"></textarea>
                                 <span id="error-motivo" class="error-motivo" style="color: rgb(220, 53, 69);"></span>
@@ -175,12 +179,12 @@
                                 @endif
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="f_documento_respaldo">
                                 <label for="documento_respaldo" class="col-form-label">Adjunte Documento de Respaldo (PDF) <span class="text-danger">(*)</span></label>
                                 <input type="file" class="form-control" id="documento_respaldo" name="documento_respaldo" accept="application/pdf">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-3" id="f_codigo">
                                 <label for="codigo" class="col-form-label">Nuevo Código de Contrato <span class="text-danger">(*)</span></label>
                                 <div class="col-md-12">
                                     <input id="codigo" type="text" class="form-control {{ $errors->has('codigo') ? ' error' : '' }}" name="codigo" value="" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
@@ -193,8 +197,23 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-3" id="f_correo" style="display: none">
+                                <label for="correo" class="col-form-label">Correo <span class="text-danger">(*)</span></label>
+                                <div class="col-md-12">
+                                    <input id="correo" type="text" class="form-control {{ $errors->has('correo') ? ' error' : '' }}" name="correo" value="" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
+                                    <span id="error-correo" class="error-correo" style="color: rgb(220, 53, 69);"></span>
+                                    @if ($errors->has('correo'))
+                                        <span class="text-danger">
+                                            {{ $errors->first('correo') }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                         </div>
     
+                        <br>
+
                         <div class="row mt-2">
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Guardar</button>
@@ -212,11 +231,44 @@
 
 @section('scripts')
 <script>
-  //Asignación de Ci/Nit
-  if(document.getElementById('tipo_solicitante').value === '1'){
-    document.getElementById('ci_nit').value = document.getElementById('ci').value
-  } else{
-    document.getElementById('ci_nit').value = document.getElementById('nit').value
-  }
+    //Asignación de Ci/Nit
+    if(document.getElementById('tipo_solicitante').value === '1'){
+        document.getElementById('ci_nit').value = document.getElementById('ci').value
+    } else{
+        document.getElementById('ci_nit').value = document.getElementById('nit').value
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const radios = document.querySelectorAll('input[name="objetivo"]');
+
+        function mostraropcionSeleccionada(){
+            const valor = document.querySelector('input[name="objetivo"]:checked').value;
+
+            if (valor === 'M') {
+                document.getElementById('f_motivo').style.display = "block";
+                document.getElementById('f_codigo').style.display = "block";
+                document.getElementById('f_documento_respaldo').style.display = "block"; 
+                document.getElementById('f_correo').style.display = "none";
+            } else if (valor === 'A') {
+                document.getElementById('f_motivo').style.display = "block";
+                document.getElementById('f_documento_respaldo').style.display = "block";
+                document.getElementById('f_codigo').style.display = "none";
+                document.getElementById('f_correo').style.display = "none";
+            } else if (valor === 'C') {
+                document.getElementById('f_motivo').style.display = "none"; 
+                document.getElementById('f_codigo').style.display = "none"; 
+                document.getElementById('f_documento_respaldo').style.display = "none"; 
+                document.getElementById('f_correo').style.display = "block";
+            }
+        }
+
+        // Ejecutar al cargar la página
+        mostraropcionSeleccionada();
+
+        // Escuchar los cambios
+        radios.forEach(radio => {
+            radio.addEventListener("change", mostraropcionSeleccionada);
+        });
+    });
 </script>
 @endsection

@@ -22,26 +22,41 @@ class CancelarContratoRequest extends FormRequest
      */
     public function rules(): array
     {
-        $codigoContrato = $this->route('cancelarcontratos'); // Obtiene el ID del cliente desde la ruta, si existe
+        $codigoContrato = $this->route('cancelarcontratos'); // ID del contrato de la ruta
+        $objetivo = $this->input('objetivo');
 
-        return [
-            'codigo' => [
+        if ($objetivo === 'M' || $objetivo === 'A') {
+            $rules['motivo'] = 'required';
+            $rules['documento_respaldo'] = ['required', 'file', 'mimes:pdf', 'max:5120'];
+        }
+
+        if ($objetivo === 'M') {
+            $rules['codigo'] = [
                 'required',
                 'string',
-                Rule::unique('contrato')->ignore($codigoContrato)
-            ],
+                Rule::unique('contrato', 'codigo')->ignore($codigoContrato),
+            ];
+        }
 
-            'motivo'=>'required',
-            'documento_respaldo'=>'required',
-        ];
+        if ($objetivo === 'C') {
+            $rules['correo'] = [
+                'required',
+                'email', // puedes ajustar la validación si el correo no debe ser formato email
+            ];
+        }
+
+        return $rules;
     }
 
     public function messages()
     {
         return [
             'motivo.required' => 'El ingreso de motivo es obligatorio.',
-            'documento_respaldo.required' => 'El documento de respaldo es obligatorio.',
-
+            'documento_respaldo.required_if' => 'El documento de respaldo es obligatorio.',
+            'codigo.required' => 'Debe ingresar el nuevo código.',
+            'codigo.unique' => 'Ya existe un contrato con ese código.',
+            'correo.required' => 'Debe ingresar el correo.',
+            'correo.email' => 'Debe ingresar un correo válido.',
         ];
     }
 }
