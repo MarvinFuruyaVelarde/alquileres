@@ -128,12 +128,20 @@
                   @endif
               </div>
 
-              <div id="f_periodo_inicial" class="col-md-4">
-                  <label for="periodo_inicial" class="col-form-label">Periodo Inicial de Cobro <span class="text-danger">(*)</span></label>
-                  <input id="periodo_inicial" type="date" class="form-control {{ $errors->has('periodo_inicial') ? 'error' : '' }}" name="periodo_inicial">
-                  @if ($errors->has('periodo_inicial'))
-                      <span class="text-danger">{{ $errors->first('periodo_inicial') }}</span>
-                  @endif
+              <div id="tipo_espacio" class="col-md-4">
+                <div class="col-sm-10">
+                    <label for="tipo_espacio" class="col-form-label">Por concepto de</label>
+                </div>
+                <div class="col-sm-10 d-flex align-items-center">
+                    <div class="form-check me-3">
+                        <input id="tipo_espacio1"  class="form-check-input" type="radio" name="tipo_espacio" value="F" {{ old('tipo_espacio', $espacio->tipo_espacio ?? 'F') == 'F' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="tipo_canon1">Alquiler</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="tipo_espacio2" class="form-check-input" type="radio" name="tipo_espacio" value="V" {{ old('tipo_espacio', $espacio->tipo_espacio ?? '') == 'V' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="tipo_canon2">Compra y Venta</label>
+                    </div>
+                </div>
               </div>
 
               <div id="f_numero_factura" class="col-md-4" style="display: none;">
@@ -148,17 +156,34 @@
                 @endif                                                         
               </div>
 
-              <div id="f_periodo_final" class="col-md-4">
-                  <label for="periodo_final" class="col-form-label">Periodo Final de Cobro <span class="text-danger">(*)</span></label>
-                  <input id="periodo_final" type="date" class="form-control {{ $errors->has('periodo_final') ? 'error' : '' }}" name="periodo_final">
-                  @if ($errors->has('periodo_final'))
-                      <span class="text-danger">{{ $errors->first('periodo_final') }}</span>
-                  @endif
-              </div>
             </div> 
 
-            <div class="row mb-1">         
-              <div class="col-md-4">
+            <div id="agregar_detalle" class="row mb-1">
+              <p>
+                <br>
+                <input onclick="agregarDetalle();" type="button" value="Agregar Detalle +" class="btn btn-success" disabled/>
+              </p>
+            </div>
+
+            <div class="row mb-1">      
+  
+              <div id="f_periodo_inicial" class="col-md-3">
+                <label for="periodo_inicial" class="col-form-label">Periodo Inicial de Cobro <span class="text-danger">(*)</span></label>
+                <input id="periodo_inicial" type="date" class="form-control {{ $errors->has('periodo_inicial') ? 'error' : '' }}" name="periodo_inicial">
+                @if ($errors->has('periodo_inicial'))
+                    <span class="text-danger">{{ $errors->first('periodo_inicial') }}</span>
+                @endif
+              </div>
+
+              <div id="f_periodo_final" class="col-md-3">
+                <label for="periodo_final" class="col-form-label">Periodo Final de Cobro <span class="text-danger">(*)</span></label>
+                <input id="periodo_final" type="date" class="form-control {{ $errors->has('periodo_final') ? 'error' : '' }}" name="periodo_final">
+                @if ($errors->has('periodo_final'))
+                    <span class="text-danger">{{ $errors->first('periodo_final') }}</span>
+                @endif
+              </div>
+              
+              <div class="col-md-2">
                   <label for="monto" class="col-form-label me-2">Monto</label>
                   <input id="monto_mora" type='hidden' name='monto_mora' value=''/>
                   <input id="monto" type="text" class="form-control {{ $errors->has('monto') ? ' error' : '' }}" name="monto" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
@@ -175,22 +200,9 @@
                   @endif
               </div>
 
-              <div id="tipo_espacio" class="col-md-4">
-                  <div class="col-sm-10">
-                      <label for="tipo_espacio" class="col-form-label">Por concepto de</label>
-                  </div>
-                  <div class="col-sm-10 d-flex align-items-center">
-                      <div class="form-check me-3">
-                          <input id="tipo_espacio1"  class="form-check-input" type="radio" name="tipo_espacio" value="F" {{ old('tipo_espacio', $espacio->tipo_espacio ?? 'F') == 'F' ? 'checked' : '' }}>
-                          <label class="form-check-label" for="tipo_canon1">Alquiler</label>
-                      </div>
-                      <div class="form-check">
-                          <input id="tipo_espacio2" class="form-check-input" type="radio" name="tipo_espacio" value="V" {{ old('tipo_espacio', $espacio->tipo_espacio ?? '') == 'V' ? 'checked' : '' }}>
-                          <label class="form-check-label" for="tipo_canon2">Compra y Venta</label>
-                      </div>
-                  </div>
-              </div>
             </div>
+
+            <div id="contenedor-detalles"></div>
 
             <div id="f_correo" class="row mb-1" style="display: none;">         
               <div class="col-md-4">
@@ -247,7 +259,7 @@
             <br>
             <div class="row mt-2">
               <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Guardar</button>
+                  <button id="btn-guardar" type="submit" class="btn btn-primary" disabled>Guardar</button>
                   <a href="{{ route('notacobromanual.index') }}" class="btn btn-warning">Cancelar</a>
               </div>
             </div>
@@ -290,16 +302,25 @@
     // Ocultar el campo Por concepto de
     document.querySelectorAll('input[name="tipo"]').forEach((radio) => {
       radio.addEventListener('change', function() {
+          const montoDiv = document.querySelector('#monto').closest('.col-md-2, .col-md-4');
           if (this.value === 'EX' || this.value === 'OTR') {
               document.getElementById('tipo_espacio').style.display = 'none'; // Ocultar campo
               document.getElementById('f_numero_factura').style.display = 'none';
               document.getElementById('f_periodo_inicial').style.display = 'block';
               document.getElementById('f_periodo_final').style.display = 'block';
+              document.getElementById('contenedor-detalles').innerHTML = '';
+              document.getElementById('agregar_detalle').style.display = 'block';
+              montoDiv.classList.remove('col-md-4');
+              montoDiv.classList.add('col-md-2');
           } else if (this.value === 'MOR') {
               document.getElementById('tipo_espacio').style.display = 'none';
               document.getElementById('f_numero_factura').style.display = 'block';
               document.getElementById('f_periodo_inicial').style.display = 'none';
               document.getElementById('f_periodo_final').style.display = 'none';
+              document.getElementById('contenedor-detalles').innerHTML = '';
+              document.getElementById('agregar_detalle').style.display = 'none';
+              montoDiv.classList.remove('col-md-2');
+              montoDiv.classList.add('col-md-4');
 
               // Cargar Número de Factura, cuando seleccione el código de contrato
               $("#codigo").change(function(event) {
@@ -352,6 +373,10 @@
               document.getElementById('f_periodo_inicial').style.display = 'block';
               document.getElementById('f_periodo_final').style.display = 'block';
               document.getElementById('tipo_espacio').style.display = 'block'; // Mostrar campo
+              document.getElementById('contenedor-detalles').innerHTML = '';
+              document.getElementById('agregar_detalle').style.display = 'block';
+              montoDiv.classList.remove('col-md-4');
+              montoDiv.classList.add('col-md-2');
           }
       });
     });
@@ -518,11 +543,6 @@
                 }
               }
           } else {
-            document.getElementById('periodo_inicial').disabled = false;
-            document.getElementById('periodo_final').disabled = false;
-            document.getElementById('monto').disabled = false;
-            document.getElementById('glosa_factura').disabled = false;
-
             if (tipoSeleccionado == 'AL')
               document.getElementById('tipo_espacio').style.display = 'block';
             else if (tipoSeleccionado === 'MOR'){
@@ -531,10 +551,19 @@
                 else
                   document.getElementById('f_correo').style.display = 'block';
             } else if (tipoSeleccionado === 'OTR'){
-              if (codigo !== 'SIN/CODIGO')
+              if (codigo !== 'SIN/CODIGO'){
+                  document.getElementById('periodo_inicial').disabled = true;
+                  document.getElementById('periodo_final').disabled = true;
+                  document.getElementById('monto').disabled = true;
+                  document.getElementById('glosa_factura').disabled = true;
                   document.getElementById('f_correo').style.display = 'none';
-                else
+              } else {
+                  document.getElementById('periodo_inicial').disabled = false;
+                  document.getElementById('periodo_final').disabled = false;
+                  document.getElementById('monto').disabled = false;
+                  document.getElementById('glosa_factura').disabled = false;
                   document.getElementById('f_correo').style.display = 'block';
+              }                  
             }
 
             document.getElementById('label_tabla').style.display = 'none';
@@ -656,6 +685,77 @@
         }
       
       });
+    }
+
+    // Habilitar/Deshabilitar la opción agregar detalle
+    $("#codigo").change(function(event) {
+      const valor = $(this).val();
+      const boton = $("#agregar_detalle input[type='button']");
+      const botonGuardar = $("#btn-guardar");
+
+      if (valor === "SIN/CODIGO"){
+        boton.prop("disabled", false);
+        botonGuardar.prop("disabled", false);
+      } else if (valor === ""){
+        boton.prop("disabled", true);
+        botonGuardar.prop("disabled", true);
+      } else {
+        boton.prop("disabled", true);
+        botonGuardar.prop("disabled", false);
+      }
+    });
+
+    // Agregar Detalle
+    function agregarDetalle() {
+      const maxDetalles = 9;
+      const contenedor = document.getElementById("contenedor-detalles");
+      const totalActual = contenedor.querySelectorAll(".detalle-item").length;
+
+
+      if (totalActual >= maxDetalles) {
+        alert(`No se pueden agregar más de ${maxDetalles+1} detalles.`);
+        return;
+      }
+
+      const id = Date.now(); // ID único por timestamp
+
+      var content = `
+        <div class="row mb-1 detalle-item" id="detalle-${id}">
+          <div class="col-md-3">
+            <label for="periodo_inicial_${id}" class="col-form-label">Periodo Inicial de Cobro <span class="text-danger">(*)</span></label>
+            <input id="periodo_inicial_${id}" type="date" class="form-control" name="detalles[${id}][periodo_inicial]">
+          </div>
+
+          <div class="col-md-3">
+            <label for="periodo_final_${id}" class="col-form-label">Periodo Final de Cobro <span class="text-danger">(*)</span></label>
+            <input id="periodo_final_${id}" type="date" class="form-control" name="detalles[${id}][periodo_final]">
+          </div>
+
+          <div class="col-md-2">
+            <label for="monto_${id}" class="col-form-label">Monto</label>
+            <input id="monto_${id}" type="text" class="form-control" name="detalles[${id}][monto]" onkeyup="this.value = this.value.toUpperCase();">
+          </div>
+
+          <div class="col-md-3">
+            <label for="glosa_factura_${id}" class="col-form-label">Glosa para Facturación</label>
+            <textarea id="glosa_factura_${id}" class="form-control" name="detalles[${id}][glosa_factura]" rows="5" onkeyup="this.value = this.value.toUpperCase();"></textarea>
+          </div>
+
+          <div class="col-md-1">
+            <label>&nbsp;</label>
+            <button type="button" class="btn btn-danger" onclick="eliminarDetalle(${id})">-</button>
+          </div>
+        </div>`;
+
+      contenedor.insertAdjacentHTML('beforeend', content);
+      
+    }
+
+    function eliminarDetalle(id) {
+      const fila = document.getElementById(`detalle-${id}`);
+      if (fila) {
+        fila.remove();
+      }
     }
 </script>
 @endsection

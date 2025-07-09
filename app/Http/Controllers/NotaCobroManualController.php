@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NotaCobroManualRequest;
 use App\Models\Aeropuerto;
 use App\Models\Cliente;
 use App\Models\Contrato;
@@ -157,7 +158,7 @@ class NotaCobroManualController extends Controller
         return view('facturacion.notascobromanual.create', compact('aeropuertos', 'clientes', 'expensas'));
     }
 
-    public function store(Request $request)
+    public function store(NotaCobroManualRequest $request)
     {
         $contrato = Contrato::where('aeropuerto', $request->aeropuerto)
                             ->where('codigo', $request->codigo)
@@ -209,8 +210,17 @@ class NotaCobroManualController extends Controller
 
             if ($request->tipo == 'MOR')
                 $factura->monto_total = $request->monto_mora;
-            else
-                $factura->monto_total = $request->monto;
+            else{
+                if (!$request->has('detalles') || count($request->detalles) === 0){
+                    $factura->monto_total = $request->monto;
+                } else{
+                    $monto = $request->monto;
+                    foreach ($request->detalles as $id => $detalle) {
+                        $monto = $monto + $detalle['monto'];
+                    }
+                    $factura->monto_total = $monto;
+                }
+            }
 
             $factura->tipo_generacion = 'M';
             $factura->estado = 3;
@@ -251,6 +261,43 @@ class NotaCobroManualController extends Controller
             $facturaDetalle->fecha_registro = $fechaRegistro;
             $facturaDetalle->save();
 
+            // Adiciona cuando existe más de 1 detalle en FacturaDetalle
+            if (is_array($request->detalles) && count($request->detalles) > 0){
+                foreach ($request->detalles as $id => $detalle) {
+                    $facturaDetalle = New FacturaDetalle();
+
+                    $facturaDetalle->factura = $facturaId;
+                    $facturaDetalle->glosa =  $detalle['glosa_factura']; 
+    
+                    if ($request->tipo == 'AL')
+                        $facturaDetalle->concepto = $request->tipo_espacio;
+                    else if($request->tipo == 'MOR' || $request->tipo == 'OTR')
+                        $facturaDetalle->concepto = 'V';
+                    
+                    if ($request->tipo == 'MOR') {
+                        $facturaDetalle->fecha_inicial = Carbon::create($request->gestion, $request->mes, 1)->toDateString();
+                        $facturaDetalle->fecha_final = Carbon::create($request->gestion, $request->mes, 1)->endOfMonth()->toDateString();
+                    } else {
+                        $facturaDetalle->fecha_inicial = $detalle['periodo_inicial'];
+                        $facturaDetalle->fecha_final = $detalle['periodo_final'];
+                    }
+                    
+                    $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($detalle['periodo_inicial'], $detalle['periodo_final'], $periodoInicialFacturacion, $periodoFacturacion);
+                    
+                    if ($request->tipo == 'MOR') {
+                        $facturaDetalle->total_canonmensual = $request->monto_mora;
+                        $facturaDetalle->precio = $request->monto_mora;
+                    } else {
+                        $facturaDetalle->total_canonmensual = $detalle['monto'];
+                        $facturaDetalle->precio = $detalle['monto'];
+                    }
+    
+                    $facturaDetalle->usuario_registro = auth()->id();
+                    $facturaDetalle->fecha_registro = $fechaRegistro;
+                    $facturaDetalle->save();
+                }
+            }
+
             //Actualiza Detalle Pago Factura cuando es Mora
             if ($request->tipo == 'MOR'){
                 $idDetallePagoArray = json_decode($request->id_detalle_pago_factura, true);
@@ -279,8 +326,18 @@ class NotaCobroManualController extends Controller
             $factura->forma_pago = 1;                                   
             $factura->tipo_factura = $request->tipo;                   
             $factura->cliente = $request->cliente;                      
-            $factura->razon_social_factura = $cliente->razon_social;    
-            $factura->monto_total = $request->monto;        
+            $factura->razon_social_factura = $cliente->razon_social;            
+
+            if (!$request->has('detalles') || count($request->detalles) === 0){
+                $factura->monto_total = $request->monto;
+            } else{
+                $monto = $request->monto;
+                foreach ($request->detalles as $id => $detalle) {
+                    $monto = $monto + $detalle['monto'];
+                }
+                $factura->monto_total = $monto;
+            }
+
             $factura->tipo_generacion = 'M';                            
             $factura->estado = 3;                                       
             $factura->usuario_registro = auth()->id();                  
@@ -302,6 +359,23 @@ class NotaCobroManualController extends Controller
             $facturaDetalle->fecha_registro = $fechaRegistro;
             $facturaDetalle->save();
 
+            // Adiciona cuando existe más de 1 detalle en FacturaDetalle
+            if (is_array($request->detalles) && count($request->detalles) > 0){
+                foreach ($request->detalles as $id => $detalle) {
+                    $facturaDetalle = New FacturaDetalle();
+                    $facturaDetalle->factura = $facturaId;
+                    $facturaDetalle->glosa = $detalle['glosa_factura']; 
+                    $facturaDetalle->concepto = 'V';
+                    $facturaDetalle->fecha_inicial = $detalle['periodo_inicial'];
+                    $facturaDetalle->fecha_final = $detalle['periodo_final'];
+                    $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($detalle['periodo_inicial'], $detalle['periodo_final'], $periodoInicialFacturacion, $periodoFacturacion);
+                    $facturaDetalle->total_canonmensual = $detalle['monto'];
+                    $facturaDetalle->precio = $detalle['monto'];
+                    $facturaDetalle->usuario_registro = auth()->id();
+                    $facturaDetalle->fecha_registro = $fechaRegistro;
+                    $facturaDetalle->save();                    
+                }
+            }
         } else if ($request->tipo == 'EX' && $request->codigo != 'SIN/CODIGO') { 
             $listaExpensas = $request->input('expensas');
 
