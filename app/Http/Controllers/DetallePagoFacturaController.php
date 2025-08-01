@@ -28,7 +28,7 @@ class DetallePagoFacturaController extends Controller
                 $array[$cont]=$value->regional;
                 $cont++;
             }
-            $facturas = Factura::join('aeropuerto as a', 'a.id', '=', 'factura.aeropuerto')->where('factura.estado', 8)->whereIn('a.regional', [$array])->orderByDesc('factura.id')->select('factura.id', 'factura.razon_social_factura', 'factura.numero_nota_cobro', 'factura.numero_factura', 'factura.monto_total')->get();
+            $facturas = Factura::join('aeropuerto as a', 'a.id', '=', 'factura.aeropuerto')->where('factura.estado', 8)->whereIn('a.regional', $array)->orderByDesc('factura.id')->select('factura.id', 'factura.razon_social_factura', 'factura.numero_nota_cobro', 'factura.numero_factura', 'factura.monto_total')->get();
         }
 
         return view('registro_pagos.index', compact('facturas')); 

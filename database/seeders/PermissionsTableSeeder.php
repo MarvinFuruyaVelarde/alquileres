@@ -106,6 +106,8 @@ class PermissionsTableSeeder extends Seeder
         //Garantias
         Permission::create(['descripcion'=>'Ver lista de garantias','name'=>'garantias.index','grupo'=>'GARANTIAS']);
         Permission::create(['descripcion'=>'Registrar garantias','name'=>'garantias.create','grupo'=>'GARANTIAS']);
+        Permission::create(['descripcion'=>'Ver detalle pago de garantias','name'=>'garantias.detalle','grupo'=>'GARANTIAS']);
+        Permission::create(['descripcion'=>'Eliminar registro detalle de garantias','name'=>'garantias.destroy','grupo'=>'GARANTIAS']);
 
         //Plantillas
         Permission::create(['descripcion'=>'Ver lista de plantillas','name'=>'plantillas.index','grupo'=>'PLANTILLAS']);
@@ -135,7 +137,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['descripcion'=>'Ver lista de registro de pagos','name'=>'registropagos.index','grupo'=>'REGISTRO DE PAGOS']);
         Permission::create(['descripcion'=>'Registrar registro de pagos','name'=>'registropagos.create','grupo'=>'REGISTRO DE PAGOS']);
         Permission::create(['descripcion'=>'Ver detalle registro de pagos','name'=>'registropagos.detalle','grupo'=>'REGISTRO DE PAGOS']);
-        Permission::create(['descripcion'=>'Eliminar registro de detalle registro de pagos','name'=>'registropagos.destroy','grupo'=>'REGISTRO DE PAGOS']);
+        Permission::create(['descripcion'=>'Eliminar registro detalle registro de pagos','name'=>'registropagos.destroy','grupo'=>'REGISTRO DE PAGOS']);
 
         //Reportes 
         Permission::create(['descripcion'=>'Ver reporte de contratos','name'=>'reportecontratos.index','grupo'=>'REPORTES']);

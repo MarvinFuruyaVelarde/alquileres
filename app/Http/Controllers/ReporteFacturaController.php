@@ -52,7 +52,7 @@ class ReporteFacturaController extends Controller
                 $array[$cont]=$value->regional;
                 $cont++;
             }
-            $dato = Reporte::reporteFactura($request->query('aeropuerto'), $request->query('cliente'), $array, $request->query('aeropuerto'), $request->query('cliente'), $request->query('gestion'), $request->query('mes'));
+            $dato = Reporte::reporteFactura($request->query('aeropuerto'), $request->query('cliente'), $array, $request->query('gestion'), $request->query('mes'));
         }
 
 		return $dato;
