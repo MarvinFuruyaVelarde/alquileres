@@ -94,7 +94,7 @@
                                 @endif            
                             </div>
 
-                            <div id="select_cliente" class="col-md-4">
+                            <div id="select_codigo" class="col-md-4">
                                 <label for="codigo" class="col-form-label">Código Contrato <span class="text-danger">(*)</span></label>
                                 <select id="codigo" class="form-control  {{ $errors->has('codigo') ? ' error' : '' }}" name="codigo" autofocus {{ in_array($tipo_factura, ['EX', 'AL']) ? 'disabled' : '' }}>
                                     <option value="">Seleccionar...</option>
@@ -123,40 +123,6 @@
                                 @endif
                             </div>
 
-                            <div class="col-md-4">
-                                <label for="periodo_inicial" class="col-form-label">Periodo Inicial de Cobro <span class="text-danger">(*)</span></label>
-                                <input id="periodo_inicial" type="date" class="form-control {{ $errors->has('periodo_inicial') ? 'error' : '' }}" name="periodo_inicial" value="{{ $periodoInicialCobro }}">
-                                @if ($errors->has('periodo_inicial'))
-                                    <span class="text-danger">{{ $errors->first('periodo_inicial') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="periodo_final" class="col-form-label">Periodo Final de Cobro <span class="text-danger">(*)</span></label>
-                                <input id="periodo_final" type="date" class="form-control {{ $errors->has('periodo_final') ? 'error' : '' }}" name="periodo_final" value="{{ $periodoFinalCobro }}">
-                                @if ($errors->has('periodo_final'))
-                                    <span class="text-danger">{{ $errors->first('periodo_final') }}</span>
-                                @endif
-                            </div>
-                        </div> 
-
-                        <div class="row mb-1">         
-                            <div class="col-md-4">
-                                <label for="monto" class="col-form-label me-2">Monto</label>
-                                <input id="monto" type="text" class="form-control {{ $errors->has('monto') ? ' error' : '' }}" name="monto" value="{{ $monto }}" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" data-validate="length" data-min-length="3" data-max-length="50">
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="glosa_factura" class="col-form-label">Glosa para Facturación</label>
-                                <textarea id="glosa_factura" class="form-control {{ $errors->has('glosa_factura') ? ' error' : '' }}" name="glosa_factura" rows="5" onkeyup="this.value = this.value.toUpperCase();">{{ $glosa }}</textarea>
-                                <span id="error-glosa_factura" class="error-glosa_factura" style="color: rgb(220, 53, 69);"></span>
-                                @if ($errors->has('glosa_factura'))
-                                    <span class="text-danger">
-                                        {{ $errors->first('glosa_factura') }}
-                                    </span>
-                                @endif
-                            </div>
-
                             <div id="tipo_espacio" class="col-md-4" style="display: none;">
                                 <div class="col-sm-10">
                                     <label for="tipo_espacio" class="col-form-label">Por concepto de</label>
@@ -172,7 +138,98 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div id="f_numero_factura" class="col-md-4" style="display: none;">
+                                <label for="numero_factura" class="col-form-label">Número de Factura</label>
+                                <input type="text" id="numero_factura" name="numero_factura"
+                                    class="form-control{{ $errors->has('numero_factura') ? ' error' : '' }}" value="{{ old('numero_factura', $numeroFactura ?? '') }}"
+                                    readonly>
+                                @if ($errors->has('numero_factura'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('numero_factura') }}
+                                    </span>
+                                @endif
+                            </div>
+                            
+                        </div> 
+
+                        @if ($tipo_factura !== 'MOR')
+                            <div id="agregar_detalle" class="row mb-1">
+                                <p>
+                                    <br>
+                                    <input onclick="agregarDetalle();" type="button" value="Agregar Detalle +" class="btn btn-success" disabled/>
+                                </p>
+                            </div>
+                        @endif
+
+                        <div class="row mb-1">      
+                            
+                            <div id="f_monto" class="col-md-4" style="display: none;">
+                                <label for="monto" class="col-form-label me-2">Monto</label>
+                                <input id="monto" type="text" class="form-control" name="monto" value="{{ old('monto', $monto ?? '') }}">
+                            </div>
+
+                            <div id="f_glosa_factura" class="col-md-4" style="display: none;">
+                                <label for="glosa_factura" class="col-form-label">Glosa para Facturación</label>
+                                <textarea id="glosa_factura" class="form-control {{ $errors->has('glosa_factura') ? ' error' : '' }}" name="glosa_factura" rows="5" onkeyup="this.value = this.value.toUpperCase();">{{ old('glosa_factura', $glosa ?? '') }}</textarea>
+                                <span id="error-glosa_factura" class="error-glosa_factura" style="color: rgb(220, 53, 69);"></span>
+                                @if ($errors->has('glosa_factura'))
+                                    <span class="text-danger">
+                                        {{ $errors->first('glosa_factura') }}
+                                    </span>
+                                @endif
+                            </div>
+
                         </div>
+                        
+                        @if(!$detalleFacturas->isEmpty() && $codigoContratoReg === 'SIN/CODIGO')
+                            <div id="lista_detalle" class="table-responsive"> 
+                                <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Periodo Inicial de Cobro</th>
+                                        <th class="text-center">Periodo Final de Cobro</th>
+                                        <th class="text-center">Monto</th>
+                                        <th class="text-center">Glosa para Facturación</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaDetalles">
+                                    @foreach($detalleFacturas as $index => $detalleFactura)
+                                        <tr>    
+                                        <input type='hidden' name='detallesFactura[{{$index}}][id]' value='{{$detalleFactura->id}}'/>       
+                                        <td class='text-center col-3'><input type='date' name='detallesFactura[{{$index}}][periodo_inicial]' class='form-control' value='{{$detalleFactura->fecha_inicial}}' style='text-align: center;' /></td>
+                                        <td class='text-center col-3'><input type='date' name='detallesFactura[{{$index}}][periodo_final]' class='form-control' value='{{$detalleFactura->fecha_final}}' style='text-align: center;' /></td>
+                                        <td class='text-center col-2'><input type='text' name='detallesFactura[{{$index}}][monto]' class='form-control' value='{{$detalleFactura->precio}}' style='text-align: center;' /></td>
+                                        <td class="text-center col-4"><textarea name="detallesFactura[{{$index}}][glosa_factura]" class="form-control text-center" rows="3">{{$detalleFactura->glosa}}</textarea></td>
+                                        </tr>
+                                    @endforeach                              
+                                </tbody>
+                                </table>
+                            </div>
+                        @elseif ($tipo_factura !== 'MOR')
+                            <div class="row mb-1">
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Periodo Inicial de Cobro <span class="text-danger">(*)</span></label>
+                                    <input type="date" class="form-control" disabled>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Periodo Final de Cobro <span class="text-danger">(*)</span></label>
+                                    <input type="date" class="form-control" disabled>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Monto</label>
+                                    <input type="text" class="form-control" disabled>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="col-form-label">Glosa para Facturación</label>
+                                    <textarea class="form-control" rows="3" disabled></textarea>
+                                </div>
+                            </div>
+                        @endif
+
                         <br>
 
                         <div id="label_tabla" class="row mb-1" style="display: none;">
@@ -232,6 +289,7 @@
                             <tbody id="listaExpensas">
                               <tr>
                                 <input id="g_factor" type='hidden' name='g_factor' value='{{$expensaFactor}}'/>
+                                <input id="g_id_factura_detalle" type='hidden' name='g_id_factura_detalle' value='{{$idFacturaDetalle}}'/>
                                 <td class='text-center col-4'>{{$descripcionEspacio}}</td>
                                 <td class="text-center col-3"><textarea name="g_glosa" class="form-control text-center" rows="3">{{$glosa}}</textarea></td>            
                                 <td class='text-center col-1'><input type='date' name='g_periodo_inicial' class='form-control' value='{{$periodoInicialCobro}}' style='text-align: center;' /></td>
@@ -305,6 +363,15 @@
       else if (selectedTipo === 'EX' && document.getElementById('codigo').value != 'SIN/CODIGO') {
           labelTabla.style.display = 'block';
           listaExpensa.style.display = 'block';
+      } else if (selectedTipo === 'MOR'){
+        document.getElementById('codigo').disabled = true;
+        document.getElementById('f_numero_factura').style.display = 'block';
+        document.getElementById('numero_factura').disabled = true;
+        document.getElementById('f_monto').style.display = 'block';
+        document.getElementById('monto').disabled = true;
+        document.getElementById('f_glosa_factura').style.display = 'block';
+      } else if (selectedTipo === 'OTR'){
+        document.getElementById('codigo').disabled = true;
       } else {
           labelTabla.style.display = 'none';
           listaExpensa.style.display = 'none';
@@ -324,7 +391,7 @@
       function togglePeriodoInicial() {
           const selectedValue = document.querySelector('input[name="tipo"]:checked').value;
           // Desactiva el campo si el valor seleccionado es "EX", de lo contrario lo activa
-          const shouldDisable = ((selectedValue === 'EX' && document.getElementById('codigo').value !== 'SIN/CODIGO') || (selectedValue === 'AL' && document.getElementById('codigo').value !== 'SIN/CODIGO'));
+          const shouldDisable = ((selectedValue === 'EX' && document.getElementById('codigo').value !== 'SIN/CODIGO') || (selectedValue === 'AL' && document.getElementById('codigo').value !== 'SIN/CODIGO') || selectedValue === 'MOR');
           periodoFacturacionInput.disabled = shouldDisable;
           periodoInicialInput.disabled = shouldDisable;
           periodoFinalInput.disabled = shouldDisable;

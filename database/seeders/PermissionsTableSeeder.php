@@ -134,6 +134,8 @@ class PermissionsTableSeeder extends Seeder
         //Registro de Pagos
         Permission::create(['descripcion'=>'Ver lista de registro de pagos','name'=>'registropagos.index','grupo'=>'REGISTRO DE PAGOS']);
         Permission::create(['descripcion'=>'Registrar registro de pagos','name'=>'registropagos.create','grupo'=>'REGISTRO DE PAGOS']);
+        Permission::create(['descripcion'=>'Ver detalle registro de pagos','name'=>'registropagos.detalle','grupo'=>'REGISTRO DE PAGOS']);
+        Permission::create(['descripcion'=>'Eliminar registro de detalle registro de pagos','name'=>'registropagos.destroy','grupo'=>'REGISTRO DE PAGOS']);
 
         //Reportes 
         Permission::create(['descripcion'=>'Ver reporte de contratos','name'=>'reportecontratos.index','grupo'=>'REPORTES']);

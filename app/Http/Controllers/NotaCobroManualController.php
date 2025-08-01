@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NotaCobroManualRequest;
 use App\Models\Aeropuerto;
+use App\Models\AeropuertoExpensa;
 use App\Models\Cliente;
 use App\Models\Contrato;
 use App\Models\DetallePagoFactura;
@@ -259,6 +260,7 @@ class NotaCobroManualController extends Controller
 
             $facturaDetalle->usuario_registro = auth()->id();
             $facturaDetalle->fecha_registro = $fechaRegistro;
+            $facturaDetalle->factura_mora = $request->numero_factura;
             $facturaDetalle->save();
 
             // Adiciona cuando existe más de 1 detalle en FacturaDetalle
@@ -489,13 +491,34 @@ class NotaCobroManualController extends Controller
 
     public function edit($id_factura)
     {
-        $factura = Factura::join('factura_detalle as fd', 'fd.factura', '=', 'factura.id')
+        $detalleFacturas = collect();
+        $idFacturaDetalle = null;
+        $descripcionEspacio = null;
+        $expensaDescripcion = null;
+        $consumo = null;
+        $periodoInicialCobro = null;
+        $periodoFinalCobro = null;
+        $glosa = null;
+        $expensaFactor = null;
+        $numeroFactura = null;
+        /*$factura = Factura::join('factura_detalle as fd', 'fd.factura', '=', 'factura.id')
                         ->select('factura.tipo_factura', 'factura.aeropuerto', 'factura.contrato', 'factura.codigo_contrato', 'factura.mes', 'factura.gestion', 'factura.tipo_canon', 
                                  'factura.cliente', 'factura.monto_total', 'fd.espacio', 'fd.expensa', 'fd.glosa', 'fd.fecha_inicial', 'fd.fecha_final')
                         ->where('factura.tipo_generacion', 'M')
                         ->where('factura.id', $id_factura)
-                        ->first();
+                        ->first();*/
 
+        $factura = Factura::find($id_factura);
+
+        // Obtiene datos de Espacio(s)/Expensa(s) sin contrato 
+        if ($factura->codigo_contrato == 'SIN/CODIGO') {
+            $detalleFacturas = Factura::join('factura_detalle as fd', 'fd.factura', '=', 'factura.id')
+                                    ->select('fd.id', 'fd.espacio', 'fd.expensa', 'fd.glosa', 'fd.fecha_inicial', 'fd.fecha_final', 'fd.precio')
+                                    ->where('factura.tipo_generacion', 'M')
+                                    ->where('factura.codigo_contrato', 'SIN/CODIGO')
+                                    ->where('factura.id', $id_factura)->get();
+        } 
+    
         $idFactura = $id_factura;
         $tipo_factura = $factura['tipo_factura'];
         $aeropuerto = Aeropuerto::find($factura->aeropuerto);
@@ -514,64 +537,91 @@ class NotaCobroManualController extends Controller
         $gestion = $factura->gestion;
         $fecha = Carbon::createFromDate($gestion, $mes, 1);
         $periodoFacturacion = $fecha->endOfMonth()->format('Y-m-d');
-        $periodoInicialCobro = $factura->fecha_inicial;
-        $periodoFinalCobro = $factura->fecha_final;
-        $monto = $factura->monto_total;
-        $glosa = $factura->glosa;
+        //$periodoInicialCobro = $factura->fecha_inicial; //
+        //$periodoFinalCobro = $factura->fecha_final;     //
+        $monto = $factura->monto_total;                   //
+        //$glosa = $factura->glosa;                       //
         $tipoCanon = $factura->tipo_canon;
         $facturaDetalles = collect();
-
-        if ($factura['tipo_factura'] == 'EX' && $factura['codigo_contrato'] != 'SIN/CODIGO'){
-            $viewEspacio = View_Espacio::where('id', $factura->espacio)
+        
+        // Obtiene Expensa con Contrato Asignado
+        if ($factura->tipo_factura == 'EX' && $factura->codigo_contrato != 'SIN/CODIGO'){
+            $facturaDetalle = FacturaDetalle::where('factura', $factura->id)->first();
+            //dd($factura->espacio.' '.$factura->contrato );
+            $viewEspacio = View_Espacio::where('id', $facturaDetalle->espacio)
                                     ->where('contrato', $factura->contrato)
                                     ->first();
+
+            $idFacturaDetalle = $facturaDetalle->id;
             $descripcionEspacio = $viewEspacio->descripcion;
-            $expensa = Expensa::find($factura->expensa);
+            $expensa = Expensa::find($facturaDetalle->expensa);
             $expensaDescripcion = $expensa->descripcion;
-            $consumo = $monto/$expensa->factor;
-            $expensaFactor = $expensa->factor;
-        } else {
-            $descripcionEspacio = 'Valor por defecto';
-            $expensaDescripcion = 'Valor por defecto';
-            $consumo = 'Valor por defecto';
-            $expensaFactor = 'Valor por defecto';
+            $periodoInicialCobro = $facturaDetalle->fecha_inicial; //
+            $periodoFinalCobro = $facturaDetalle->fecha_final;     //
+            $glosa = $facturaDetalle->glosa;
+            $aeropuertoExpensa = AeropuertoExpensa::where('expensa', $facturaDetalle->expensa)->where('aeropuerto', $factura->aeropuerto)->first();
+            $consumo = $monto/$aeropuertoExpensa->factor;
+            $expensaFactor = $aeropuertoExpensa->factor;
+        } else if($factura->tipo_factura == 'MOR'){
+            $facturaDetalle = FacturaDetalle::where('factura', $factura->id)->first();
+            $facturaMora = Factura::find($facturaDetalle->factura_mora);
+            $numeroFactura = $facturaMora->numero_factura;
+            $glosa = $facturaDetalle->glosa;
         }
 
+        // Espacios de Alquileres con Contrato Asignado
         if ($factura->tipo_factura == 'AL' && $factura->codigo_contrato != 'SIN/CODIGO'){
             $facturaDetalles = FacturaDetalle::where('factura', $id_factura)
                                         ->orderBy('id')
                                         ->get();
         }
-        
-        return view('facturacion.notascobromanual.edit',compact('tipo_factura', 'idFactura', 'aeropuertoDescripcion', 'clienteRazonSocial', 'codigosContrato', 'codigoContratoReg', 'periodoFacturacion', 'periodoInicialCobro', 'periodoFinalCobro', 'monto', 'glosa', 'tipoCanon', 'descripcionEspacio', 'expensaDescripcion', 'consumo', 'expensaFactor', 'facturaDetalles'));
+        //dd($facturaDetalles);
+        return view('facturacion.notascobromanual.edit',compact('tipo_factura', 'idFactura', 'aeropuertoDescripcion', 'clienteRazonSocial', 'codigosContrato', 'codigoContratoReg', 'periodoFacturacion', 'detalleFacturas', 'tipoCanon', 'idFacturaDetalle', 'descripcionEspacio', 'expensaDescripcion', 'periodoInicialCobro', 'periodoFinalCobro', 'monto', 'glosa', 'consumo', 'expensaFactor', 'facturaDetalles', 'numeroFactura'));
     }
 
     public function update($idFactura, Request $request)
     {
         $factura = Factura::find($idFactura);
         //dd($request);
-        if (($factura->tipo_factura == 'AL' && $factura->codigo_contrato == 'SIN/CODIGO') || $factura->tipo_factura == 'MOR' || $factura->tipo_factura == 'OTR'){
+        if (($factura->tipo_factura == 'AL' && $factura->codigo_contrato == 'SIN/CODIGO') || $factura->tipo_factura == 'OTR'){
             $mes = Carbon::parse($request->periodo_facturacion)->format('m');
             $gestion = Carbon::parse($request->periodo_facturacion)->format('Y');   
             $periodoFacturacion = $request->periodo_facturacion;
             $periodoInicialFacturacion = Carbon::parse($periodoFacturacion)->startOfMonth()->toDateString();
 
-            $factura->codigo_contrato = $request->codigo;
+            //$factura->codigo_contrato = $request->codigo;
             $factura->mes = $mes;
             $factura->gestion = $gestion;
             $factura->tipo_canon = $request->tipo_espacio;
-            $factura->monto_total = $request->monto;
+            
+            if (!$request->has('detallesFactura') || count($request->detallesFactura) === 0){
+                $factura->monto_total = $request->monto;
+            } else{
+                $monto = 0;
+                foreach ($request->detallesFactura as $id => $detalleFactura) {
+                    $monto = $monto + $detalleFactura['monto'];
+                }
+                $factura->monto_total = $monto;
+            }
+            
+            //$factura->monto_total = $request->monto;
             $factura->save();
 
-            $facturaDetalle = FacturaDetalle::where('factura', $idFactura)->first();
-            $facturaDetalle->glosa = $request->glosa_factura; 
-            $facturaDetalle->concepto = $request->tipo_espacio;
-            $facturaDetalle->fecha_inicial = $request->periodo_inicial;
-            $facturaDetalle->fecha_final = $request->periodo_final;
-            $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($request->periodo_inicial, $request->periodo_final, $periodoInicialFacturacion, $periodoFacturacion);
-            $facturaDetalle->total_canonmensual = $request->monto;
-            $facturaDetalle->precio = $request->monto;
-            $facturaDetalle->save();
+            // Modifica el/los detalle(s)
+            if (is_array($request->detallesFactura) && count($request->detallesFactura) > 0){
+                foreach ($request->detallesFactura as $id => $detalleFactura) {
+                    $facturaDetalle = FacturaDetalle::find($detalleFactura['id']);
+            
+                    $facturaDetalle->glosa = $detalleFactura['glosa_factura']; 
+                    $facturaDetalle->concepto = $request->tipo_espacio;
+                    $facturaDetalle->fecha_inicial = $detalleFactura['periodo_inicial']; 
+                    $facturaDetalle->fecha_final = $detalleFactura['periodo_final']; 
+                    $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($detalleFactura['periodo_inicial'], $detalleFactura['periodo_final'], $periodoInicialFacturacion, $periodoFacturacion);
+                    $facturaDetalle->total_canonmensual = $detalleFactura['monto'];
+                    $facturaDetalle->precio = $detalleFactura['monto'];
+                    $facturaDetalle->save();
+                }
+            }
         } else if ($factura->tipo_factura == 'EX' && $factura->codigo_contrato == 'SIN/CODIGO'){
             $mes = Carbon::parse($request->periodo_facturacion)->format('m');
             $gestion = Carbon::parse($request->periodo_facturacion)->format('Y');   
@@ -580,17 +630,32 @@ class NotaCobroManualController extends Controller
 
             $factura->mes = $mes;
             $factura->gestion = $gestion;
-            $factura->monto_total = $request->monto;
+
+            if (!$request->has('detallesFactura') || count($request->detallesFactura) === 0){
+                $factura->monto_total = 0;
+            } else{
+                $monto = 0;
+                foreach ($request->detallesFactura as $id => $detalleFactura) {
+                    $monto = $monto + $detalleFactura['monto'];
+                }
+                $factura->monto_total = $monto;
+            }
+            
             $factura->save();
 
-            $facturaDetalle = FacturaDetalle::where('factura', $idFactura)->first();
-            $facturaDetalle->glosa = $request->glosa_factura; 
-            $facturaDetalle->fecha_inicial = $request->periodo_inicial;
-            $facturaDetalle->fecha_final = $request->periodo_final;
-            $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($request->periodo_inicial, $request->periodo_final, $periodoInicialFacturacion, $periodoFacturacion);
-            $facturaDetalle->total_canonmensual = $request->monto;
-            $facturaDetalle->precio = $request->monto;
-            $facturaDetalle->save();
+            if (is_array($request->detallesFactura) && count($request->detallesFactura) > 0){
+                foreach ($request->detallesFactura as $id => $detalleFactura) {
+                    $facturaDetalle = FacturaDetalle::find($detalleFactura['id']);
+
+                    $facturaDetalle->glosa = $detalleFactura['glosa_factura']; 
+                    $facturaDetalle->fecha_inicial = $detalleFactura['periodo_inicial']; 
+                    $facturaDetalle->fecha_final = $detalleFactura['periodo_final']; 
+                    $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($detalleFactura['periodo_inicial'], $detalleFactura['periodo_final'], $periodoInicialFacturacion, $periodoFacturacion);
+                    $facturaDetalle->total_canonmensual = $detalleFactura['monto'];
+                    $facturaDetalle->precio = $detalleFactura['monto'];
+                    $facturaDetalle->save();
+                }
+            }
 
         } else if ($factura->tipo_factura == 'EX' && $factura->codigo_contrato != 'SIN/CODIGO'){
             $mes = $factura->mes;
@@ -602,7 +667,7 @@ class NotaCobroManualController extends Controller
             $factura->monto_total = $request->g_total_a_pagar;
             $factura->save();
 
-            $facturaDetalle = FacturaDetalle::where('factura', $idFactura)->first();
+            $facturaDetalle = FacturaDetalle::where('factura', $idFactura)->where('id', $request->g_id_factura_detalle)->first();
             $facturaDetalle->glosa = $request->g_glosa; 
             $facturaDetalle->fecha_inicial = $request->g_periodo_inicial;
             $facturaDetalle->fecha_final = $request->g_periodo_final;
@@ -622,6 +687,7 @@ class NotaCobroManualController extends Controller
                 $facturaDetalle->fecha_inicial = $listaespacio['fecha_inicial'];            
                 $facturaDetalle->fecha_final = $listaespacio['fecha_final'];               
                 $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($listaespacio['fecha_inicial'], $listaespacio['fecha_final'], $periodoInicialFacturacion, $periodoFacturacion);   
+                $facturaDetalle->total_canonmensual = $listaespacio['total_canonmensual'];             
                 $facturaDetalle->precio = $listaespacio['total_canonmensual'];             
                 $monto_total = $monto_total + $listaespacio['total_canonmensual'];                                
                 $facturaDetalle->save();
@@ -632,6 +698,10 @@ class NotaCobroManualController extends Controller
             }
             $factura->monto_total = $monto_total;
             $factura->save();
+        } else if ($factura->tipo_factura == 'MOR'){
+            $facturaDetalle = FacturaDetalle::where('factura', $idFactura)->first();
+            $facturaDetalle->glosa = $request->glosa_factura;
+            $facturaDetalle->save();
         }
 
         Alert::success("Nota de cobro manual modificada correctamente");
