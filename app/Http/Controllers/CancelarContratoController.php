@@ -142,7 +142,7 @@ class CancelarContratoController extends Controller
     {   
         //Actualizar Información del Contrato 
         $cliente = Cliente::find($request->id_cliente);
-        $contrato = Contrato::find($request->id_cliente);
+        $contrato = Contrato::find($request->contrato);
         $contrato->tipo_solicitante = $cliente->tipo_solicitante;
         if ($cliente->tipo_identificacion == 1){
             $contrato->ci = $cliente->numero_identificacion;
