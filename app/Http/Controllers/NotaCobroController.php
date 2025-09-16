@@ -158,9 +158,21 @@ class NotaCobroController extends Controller
                     $facturaDetalle->espacio = $espacio->id;
                     $facturaDetalle->concepto = $notaCobroGenerada->tipo_canon;
 
+                    // Inferencia de rango de fechas para NC
                     if ($formaPago->numero_mes !== null) {
-                        $facturaDetalle->fecha_inicial = sprintf('%04d-%02d-%02d', $anio, $mes, Carbon::createFromFormat('Y-m-d', $espacio->fecha_inicial)->day);
-                        $facturaDetalle->fecha_final = (Carbon::parse(sprintf('%04d-%02d-%02d', $anio, $mes, Carbon::createFromFormat('Y-m-d', $espacio->fecha_inicial)->day))->addMonths($numeroMes)->subDay())->format('Y-m-d');
+                        //Obtiene Fercha Inicial
+                        if (Carbon::parse($espacio->fecha_inicial)->day !== 1 && Carbon::parse($espacio->fecha_inicial)->format('m') === $mes){
+                           $facturaDetalle->fecha_inicial = sprintf('%04d-%02d-%02d', $anio, $mes, Carbon::createFromFormat('Y-m-d', $espacio->fecha_inicial)->day); 
+                        } else{
+                           $facturaDetalle->fecha_inicial = sprintf('%04d-%02d-%02d', $anio, $mes, 1);  
+                        }
+                        
+                        //Obtiene Fecha Final
+                        $inicioPeriodo = Carbon::create($anio, $mes, 1);
+                        $finContrato = Carbon::parse($espacio->fecha_final);
+                        $finCalculado = $inicioPeriodo->copy()->addMonths($numeroMes)->subDay();
+                        $fechaFinal = $finCalculado->greaterThan($finContrato) ? $finContrato : $finCalculado;
+                        $facturaDetalle->fecha_final = $fechaFinal->format('Y-m-d');
                     } else{
                         $facturaDetalle->fecha_inicial = $espacio->fecha_inicial;
                         $facturaDetalle->fecha_final = $espacio->fecha_final;
@@ -169,10 +181,10 @@ class NotaCobroController extends Controller
                     $facturaDetalle->dias_facturados = NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
                     
                     //Verifica si tiene dcto el espacio
-                    if ($consultaEspacio->canon_dcto != null)
+                    /*if ($consultaEspacio->canon_dcto != null)
                         $facturaDetalle->total_canonmensual = $consultaEspacio->canon_dcto;
                     else 
-                        $facturaDetalle->total_canonmensual = $espacio->total_canonmensual;
+                        $facturaDetalle->total_canonmensual = $espacio->total_canonmensual;*/
                     
                     //Obtener Fecha de Inicio dado el año, mes de facturación y el dia de inicio de contrato
                     $fechaInicio = Carbon::parse($periodoFacturacion)->format('Y').'-'.Carbon::parse($periodoFacturacion)->format('m').'-'.Carbon::parse($consultaEspacio->fecha_inicial)->format('d'); //2024-07-15
@@ -190,6 +202,7 @@ class NotaCobroController extends Controller
                     
                     if ($numeroMes === 1){
                         $facturaDetalle->precio = ($canon/$numeroDiaFac) * NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
+                        $facturaDetalle->total_canonmensual = ($canon/$numeroDiaFac) * NotaCobro::obtenerDiasAFacturar($espacio->fecha_inicial, $espacio->fecha_final, $periodoInicialFacturacion, $periodoFacturacion);
                     } else if($numeroMes === null){
                         // Calculo de diferencia de meses
                         $numeroMeses = Carbon::parse($fechaInicio)->diffInMonths(($fechaFinalContrato->endOfDay())->addDay());
@@ -209,6 +222,7 @@ class NotaCobroController extends Controller
                         }
                         
                         $facturaDetalle->precio = number_format(($canon * $numeroMeses) + ($canon/$numeroDiaFac * $nuevoNumeroDias), 2, '.', '');
+                        $facturaDetalle->total_canonmensual = number_format(($canon * $numeroMeses) + ($canon/$numeroDiaFac * $nuevoNumeroDias), 2, '.', '');
                     } else{
                         // Verifica si habra próximo pago
                         if ($fechaProximoPago > $fechaFinalContrato){
@@ -219,14 +233,17 @@ class NotaCobroController extends Controller
                                 $nuevoNumeroDias = $fechaFinalContrato->diffInDays($nuevaFechaInicio) + 1;
                                 if ($nuevoNumeroDias > 0){
                                     $facturaDetalle->precio = number_format(($canon * $numeroMeses) + ($canon/$numeroDiaFac * $nuevoNumeroDias), 2, '.', '');
+                                    $facturaDetalle->total_canonmensual = number_format(($canon * $numeroMeses) + ($canon/$numeroDiaFac * $nuevoNumeroDias), 2, '.', '');
                                 }
                             } else{ //Caso donde el calculo es por dias
                                 $numeroDias = $fechaFinalContrato->diffInDays($fechaInicio) + 1;
                                 $facturaDetalle->precio = number_format(($canon/$numeroDiaFac) * $numeroDias, 2, '.', '');                                
+                                $facturaDetalle->total_canonmensual = number_format(($canon/$numeroDiaFac) * $numeroDias, 2, '.', '');                          
                             }
 
                         } else {
                             $facturaDetalle->precio = number_format($canon * ($numeroMes ?? 1), 2, '.', '');
+                            $facturaDetalle->total_canonmensual = number_format($canon * ($numeroMes ?? 1), 2, '.', ''); 
                         }                           
                     }
                     $monto_total = $monto_total + $facturaDetalle->precio;
